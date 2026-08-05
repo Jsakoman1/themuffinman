@@ -1,0 +1,53 @@
+kind: dora_audit_extraction_classification
+version: 1
+purpose: Classify every retained MuffinMan audit before any further Dora extraction.
+allowed_classifications: [generic_core, optional_stack_plugin, product_owned]
+entries:
+  - {path: scripts/audits/audit-atomic-task-hardening.rb, classification: generic_core, disposition: candidate_after_v04}
+  - {path: scripts/audits/audit-plan-coverage.rb, classification: generic_core, disposition: candidate_after_v04}
+  - {path: scripts/audits/audit-serial-execution-inventory.rb, classification: generic_core, disposition: candidate_after_v04}
+  - {path: scripts/audits/audit-work-artifact-retention.rb, classification: generic_core, disposition: superseded_by_dora_retention_review}
+  - {path: scripts/audits/audit-work-artifact-schema.rb, classification: generic_core, disposition: superseded_by_dora_work_artifact_schema}
+  - {path: scripts/audits/audit-work-plan-recursion.rb, classification: generic_core, disposition: superseded_by_dora_serial_plan_integrity}
+  - {path: scripts/audits/audit-workspace-change-inventory.rb, classification: generic_core, disposition: superseded_by_dora_workspace_snapshot}
+  - {path: scripts/audits/audit-delivery-provenance.rb, classification: generic_core, disposition: superseded_by_dora_delivery_provenance}
+  - {path: scripts/audits/audit-template-freshness.rb, classification: generic_core, disposition: superseded_by_dora_template_freshness}
+  - {path: scripts/audits/audit-tool-catalog.rb, classification: generic_core, disposition: superseded_by_dora_tool_catalog}
+  - {path: scripts/audits/audit-dora-package-boundary.rb, classification: generic_core, disposition: retain_consumer_boundary_check}
+  - {path: scripts/audits/audit-dora-control-ownership.rb, classification: generic_core, disposition: candidate_after_v04}
+  - {path: scripts/audits/audit-dora-extraction-manifest.rb, classification: generic_core, disposition: candidate_release_plugin}
+  - {path: scripts/audits/audit-dora-muffinman-compatibility.rb, classification: generic_core, disposition: retain_consumer_specific}
+  - {path: scripts/audits/audit-api-contract-drift.rb, classification: optional_stack_plugin, disposition: spring_vue_plugin_candidate}
+  - {path: scripts/audits/audit-canonical-source-integrity.rb, classification: optional_stack_plugin, disposition: spring_vue_plugin_candidate}
+  - {path: scripts/audits/audit-configuration-environment-drift.rb, classification: optional_stack_plugin, disposition: spring_plugin_candidate}
+  - {path: scripts/audits/audit-endpoint-callsite-linker.rb, classification: optional_stack_plugin, disposition: spring_vue_plugin_candidate}
+  - {path: scripts/audits/audit-frontend-interaction-contract.rb, classification: optional_stack_plugin, disposition: vue_plugin_candidate}
+  - {path: scripts/audits/audit-frontend-route-surfaces.rb, classification: optional_stack_plugin, disposition: vue_plugin_candidate}
+  - {path: scripts/audits/audit-frontend-stale-surfaces.rb, classification: optional_stack_plugin, disposition: vue_plugin_candidate}
+  - {path: scripts/audits/audit-mapper-usage.rb, classification: optional_stack_plugin, disposition: spring_plugin_candidate}
+  - {path: scripts/audits/audit-module-dependency-direction.rb, classification: optional_stack_plugin, disposition: stack_plugin_candidate}
+  - {path: scripts/audits/audit-read-surface-inventory.rb, classification: optional_stack_plugin, disposition: vue_plugin_candidate}
+  - {path: scripts/audits/audit-ui-entrypoints.rb, classification: optional_stack_plugin, disposition: vue_plugin_candidate}
+  - {path: scripts/audits/audit-intellij-mcp-routing.rb, classification: product_owned, disposition: retain_muffinman_workflow}
+  - {path: scripts/audits/audit-main-surfaces-plan-preflight.rb, classification: product_owned, disposition: retain_muffinman_scope}
+  - {path: scripts/audits/audit-capability-evidence-freshness.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-data-workflow-impact.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-docs-as-tests.rb, classification: product_owned, disposition: retain_product_meaning}
+  - {path: scripts/audits/audit-interface-evidence-reconciliation.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-inventory-freshness.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-mutation-safety.rb, classification: product_owned, disposition: retain_product_permissions}
+  - {path: scripts/audits/audit-native-client-handoff.rb, classification: product_owned, disposition: retain_product_delivery}
+  - {path: scripts/audits/audit-repository-fetch.rb, classification: product_owned, disposition: retain_product_operations}
+  - {path: scripts/audits/audit-runtime-acceptance.rb, classification: product_owned, disposition: retain_runtime_acceptance}
+  - {path: scripts/audits/audit-runtime-tools.rb, classification: product_owned, disposition: retain_runtime_environment}
+  - {path: scripts/audits/audit-target-capability-catalog.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-target-capability-coverage.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-truth-registry-integrity.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/generate-capability-evidence-coverage.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/generate-system-map-change-impact.rb, classification: product_owned, disposition: retain_product_system_map}
+  - {path: scripts/audits/generate-target-capability-slices.rb, classification: product_owned, disposition: retain_product_truth}
+  - {path: scripts/audits/audit-dora-v04-operational-plan.rb, classification: generic_core, disposition: v04_plan_hardening_only}
+invariants:
+  - Product-owned audits are not Dora extraction candidates.
+  - Optional stack plugins require a separate pack contract and standalone fixtures.
+  - Generic-core candidates require a separate atomic plan; classification is not extraction.

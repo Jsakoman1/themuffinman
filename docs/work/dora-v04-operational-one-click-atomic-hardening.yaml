@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: dora-v04-operational-one-click-atomic-hardening
+title: Harden the Dora v0.4 operational one-click delivery plan
+status: verified
+baseline: f68da56
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v04-operational-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v03-one-click-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.3 controls and release
+  residual_scope:
+  - v0.4 task boundaries and serial mapping
+  retest_triggers:
+  - changed v0.4 task
+  - inventory
+  - or master scope
+  non_duplication_rule: v0.3 hardening evidence does not harden new v0.4 tasks.
+tasks:
+- id: harden-v04-operational-plan
+  title: Verify every v0.4 item has one bounded outcome and serial mapping
+  type: docs-only
+  status: done
+  inventory_item: dora-v04-harden
+  observable_outcome: All v0.4 execution items map one-to-one to atomic tasks with
+    exact paths, dependencies, evidence boundaries, and leaf validation.
+  dependencies: []
+  evidence_boundary:
+  - portable plan and inventory audit
+  paths:
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  - docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+  - docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  - docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  - docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  required_paths:
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  - docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+  - docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  - docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  - docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  validation: ruby scripts/audits/audit-dora-v04-operational-plan.rb
+  started_at: '2026-08-05T11:21:36Z'
+  start_fingerprints:
+    docs/work/dora-v04-operational-one-click-master.yaml: 2f07e2e776e65197cedcedbcf04954bad39875e3f5cdff8e1d1c3b6a329e4198
+    docs/work/dora-v04-operational-one-click-execution-inventory.yaml: b5b3653aa9f4fb6b2862b17786b31118b24b2d6a96c03257c61666ec94ba95a5
+    docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml: 6caf82be956e89790599387b0663d4cc4ea8b6b7608fcf7b57b96f819711f5b2
+    docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml: c50c6cf3ab59ca984603e6f013606c11dd510d2c970c996c2b428c963c398936
+    docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml: 01c01033508d09f80cf903de99c17f1714442e9e8f1cf0328185f11218443c74
+evidence:
+- task: harden-v04-operational-plan
+  command: ruby scripts/audits/audit-dora-v04-operational-plan.rb
+  ranAt: '2026-08-05T11:22:00Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  - docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  - docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  - docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  output: "Dora v0.4 operational plan audit passed (14 atomic serial items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  - docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+  - docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  - docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  - docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:21:36Z'
+  changedAfterStart: *1

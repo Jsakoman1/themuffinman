@@ -3,11 +3,12 @@
 require "fileutils"
 require "yaml"
 require_relative "ci_pack"
+require_relative "project_launcher"
 require_relative "stack_pack"
 
 module Dora
   class ProjectInitializer
-    def self.initialize!(destination, project_id:, manifest_path:, stack_pack_path: nil, ci_pack_path: nil, ci_template_path: nil)
+    def self.initialize!(destination, project_id:, manifest_path:, stack_pack_path: nil, ci_pack_path: nil, ci_template_path: nil, ci_commands_path: nil)
       manifest = YAML.load_file(manifest_path)
       fail!("init manifest kind is invalid") unless manifest["kind"] == "dora_init_manifest" && manifest["version"].to_i == 1
       fail!("project id is invalid") unless project_id.match?(/\A[a-z][a-z0-9-]*\z/)
@@ -20,13 +21,20 @@ module Dora
       write_yaml(File.join(root, ".dora/project-control.yaml"), project_control)
       control_files.each { |relative, content| write_yaml(File.join(root, relative), content) }
       files = manifest.fetch("files")
+      files << ProjectLauncher.write!(root, template_path: File.expand_path("../../templates/project-launcher", __dir__))
       files += StackPack.apply!(stack_pack_path, project_root: root).fetch("files") if stack_pack_path
-      files << CiPack.apply!(ci_pack_path, template_path: ci_template_path, project_root: root) if ci_pack_path
+      if ci_pack_path
+        fail!("CI project command declarations are required") unless ci_commands_path && File.file?(ci_commands_path)
+        commands_destination = File.join(root, ".dora/project-commands.yaml")
+        File.write(commands_destination, File.read(ci_commands_path))
+        files << ".dora/project-commands.yaml"
+        files << CiPack.apply!(ci_pack_path, template_path: ci_template_path, project_root: root, project_commands_path: commands_destination)
+      end
       files
     end
 
     def self.adapter(project_id)
-      {"kind" => "dora_project_adapter", "version" => 1, "project" => {"id" => project_id, "root" => ".."}, "paths" => {"docs" => "docs", "work_plans" => "docs/work", "audit_output" => "docs/audit-output", "runtime_evidence" => "docs/runtime-evidence"}, "commands" => {"work_start" => "dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>", "work_verify" => "dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>", "control_check" => "dora doctor .dora/project.yaml"}, "extensions" => [{"id" => "project-documentation", "category" => "documentation", "paths" => ["docs"], "invocation" => "project-defined documentation checks"}]}
+      {"kind" => "dora_project_adapter", "version" => 1, "project" => {"id" => project_id, "root" => ".."}, "paths" => {"docs" => "docs", "work_plans" => "docs/work", "audit_output" => "docs/audit-output", "runtime_evidence" => "docs/runtime-evidence"}, "commands" => {"work_start" => "./bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>", "work_verify" => "./bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>", "control_check" => "./bin/dora doctor .dora/project.yaml"}, "extensions" => [{"id" => "project-documentation", "category" => "documentation", "paths" => ["docs"], "invocation" => "project-defined documentation checks"}]}
     end
     private_class_method :adapter
 

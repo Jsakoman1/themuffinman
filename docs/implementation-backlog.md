@@ -6,6 +6,9 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
+- DORA-V04-OPERATIONAL-001: execute `docs/work/dora-v04-operational-one-click-master.yaml` to make generated Dora projects operational through a local launcher, validated controls, complete generic CLI, project-local CI, and an independent consumer proof before any further audit extraction.
+- DORA-AUDIT-PLUGIN-001: evaluate only the `optional_stack_plugin` entries in `docs/dora-audit-extraction-classification.yaml` through separate pack contracts and standalone fixtures; do not move product-owned audits into Dora.
+
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,
   booking rules, hours, and customer booking journeys so ordinary businesses can

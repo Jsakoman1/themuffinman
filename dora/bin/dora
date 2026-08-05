@@ -14,6 +14,8 @@ require File.join(ROOT, "lib/dora/command_registry")
 require File.join(ROOT, "lib/dora/tool_selection_commands")
 require File.join(ROOT, "lib/dora/discovery_commands")
 require File.join(ROOT, "lib/dora/analysis_commands")
+require File.join(ROOT, "lib/dora/project_configurator")
+require File.join(ROOT, "lib/dora/control_commands")
 
 def fail!(message)
   warn "Dora adapter validation failed: #{message}"
@@ -40,13 +42,13 @@ rescue Dora::WorkExecution::Error, ArgumentError => error
   fail!(error.message)
 end
 
-def initialize_project(destination, project_id, stack = nil, ci = nil)
+def initialize_project(destination, project_id, stack = nil, ci = nil, ci_commands = nil)
   manifest = File.join(ROOT, "templates/init-manifest.yaml")
   pack = stack && File.join(ROOT, "packs/#{stack}.yaml")
   ci_pack = ci && File.join(ROOT, "packs/#{ci}.yaml")
   fail!("unknown stack pack: #{stack}") if pack && !File.file?(pack)
   fail!("unknown CI pack: #{ci}") if ci_pack && !File.file?(ci_pack)
-  files = Dora::ProjectInitializer.initialize!(destination, project_id: project_id, manifest_path: manifest, stack_pack_path: pack, ci_pack_path: ci_pack, ci_template_path: File.join(ROOT, "templates/github-actions-control.yml"))
+  files = Dora::ProjectInitializer.initialize!(destination, project_id: project_id, manifest_path: manifest, stack_pack_path: pack, ci_pack_path: ci_pack, ci_template_path: File.join(ROOT, "templates/github-actions-control.yml"), ci_commands_path: ci_commands)
   puts "Dora project initialized: #{File.expand_path(destination)} (#{files.length} control files)."
 rescue ArgumentError => error
   fail!(error.message)
@@ -107,6 +109,20 @@ rescue ArgumentError => error
   fail!(error.message)
 end
 
+def configure_control(adapter_path, control_id, source_path)
+  result = Dora::ProjectConfigurator.apply!(adapter_path, control_id: control_id, source_path: source_path, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))
+  puts "Dora control configured: #{result}"
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def control_result(method, adapter_path, config_path, *arguments)
+  result = Dora::ControlCommands.public_send(method, adapter_path, config_path, *arguments, adapter_schema_path: SCHEMA_PATH)
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
 command = ARGV.shift
 case command
 when "validate-adapter"
@@ -126,12 +142,37 @@ when "init"
   project_option = ARGV.index("--project")
   stack_option = ARGV.index("--stack")
   ci_option = ARGV.index("--ci")
+  commands_option = ARGV.index("--commands")
   project_id = project_option ? ARGV[project_option + 1] : nil
   stack = stack_option ? ARGV[stack_option + 1] : nil
   ci = ci_option ? ARGV[ci_option + 1] : nil
-  expected_length = 2 + (stack_option ? 2 : 0) + (ci_option ? 2 : 0)
-  fail!("usage: dora init <destination> --project <project-id> [--stack <stack-id>] [--ci <ci-id>]") unless destination && project_option && ARGV.length == expected_length && project_id && (!stack_option || stack) && (!ci_option || ci)
-  initialize_project(destination, project_id, stack, ci)
+  ci_commands = commands_option ? ARGV[commands_option + 1] : nil
+  expected_length = 2 + (stack_option ? 2 : 0) + (ci_option ? 2 : 0) + (commands_option ? 2 : 0)
+  fail!("usage: dora init <destination> --project <project-id> [--stack <stack-id>] [--ci <ci-id> --commands <project-commands.yaml>]") unless destination && project_option && ARGV.length == expected_length && project_id && (!stack_option || stack) && (!ci_option || ci) && (ci_option ? commands_option && ci_commands : !commands_option)
+  initialize_project(destination, project_id, stack, ci, ci_commands)
+when "configure"
+  adapter_path = ARGV.shift
+  control_option = ARGV.index("--control")
+  source_option = ARGV.index("--from")
+  control_id = control_option ? ARGV[control_option + 1] : nil
+  source_path = source_option ? ARGV[source_option + 1] : nil
+  fail!("usage: dora configure <adapter-path> --control <control-id> --from <yaml-path>") unless adapter_path && control_option && source_option && ARGV.length == 4 && control_id && source_path
+  configure_control(adapter_path, control_id, source_path)
+when "retention", "cleanup-dry-run", "templates", "repository-map"
+  adapter_path = ARGV.shift
+  config_option = ARGV.index("--config")
+  config_path = config_option ? ARGV[config_option + 1] : nil
+  fail!("usage: dora #{command} <adapter-path> --config <path>") unless adapter_path && config_option == 0 && ARGV.length == 2 && config_path
+  method = {"retention" => :retention, "cleanup-dry-run" => :cleanup_dry_run, "templates" => :template_freshness, "repository-map" => :repository_map}.fetch(command)
+  control_result(method, adapter_path, config_path)
+when "cleanup"
+  adapter_path = ARGV.shift
+  config_option = ARGV.index("--config")
+  approve_option = ARGV.index("--approve")
+  config_path = config_option ? ARGV[config_option + 1] : nil
+  approved_paths = approve_option ? ARGV[(approve_option + 1)..] : []
+  fail!("usage: dora cleanup <adapter-path> --config <path> --approve <path>...") unless adapter_path && config_option == 0 && approve_option == 2 && config_path && !approved_paths.empty?
+  control_result(:cleanup_apply, adapter_path, config_path, approved_paths)
 when "help"
   fail!("usage: dora help [adapter-path]") unless ARGV.length <= 1
   show_help(ARGV.first)

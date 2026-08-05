@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+set -eu
+
+project_root=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+package_root="$project_root/{{dora_package_path}}"
+
+if [ ! -x "$package_root/bin/dora" ]; then
+  echo "Dora launcher failed: pinned Dora package is unavailable at {{dora_package_path}}/bin/dora" >&2
+  exit 1
+fi
+
+exec "$package_root/bin/dora" "$@"

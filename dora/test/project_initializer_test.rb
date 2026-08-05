@@ -14,6 +14,8 @@ Dir.mktmpdir("dora-init") do |sandbox|
   control = YAML.load_file(File.join(root, ".dora/project-control.yaml"))
   abort "init did not create its manifest files" unless files.all? { |relative| File.file?(File.join(root, relative)) }
   abort "init adapter is not project-owned" unless adapter.dig("project", "id") == "sample-app" && adapter.dig("project", "root") == ".."
+  abort "init adapter requires a global Dora command" unless adapter.fetch("commands").values.all? { |command| command.start_with?("./bin/dora ") }
+  abort "init did not declare the local launcher" unless files.include?("bin/dora") && File.executable?(File.join(root, "bin/dora"))
   abort "init control bundle is incomplete" unless control.fetch("controls").length == 8
   abort "init created product source" unless Dir[File.join(root, "apps/**/*")].empty?
 end

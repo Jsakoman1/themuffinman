@@ -1,0 +1,154 @@
+kind: execution_inventory
+version: 1
+id: dora-v04-operational-one-click-execution-inventory
+master_plan: docs/work/dora-v04-operational-one-click-master.yaml
+status: draft
+hardening_review:
+  state: verified_for_execution
+  reviewed_at: 2026-08-05
+  contract: This inventory is the sole serial queue; no implementation task starts
+    before the hardening item is verified.
+items:
+- id: dora-v04-harden
+  order: 1
+  plan: docs/work/dora-v04-operational-one-click-atomic-hardening.yaml
+  task: harden-v04-operational-plan
+  status: verified
+  started_at: '2026-08-05T11:21:36Z'
+  verified_at: '2026-08-05T11:22:01Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-atomic-hardening.yaml
+    task: harden-v04-operational-plan
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-local-launcher
+  order: 2
+  plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  task: generate-project-local-launcher
+  status: verified
+  started_at: '2026-08-05T11:22:15Z'
+  verified_at: '2026-08-05T11:22:51Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+    task: generate-project-local-launcher
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-init-command-contract
+  order: 3
+  plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  task: generate-local-command-adapter-contract
+  status: verified
+  started_at: '2026-08-05T11:22:58Z'
+  verified_at: '2026-08-05T11:23:20Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+    task: generate-local-command-adapter-contract
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-control-contracts
+  order: 4
+  plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  task: validate-all-control-configuration-contracts
+  status: verified
+  started_at: '2026-08-05T11:23:31Z'
+  verified_at: '2026-08-05T11:25:01Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+    task: validate-all-control-configuration-contracts
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-configure
+  order: 5
+  plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  task: add-noninteractive-control-configuration
+  status: verified
+  started_at: '2026-08-05T11:25:14Z'
+  verified_at: '2026-08-05T11:26:22Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+    task: add-noninteractive-control-configuration
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-control-cli
+  order: 6
+  plan: docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  task: expose-remaining-generic-controls-through-cli
+  status: verified
+  started_at: '2026-08-05T11:26:31Z'
+  verified_at: '2026-08-05T11:27:30Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+    task: expose-remaining-generic-controls-through-cli
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-command-preflight
+  order: 7
+  plan: docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  task: validate-project-command-declarations
+  status: verified
+  started_at: '2026-08-05T11:27:35Z'
+  verified_at: '2026-08-05T11:28:00Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+    task: validate-project-command-declarations
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-ci-bootstrap
+  order: 8
+  plan: docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  task: generate-project-local-ci-control-workflow
+  status: verified
+  started_at: '2026-08-05T11:28:13Z'
+  verified_at: '2026-08-05T11:29:28Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+    task: generate-project-local-ci-control-workflow
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-workspace-snapshot
+  order: 9
+  plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  task: extract-generic-workspace-change-snapshot
+  status: verified
+  started_at: '2026-08-05T11:29:33Z'
+  verified_at: '2026-08-05T11:30:43Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+    task: extract-generic-workspace-change-snapshot
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-provenance
+  order: 10
+  plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  task: extract-generic-delivery-provenance
+  status: verified
+  started_at: '2026-08-05T11:30:48Z'
+  verified_at: '2026-08-05T11:31:17Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+    task: extract-generic-delivery-provenance
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-audit-classification
+  order: 11
+  plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  task: classify-remaining-muffinman-audits
+  status: verified
+  started_at: '2026-08-05T11:31:40Z'
+  verified_at: '2026-08-05T11:32:26Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+    task: classify-remaining-muffinman-audits
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-adoption-fixture
+  order: 12
+  plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  task: prove-independent-consumer-adoption
+  status: verified
+  started_at: '2026-08-05T11:32:37Z'
+  verified_at: '2026-08-05T11:33:40Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+    task: prove-independent-consumer-adoption
+    revision: f68da563c8c017b5297922c1fd3e5072c126074c
+- id: dora-v04-release
+  order: 13
+  plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  task: publish-dora-v04-release
+  status: in_progress
+  started_at: '2026-08-05T11:33:59Z'
+- id: muffinman-v04-pin
+  order: 14
+  plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+  task: pin-muffinman-to-dora-v04
+  status: pending

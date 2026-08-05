@@ -1,0 +1,38 @@
+kind: master
+version: 1
+id: dora-v04-operational-one-click-master
+title: Make a generated Dora project operational without local tool knowledge
+status: draft
+baseline: f68da56
+strict_verification: true
+serial_task_execution: true
+atomic_task_hardening_plan: docs/work/dora-v04-operational-one-click-atomic-hardening.yaml
+execution_inventory: docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+objective: Deliver a project-local Dora launcher, validated configuration, complete generic control CLI, self-contained CI, and a standalone adoption proof without importing MuffinMan product meaning.
+analysis_source: docs/work/dora-v04-operational-one-click-analysis.md
+preflight_source: docs/work/dora-v04-operational-one-click-preflight.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/dora-v03-one-click-master.yaml]
+  baseline_only_surfaces: [Dora v0.3 bootstrap, MuffinMan product audits, current runtime evidence, and Dora v0.3.0 release]
+  residual_scope: [launcher, control configuration validation, remaining generic CLI controls, CI bootstrap, generic snapshot/provenance mechanics, audit classification, independent adoption fixture, and v0.4 release]
+  retest_triggers: [changed launcher, init template, adapter command contract, CI template, generic audit engine, or release pin]
+  non_duplication_rule: Dora v0.3 verification remains baseline evidence; v0.4 completion requires new operational fixture and release evidence.
+principles:
+  - A generated project must invoke Dora from its own checkout without PATH assumptions.
+  - Dora never executes undeclared project commands or infers product completion.
+  - Cleanup stays policy-bound, dry-run-first, and explicit.
+  - Stack-specific logic enters Dora only as an optional plugin after classification.
+hardening_review:
+  state: verified_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+    - Fourteen inventory items map one-to-one to serial atomic tasks.
+    - Every task has exact file paths, a leaf validation, and an evidence boundary.
+    - The v0.4 release remains externally approval-gated and precedes the separate MuffinMan pin.
+children:
+  - docs/work/dora-v04-operational-one-click-atomic-hardening.yaml
+  - docs/work/dora-v04-operational-one-click-01-launch-and-config.yaml
+  - docs/work/dora-v04-operational-one-click-02-cli-and-ci.yaml
+  - docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+evidence: []

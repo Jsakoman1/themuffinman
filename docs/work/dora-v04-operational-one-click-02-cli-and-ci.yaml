@@ -1,0 +1,179 @@
+kind: work
+version: 1
+id: dora-v04-operational-one-click-02-cli-and-ci
+title: Complete the portable control CLI and CI bootstrap
+status: verified
+baseline: f68da56
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v04-operational-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v03-one-click-master.yaml
+  baseline_only_surfaces:
+  - v0.3 CLI and CI template
+  residual_scope:
+  - remaining generic controls and local CI execution
+  retest_triggers:
+  - changed command dispatch or workflow template
+  non_duplication_rule: v0.3 command tests remain baseline only.
+hardening_review:
+  state: verified_for_execution
+  reviewed_at: 2026-08-05
+  contract: CLI command declarations and CI generation remain separately verifiable.
+tasks:
+- id: expose-remaining-generic-controls-through-cli
+  title: Expose retention cleanup freshness and map controls through CLI
+  type: implementation
+  status: done
+  inventory_item: dora-control-cli
+  observable_outcome: Dora exposes configured retention review cleanup template freshness
+    and repository map commands with read-only or explicit-confirmation semantics
+  dependencies:
+  - add-noninteractive-control-configuration
+  evidence_boundary:
+  - two-project generic-control CLI integration test
+  paths:
+  - dora/lib/dora/control_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/control_commands_test.rb
+  required_paths:
+  - dora/lib/dora/control_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/control_commands_test.rb
+  validation: ruby dora/test/control_commands_test.rb
+  started_at: '2026-08-05T11:26:31Z'
+  start_fingerprints:
+    dora/lib/dora/control_commands.rb: __missing__
+    dora/lib/dora/command_registry.rb: 75bac5c61ffe99e5d1449fe15b66b72a7022eb75ab449f6fba58454abb5ad7ff
+    dora/bin/dora: 2319425e638ecdfc44aaa1e4c5501d75759c1bd497fb6277bae983a32d2feb4d
+    dora/test/control_commands_test.rb: __missing__
+- id: validate-project-command-declarations
+  title: Validate explicit project setup test and build commands
+  type: implementation
+  status: done
+  inventory_item: dora-command-preflight
+  observable_outcome: Dora validates command declarations without executing undeclared
+    commands or assuming stack defaults
+  dependencies:
+  - expose-remaining-generic-controls-through-cli
+  evidence_boundary:
+  - valid and invalid command declaration fixture test
+  paths:
+  - dora/lib/dora/project_commands.rb
+  - dora/project-control.schema.yaml
+  - dora/test/project_commands_test.rb
+  required_paths:
+  - dora/lib/dora/project_commands.rb
+  - dora/project-control.schema.yaml
+  - dora/test/project_commands_test.rb
+  validation: ruby dora/test/project_commands_test.rb
+  started_at: '2026-08-05T11:27:35Z'
+  start_fingerprints:
+    dora/lib/dora/project_commands.rb: __missing__
+    dora/project-control.schema.yaml: 2ea96cde8cad3c5c15304b02fce41032d0077269fd108289f33b071878fe9369
+    dora/test/project_commands_test.rb: __missing__
+- id: generate-project-local-ci-control-workflow
+  title: Generate CI that invokes the local Dora launcher
+  type: implementation
+  status: done
+  inventory_item: dora-ci-bootstrap
+  observable_outcome: the GitHub Actions pack invokes project-local Dora and only
+    project-declared setup test and build commands
+  dependencies:
+  - validate-project-command-declarations
+  evidence_boundary:
+  - workflow runner contract fixture test
+  paths:
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/packs/github-actions.yaml
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  required_paths:
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/packs/github-actions.yaml
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  validation: ruby dora/test/github_actions_pack_test.rb
+  started_at: '2026-08-05T11:28:13Z'
+  start_fingerprints:
+    dora/lib/dora/ci_pack.rb: 2780e11af4314d800a2b3e5f5f98f2507e35f70469fcf79c582f0f8f40f2de57
+    dora/lib/dora/project_initializer.rb: 99571d687cb5fc5d865eed424fe05cbcb1dccec87b6ebc34fabff15d156ed59e
+    dora/bin/dora: be515ded8e02b11c5b9141b8cd3d6a019b4285a0de39082b2a5079654695f3e0
+    dora/packs/github-actions.yaml: d9e7ae85b00541345d55778222962e7810b095f3d30cf1ef5ff85ff214219ce1
+    dora/templates/github-actions-control.yml: 10db2166a859849af90044cff4523e159ffc925d5629a06b1183a94f196d338f
+    dora/test/github_actions_pack_test.rb: 9552ee0c584b47b02a3e61ccef3f602e3285b5aa433c2cd9384dad1d841019cb
+evidence:
+- task: expose-remaining-generic-controls-through-cli
+  command: ruby dora/test/control_commands_test.rb
+  ranAt: '2026-08-05T11:27:29Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/control_commands.rb
+  - dora/test/control_commands_test.rb
+  output: "Dora control command test passed (explicit config and cleanup confirmation).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/control_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/control_commands_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:26:31Z'
+  changedAfterStart: *1
+- task: validate-project-command-declarations
+  command: ruby dora/test/project_commands_test.rb
+  ranAt: '2026-08-05T11:28:00Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/project-control.schema.yaml
+  - dora/lib/dora/project_commands.rb
+  - dora/test/project_commands_test.rb
+  output: "Dora project command test passed (explicit valid and invalid command declarations).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/project_commands.rb
+  - dora/project-control.schema.yaml
+  - dora/test/project_commands_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:27:35Z'
+  changedAfterStart: *2
+- task: generate-project-local-ci-control-workflow
+  command: ruby dora/test/github_actions_pack_test.rb
+  ranAt: '2026-08-05T11:29:28Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/packs/github-actions.yaml
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  output: "Dora GitHub Actions pack test passed (project-configured control workflow).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/packs/github-actions.yaml
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:28:13Z'
+  changedAfterStart: *3

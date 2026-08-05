@@ -1,7 +1,7 @@
 kind: dora_project_adapter
 version: 1
 project:
-  id: fixture-project
+  id: independent-consumer
   root: ..
 paths:
   docs: docs
@@ -13,8 +13,7 @@ commands:
   work_verify: ./bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
   control_check: ./bin/dora doctor .dora/project.yaml
 extensions:
-- id: project-documentation
-  category: documentation
-  paths:
-  - docs
-  invocation: project-defined documentation checks
+  - id: project-documentation
+    category: documentation
+    paths: [docs]
+    invocation: project-defined documentation checks

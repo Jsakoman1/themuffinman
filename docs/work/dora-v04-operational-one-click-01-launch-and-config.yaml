@@ -1,0 +1,223 @@
+kind: work
+version: 1
+id: dora-v04-operational-one-click-01-launch-and-config
+title: Make generated Dora projects locally executable and configurable
+status: verified
+baseline: f68da56
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v04-operational-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v03-one-click-master.yaml
+  baseline_only_surfaces:
+  - v0.3 init and control bundle
+  residual_scope:
+  - local launcher and complete control contracts
+  retest_triggers:
+  - changed init
+  - launcher
+  - or control schema
+  non_duplication_rule: v0.3 fixtures are baseline only.
+hardening_review:
+  state: verified_for_execution
+  reviewed_at: 2026-08-05
+  contract: Launcher configuration and contract tasks are independently testable and
+    serial.
+tasks:
+- id: generate-project-local-launcher
+  title: Generate a project-local Dora launcher
+  type: implementation
+  status: done
+  inventory_item: dora-local-launcher
+  observable_outcome: dora init creates an executable local launcher that reaches
+    the pinned Dora package without PATH configuration
+  dependencies:
+  - harden-v04-operational-plan
+  evidence_boundary:
+  - standalone launcher integration test
+  paths:
+  - dora/lib/dora/project_launcher.rb
+  - dora/templates/project-launcher
+  - dora/lib/dora/project_initializer.rb
+  - dora/test/project_launcher_test.rb
+  required_paths:
+  - dora/lib/dora/project_launcher.rb
+  - dora/templates/project-launcher
+  - dora/lib/dora/project_initializer.rb
+  - dora/test/project_launcher_test.rb
+  validation: ruby dora/test/project_launcher_test.rb
+  started_at: '2026-08-05T11:22:15Z'
+  start_fingerprints:
+    dora/lib/dora/project_launcher.rb: __missing__
+    dora/templates/project-launcher: __missing__
+    dora/lib/dora/project_initializer.rb: 5f229b5846062df3d99baebce0da5674602e97f8268862898d96a15962d2a6f4
+    dora/test/project_launcher_test.rb: __missing__
+- id: generate-local-command-adapter-contract
+  title: Generate adapter commands that use the local launcher
+  type: implementation
+  status: done
+  inventory_item: dora-init-command-contract
+  observable_outcome: a newly generated adapter references only the generated project-local
+    Dora invocation
+  dependencies:
+  - generate-project-local-launcher
+  evidence_boundary:
+  - generated adapter command contract test
+  paths:
+  - dora/lib/dora/project_initializer.rb
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  required_paths:
+  - dora/lib/dora/project_initializer.rb
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  validation: ruby dora/test/project_initializer_test.rb
+  started_at: '2026-08-05T11:22:58Z'
+  start_fingerprints:
+    dora/lib/dora/project_initializer.rb: 1a3d2816a49b6aac4e93b8b5115ce900f01aae3020a72861a5816ec3f4082827
+    dora/templates/init-manifest.yaml: b544149dd7eba7e99895d023a522036a529100b13a488c62f81eabc999e8a355
+    dora/test/project_initializer_test.rb: f92169be271f9ce527ce2389724843bf83082f4255d936aaf5a51e567ee55406
+- id: validate-all-control-configuration-contracts
+  title: Validate every generated control configuration
+  type: implementation
+  status: done
+  inventory_item: dora-control-contracts
+  observable_outcome: dora doctor reports each missing or incomplete control contract
+    before a control command runs
+  dependencies:
+  - generate-local-command-adapter-contract
+  evidence_boundary:
+  - complete and incomplete control-contract fixture test
+  paths:
+  - dora/lib/dora/control_contracts.rb
+  - dora/lib/dora/project_doctor.rb
+  - dora/test/project_doctor_test.rb
+  - dora/test/control_contracts_test.rb
+  required_paths:
+  - dora/lib/dora/control_contracts.rb
+  - dora/lib/dora/project_doctor.rb
+  - dora/test/project_doctor_test.rb
+  - dora/test/control_contracts_test.rb
+  validation: ruby dora/test/control_contracts_test.rb
+  started_at: '2026-08-05T11:23:31Z'
+  start_fingerprints:
+    dora/lib/dora/control_contracts.rb: __missing__
+    dora/lib/dora/project_doctor.rb: 289a1a5e792f6e68d7fab267b2456612f431aea48eb36ccd9a355a6d92033dc4
+    dora/test/project_doctor_test.rb: e4ac81231ddfc670353b71288098245c281c43064627c9226f2dbde97c67dfb9
+    dora/test/control_contracts_test.rb: __missing__
+- id: add-noninteractive-control-configuration
+  title: Add deterministic project control configuration
+  type: implementation
+  status: done
+  inventory_item: dora-configure
+  observable_outcome: dora configure writes only selected project-owned control values
+    and leaves product rules explicit
+  dependencies:
+  - validate-all-control-configuration-contracts
+  evidence_boundary:
+  - two-project noninteractive configuration test
+  paths:
+  - dora/lib/dora/project_configurator.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/project_configurator_test.rb
+  required_paths:
+  - dora/lib/dora/project_configurator.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/project_configurator_test.rb
+  validation: ruby dora/test/project_configurator_test.rb
+  started_at: '2026-08-05T11:25:14Z'
+  start_fingerprints:
+    dora/lib/dora/project_configurator.rb: __missing__
+    dora/lib/dora/command_registry.rb: 99f9bd821091d1d932563eb6ddfaee4b3d43319fc521db7231a8dd43d9d2b339
+    dora/bin/dora: a4eb482ee486fa7db14781a10c5c06d0ab1fc7ff8cbe1b21fdddbf9329946fc1
+    dora/test/project_configurator_test.rb: __missing__
+evidence:
+- task: generate-project-local-launcher
+  command: ruby dora/test/project_launcher_test.rb
+  ranAt: '2026-08-05T11:22:51Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_initializer.rb
+  - dora/lib/dora/project_launcher.rb
+  - dora/templates/project-launcher
+  - dora/test/project_launcher_test.rb
+  output: "Dora project launcher test passed (project-local invocation without PATH
+    setup).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_launcher.rb
+  - dora/templates/project-launcher
+  - dora/lib/dora/project_initializer.rb
+  - dora/test/project_launcher_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:22:15Z'
+  changedAfterStart: *1
+- task: generate-local-command-adapter-contract
+  command: ruby dora/test/project_initializer_test.rb
+  ranAt: '2026-08-05T11:23:20Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_initializer.rb
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  output: "Dora project initializer test passed (control-only project scaffold).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/project_initializer.rb
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:22:58Z'
+  changedAfterStart: *2
+- task: validate-all-control-configuration-contracts
+  command: ruby dora/test/control_contracts_test.rb
+  ranAt: '2026-08-05T11:25:01Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_doctor.rb
+  - dora/test/project_doctor_test.rb
+  - dora/lib/dora/control_contracts.rb
+  - dora/test/control_contracts_test.rb
+  output: "Dora control-contract test passed (incomplete generated controls are explicit).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/control_contracts.rb
+  - dora/lib/dora/project_doctor.rb
+  - dora/test/project_doctor_test.rb
+  - dora/test/control_contracts_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:23:31Z'
+  changedAfterStart: *3
+- task: add-noninteractive-control-configuration
+  command: ruby dora/test/project_configurator_test.rb
+  ranAt: '2026-08-05T11:26:22Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_configurator.rb
+  - dora/test/project_configurator_test.rb
+  output: "Dora project configurator test passed (two selected project-owned control
+    writes).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/project_configurator.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/project_configurator_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:25:14Z'
+  changedAfterStart: *4

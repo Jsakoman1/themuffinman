@@ -57,6 +57,11 @@ failures << "release gate state is invalid" unless allowed_release_states.includ
 prohibited = Array(manifest.dig("preservation", "prohibited_before_approval"))
 failures << "pre-approval deletion is not prohibited" unless prohibited.include?("deleting source-repository paths")
 failures << "pre-approval history rewrite is not prohibited" unless prohibited.include?("rewriting source-repository history")
+next_release = manifest["next_release"]
+if next_release
+  failures << "next release handoff is missing" unless next_release["handoff"].is_a?(String) && File.file?(File.join(ROOT, next_release["handoff"]))
+  failures << "next release version is invalid" unless next_release["version"].to_s.match?(/\Av\d+\.\d+\.\d+\z/)
+end
 
 if require_approved_release || check_handoff_draft
   handoff = YAML.load_file(HANDOFF_PATH)

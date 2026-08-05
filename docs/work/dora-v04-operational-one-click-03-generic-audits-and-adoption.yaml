@@ -1,0 +1,251 @@
+kind: work
+version: 1
+id: dora-v04-operational-one-click-03-generic-audits-and-adoption
+title: Extract selected generic audit mechanics and prove adoption
+status: active
+baseline: f68da56
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v04-operational-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v04-operational-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v03-one-click-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan product audits and v0.3 release
+  residual_scope:
+  - generic snapshot
+  - provenance
+  - audit classification
+  - adoption fixture
+  - and v0.4 release
+  retest_triggers:
+  - changed generic audit extraction
+  - consumer fixture
+  - release handoff
+  - or adapter pin
+  non_duplication_rule: no MuffinMan product audit can be counted as Dora completion.
+hardening_review:
+  state: verified_for_execution
+  reviewed_at: 2026-08-05
+  contract: Generic extraction adoption proof release and pin are distinct atomic
+    evidence boundaries.
+tasks:
+- id: extract-generic-workspace-change-snapshot
+  title: Extract project-configured workspace change snapshot
+  type: implementation
+  status: done
+  inventory_item: dora-workspace-snapshot
+  observable_outcome: Dora writes and checks a bounded project-configured workspace
+    change snapshot without MuffinMan paths
+  dependencies:
+  - generate-project-local-ci-control-workflow
+  evidence_boundary:
+  - two-project workspace snapshot fixture test
+  paths:
+  - dora/lib/dora/workspace_snapshot.rb
+  - dora/templates/workspace-snapshot.yaml
+  - dora/test/workspace_snapshot_test.rb
+  required_paths:
+  - dora/lib/dora/workspace_snapshot.rb
+  - dora/templates/workspace-snapshot.yaml
+  - dora/test/workspace_snapshot_test.rb
+  validation: ruby dora/test/workspace_snapshot_test.rb
+  started_at: '2026-08-05T11:29:33Z'
+  start_fingerprints:
+    dora/lib/dora/workspace_snapshot.rb: __missing__
+    dora/templates/workspace-snapshot.yaml: __missing__
+    dora/test/workspace_snapshot_test.rb: __missing__
+- id: extract-generic-delivery-provenance
+  title: Extract generic delivery provenance record
+  type: implementation
+  status: done
+  inventory_item: dora-provenance
+  observable_outcome: Dora records project-declared revision validation and evidence
+    provenance without product status claims
+  dependencies:
+  - extract-generic-workspace-change-snapshot
+  evidence_boundary:
+  - portable provenance fixture test
+  paths:
+  - dora/lib/dora/delivery_provenance.rb
+  - dora/templates/delivery-provenance.yaml
+  - dora/test/delivery_provenance_test.rb
+  required_paths:
+  - dora/lib/dora/delivery_provenance.rb
+  - dora/templates/delivery-provenance.yaml
+  - dora/test/delivery_provenance_test.rb
+  validation: ruby dora/test/delivery_provenance_test.rb
+  started_at: '2026-08-05T11:30:48Z'
+  start_fingerprints:
+    dora/lib/dora/delivery_provenance.rb: __missing__
+    dora/templates/delivery-provenance.yaml: __missing__
+    dora/test/delivery_provenance_test.rb: __missing__
+- id: classify-remaining-muffinman-audits
+  title: Classify remaining MuffinMan audit candidates
+  type: docs-only
+  status: done
+  inventory_item: dora-audit-classification
+  observable_outcome: Every retained MuffinMan audit is classified as product-owned,
+    generic-core candidate, or optional stack-plugin candidate before extraction.
+  dependencies:
+  - extract-generic-delivery-provenance
+  evidence_boundary:
+  - audit classification manifest review
+  paths:
+  - docs/dora-audit-extraction-classification.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/dora-audit-extraction-classification.yaml
+  - docs/implementation-backlog.md
+  validation: ruby -ryaml -e 'document=YAML.load_file("docs/dora-audit-extraction-classification.yaml");
+    abort unless document["kind"] == "dora_audit_extraction_classification"'
+  started_at: '2026-08-05T11:31:40Z'
+  start_fingerprints:
+    docs/dora-audit-extraction-classification.yaml: __missing__
+    docs/implementation-backlog.md: 992470b8c785d3bcaa992826c54d977543f79e0e87bedac1d49712507e855ce9
+- id: prove-independent-consumer-adoption
+  title: Prove an independent generated consumer workflow
+  type: implementation
+  status: done
+  inventory_item: dora-adoption-fixture
+  observable_outcome: a clean consumer fixture runs local launcher doctor configured
+    controls work verification and CI workflow generation without MuffinMan references
+  dependencies:
+  - classify-remaining-muffinman-audits
+  evidence_boundary:
+  - end-to-end independent consumer fixture test
+  paths:
+  - dora/fixtures/independent-consumer/.dora/project.yaml
+  - dora/test/independent_consumer_test.rb
+  required_paths:
+  - dora/fixtures/independent-consumer/.dora/project.yaml
+  - dora/test/independent_consumer_test.rb
+  validation: ruby dora/test/independent_consumer_test.rb
+  started_at: '2026-08-05T11:32:37Z'
+  start_fingerprints:
+    dora/fixtures/independent-consumer/.dora/project.yaml: __missing__
+    dora/test/independent_consumer_test.rb: __missing__
+- id: publish-dora-v04-release
+  title: Publish immutable Dora v0.4 release
+  type: implementation
+  status: in_progress
+  inventory_item: dora-v04-release
+  observable_outcome: reviewed Dora v0.4 is exported as an immutable private release
+    without consuming-project product paths
+  dependencies:
+  - prove-independent-consumer-adoption
+  evidence_boundary:
+  - remote tag resolution and release handoff
+  requires_external_approval: true
+  paths:
+  - docs/dora-release-handoff-v04.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-release-handoff-v04.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v04.yaml --expected-version v0.4.0
+  started_at: '2026-08-05T11:33:59Z'
+  start_fingerprints:
+    docs/dora-release-handoff-v04.yaml: __missing__
+    docs/dora-extraction-manifest.yaml: 88098fbc0a91a12a0c2ce56919042e9438fcbae13c11f9c2df57750e293d4d6e
+    scripts/audits/audit-dora-extraction-manifest.rb: 4f9db2539b879a9c5b81dfad8b2aef5de61e03e26b9919e9a956c75924c40b15
+- id: pin-muffinman-to-dora-v04
+  title: Pin MuffinMan to reviewed Dora v0.4
+  type: implementation
+  status: pending
+  inventory_item: muffinman-v04-pin
+  observable_outcome: MuffinMan records the reviewed v0.4 commit in a reversible adapter
+    pin
+  dependencies:
+  - publish-dora-v04-release
+  evidence_boundary:
+  - adapter compatibility audit and release handoff pin
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v04.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v04.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+evidence:
+- task: extract-generic-workspace-change-snapshot
+  command: ruby dora/test/workspace_snapshot_test.rb
+  ranAt: '2026-08-05T11:30:43Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/workspace_snapshot.rb
+  - dora/templates/workspace-snapshot.yaml
+  - dora/test/workspace_snapshot_test.rb
+  output: "Dora workspace snapshot test passed (two bounded project snapshots).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/workspace_snapshot.rb
+  - dora/templates/workspace-snapshot.yaml
+  - dora/test/workspace_snapshot_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:29:33Z'
+  changedAfterStart: *1
+- task: extract-generic-delivery-provenance
+  command: ruby dora/test/delivery_provenance_test.rb
+  ranAt: '2026-08-05T11:31:17Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/delivery_provenance.rb
+  - dora/templates/delivery-provenance.yaml
+  - dora/test/delivery_provenance_test.rb
+  output: "Dora delivery provenance test passed (portable revision and evidence record).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/delivery_provenance.rb
+  - dora/templates/delivery-provenance.yaml
+  - dora/test/delivery_provenance_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:30:48Z'
+  changedAfterStart: *2
+- task: classify-remaining-muffinman-audits
+  command: ruby -ryaml -e 'document=YAML.load_file("docs/dora-audit-extraction-classification.yaml");
+    abort unless document["kind"] == "dora_audit_extraction_classification"'
+  ranAt: '2026-08-05T11:32:26Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/dora-audit-extraction-classification.yaml
+  output: "\n"
+  requiredPaths: &3
+  - docs/dora-audit-extraction-classification.yaml
+  - docs/implementation-backlog.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:31:40Z'
+  changedAfterStart: *3
+- task: prove-independent-consumer-adoption
+  command: ruby dora/test/independent_consumer_test.rb
+  ranAt: '2026-08-05T11:33:38Z'
+  revision: f68da563c8c017b5297922c1fd3e5072c126074c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/independent-consumer/.dora/project.yaml
+  - dora/test/independent_consumer_test.rb
+  output: "Dora independent consumer test passed (local launcher, configured controls,
+    work verification, and CI).\n\n"
+  requiredPaths: &4
+  - dora/fixtures/independent-consumer/.dora/project.yaml
+  - dora/test/independent_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:32:37Z'
+  changedAfterStart: *4

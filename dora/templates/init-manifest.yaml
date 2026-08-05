@@ -2,6 +2,7 @@ kind: dora_init_manifest
 version: 1
 directories: [docs/work, docs/audit-output, docs/runtime-evidence, .dora/controls]
 files:
+  - bin/dora
   - .dora/project.yaml
   - .dora/project-control.yaml
   - .dora/controls/tool-catalog.yaml

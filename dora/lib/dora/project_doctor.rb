@@ -3,6 +3,7 @@
 require "shellwords"
 require "yaml"
 require_relative "adapter"
+require_relative "control_contracts"
 require_relative "project_control"
 
 module Dora
@@ -13,7 +14,7 @@ module Dora
       project_root = project_root(adapter_path, adapter, checks)
       validate_adapter(adapter_path, schema_path, checks)
       check_declared_paths(adapter, project_root, checks)
-      check_declared_commands(adapter, checks)
+      check_declared_commands(adapter, project_root, checks)
       check_control_bundle(adapter_path, project_root, control_schema_path, checks)
       {"healthy" => checks.all? { |check| check.fetch("status") == "passed" }, "checks" => checks}
     rescue Psych::Exception => error
@@ -61,7 +62,7 @@ module Dora
     end
     private_class_method :check_declared_paths
 
-    def self.check_declared_commands(adapter, checks)
+    def self.check_declared_commands(adapter, project_root, checks)
       commands = adapter["commands"]
       unless commands.is_a?(Hash)
         checks << failed("declared-commands", "commands must be a mapping")
@@ -69,7 +70,7 @@ module Dora
       end
       commands.each do |id, command|
         executable = executable_for(command)
-        if executable && executable_available?(executable)
+        if executable && executable_available?(executable, project_root)
           checks << passed("command:#{id}", "#{executable} is available")
         else
           checks << failed("command:#{id}", "required executable is unavailable: #{executable || "invalid command"}")
@@ -84,8 +85,9 @@ module Dora
         checks << failed("project-control", "control bundle is missing: #{control_path}")
         return
       end
-      ProjectControl.load!(control_path, schema_path: schema_path, project_root: project_root)
+      controls = ProjectControl.load!(control_path, schema_path: schema_path, project_root: project_root)
       checks << passed("project-control", "control bundle and declared control files exist")
+      checks.concat(ControlContracts.validate(controls))
     rescue ArgumentError => error
       checks << failed("project-control", error.message)
     end
@@ -100,9 +102,9 @@ module Dora
     end
     private_class_method :executable_for
 
-    def self.executable_available?(executable)
+    def self.executable_available?(executable, project_root)
       return true if executable == "dora"
-      return File.executable?(executable) if executable.include?("/")
+      return File.executable?(File.expand_path(executable, project_root)) if executable.include?("/")
 
       ENV.fetch("PATH", "").split(File::PATH_SEPARATOR).any? { |directory| File.executable?(File.join(directory, executable)) }
     end

@@ -13,7 +13,9 @@ jobs:
         run: "{{doctor}}"
       - name: Validate Dora adapter
         run: "{{adapter_validation}}"
+      - name: Project setup
+        run: "{{setup}}"
       - name: Project tests
-        run: "{{project_tests}}"
+        run: "{{test}}"
       - name: Project build
-        run: "{{project_build}}"
+        run: "{{build}}"

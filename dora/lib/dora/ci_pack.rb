@@ -2,18 +2,20 @@
 
 require "fileutils"
 require "yaml"
+require_relative "project_commands"
 
 module Dora
   class CiPack
-    def self.apply!(pack_path, template_path:, project_root:)
+    def self.apply!(pack_path, template_path:, project_root:, project_commands_path:)
       pack = YAML.load_file(pack_path)
       fail!("CI pack is invalid") unless pack["kind"] == "dora_ci_pack" && pack["version"].to_i == 1
       workflow_path = pack.fetch("workflow_path")
       fail!("CI workflow path must be project-relative") unless safe_path?(workflow_path)
       commands = pack.fetch("commands")
-      required = %w[doctor adapter_validation project_tests project_build]
+      required = %w[doctor adapter_validation]
       fail!("CI pack commands are incomplete") unless commands.is_a?(Hash) && required.all? { |key| commands[key].is_a?(String) && !commands[key].empty? }
-      workflow = File.read(template_path).gsub(/\{\{([^}]+)\}\}/) { commands.fetch(Regexp.last_match(1)) }
+      workflow_commands = commands.merge(ProjectCommands.load!(project_commands_path))
+      workflow = File.read(template_path).gsub(/\{\{([^}]+)\}\}/) { workflow_commands.fetch(Regexp.last_match(1)) }
       destination = File.join(project_root, workflow_path)
       FileUtils.mkdir_p(File.dirname(destination))
       File.write(destination, workflow)

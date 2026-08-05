@@ -33,3 +33,7 @@ rollback:
 release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
   current_state: approved_and_published
+next_release:
+  version: v0.4.0
+  handoff: docs/dora-release-handoff-v04.yaml
+  state: awaiting_external_approval
