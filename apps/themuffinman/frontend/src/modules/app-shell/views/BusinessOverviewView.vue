@@ -8,8 +8,6 @@ import AppDialog from "../components/AppDialog.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppStatus from "../components/AppStatus.vue"
-import CollectionToolbar from "../components/CollectionToolbar.vue"
-import FriendlyCollectionHeader from "../components/FriendlyCollectionHeader.vue"
 import ModuleTabs from "../components/ModuleTabs.vue"
 
 const router = useRouter()
@@ -68,15 +66,10 @@ onMounted(() => void load())
 <template>
   <section class="business-overview" aria-label="My businesses">
     <ModuleTabs :tabs="businessTabs" active-id="overview" />
-    <FriendlyCollectionHeader eyebrow="Your workspace" title="My businesses" description="Create a business here, or use a business tab above to manage one you already own." />
-    <CollectionToolbar title="My businesses" :count="businesses.length" :busy="isLoading"><template #actions><AppButton type="button" tone="primary" @click="createOpen = true">Add business</AppButton></template></CollectionToolbar>
+    <div class="business-overview__actions"><span v-if="!isLoading">{{ businesses.length === 1 ? "1 business" : `${businesses.length} businesses` }}</span><AppButton type="button" tone="primary" @click="createOpen = true">Add business</AppButton></div>
     <AppStatus v-if="isLoading" message="Loading your businesses." busy />
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <AppStatus v-else-if="!businesses.length" message="You do not have a business yet. Create your first one to get started." />
-    <section v-else class="business-overview__selection-hint" aria-label="Business workspace guidance">
-      <strong>{{ businesses.length === 1 ? "Your business is ready to manage." : "Your businesses are ready to manage." }}</strong>
-      <span>Choose a business tab above to open its profile, services, bookings, calendar, and settings.</span>
-    </section>
     <AppDialog :open="createOpen" title="Create your business" layout="workspace" @close="createOpen = false; createError = ''">
       <form class="business-overview__create-form" @submit.prevent="createBusiness">
         <header><p class="business-overview__eyebrow">Start here</p><h2>Tell customers the essentials</h2><p>You can add photos, contact details, services, and working hours next.</p></header>
@@ -93,5 +86,5 @@ onMounted(() => void load())
 </template>
 
 <style scoped>
-.business-overview{display:grid;gap:var(--space-4);min-width:0}.business-overview__selection-hint{display:grid;gap:var(--space-1);padding:var(--space-3);border:1px solid var(--launcher-book-border);border-radius:var(--radius-surface);background:var(--launcher-book-bg);color:var(--launcher-book-ink);box-shadow:var(--shadow-card)}.business-overview__selection-hint span{color:var(--text-muted)}.business-overview__create-form{display:grid;gap:var(--space-3)}.business-overview__create-form header{display:grid;gap:var(--space-1)}.business-overview__create-form h2,.business-overview__create-form p{margin:0}.business-overview__create-form header>p:last-child{color:var(--text-muted)}.business-overview__eyebrow{color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.business-overview__create-form input{width:100%;box-sizing:border-box;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit}
+.business-overview{display:grid;gap:var(--space-4);min-width:0}.business-overview__actions{display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);min-height:var(--control-height-default)}.business-overview__actions span{color:var(--text-muted);font-size:var(--text-size-meta)}.business-overview__create-form{display:grid;gap:var(--space-3)}.business-overview__create-form header{display:grid;gap:var(--space-1)}.business-overview__create-form h2,.business-overview__create-form p{margin:0}.business-overview__create-form header>p:last-child{color:var(--text-muted)}.business-overview__eyebrow{color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.business-overview__create-form input{width:100%;box-sizing:border-box;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit}
 </style>

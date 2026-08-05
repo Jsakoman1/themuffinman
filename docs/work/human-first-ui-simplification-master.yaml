@@ -1,0 +1,65 @@
+kind: master
+version: 1
+id: human-first-ui-simplification
+title: Simplify the authenticated UI around human intentions
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  owner_task: harden-human-first-ui-simplification
+  contract: The execution inventory is the only delivery queue. No product task starts
+    before its atomic-task hardening evidence is verified.
+execution_inventory: docs/work/human-first-ui-simplification-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/human-first-ui-simplification-atomic-hardening.yaml
+analysis_artifact: docs/work/human-first-ui-simplification-analysis.md
+preflight:
+  reviewed_at: 2026-08-04
+  system_map_report: docs/audit-output/system-map-change-impact.json
+  disposition: The advisory report's material UI, documentation, and runtime recommendations
+    are assigned to bounded tasks in this master.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  - docs/work/local-tabs-navigation-master.yaml
+  - docs/work/sidejobs-human-first-master.yaml
+  - docs/work/human-usability-business-parity-master.yaml
+  baseline_only_surfaces:
+  - Existing backend permissions, mutations, and canonical routes.
+  - The current shared app shell, local-tab pattern, responsive navigation, and Business
+    booking workflow.
+  - Previous route reachability, overflow, and visual evidence not affected by the
+    named files below.
+  residual_scope:
+  - Replace module-oriented navigation and ambiguous SideJobs labels with clear user
+    intentions.
+  - Make Home communicate one concrete next action instead of an abstract resume state.
+  - Keep the persistent Vision entry useful without obscuring active work.
+  - Present Calendar time in the viewer's local language and progressively disclose
+    secondary controls.
+  - Produce fresh desktop and mobile evidence for exactly those changed flows.
+  retest_triggers:
+  - Changes to WorkspaceNavigationService, shell navigation definitions, or canonical
+    route labels.
+  - Changes to Home activity presentation, ContextualAssistantComposer, CalendarPage,
+    or shared calendar controls.
+  - Changes to responsive app-shell layout or the runtime evidence scenario.
+  non_duplication_rule: Earlier verified route, workflow, and visual evidence remains
+    baseline-only. Completion counts only the new simplification repairs and their
+    fresh targeted evidence.
+children:
+- docs/work/human-first-ui-simplification-atomic-hardening.yaml
+- docs/work/human-first-ui-simplification-navigation.yaml
+- docs/work/human-first-ui-simplification-home-vision.yaml
+- docs/work/human-first-ui-simplification-calendar.yaml
+- docs/work/human-first-ui-simplification-closeout.yaml
+evidence:
+- verifiedAt: '2026-08-04T16:21:30Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  children:
+  - docs/work/human-first-ui-simplification-atomic-hardening.yaml
+  - docs/work/human-first-ui-simplification-navigation.yaml
+  - docs/work/human-first-ui-simplification-home-vision.yaml
+  - docs/work/human-first-ui-simplification-calendar.yaml
+  - docs/work/human-first-ui-simplification-closeout.yaml

@@ -17,6 +17,23 @@ const launcher = computed(() => model.value.home)
 const homeSections = computed(() => model.value.sections)
 const recentActivity = ref<ActivityItem[]>([])
 const nextResumeItem = computed(() => recentActivity.value.find(item => item.resumable && item.route) ?? null)
+const followUp = computed(() => {
+  const item = nextResumeItem.value
+  if (!item) return {
+    eyebrow: "You're all caught up",
+    title: "Nothing needs your attention right now",
+    description: "Browse local SideJobs whenever you are ready to help or ask for help.",
+    to: "/work/find",
+    actionLabel: "Find help"
+  }
+  return {
+    eyebrow: "Pick up where you left off",
+    title: item.title === "Continue Vision" ? "Continue your guided task" : item.title,
+    description: item.summary || "Open this item to see the next step.",
+    to: item.route,
+    actionLabel: item.primaryActionLabel || "Continue"
+  }
+})
 onMounted(async () => { try { recentActivity.value = await userShellApi.getRecentActivity() } catch { recentActivity.value = [] } })
 const iconFor = (key: string): AppPurposeIconName => ({work: "work", things: "things", business: "business", rides: "rides"}[key] as AppPurposeIconName | undefined) ?? "home"
 </script>
@@ -31,7 +48,7 @@ const iconFor = (key: string): AppPurposeIconName => ({work: "work", things: "th
         <HomeActionTile v-for="action in launcher?.launcherActions ?? []" :key="action.id" :label="action.label" :description="action.description" :icon="iconFor(action.iconKey)" :to="action.route" :tone="action.colourRole" />
       </nav>
       <section class="home-hub__follow-up" aria-label="Continue where you left off">
-        <HomeFollowUpCard eyebrow="Continue where you left off" :title="nextResumeItem ? nextResumeItem.title : 'You are up to date'" :description="nextResumeItem?.summary || 'There is nothing you need to pick up right now.'" :to="nextResumeItem?.route || '/home'" :action-label="nextResumeItem ? 'Continue' : 'Stay here'" icon="people" tone="attention" />
+        <HomeFollowUpCard v-bind="followUp" icon="people" tone="attention" />
       </section>
       <HomeCalendarPreview class="home-hub__follow-up" />
       <div class="home-hub__sections">

@@ -348,6 +348,20 @@ regression_scenarios:
     commands:
       - make dev
       - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+  - id: human-first-ui-simplification-runtime
+    domain: frontend-ux
+    risk: high
+    scenario: Human-first navigation labels, Home recovery, the mobile-safe Vision entry, and Calendar local-time orientation remain usable without browser errors or horizontal overflow on desktop and mobile.
+    test_files:
+      - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+      - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+      - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json
+      - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+      - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+    commands:
+      - make dev
+      - HUMAN_FIRST_EVIDENCE_PREFIX=human-first-ui-simplification HUMAN_FIRST_SCREENSHOT_NAME=human-first-ui-simplification-desktop node apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+      - HUMAN_FIRST_MODE=mobile HUMAN_FIRST_EVIDENCE_PREFIX=human-first-ui-simplification HUMAN_FIRST_SCREENSHOT_NAME=human-first-ui-simplification-mobile node apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
   - id: frontend-structural-redesign-mobile-keyboard-runtime
     domain: frontend-ux
     risk: high

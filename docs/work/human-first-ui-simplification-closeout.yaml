@@ -1,0 +1,126 @@
+kind: work
+version: 1
+id: human-first-ui-simplification-closeout
+title: Verify human-first UI simplification on representative routes
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-ui-simplification-master.yaml
+execution_inventory: docs/work/human-first-ui-simplification-execution-inventory.yaml
+preflight_review: Closeout has sole authority for promoting fresh owned-stack browser
+  evidence for this program.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-usability-business-parity-master.yaml
+  baseline_only_surfaces:
+  - Unchanged module workflows and historical runtime artifacts.
+  residual_scope:
+  - Fresh evidence for the altered navigation
+  - Home
+  - SideJobs
+  - Vision
+  - and Calendar interactions.
+  retest_triggers:
+  - Any change to a required path of an earlier inventory task.
+  non_duplication_rule: The closeout records only evidence created during this program
+    and does not promote historical screenshots.
+tasks:
+- id: capture-human-first-simplification-evidence
+  title: Capture fresh desktop and mobile simplification evidence
+  type: runtime
+  inventory_item: capture-human-first-simplification-evidence
+  status: done
+  observable_outcome: The changed Home, SideJobs, Calendar, and shared-shell routes
+    are usable without overflow or browser errors in fresh desktop and mobile browser
+    traces.
+  dependencies:
+  - simplify-calendar-time-orientation
+  evidence_boundary:
+  - Timestamped Playwright traces and screenshots generated against an owned local
+    stack.
+  paths:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+  required_paths:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+  manual_runtime_command: make dev, then run the scoped human-first runtime scenario
+    for desktop and mobile, then make dev-stop
+  runtime_evidence_paths:
+  - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+  validation: npm --prefix apps/themuffinman/frontend run build && npm --prefix apps/themuffinman/frontend
+    run validate:human-first
+  started_at: '2026-08-04T16:19:56Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs: 3094a4e3c7d944b517b44c11d2df072e70ef9caa7a4562df7a25762eae259eeb
+    docs/regression-scenario-catalog.yaml: 8d512b41f0efd12feb73f9de84e3ee8cade80ef4fe895e2e8228b32582252d51
+    docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json: __missing__
+    docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json: __missing__
+    docs/runtime-evidence/human-first-ui-simplification-desktop.png: __missing__
+    docs/runtime-evidence/human-first-ui-simplification-mobile.png: __missing__
+evidence:
+- task: capture-human-first-simplification-evidence
+  command: npm --prefix apps/themuffinman/frontend run build && npm --prefix apps/themuffinman/frontend
+    run validate:human-first
+  ranAt: '2026-08-04T16:21:28Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+  output: |+
+    dist/assets/CalendarPage-QFuzxSLg.js                          16.13 kB │ gzip:   5.45 kB
+    dist/assets/WorkQuestDetailView-BFYeGDom.js                   17.52 kB │ gzip:   5.18 kB
+    dist/assets/HomeHubView-BS9d024U.js                           20.45 kB │ gzip:   6.37 kB
+    dist/assets/BusinessPublicView-BexFOkI9.js                    23.33 kB │ gzip:   7.67 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-CxoFgiJX.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-IbE7ueus.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-DoC7oYyk.js                35.38 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-B4aJft0W.js                     53.79 kB │ gzip:  13.24 kB
+    dist/assets/index-Dp9uXagW.js                                 63.70 kB │ gzip:  15.83 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 612ms
+
+    > frontend@0.0.0 validate:human-first
+    > node ./scripts/validate-human-first-web-contract.mjs
+
+    Human-first Web contract passed (8 checks).
+
+  startedAt: '2026-08-04T16:19:56Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-first-ui-simplification-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/human-first-ui-simplification-desktop-runtime.json
+  - docs/runtime-evidence/human-first-ui-simplification-mobile-runtime.json

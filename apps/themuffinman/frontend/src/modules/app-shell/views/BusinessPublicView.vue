@@ -25,7 +25,7 @@ import {getModuleTabs} from "../moduleTabRegistry.ts"
 
 const route = useRoute(); const router = useRouter()
 const page = ref<BusinessPublicPageDTO | null>(null); const selectedOfferingId = ref<number | null>(null); const schema = ref<BusinessOfferingSchemaDTO | null>(null); const quote = ref<BusinessPublicQuoteDTO | null>(null); const availability = ref<BusinessAvailabilityWindowDTO[]>([]); const demand = ref<Record<string, string>>({}); const selectedOptions = ref<Record<string, string>>({}); const bookingDate = ref(""); const selectedSlot = ref(""); const customerNote = ref(""); const quantity = ref(1); const currentStep = ref(0); const loading = ref(true); const saving = ref(false); const error = ref(""); const bookingError = ref(""); const feedback = ref(""); const completedBooking = ref<import("../../../contracts/index.ts").BusinessBookingResponseDTO | null>(null)
-const steps = ["Service", "Details", "Time", "Review"]
+const steps = ["Service", "Time", "Details", "Review"]
 const selectedOffering = computed(() => page.value?.offerings.find(item => item.id === selectedOfferingId.value) ?? null)
 const availabilityCalendar = ref<import("../../../contracts/index.ts").BusinessPublicAvailabilityCalendarDTO | null>(null)
 const calendarView = ref<"MONTH" | "WEEK" | "DAY">("MONTH")
@@ -45,11 +45,12 @@ const businessToday = () => page.value ? new Intl.DateTimeFormat("en-CA", {timeZ
 const loadCalendar = async () => { if (!selectedOfferingId.value || !calendarAnchorDate.value) return; const days = calendarView.value === "DAY" ? 1 : calendarView.value === "WEEK" ? 7 : 31; availabilityCalendar.value = await userShellApi.getPublicAvailabilityCalendar(String(route.params.slug), selectedOfferingId.value, calendarAnchorDate.value, days, calendarView.value) }
 const moveCalendar = async (amount: number) => { const cursor = new Date(`${calendarAnchorDate.value}T12:00:00`); cursor.setDate(cursor.getDate() + amount * (calendarView.value === "DAY" ? 1 : calendarView.value === "WEEK" ? 7 : 31)); calendarAnchorDate.value = cursor.toISOString().slice(0, 10); await loadCalendar() }
 const selectCalendarDate = async (date: string) => { bookingDate.value = date; calendarAnchorDate.value = date; await Promise.all([loadAvailabilityForDate(), loadCalendar()]) }
-const selectOffering = async (id: number) => { selectedOfferingId.value = id; currentStep.value = 1; demand.value = {}; selectedOptions.value = {}; quantity.value = 1; quote.value = null; availability.value = []; selectedSlot.value = ""; bookingDate.value = businessToday(); calendarAnchorDate.value = bookingDate.value; bookingError.value = ""; schema.value = await userShellApi.getPublicServiceSchema(String(route.params.slug), id); await loadCalendar() }
+const selectOffering = async (id: number) => { selectedOfferingId.value = id; currentStep.value = 0; demand.value = {}; selectedOptions.value = {}; quantity.value = 1; quote.value = null; availability.value = []; selectedSlot.value = ""; bookingDate.value = businessToday(); calendarAnchorDate.value = bookingDate.value; bookingError.value = ""; schema.value = await userShellApi.getPublicServiceSchema(String(route.params.slug), id); await Promise.all([loadCalendar(), loadAvailabilityForDate()]) }
 const resetFlow = () => { selectedOfferingId.value = null; currentStep.value = 0; schema.value = null; quote.value = null; availability.value = []; demand.value = {}; selectedOptions.value = {}; selectedSlot.value = ""; bookingDate.value = ""; calendarAnchorDate.value = ""; customerNote.value = ""; quantity.value = 1 }
 const loadAvailabilityForDate = async () => { if (!selectedOfferingId.value || !bookingDate.value) return; selectedSlot.value = ""; quote.value = null; bookingError.value = ""; availability.value = (await userShellApi.getPublicAvailabilityForBusinessDate(String(route.params.slug), selectedOfferingId.value, bookingDate.value)).items }
 const refreshQuote = async () => { if (!selectedOfferingId.value || !selectedSlot.value) return; quote.value = await userShellApi.quotePublicService(String(route.params.slug), {businessOfferingId: selectedOfferingId.value, startsAt: selectedSlot.value, quantity: quantity.value, answers: demand.value, selectedOptions: selectedOptions.value}) }
-const goNext = async () => { bookingError.value = ""; if (currentStep.value === 1) { await loadAvailabilityForDate(); currentStep.value = 2; return } if (currentStep.value === 2) { if (!selectedSlot.value) { bookingError.value = "Choose one available time to continue."; return } await refreshQuote(); currentStep.value = 3; return } if (currentStep.value < 3) currentStep.value++ }
+const continueFromServiceAndTime = () => { if (!selectedOfferingId.value) { bookingError.value = "Choose a service first."; return } if (!selectedSlot.value) { bookingError.value = "Choose one available time to continue."; return } bookingError.value = ""; currentStep.value = 2 }
+const goNext = async () => { bookingError.value = ""; if (currentStep.value === 1) { if (!selectedSlot.value) { bookingError.value = "Choose one available time to continue."; return } currentStep.value = 2; return } if (currentStep.value === 2) { await refreshQuote(); currentStep.value = 3; return } if (currentStep.value < 3) currentStep.value++ }
 const book = async () => { if (!page.value || !selectedOfferingId.value || !selectedSlot.value) return; saving.value = true; bookingError.value = ""; try { const preview = await userShellApi.previewPublicBooking(String(route.params.slug), {businessOfferingId: selectedOfferingId.value, startsAt: selectedSlot.value}); const request: BusinessBookingRequestDTO = {businessOfferingId: preview.businessOfferingId, startsAt: preview.startsAt, endsAt: preview.endsAt, customerNote: customerNote.value, idempotencyKey: crypto.randomUUID(), quantity: quote.value?.quantity ?? quantity.value, answers: demand.value, selectedOptions: selectedOptions.value}; completedBooking.value = await userShellApi.createCustomerBooking(request); feedback.value = "Booking request sent."; resetFlow() } catch { currentStep.value = 2; selectedSlot.value = ""; availability.value = []; bookingError.value = "That time is no longer available. Your details were kept; choose another time."; await loadAvailabilityForDate() } finally { saving.value = false } }
 watch(() => route.params.slug, () => { resetFlow(); feedback.value = ""; bookingError.value = ""; void load() })
 onMounted(() => void load())
@@ -69,54 +70,56 @@ onMounted(() => void load())
         <template v-else><AppStatus v-if="feedback" :message="feedback" tone="success" />
         <section v-if="activeSection === 'overview'" class="public-business__overview"><div v-if="page.description" class="public-business__description" v-html="page.description" /><div v-if="page.galleryImages.length" class="public-business__gallery" aria-label="Business gallery"><img v-for="image in page.galleryImages" :key="image.id" :src="image.imageUrl" :alt="image.altText || `${page.businessName} gallery image`" loading="lazy" /></div><AppButton v-if="page.offerings.length" tone="primary" @click="selectSection('services')">View services and availability</AppButton></section>
         <section v-else-if="activeSection === 'reviews'" class="public-business__reviews"><h2>Reviews</h2><BusinessRatingSummary :average-stars="page.ratingSummary.averageStars" :review-count="page.ratingSummary.reviewCount" /><AppButton type="button" tone="secondary" @click="loadReviews">Show reviews</AppButton><BusinessReviewList :reviews="reviews" :loading="reviewsLoading" /></section>
-        <section v-if="activeSection === 'services' && !selectedOfferingId" id="business-services" class="offerings" data-primary-surface="service-selection">
-          <div>
-            <p class="eyebrow">Services</p><h2>What can we help with?</h2>
-            <p>Select one service. We will show only the details, price and times relevant to it.</p>
-          </div>
-          <div v-if="page.offerings.length">
-              <BusinessServiceCard v-for="offering in page.offerings" :key="offering.id" :offering="offering" data-service-row @book="selectOffering" />
-          </div>
-          <AppEmptyState v-else title="No services available" message="This business has not published a bookable service yet." />
-          <details v-if="page.description || page.galleryImages.length || page.contactEmail || page.contactPhone" class="public-business__details">
-            <summary>More about {{ page.businessName }}</summary>
-            <div class="public-business__details-body">
-              <p v-if="page.description">{{ page.description }}</p>
-              <div v-if="page.galleryImages.length" class="public-business__gallery" aria-label="Business gallery">
-                <img v-for="image in page.galleryImages" :key="image.id" :src="image.imageUrl" :alt="image.altText || `${page.businessName} gallery image`" loading="lazy" />
-              </div>
-              <p v-if="page.contactEmail || page.contactPhone"><strong>Contact:</strong> {{ page.contactEmail || page.contactPhone }}</p>
+        <section v-if="activeSection === 'services' && currentStep === 0" id="business-services" class="booking-start" data-primary-surface="service-selection">
+          <div class="booking-start__services">
+            <div>
+              <p class="eyebrow">Book a service</p><h2>Select a service</h2>
+              <p>Choose what you need, then pick a free time beside it.</p>
             </div>
-          </details>
+            <div v-if="page.offerings.length" class="booking-start__service-list">
+              <BusinessServiceCard v-for="offering in page.offerings" :key="offering.id" :offering="offering" data-service-row @book="selectOffering" />
+            </div>
+            <AppEmptyState v-else title="No services available" message="This business has not published a bookable service yet." />
+          </div>
+          <aside class="booking-start__availability" aria-label="Available times">
+            <template v-if="selectedOfferingId">
+              <div><p class="eyebrow">Availability</p><h2>Choose a free time</h2><p>Times are shown in {{ page.timezone }}.</p></div>
+              <BusinessAvailabilityCalendar :calendar="availabilityCalendar" :selected-date="bookingDate" :view="calendarView" @change-view="async view => { calendarView = view; await loadCalendar() }" @previous="moveCalendar(-1)" @next="moveCalendar(1)" @select="selectCalendarDate" />
+              <BusinessAvailabilityPicker :model-value="selectedSlot" :items="availability" @update:model-value="value => selectedSlot = value" />
+              <AppStatus v-if="bookingError" :message="bookingError" tone="error" />
+              <AppButton type="button" tone="primary" @click="continueFromServiceAndTime">Continue</AppButton>
+            </template>
+            <div v-else class="booking-start__empty"><h2>Choose a service to see times</h2><p>Available dates and times will appear here.</p></div>
+          </aside>
         </section>
-        <section v-else class="booking-flow native-group">
+        <section v-else-if="activeSection === 'services' && selectedOfferingId" class="booking-flow native-group">
           <header class="booking-flow__header" :data-booking-step="steps[currentStep].toLowerCase().replaceAll(' ', '-')">
-            <div><p class="eyebrow">Booking</p><h2>{{ selectedOffering?.title }}</h2><p>{{ selectedOffering?.summary || 'Configure your request step by step.' }}</p></div>
+            <div><p class="eyebrow">Booking</p><h2>{{ selectedOffering?.title }}</h2><p>{{ selectedOffering?.summary || 'Complete the remaining details, then send your request.' }}</p></div>
             <AppButton type="button" tone="quiet" @click="resetFlow">Change service</AppButton>
           </header>
           <BusinessBookingStepper :steps="steps" :current="currentStep" @select="currentStep = $event" />
           <BusinessBookingSelectionSummary :service-title="selectedOffering?.title" :starts-at="selectedSlot" :timezone="page.timezone" />
-          <p class="booking-flow__guidance">{{ currentStep === 1 ? 'Answer only the questions needed for this service.' : currentStep === 2 ? `Choose a date and an available local time (${page.timezone}).` : currentStep === 3 ? 'Review the price and confirmation terms before sending.' : 'Select a service to begin.' }}</p>
+          <p class="booking-flow__guidance">{{ currentStep === 1 ? `Choose a date and an available local time (${page.timezone}).` : currentStep === 2 ? 'Answer only the questions needed for this service.' : 'Review the price and confirmation terms before sending.' }}</p>
           <form @submit.prevent="currentStep === 3 ? book() : goNext()">
             <section v-if="currentStep === 1" class="booking-panel">
+              <h3>Choose a date and time</h3>
+              <BusinessAvailabilityCalendar :calendar="availabilityCalendar" :selected-date="bookingDate" :view="calendarView" @change-view="async view => { calendarView = view; await loadCalendar() }" @previous="moveCalendar(-1)" @next="moveCalendar(1)" @select="selectCalendarDate" />
+              <AppFormField label="Date" required :hint="`Times are shown in ${page.timezone}.`"><input v-model="bookingDate" type="date" required @change="selectCalendarDate(bookingDate)"></AppFormField>
+              <BusinessAvailabilityPicker :model-value="selectedSlot" :items="availability" @update:model-value="value => selectedSlot = value" />
+              <AppStatus v-if="bookingError" :message="bookingError" tone="error" />
+            </section>
+            <section v-else-if="currentStep === 2" class="booking-panel">
               <h3>Customer details</h3>
               <BusinessDemandForm v-if="schema" v-model="demand" :fields="schema.demandFields" />
               <AppFormField label="Quantity or people" hint="Use this only when the service is for more than one person or item."><input v-model.number="quantity" type="number" min="1" max="100" required @change="quote && refreshQuote()"></AppFormField>
               <div v-if="schema?.options?.length" class="booking-options"><h3>Options</h3><label v-for="option in schema.options" :key="String(option.id ?? option.optionKey)"><input type="checkbox" :checked="selectedOptions[String(option.optionKey ?? option.option_key)] === 'true'" @change="selectedOptions = {...selectedOptions, [String(option.optionKey ?? option.option_key)]: ($event.target as HTMLInputElement).checked ? 'true' : 'false'}">{{ option.label ?? option.optionKey }}</label></div>
-            </section>
-            <section v-else-if="currentStep === 2" class="booking-panel">
-              <h3>Choose a date and time</h3>
-              <BusinessAvailabilityCalendar :calendar="availabilityCalendar" :selected-date="bookingDate" :view="calendarView" @change-view="async view => { calendarView = view; await loadCalendar() }" @previous="moveCalendar(-1)" @next="moveCalendar(1)" @select="selectCalendarDate" />
-              <AppFormField label="Date" required :hint="`Times are shown in ${page.timezone}.`"><input v-model="bookingDate" type="date" required @change="selectCalendarDate(bookingDate)"></AppFormField>
-              <BusinessAvailabilityPicker :model-value="selectedSlot" :items="availability" @update:model-value="async value => { selectedSlot = value; await refreshQuote() }" />
-              <AppStatus v-if="bookingError" :message="bookingError" tone="error" />
             </section>
             <section v-else-if="currentStep === 3" class="booking-panel">
               <h3>Review request</h3><BusinessQuoteSummary :quote="quote" /><p v-if="quote?.pricingState && quote.pricingState !== 'FIXED'" class="quote-guidance">This service requires a business quote or review; no fixed numeric price is shown.</p>
               <AppFormField label="Note" optional><textarea v-model="customerNote" maxlength="2000" placeholder="Anything the business should know?"></textarea></AppFormField>
               <AppStatus v-if="bookingError" :message="bookingError" tone="error" />
             </section>
-            <footer class="booking-flow__actions"><AppButton type="button" tone="secondary" @click="currentStep === 1 ? resetFlow() : currentStep--">{{ currentStep === 1 ? 'Cancel' : 'Back' }}</AppButton><AppButton type="submit" tone="primary" :loading="saving">{{ currentStep === 3 ? (saving ? 'Sending' : 'Send request') : 'Continue' }}</AppButton></footer>
+            <footer class="booking-flow__actions"><AppButton type="button" tone="secondary" @click="currentStep === 2 ? currentStep = 0 : currentStep--">Back</AppButton><AppButton type="submit" tone="primary" :loading="saving">{{ currentStep === 3 ? (saving ? 'Sending' : 'Send request') : 'Continue' }}</AppButton></footer>
           </form>
         </section>
       </template>
@@ -133,10 +136,13 @@ h1, h2, h3, p { margin: 0; }
 .public-business__back { justify-self: start; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; font: inherit; padding: 0; }
 .public-business__overview, .public-business__reviews { display: grid; gap: var(--space-3); max-width: 52rem; }
 .public-business__description { color: var(--text-muted); line-height: 1.6; }
-.public-business__muted, .offerings > div:first-child p, .booking-flow__header p, .booking-flow__guidance { color: var(--text-muted); }
-.offerings, .booking-flow { display: grid; gap: var(--space-3); }
-.offerings > div:first-child, .booking-flow__header { display: flex; align-items: end; justify-content: space-between; gap: var(--space-3); }
-.offerings > div:nth-child(2) { overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
+.public-business__muted, .booking-start p, .booking-flow__header p, .booking-flow__guidance { color: var(--text-muted); }
+.booking-start, .booking-start__services, .booking-start__availability, .booking-flow { display: grid; gap: var(--space-3); }
+.booking-start { grid-template-columns: minmax(0, 1fr) minmax(20rem, 1fr); align-items: start; }
+.booking-start__service-list { overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
+.booking-start__availability { min-height: 100%; padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-raised); }
+.booking-start__empty { display: grid; align-content: center; gap: var(--space-2); min-height: 16rem; color: var(--text-muted); }
+.booking-flow__header { display: flex; align-items: end; justify-content: space-between; gap: var(--space-3); }
 .public-business__details { border-top: 1px solid var(--border-subtle); padding-top: var(--space-2); }
 .public-business__details summary { color: var(--text-muted); cursor: pointer; font-weight: var(--text-weight-semibold); }
 .public-business__details-body { display: grid; gap: var(--space-2); padding-top: var(--space-2); color: var(--text-muted); }
@@ -156,5 +162,5 @@ h1, h2, h3, p { margin: 0; }
 .booking-completion dt { color: var(--text-muted); }
 .booking-completion dd { margin: 0; font-weight: var(--text-weight-semibold); }
 .booking-completion__note { font-size: var(--text-size-meta); }
-@media (max-width: 640px) { .offerings > div:first-child, .booking-flow__header { align-items: start; flex-direction: column; } .booking-flow { padding: var(--space-3); } }
+@media (max-width: 760px) { .booking-start { grid-template-columns: 1fr; } .booking-flow__header { align-items: start; flex-direction: column; } .booking-flow, .booking-start__availability { padding: var(--space-3); } }
 </style>

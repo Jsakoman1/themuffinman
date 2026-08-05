@@ -1,0 +1,98 @@
+kind: work
+version: 1
+id: human-first-ui-simplification-atomic-hardening
+title: Harden the human-first UI simplification execution queue
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-ui-simplification-master.yaml
+execution_inventory: docs/work/human-first-ui-simplification-execution-inventory.yaml
+preflight_review: This child owns verification that every planned delivery item is
+  atomic before product implementation begins.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  baseline_only_surfaces:
+  - Existing visual-system and local-tab verification.
+  residual_scope:
+  - Verify that this new program has one bounded queue item per observable repair.
+  retest_triggers:
+  - Any change to this master
+  - its children
+  - or its execution inventory.
+  non_duplication_rule: This task validates planning control only; it does not count
+    previous UI evidence as new product evidence.
+tasks:
+- id: harden-human-first-ui-simplification
+  title: Verify atomic execution boundaries
+  type: documentation
+  inventory_item: harden-human-first-ui-simplification
+  status: done
+  observable_outcome: Every subsequent queue item has exactly one observable outcome,
+    bounded required paths, dependencies, a leaf validation, and an explicit new-evidence
+    boundary.
+  dependencies: []
+  evidence_boundary:
+  - Control-source validation and atomic-task-hardening audit for this master and
+    inventory.
+  paths:
+  - docs/work/human-first-ui-simplification-master.yaml
+  - docs/work/human-first-ui-simplification-execution-inventory.yaml
+  - docs/work/human-first-ui-simplification-atomic-hardening.yaml
+  - docs/work/human-first-ui-simplification-navigation.yaml
+  - docs/work/human-first-ui-simplification-home-vision.yaml
+  - docs/work/human-first-ui-simplification-calendar.yaml
+  - docs/work/human-first-ui-simplification-closeout.yaml
+  required_paths:
+  - docs/work/human-first-ui-simplification-master.yaml
+  - docs/work/human-first-ui-simplification-execution-inventory.yaml
+  - docs/work/human-first-ui-simplification-atomic-hardening.yaml
+  - docs/work/human-first-ui-simplification-navigation.yaml
+  - docs/work/human-first-ui-simplification-home-vision.yaml
+  - docs/work/human-first-ui-simplification-calendar.yaml
+  - docs/work/human-first-ui-simplification-closeout.yaml
+  validation: ruby scripts/validate-control-sources.rb && ruby scripts/audits/audit-atomic-task-hardening.rb
+    docs/work/human-first-ui-simplification-master.yaml docs/work/human-first-ui-simplification-execution-inventory.yaml
+  started_at: '2026-08-04T16:07:50Z'
+  start_fingerprints:
+    docs/work/human-first-ui-simplification-master.yaml: 8c4e44a1f4698ec5c60c23ea9f41f52e362836212d7dc054e5c1690e2ec06e62
+    docs/work/human-first-ui-simplification-execution-inventory.yaml: a4a74b568f16d0b95a8b92ca87bc509c96db589fa9da91d365e2fc72eb06711f
+    docs/work/human-first-ui-simplification-atomic-hardening.yaml: 80246dc1b1dfb619b5700b6f915a5298d10a86743b9666bc2bfa9671c78bc394
+    docs/work/human-first-ui-simplification-navigation.yaml: cd2a9ae02b057ff9fabe776dda7e3f7eaed930a215e78d122f8d139bdab935e1
+    docs/work/human-first-ui-simplification-home-vision.yaml: c47f0a1bb4de849b31446da27b2e7b41abaffa4ab4d6b3af56f8f82bdcd16a5d
+    docs/work/human-first-ui-simplification-calendar.yaml: 03c6873caa8bacfa9b5e36ca5958aee1e68e647d0baaeef89b0e0e80656d79d3
+    docs/work/human-first-ui-simplification-closeout.yaml: 80fd33a3b17cc0b65901272e1214cbc195da6c3c39da042d808ea2f622b2e323
+evidence:
+- task: harden-human-first-ui-simplification
+  command: ruby scripts/validate-control-sources.rb && ruby scripts/audits/audit-atomic-task-hardening.rb
+    docs/work/human-first-ui-simplification-master.yaml docs/work/human-first-ui-simplification-execution-inventory.yaml
+  ranAt: '2026-08-04T16:08:26Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/human-first-ui-simplification-atomic-hardening.yaml
+  - docs/work/human-first-ui-simplification-calendar.yaml
+  - docs/work/human-first-ui-simplification-closeout.yaml
+  - docs/work/human-first-ui-simplification-execution-inventory.yaml
+  - docs/work/human-first-ui-simplification-home-vision.yaml
+  - docs/work/human-first-ui-simplification-master.yaml
+  - docs/work/human-first-ui-simplification-navigation.yaml
+  output: |+
+    Control sources valid (287 YAML files, capability and target inventories present).
+    Atomic task hardening audit passed (7 inventory items).
+
+  startedAt: '2026-08-04T16:07:50Z'
+  changedAfterStart: &1
+  - docs/work/human-first-ui-simplification-master.yaml
+  - docs/work/human-first-ui-simplification-execution-inventory.yaml
+  - docs/work/human-first-ui-simplification-atomic-hardening.yaml
+  - docs/work/human-first-ui-simplification-navigation.yaml
+  - docs/work/human-first-ui-simplification-home-vision.yaml
+  - docs/work/human-first-ui-simplification-calendar.yaml
+  - docs/work/human-first-ui-simplification-closeout.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

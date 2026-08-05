@@ -18,8 +18,13 @@ const evidencePath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "runtime-ha
 writeRuntimeEvidence(evidencePath, {result: "passed"})
 assert.deepEqual(JSON.parse(fs.readFileSync(evidencePath, "utf8")), {result: "passed"})
 
+const relativeEvidencePath = path.join("docs", "runtime-evidence", ".runtime-harness-self-test.json")
+writeRuntimeEvidence(relativeEvidencePath, {result: "passed"})
+assert.deepEqual(JSON.parse(fs.readFileSync(relativeEvidencePath, "utf8")), {result: "passed"})
+fs.rmSync(relativeEvidencePath)
+
 let closed = false
 await assert.rejects(() => withBrowser(async () => ({close: async () => { closed = true }}), {headless: true}, async () => { throw new Error("expected") }), /expected/)
 assert.equal(closed, true)
 
-console.log("Runtime harness self-test passed (URLs, viewports, browser errors, evidence writing, and cleanup).")
+console.log("Runtime harness self-test passed (URLs, viewports, browser errors, relative evidence writing, and cleanup).")

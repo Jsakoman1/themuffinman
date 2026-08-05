@@ -1,0 +1,165 @@
+kind: work
+version: 1
+id: human-first-ui-simplification-home-vision
+title: Make Home and Vision easier to understand in the moment
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-ui-simplification-master.yaml
+execution_inventory: docs/work/human-first-ui-simplification-execution-inventory.yaml
+preflight_review: Home presentation remains viewer-scoped, and Vision work is limited
+  to entry presentation rather than semantic execution.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-home.yaml
+  baseline_only_surfaces:
+  - Backend-owned Home launcher permissions and Vision semantic execution.
+  residual_scope:
+  - Concrete Home recovery wording and a non-obstructive contextual Vision entry.
+  retest_triggers:
+  - Changes to HomeHubView
+  - resume-card presentation
+  - ContextualAssistantComposer
+  - or authenticated shell layout.
+  non_duplication_rule: Earlier Home and Vision route evidence is baseline-only; new
+    evidence must demonstrate the changed interaction behavior.
+tasks:
+- id: make-home-next-action-concrete
+  title: Turn Home recovery into a concrete next action
+  type: implementation
+  inventory_item: make-home-next-action-concrete
+  status: done
+  observable_outcome: Home shows a precise resumable activity title and consequence
+    when one exists, and a calm no-action state when it does not.
+  dependencies:
+  - clarify-sidejobs-language
+  evidence_boundary:
+  - Frontend Home presentation contract and fresh Home desktop/mobile runtime screenshots.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/business-logic.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/business-logic.md
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-first-ui-simplification-home-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-home-mobile.png
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:human-first
+  started_at: '2026-08-04T16:14:07Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue: e04a666b981d0e4a47c16f65e1d849cd5447a1cff4945c456c67b5144eafeb94
+    apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue: 8f84ce99437a92609411f7e00f5c3bcd20b59ddd82ddc3602037a11300800c93
+    apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs: a2d392083c68d4c9f09ffcd49e71588e7cfea42fa5bbfd7702828ef7b772f0a9
+    docs/business-logic.md: 860e00dbffca51535c7f4481fef8c1cb666281ae1a822f1b2aba5d4b3192851c
+- id: keep-vision-entry-out-of-active-work
+  title: Keep the persistent Vision entry contextual and unobtrusive
+  type: implementation
+  inventory_item: keep-vision-entry-out-of-active-work
+  status: done
+  observable_outcome: The assistant entry remains discoverable but does not cover
+    active lists, forms, or mobile bottom navigation, and its placeholder reflects
+    the current surface.
+  dependencies:
+  - make-home-next-action-concrete
+  evidence_boundary:
+  - Shared-shell static contract and fresh desktop/mobile screenshots of an active
+    work surface.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - docs/product-memory.md
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-first-ui-simplification-vision-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-vision-mobile.png
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:web-surface
+  started_at: '2026-08-04T16:16:57Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue: f855342f465491d9f6f71accb15d57d002fe37fe243879359486be88ff394ed9
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: f8df2f273113c36b619a3f0ed1f68c3a10ec21803d3d2787715c4f017bfe16a0
+    apps/themuffinman/frontend/src/style.css: ebd703c2680fa293445539e3b8bebe86f37633b5d6a61f6362ea2281de8fa6a5
+    docs/product-memory.md: '094fbea3f45a9977e753e41aafee8da804e679add69dd480660989015efcba74'
+evidence:
+- task: make-home-next-action-concrete
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:human-first
+  ranAt: '2026-08-04T16:16:46Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - docs/business-logic.md
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+    > frontend@0.0.0 validate:human-first
+    > node ./scripts/validate-human-first-web-contract.mjs
+
+    Human-first Web contract passed (8 checks).
+
+  startedAt: '2026-08-04T16:14:07Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/business-logic.md
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-first-ui-simplification-home-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-home-mobile.png
+  runtimeEvidencePaths: []
+- task: keep-vision-entry-out-of-active-work
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:web-surface
+  ranAt: '2026-08-04T16:18:15Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - docs/product-memory.md
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+  startedAt: '2026-08-04T16:16:57Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-first-ui-simplification-vision-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-vision-mobile.png
+  runtimeEvidencePaths: []

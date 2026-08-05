@@ -10,7 +10,6 @@ import BusinessOwnerOverviewView from "./BusinessOwnerOverviewView.vue"
 import BusinessOfferingsView from "./BusinessOfferingsView.vue"
 import BusinessBookingsView from "./BusinessBookingsView.vue"
 import BusinessOwnerCalendarView from "./BusinessOwnerCalendarView.vue"
-import FriendlyCollectionHeader from "../components/FriendlyCollectionHeader.vue"
 import type {BusinessOwnerDashboardDTO} from "../../../contracts/index.ts"
 
 const route = useRoute()
@@ -49,7 +48,9 @@ onMounted(async () => { try { profiles.value = await userShellApi.getMyBusinessP
 <template>
   <section class="business-owner-page" aria-label="Business owner workspace" data-owner-tabs="overview calendar bookings services" data-context-boundary="active-business" data-mental-model="business-overview-tabs-detail" data-navigation-model="stable-tabs" :data-business-id="selectedBusinessId ?? undefined">
     <ModuleTabs :tabs="businessTabs" :active-id="activeBusinessTab" />
-    <section class="business-owner-page__hero"><FriendlyCollectionHeader eyebrow="Business workspace" title="Manage your business" description="Choose one business, then manage its profile, services, bookings, and calendar." tone="book"><template #actions><ContextSwitcher :model-value="selectedBusinessId" :options="options" label="Active business" empty-label="Create a business" @update:model-value="switchBusiness" /></template></FriendlyCollectionHeader></section>
+    <div class="business-owner-page__context">
+      <ContextSwitcher :model-value="selectedBusinessId" :options="options" label="Active business" empty-label="Create a business" @update:model-value="switchBusiness" />
+    </div>
     <ModuleTabs :tabs="tabs" :active-id="activeTab" />
     <AppStatus v-if="error" :message="error" tone="error" />
     <component :is="view" :key="`${activeTab}:${selectedBusinessId ?? 'none'}`" v-bind="selectedBusinessId ? {businessId: selectedBusinessId} : {}" />
@@ -57,5 +58,5 @@ onMounted(async () => { try { profiles.value = await userShellApi.getMyBusinessP
 </template>
 
 <style scoped>
-.business-owner-page{display:grid;gap:var(--space-4);min-width:0}.business-owner-page__hero{padding:var(--space-3) var(--space-4);border:1px solid color-mix(in srgb,var(--launcher-book-ink) 15%,transparent);border-radius:calc(var(--radius-card) + .2rem);background:var(--launcher-book-bg);box-shadow:0 1px 0 color-mix(in srgb,var(--launcher-book-ink) 10%,transparent)}.business-owner-page__hero :deep(.friendly-collection-header){padding:0}.business-owner-page__hero :deep(.friendly-collection-header__copy p),.business-owner-page__hero :deep(.friendly-collection-header__copy h1),.business-owner-page__hero :deep(.friendly-collection-header__copy span){color:var(--launcher-book-ink)}@media(max-width:700px){.business-owner-page__hero{padding:var(--space-3)}}
+.business-owner-page{display:grid;gap:var(--space-4);min-width:0}.business-owner-page__context{display:flex;justify-content:flex-end}@media(max-width:700px){.business-owner-page__context{justify-content:stretch}}
 </style>

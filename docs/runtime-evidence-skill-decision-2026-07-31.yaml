@@ -3,7 +3,7 @@ version: 1
 date: 2026-07-31
 decision: create
 completion_authority: repository work verifier
-status: recommended_for_separate_authorized_task
+status: installed_locally
 basis:
   verified_harness_pilots:
   - id: brand-header-sand
@@ -43,6 +43,26 @@ future_package_boundary:
 authorization_boundary: Use the system skill-creator only in a separate, explicitly
   user-authorized task; installation and promotion are not owned by this repository
   work plan.
+installation:
+  installed_at: /Users/jsakoman/.codex/skills/runtime-evidence-harness
+  installed_on: 2026-07-31
+  official_validator: unavailable
+  official_validator_boundary: The local Python environment lacks the yaml module required
+    by skill-creator quick_validate.py; no dependency was installed solely for validation.
+  fallback_validation: Ruby parsed the skill frontmatter and UI metadata, checked required
+    fields and naming, rejected template placeholders, and confirmed the repository contract reference.
+forward_test:
+  scenario: services-public-calendar
+  script: apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  result: passed
+  evidence:
+  - docs/runtime-evidence/services-public-calendar-desktop-runtime.json
+  - docs/runtime-evidence/services-public-calendar-mobile-runtime.json
+  findings:
+  - The scenario retained its public-calendar privacy, response-safety, viewport, screenshot,
+    and semantic assertions after migration.
+  - The forward-test exposed and corrected relative evidence-path handling in writeRuntimeEvidence.
+  verification: docs/work/runtime-evidence-harness-forward-test.yaml
 success_criteria_for_future_skill:
 - preserves repository work verifier as the only completion authority
 - records exact runtime command, evidence paths, and failed-scenario diagnostics

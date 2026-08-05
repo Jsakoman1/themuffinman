@@ -274,7 +274,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 .app-shell__brand-header--home .app-shell__brand-logo { width:clamp(23rem,40vw,34rem); height:8rem; }
 
 .app-shell__content {
-  --persistent-vision-dock-clearance: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  --persistent-vision-dock-clearance: calc(4.5rem + env(safe-area-inset-bottom, 0px));
   min-height: 0;
   width: 100%;
   padding: var(--space-3) var(--workspace-content-gutter) var(--persistent-vision-dock-clearance);
@@ -346,7 +346,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   }
 
   .app-shell__content {
-    --persistent-vision-dock-clearance: calc(10.25rem + env(safe-area-inset-bottom, 0px));
+    --persistent-vision-dock-clearance: calc(9.1rem + env(safe-area-inset-bottom, 0px));
   }
 
   .app-shell__brand-header { min-height:4.5rem; padding-inline:var(--space-3); }

@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: human-first-ui-simplification-calendar
+title: Simplify Calendar time orientation
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-ui-simplification-master.yaml
+execution_inventory: docs/work/human-first-ui-simplification-execution-inventory.yaml
+preflight_review: Calendar changes are presentation-only and cannot alter aggregation,
+  source permissions, or persisted timezone rules.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-web-calendar.yaml
+  baseline_only_surfaces:
+  - Calendar event aggregation
+  - source permissions
+  - and persisted business timezone rules.
+  residual_scope:
+  - Viewer-friendly local-time wording and progressive calendar controls.
+  retest_triggers:
+  - Changes to CalendarPage
+  - CalendarToolbar
+  - time formatting
+  - or responsive agenda layout.
+  non_duplication_rule: Existing calendar data and navigation proof is baseline-only;
+    this child proves the changed time orientation only.
+tasks:
+- id: simplify-calendar-time-orientation
+  title: Present calendar time in human local context
+  type: implementation
+  inventory_item: simplify-calendar-time-orientation
+  status: done
+  observable_outcome: Calendar defaults to a clear viewer-local time explanation and
+    keeps range, view, and source controls secondary to the next scheduled item.
+  dependencies:
+  - keep-vision-entry-out-of-active-work
+  evidence_boundary:
+  - Calendar presentation contract and fresh desktop/mobile Calendar runtime screenshots.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarToolbar.vue
+  - apps/themuffinman/frontend/src/services/calendarTime.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarToolbar.vue
+  - apps/themuffinman/frontend/src/services/calendarTime.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-first-ui-simplification-calendar-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-calendar-mobile.png
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:web-surface
+  started_at: '2026-08-04T16:18:28Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: b32a7b4d845c70dcd0ebc9f984c3471a7c8c48a1cc9afff1e3dd8ea22426748a
+    apps/themuffinman/frontend/src/modules/app-shell/components/CalendarToolbar.vue: 2d04d75d1f977ed4cf1c82d42f6525af4a4fbeaa120633a8cfe780a196d095ee
+    apps/themuffinman/frontend/src/services/calendarTime.ts: dd46e20dc61fd308873f280d11c33d2c2b1dc59ef055f7e0aa32d809cbc3b42d
+    docs/business-logic.md: 2da83c87db54cd4cd1352e132e7f51c19b978cc9e11cb9a41ad18873abb8ac3e
+    docs/domain-technical.md: dde3ddb8b94bcaaa44bd5a4c7e62db01c4b8b5a1f82922443a46b07677021903
+evidence:
+- task: simplify-calendar-time-orientation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:web-surface
+  ranAt: '2026-08-04T16:19:12Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/services/calendarTime.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+  startedAt: '2026-08-04T16:18:28Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarToolbar.vue
+  - apps/themuffinman/frontend/src/services/calendarTime.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-first-ui-simplification-calendar-desktop.png
+  - docs/runtime-evidence/human-first-ui-simplification-calendar-mobile.png
+  runtimeEvidencePaths: []

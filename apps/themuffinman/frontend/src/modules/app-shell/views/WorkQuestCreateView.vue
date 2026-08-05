@@ -51,13 +51,13 @@ onMounted(async () => { circleGroups.value = await userShellApi.getCircleGroups(
 
 <template>
   <section class="quest-create" data-form-model="guided-review-before-commit" data-typography-model="shared-content-hierarchy">
-    <SurfaceHeader :config="surface" title="Post a SideJob" description="Describe the help you need, then review what people will see before posting." />
+    <SurfaceHeader :config="surface" title="Post a SideJob" description="Ask for the help you need, then review what people will see before posting." />
     <div class="quest-create__workspace">
       <GuidedIntakePanel v-if="!guidedDraft" flow="work.quest.create" title="Post a SideJob" description="Answer one useful question at a time. You can review and edit everything before posting." @completed="guidedComplete" @cancel="router.push('/work/quests')" />
       <form v-if="guidedDraft" class="quest-create__form" @submit.prevent="save">
         <p class="quest-create__draft-boundary">This draft is private. Nothing is posted until you choose Post SideJob below.</p>
         <p class="quest-create__review-label">Review your SideJob</p>
-        <AppFormField label="What help do you need?" required><input v-model="form.title" required maxlength="255"></AppFormField>
+        <AppFormField label="What help do you need?" hint="For example, “Help me move a sofa”." required><input v-model="form.title" required maxlength="255"></AppFormField>
         <AppFormField label="Describe the SideJob" hint="Include the useful details a potential helper should know."><RichTextEditor v-model="form.description" label="SideJob description" /></AppFormField>
         <AppFormField label="Payment" hint="Enter the amount you will pay." required><input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></AppFormField>
         <div class="quest-create__grid"><AppFormField label="How many helpers do you need?" hint="Usually one."><input v-model.number="form.assigneeTarget" type="number" min="1"></AppFormField><label class="quest-create__checkbox"><input v-model="form.showApprovedApplicants" type="checkbox"> Show selected helpers</label></div>
@@ -79,5 +79,4 @@ onMounted(async () => { circleGroups.value = await userShellApi.getCircleGroups(
     </div>
   </section>
 </template>
-
 

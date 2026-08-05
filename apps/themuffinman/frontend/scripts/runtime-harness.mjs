@@ -1,4 +1,5 @@
 import fs from "node:fs"
+import pathModule from "node:path"
 
 export const defaultRuntimeViewports = [
   {name: "desktop", width: 1440, height: 1000},
@@ -37,7 +38,7 @@ export async function inspectOverflow(page) {
 }
 
 export function writeRuntimeEvidence(path, evidence) {
-  fs.mkdirSync(new URL(".", `file://${path}`).pathname, {recursive: true})
+  fs.mkdirSync(pathModule.dirname(path), {recursive: true})
   fs.writeFileSync(path, `${JSON.stringify(evidence, null, 2)}\n`)
 }
 

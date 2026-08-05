@@ -44,6 +44,8 @@ const submitSearch = async () => {
   if (route.query.q !== nextQuery) await router.replace({query: {...route.query, q: nextQuery}})
   await load()
 }
+const chooseIntent = (value: typeof intentFilter.value) => { intentFilter.value = intentFilter.value === value ? "ALL" : value }
+const clearRefinement = () => { query.value = ""; intentFilter.value = "ALL"; void submitSearch() }
 
 watch(() => route.query.q, (value) => {
   const nextQuery = typeof value === "string" ? value : ""
@@ -60,10 +62,14 @@ onMounted(() => void load())
     <ModuleTabs :tabs="businessTabs" :active-id="isFavoritesView ? 'favorites' : 'find'" />
     <FriendlyCollectionHeader eyebrow="Services" :title="isFavoritesView ? 'Favorite businesses' : 'Find a service'" :description="isFavoritesView ? 'Businesses you saved, ready to revisit.' : 'Search for a business, then open its page to see services, prices, availability and contact details.'" />
 
-    <CollectionToolbar :title="isFavoritesView ? 'Favorite businesses' : 'Public businesses'" :count="visibleItems.length" :busy="isLoading" filter-summary="Search and refine">
+    <CollectionToolbar :title="isFavoritesView ? 'Favorite businesses' : 'Public businesses'" :count="visibleItems.length" :busy="isLoading" :filter-summary="visibleItems.length === 1 ? '1 match' : `${visibleItems.length} matches`">
       <template #filters>
-        <AppSearchField v-model="query" label="What service or business do you need?" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
-        <label class="business-discovery__intent"><span>Show</span><select v-model="intentFilter" aria-label="Filter businesses"><option value="ALL">All businesses</option><option value="BOOK_NOW">Book online</option><option value="WITH_AREA">With a published area</option></select></label>
+        <AppSearchField v-model="query" label="What service or business do you need?" placeholder="e.g. haircut, plumber, yoga" :busy="isLoading" submit-label="Search" @submit="submitSearch" />
+        <div v-if="!isFavoritesView" class="business-discovery__quick-filters" aria-label="Quick filters">
+          <button type="button" :class="{active: intentFilter === 'BOOK_NOW'}" :aria-pressed="intentFilter === 'BOOK_NOW'" @click="chooseIntent('BOOK_NOW')">Book online</button>
+          <button type="button" :class="{active: intentFilter === 'WITH_AREA'}" :aria-pressed="intentFilter === 'WITH_AREA'" @click="chooseIntent('WITH_AREA')">Has an area</button>
+          <button v-if="query || intentFilter !== 'ALL'" type="button" class="business-discovery__clear" @click="clearRefinement">Clear</button>
+        </div>
       </template>
     </CollectionToolbar>
 
@@ -95,5 +101,5 @@ h1 { margin: 0; color: var(--text); font-size: var(--text-size-page-title); lett
 .business-discovery__workspace { min-width: 0; }
 .business-discovery__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--space-3); min-width: 0; }
 @media (max-width: 640px) { .business-discovery__header { align-items: start; flex-direction: column; } .business-discovery__search { width: 100%; } .business-discovery__search input { min-width: 0; width: 100%; } }
-.business-discovery__intent{display:inline-flex;align-items:center;gap:var(--space-1);color:var(--text-muted);font-size:var(--text-size-meta)}.business-discovery__intent select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}
+.business-discovery__quick-filters{display:flex;align-items:center;gap:var(--space-1);flex-wrap:wrap}.business-discovery__quick-filters button{min-height:var(--control-height-default);border:1px solid var(--control-border);border-radius:999px;padding:var(--space-1) var(--space-3);background:var(--control-bg);color:var(--control-ink);font:inherit;font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold);cursor:pointer}.business-discovery__quick-filters button.active{border-color:var(--accent);background:var(--accent-muted);color:var(--accent-ink,var(--text))}.business-discovery__quick-filters .business-discovery__clear{border-color:transparent;background:transparent;color:var(--text-muted);text-decoration:underline}
 </style>

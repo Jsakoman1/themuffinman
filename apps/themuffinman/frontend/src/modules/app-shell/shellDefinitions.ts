@@ -89,12 +89,12 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
     ]
   },
   "work-quests": {
-    id: "work-quests", archetype: "work", navId: "work", eyebrow: "SideJobs / Mine", title: "My SideJobs",
-    actions: [{label: "Post a SideJob", to: {path: "/work/offer"}}, {label: "SideJobs", to: {path: "/work"}}]
+    id: "work-quests", archetype: "work", navId: "work", eyebrow: "SideJobs / My posts", title: "My posted SideJobs",
+    actions: [{label: "Post a SideJob", to: {path: "/work/offer"}}, {label: "Find a SideJob", to: {path: "/work/find"}}]
   },
   "work-applications": {
-    id: "work-applications", archetype: "work", navId: "work", eyebrow: "SideJobs / My activity", title: "My activity",
-    actions: [{label: "SideJobs", to: {path: "/work"}}]
+    id: "work-applications", archetype: "work", navId: "work", eyebrow: "SideJobs / My help offers", title: "My help offers",
+    actions: [{label: "Find a SideJob", to: {path: "/work/find"}}]
   },
   chat: {
     id: "chat", archetype: "chat", navId: "chat", eyebrow: "Chat", title: "Chat",
@@ -110,7 +110,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
     actions: []
   },
   business: {
-    id: "business", archetype: "business", navId: "business", eyebrow: "Business", title: "Business",
+    id: "business", archetype: "business", navId: "business", eyebrow: "Services you offer", title: "Offer services",
     hubArchetype: "section-navigation",
     actions: [
       {label: "Find a business", to: {path: "/business/find"}, tone: "primary"},
@@ -145,7 +145,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
     actions: [{label: "Circles", to: {path: "/circles"}}]
   },
   "business-discovery": {
-    id: "business-discovery", archetype: "business", navId: "services", eyebrow: "Services", title: "Find a service",
+    id: "business-discovery", archetype: "business", navId: "services", eyebrow: "Book a service", title: "Find a service",
     actions: [{label: "Find service", to: {path: "/business/find"}}]
   },
   things: {

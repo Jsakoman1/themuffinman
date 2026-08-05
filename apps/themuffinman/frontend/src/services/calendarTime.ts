@@ -1,5 +1,9 @@
 export type CalendarDay = {key: string; label: string; weekday: string}
 
+export const calendarTimezoneLabel = (timezone: string) => timezone === Intl.DateTimeFormat().resolvedOptions().timeZone
+  ? "Your local time"
+  : `Time zone: ${timezone}`
+
 const partsFor = (value: string | Date, timezone: string) => Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
   timeZone: timezone,
   year: "numeric",

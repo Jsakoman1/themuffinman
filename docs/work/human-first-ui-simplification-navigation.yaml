@@ -1,0 +1,165 @@
+kind: work
+version: 1
+id: human-first-ui-simplification-navigation
+title: Clarify navigation and SideJobs intentions
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-ui-simplification-master.yaml
+execution_inventory: docs/work/human-first-ui-simplification-execution-inventory.yaml
+preflight_review: Navigation and SideJobs wording share shell definitions but are
+  serialized to prevent overlapping active work.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/local-tabs-navigation-master.yaml
+  - docs/work/sidejobs-human-first-master.yaml
+  baseline_only_surfaces:
+  - Canonical route ownership
+  - permissions
+  - and local-tab mechanics.
+  residual_scope:
+  - Human-readable navigation labels and unambiguous SideJobs roles.
+  retest_triggers:
+  - Changes to navigation DTO labels
+  - shell route definitions
+  - or WorkPage tabs.
+  non_duplication_rule: Existing route and workflow evidence is baseline-only; this
+    child proves only language and orientation changes.
+tasks:
+- id: clarify-navigation-intentions
+  title: Name top-level destinations by user intent
+  type: implementation
+  inventory_item: clarify-navigation-intentions
+  status: done
+  observable_outcome: Desktop navigation distinguishes offering services from finding
+    services without changing routes, permissions, or business ownership.
+  dependencies:
+  - harden-human-first-ui-simplification
+  evidence_boundary:
+  - Workspace navigation contract test and updated product/domain navigation meaning.
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -q -Dtest=WorkspaceNavigationContractTest
+    test && npm --prefix apps/themuffinman/frontend run validate:web-surface"
+  started_at: '2026-08-04T16:12:03Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java: 2ad03580b841644c0360a1cecc098a940a0fc5e1c9d890b02a03565a1c19c924
+    apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java: 20cdbec0a965e864790bdab5231fe2de7027bc8054b26da2462309f9714e2956
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: 2262a74106eadbc8168cb54a54dcb943ca64b713e0826b844bd9257eecc3127f
+    docs/business-logic.md: 5f8eb653ab6fde7792802f1372f7a27e4f36603968d87f75a42c1a54294c14e9
+    docs/domain-technical.md: 834b57a69053bf36ee11dc1ef01aa63dc4fdd24353b5f4868d89f690ddaa0608
+- id: clarify-sidejobs-language
+  title: Use one clear SideJobs vocabulary
+  type: implementation
+  inventory_item: clarify-sidejobs-language
+  status: done
+  observable_outcome: Work discovery, posting, owned work, and applications use a
+    consistent SideJobs vocabulary that clearly communicates the user's role.
+  dependencies:
+  - clarify-navigation-intentions
+  evidence_boundary:
+  - SideJobs presentation contract
+  - targeted frontend type check
+  - and updated product wording.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/business-logic.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/business-logic.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:modern-surface
+  started_at: '2026-08-04T16:13:11Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue: c6344a77813b32acbebff60f238bf58b48d9d05b6a513240a25af40a3c6dbb66
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: 1ca145343729ef8360b1ced426ffad63bee12efb40c5eb8bb4c0cfe37a648ff2
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue: 414987f6b712791269bb722954ed05e25f6e033403adf7209dcfd733adeb2925
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: cdf7f8b22ce1884968755f22c30e9afcdd19a8cc6ffd2e886df67e58dfea50e1
+    docs/business-logic.md: 83b7ef67a965d5e1c07d201d9c6ca018b6b4e67b8a4fa62392c1162af5af7ee6
+evidence:
+- task: clarify-navigation-intentions
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -q -Dtest=WorkspaceNavigationContractTest
+    test && npm --prefix apps/themuffinman/frontend run validate:web-surface"
+  ranAt: '2026-08-04T16:12:50Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  output: |2
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+    WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+    WARNING: sun.misc.Unsafe::objectFieldOffset has been called by lombok.permit.Permit
+    WARNING: Please consider reporting this to the maintainers of class lombok.permit.Permit
+    WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+  startedAt: '2026-08-04T16:12:03Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: clarify-sidejobs-language
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-08-04T16:13:54Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - docs/business-logic.md
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (78 checks).
+
+  startedAt: '2026-08-04T16:13:11Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/business-logic.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

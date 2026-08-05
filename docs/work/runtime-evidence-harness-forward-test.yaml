@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: runtime-evidence-harness-forward-test
+title: Forward-test the runtime-evidence harness skill
+status: verified
+baseline: a35a18d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/runtime-evidence-harness-forward-test-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  residual_scope:
+  - migrate one existing public-calendar browser scenario to the shared harness
+  - record fresh desktop and mobile local evidence
+  non_duplication_rule: Preserve public-calendar assertions and evidence schema; only
+    shared runtime mechanics may change.
+tasks:
+- id: forward-test-public-calendar-runtime-harness
+  title: Migrate public-calendar runtime evidence through the shared harness
+  type: validation
+  status: done
+  inventory_item: forward-test-public-calendar-runtime-harness
+  observable_outcome: The public-calendar runtime script uses the shared harness while
+    retaining privacy, calendar-response, viewport, screenshot, and semantic assertions
+    with fresh passing desktop and mobile evidence.
+  dependencies: []
+  evidence_boundary:
+  - fresh desktop and mobile JSON evidence with passed result and no browser errors
+  - repository work verifier completion after declared runtime command
+  paths: &1
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+  - docs/runtime-evidence/services-public-calendar-desktop-runtime.json
+  - docs/runtime-evidence/services-public-calendar-mobile-runtime.json
+  - docs/runtime-evidence-skill-decision-2026-07-31.yaml
+  required_paths: *1
+  validation: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+    && node --check apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+    && node apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+    --viewport=desktop && node apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+    --viewport=mobile
+  started_at: '2026-07-31T19:01:32Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs: 014e4cdcb77e22c4242cfcc3aff79f8263da360850c8e66af69cae4775a30e5e
+    docs/runtime-evidence/services-public-calendar-desktop-runtime.json: d436a494be811d35aaa91d63b4dc1712582ab175afc69bdb8dc329eaeec63b27
+    docs/runtime-evidence/services-public-calendar-mobile-runtime.json: 1d57150e288ea03a52c29b5ecc69a5b707df817f2b5a9a0845a747c1b430193f
+    docs/runtime-evidence-skill-decision-2026-07-31.yaml: 653a2ec3d209f96fb1bf5c44f432f08721df79b287b1b4460bf5bbd2f8463f31
+evidence:
+- task: forward-test-public-calendar-runtime-harness
+  command: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs &&
+    node --check apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+    && node apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+    --viewport=desktop && node apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+    --viewport=mobile
+  ranAt: '2026-07-31T19:04:25Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  - docs/runtime-evidence-skill-decision-2026-07-31.yaml
+  - docs/runtime-evidence/services-public-calendar-desktop-runtime.json
+  - docs/runtime-evidence/services-public-calendar-mobile-runtime.json
+  output: "Runtime harness self-test passed (URLs, viewports, browser errors, relative
+    evidence writing, and cleanup).\n\n"
+  startedAt: '2026-07-31T19:01:32Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+  - docs/runtime-evidence/services-public-calendar-desktop-runtime.json
+  - docs/runtime-evidence/services-public-calendar-mobile-runtime.json
+  - docs/runtime-evidence-skill-decision-2026-07-31.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

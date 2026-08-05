@@ -16,7 +16,6 @@ import AppStatus from "../components/AppStatus.vue"
 import {formatCurrency, formatDateTime} from "../../../services/formatters.ts"
 import TaskSurface from "../components/TaskSurface.vue"
 import FriendlyCollectionHeader from "../components/FriendlyCollectionHeader.vue"
-import FriendlySummaryCard from "../components/FriendlySummaryCard.vue"
 
 const route = useRoute()
 const router = useRouter()
@@ -39,11 +38,11 @@ const isMine = computed(() => route.name === "work-quests")
 // Keep the viewer scope explicit at the request boundary. The backend owns
 // visibility and ownership rules; the page only selects the matching preset.
 const workPreset = computed(() => isMine.value ? "MY_VISIBLE" as const : "AVAILABLE" as const)
-const title = computed(() => isMine.value ? "My SideJobs" : "Find SideJobs")
+const title = computed(() => isMine.value ? "My posted SideJobs" : "Find a SideJob")
 const emptyTitle = computed(() => isMine.value ? "You have not posted a SideJob yet" : "No SideJobs are available")
 const emptyMessage = computed(() => isMine.value ? "Post a SideJob when you need help, then manage requests here." : "Try another search or check back when someone needs help.")
 const primaryAction = computed(() => isMine.value
-  ? {label: "Find SideJobs", to: "/work/find"}
+  ? {label: "Find a SideJob", to: "/work/find"}
   : {label: "Post a SideJob", to: "/work/quests/new"})
 
 const locationLabel = (quest: QuestResponseDTO) => quest.presentation.locationLabel || quest.locationLocality || "Anywhere"
@@ -124,8 +123,8 @@ watch(() => route.name, async (nextRouteName, previousRouteName) => {
   if (nextRouteName === previousRouteName || (nextRouteName !== "work-find" && nextRouteName !== "work-quests")) return
 
   // Work tabs reuse the same component instance. Reset collection-local state
-  // and reload whenever the canonical route changes, otherwise Find work and
-  // My work can display the previous tab's results under the new heading.
+  // and reload whenever the canonical route changes, otherwise Find help and
+  // My posts can display the previous tab's results under the new heading.
   hydratingScope = true
   if (searchTimer !== undefined) window.clearTimeout(searchTimer)
   query.value = typeof route.query.q === "string" ? route.query.q : ""
@@ -160,8 +159,7 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
 <template>
   <!-- A listing opens its full detail directly; the collection route is retained for Back. -->
   <TaskSurface mode="inspect" label="SideJobs"><section class="work-discovery" data-collection-rhythm="oriented" aria-labelledby="work-discovery-title" :aria-busy="isLoading || isLoadingMore || undefined">
-    <FriendlyCollectionHeader eyebrow="SideJobs" :title="title" :description="isMine ? 'SideJobs you posted and can manage.' : 'Browse small jobs where you can offer help. Opening one never commits you.'" tone="work" :primary-action="primaryAction" />
-    <FriendlySummaryCard :eyebrow="isMine ? 'Your SideJobs' : 'Looking to help?'" :title="isMine ? 'Review what needs your decision' : 'Choose a SideJob that fits you'" :description="isMine ? 'Requests and progress stay inside the relevant SideJob.' : 'Payment, timing, location, and the next step stay visible before you open it.'" icon="✦" tone="work" />
+    <FriendlyCollectionHeader eyebrow="SideJobs" :title="title" :description="isMine ? 'SideJobs you posted and can manage.' : 'Browse local requests where you can offer help. Opening one never commits you.'" tone="work" :primary-action="primaryAction" />
     <CollectionToolbar :title="title" :count="totalItems" :busy="isLoading" filter-summary="Refine">
       <template #filters>
       <label class="work-discovery__search">

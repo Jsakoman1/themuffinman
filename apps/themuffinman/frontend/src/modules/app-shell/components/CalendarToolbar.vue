@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppButton from "./AppButton.vue"
+import {calendarTimezoneLabel} from "../../../services/calendarTime.ts"
 
 defineProps<{rangeTitle: string; mode: "day" | "week" | "month"; timezone: string; busy: boolean}>()
 const emit = defineEmits<{previous: []; today: []; next: []; "update:mode": ["day" | "week" | "month"]}>()
@@ -12,7 +13,7 @@ const emit = defineEmits<{previous: []; today: []; next: []; "update:mode": ["da
       <AppButton type="button" tone="secondary" :disabled="busy" @click="emit('today')">Today</AppButton>
       <AppButton type="button" tone="quiet" aria-label="Next period" :disabled="busy" @click="emit('next')">›</AppButton>
     </div>
-    <div class="calendar-toolbar__range"><strong>{{ rangeTitle }}</strong><small>{{ timezone }}</small></div>
+    <div class="calendar-toolbar__range"><strong>{{ rangeTitle }}</strong><small>{{ calendarTimezoneLabel(timezone) }}</small></div>
     <div class="calendar-toolbar__modes" role="group" aria-label="Calendar view">
       <button v-for="value in ['day', 'week', 'month'] as const" :key="value" type="button" :aria-pressed="mode === value" :class="{active: mode === value}" @click="emit('update:mode', value)">{{ value }}</button>
     </div>

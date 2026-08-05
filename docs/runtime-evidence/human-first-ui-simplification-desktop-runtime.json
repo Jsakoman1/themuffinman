@@ -1,0 +1,83 @@
+{
+  "evidenceVersion": "human-first-web-runtime-v1",
+  "capturedAt": "2026-08-04T16:20:57.403Z",
+  "mode": "desktop",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "routes": [
+    {
+      "name": "home",
+      "route": "/home",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "name": "navigation",
+      "route": "/work/find",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "name": "notifications",
+      "route": "/notifications",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "name": "discovery",
+      "route": "/things",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "name": "chat",
+      "route": "/chat",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "name": "calendar",
+      "route": "/calendar",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "name": "business-setup",
+      "route": "/business/offerings",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    }
+  ],
+  "browserErrors": [],
+  "result": "passed"
+}

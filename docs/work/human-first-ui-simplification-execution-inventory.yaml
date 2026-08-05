@@ -1,0 +1,94 @@
+kind: execution-inventory
+version: 1
+id: human-first-ui-simplification
+master_plan: docs/work/human-first-ui-simplification-master.yaml
+serial: true
+execution_hardening:
+  owner_task: harden-human-first-ui-simplification
+  contract: Every item maps to one atomic task with bounded paths, an ordered dependency,
+    leaf validation, and a new-evidence boundary.
+hardening_contract:
+  first_item: harden-human-first-ui-simplification
+  advancement_rule: No implementation starts until the first item is verifier-verified.
+  evidence_contract: UI changes require fresh browser evidence in addition to targeted
+    contract checks; existing screenshots cannot satisfy this plan.
+preflight_review: The inventory has been checked for serial order, exact task mapping,
+  shared-path sequencing, and non-recursive leaf validation.
+items:
+- id: harden-human-first-ui-simplification
+  sequence: 1
+  plan: docs/work/human-first-ui-simplification-atomic-hardening.yaml
+  task: harden-human-first-ui-simplification
+  status: verified
+  started_at: '2026-08-04T16:07:50Z'
+  verified_at: '2026-08-04T16:08:26Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-atomic-hardening.yaml
+    task: harden-human-first-ui-simplification
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: clarify-navigation-intentions
+  sequence: 2
+  plan: docs/work/human-first-ui-simplification-navigation.yaml
+  task: clarify-navigation-intentions
+  status: verified
+  started_at: '2026-08-04T16:12:03Z'
+  verified_at: '2026-08-04T16:13:04Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-navigation.yaml
+    task: clarify-navigation-intentions
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: clarify-sidejobs-language
+  sequence: 3
+  plan: docs/work/human-first-ui-simplification-navigation.yaml
+  task: clarify-sidejobs-language
+  status: verified
+  started_at: '2026-08-04T16:13:11Z'
+  verified_at: '2026-08-04T16:13:58Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-navigation.yaml
+    task: clarify-sidejobs-language
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: make-home-next-action-concrete
+  sequence: 4
+  plan: docs/work/human-first-ui-simplification-home-vision.yaml
+  task: make-home-next-action-concrete
+  status: verified
+  started_at: '2026-08-04T16:14:07Z'
+  verified_at: '2026-08-04T16:16:50Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-home-vision.yaml
+    task: make-home-next-action-concrete
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: keep-vision-entry-out-of-active-work
+  sequence: 5
+  plan: docs/work/human-first-ui-simplification-home-vision.yaml
+  task: keep-vision-entry-out-of-active-work
+  status: verified
+  started_at: '2026-08-04T16:16:57Z'
+  verified_at: '2026-08-04T16:18:19Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-home-vision.yaml
+    task: keep-vision-entry-out-of-active-work
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: simplify-calendar-time-orientation
+  sequence: 6
+  plan: docs/work/human-first-ui-simplification-calendar.yaml
+  task: simplify-calendar-time-orientation
+  status: verified
+  started_at: '2026-08-04T16:18:28Z'
+  verified_at: '2026-08-04T16:19:16Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-calendar.yaml
+    task: simplify-calendar-time-orientation
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: capture-human-first-simplification-evidence
+  sequence: 7
+  plan: docs/work/human-first-ui-simplification-closeout.yaml
+  task: capture-human-first-simplification-evidence
+  status: verified
+  started_at: '2026-08-04T16:19:56Z'
+  verified_at: '2026-08-04T16:21:30Z'
+  evidence:
+    plan: docs/work/human-first-ui-simplification-closeout.yaml
+    task: capture-human-first-simplification-evidence
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57

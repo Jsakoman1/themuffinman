@@ -1,0 +1,17 @@
+kind: execution-inventory
+version: 1
+id: runtime-evidence-harness-forward-test-execution-inventory
+master_plan: docs/work/runtime-evidence-harness-forward-test.yaml
+serial: true
+items:
+- id: forward-test-public-calendar-runtime-harness
+  sequence: 1
+  plan: docs/work/runtime-evidence-harness-forward-test.yaml
+  task: forward-test-public-calendar-runtime-harness
+  status: verified
+  started_at: '2026-07-31T19:01:32Z'
+  verified_at: '2026-07-31T19:04:30Z'
+  evidence:
+    plan: docs/work/runtime-evidence-harness-forward-test.yaml
+    task: forward-test-public-calendar-runtime-harness
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57

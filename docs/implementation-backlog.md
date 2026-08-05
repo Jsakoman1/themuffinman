@@ -6,6 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
+- UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,
   booking rules, hours, and customer booking journeys so ordinary businesses can
   publish and accept appointments without understanding internal booking-engine terms.
@@ -20,11 +21,6 @@ listed in `docs/implementation-control.md`.
 - OPT-BASELINE-002: continue endpoint-to-capability-to-client-to-test evidence reconciliation.
 - OPT-BASELINE-003: maintain machine-checkable dependency direction rules and accepted exceptions.
 - OPT-BASELINE-005: preserve explicit native/device and production-operation evidence boundaries.
-- DEVTOOL-RUNTIME-SKILL-CREATION-001: in a separate explicitly authorized task, use
-  the system skill-creator to package the verified runtime-evidence harness workflow;
-  retain the repository work verifier as the sole completion authority. Read the
-  readiness decision in `docs/runtime-evidence-skill-decision-2026-07-31.yaml` and
-  the measured boundary in `docs/developer-system-operational-readiness-closeout-2026-07-31.yaml`.
 
 ## Mapping sources retained
 

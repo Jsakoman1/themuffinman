@@ -24,7 +24,7 @@ defineProps<{
       <strong>{{ title }}</strong>
       <span>{{ description }}</span>
     </span>
-    <span class="home-follow-up-card__action">{{ actionLabel }} <span aria-hidden="true">→</span></span>
+    <span class="home-follow-up-card__action"><span>{{ actionLabel }}</span><span aria-hidden="true">→</span></span>
   </RouterLink>
 </template>
 

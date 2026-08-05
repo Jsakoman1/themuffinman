@@ -162,3 +162,6 @@ a {
 .ui-focus-ring:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
 .native-frame-layer { min-width: 0; }
 /* New module surfaces must compose these shared primitives instead of adding route-local grammar. */
+
+/* Reserve one shared safe band for the mobile assistant and tab bar. */
+@media (max-width: 980px) { [data-responsive-task-shell] { scroll-padding-bottom: calc(9.1rem + env(safe-area-inset-bottom, 0px)); } }

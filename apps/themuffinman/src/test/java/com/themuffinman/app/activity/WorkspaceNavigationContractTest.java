@@ -34,6 +34,9 @@ class WorkspaceNavigationContractTest {
 
         assertThat(result.version()).isEqualTo("workspace-navigation-v1");
         assertThat(result.modules()).extracting("id").containsExactly("home", "work", "business", "services", "things", "people", "rides");
+        assertThat(result.module("work").getLabel()).isEqualTo("SideJobs");
+        assertThat(result.module("business").getLabel()).isEqualTo("Offer services");
+        assertThat(result.module("services").getLabel()).isEqualTo("Find services");
         assertThat(result.module("work").getChildren()).isEmpty();
         assertThat(result.module("services").getChildren()).isEmpty();
         assertThat(result.module("business").getChildren()).isEmpty();

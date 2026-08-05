@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-07-30T17:36:09.474Z",
+  "capturedAt": "2026-07-31T19:04:25.915Z",
   "viewport": "desktop",
   "scenarios": {
     "publicCalendar": {
@@ -7,8 +7,8 @@
       "views": true,
       "safeResponses": true,
       "privateDataAbsent": true,
-      "overflow": false,
-      "text": "Workspace\n\nHome\nWork\nBusiness\nServices\nThings\nPeople\nRides\n\nPersonal\n\nUpdates\n12\nCalendar\nChat\n\nAccount\n\nT\ntest\ntest@test.com\nMy profile\nSettings\nSetup guide\nLog out\nFind service\nFavorites\n‹ Back to services\nR\n\nLOCAL SERVICE\n\nRuntime Flexible Services\nSave\n\nNew business — no reviews yet\n\nOverview\nServices & prices\nReviews\n\nBOOKING\n\nRuntime crew service\n\nConfigure your request step by step.\n\nChange service\n✓\nService\n✓\nDetails\n3\nTime\n4\nReview\nRuntime crew service\nChoose a time to continue.\nTimes use Europe/Zurich.\n\nChoose a date and an available local time (Europe/Zurich).\n\nChoose a date and time\nMonth availability\n\nChoose an available day. Times are shown in Europe/Zurich.\n\nMonth\nWeek\nDay\n‹\n2026-07-30 – 2026-08-29\n›\n2026-07-30\nUnavailable\n2026-07-31\nUnavailable\n2026-08-01\n14 times available\n2026-08-02\nUnavailable\n2026-08-03\nUnavailable\n2026-08-04\nUnavailable\n2026-08-05\nUnavailable\n2026-08-06\nUnavailable\n2026-08-07\nUnavailable\n2026-08-08\n20 times available\n2026-08-09\nUnavailable\n2026-08-10\nUnavailable\n2026-08-11\nUnavailable\n2026-08-12\nUnavailable\n2026-08-13\nUnavailable\n2026-08-14\nUnavailable\n2026-08-15\n20 times available\n2026-08-16\nUnavailable\n2026-08-17\nUnavailable\n2026-08-18\nUnavai"
+      "overflowFree": true,
+      "text": "Workspace\n\nHome\nWork\nBusiness\nServices\nThings\nPeople\nRides\n\nPersonal\n\nUpdates\n12\nCalendar\nChat\n\nAccount\n\nT\ntest\ntest@test.com\nMy profile\nSettings\nSetup guide\nLog out\nFind service\nFavorites\n‹ Back to services\nR\n\nLOCAL SERVICE\n\nRuntime Flexible Services\nSave\n\nNew business — no reviews yet\n\nOverview\nServices & prices\nReviews\n\nBOOKING\n\nRuntime crew service\n\nConfigure your request step by step.\n\nChange service\n✓\nService\n✓\nDetails\n3\nTime\n4\nReview\nRuntime crew service\nChoose a time to continue.\nTimes use Europe/Zurich.\n\nChoose a date and an available local time (Europe/Zurich).\n\nChoose a date and time\nMonth availability\n\nChoose an available day. Times are shown in Europe/Zurich.\n\nMonth\nWeek\nDay\n‹\n2026-07-31 – 2026-08-30\n›\n2026-07-31\nUnavailable\n2026-08-01\n14 times available\n2026-08-02\nUnavailable\n2026-08-03\nUnavailable\n2026-08-04\nUnavailable\n2026-08-05\nUnavailable\n2026-08-06\nUnavailable\n2026-08-07\nUnavailable\n2026-08-08\n20 times available\n2026-08-09\nUnavailable\n2026-08-10\nUnavailable\n2026-08-11\nUnavailable\n2026-08-12\nUnavailable\n2026-08-13\nUnavailable\n2026-08-14\nUnavailable\n2026-08-15\n20 times available\n2026-08-16\nUnavailable\n2026-08-17\nUnavailable\n2026-08-18\nUnavailable\n2026-08-19\nUnavai"
     }
   },
   "browserErrors": [],

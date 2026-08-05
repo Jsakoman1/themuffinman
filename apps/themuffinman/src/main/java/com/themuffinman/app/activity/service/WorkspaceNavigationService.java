@@ -60,11 +60,11 @@ public class WorkspaceNavigationService {
     ) {
         return List.of(
                 module("home", "Home", "home", "/home", 1, "workspace orientation", activityBySource, unreadBySource, List.of()),
-                module("work", "Work", "work", "/work", 2, reason("workmarket", shortcuts, "primary work workspace"), activityBySource, unreadBySource,
+                module("work", "SideJobs", "work", "/work", 2, reason("workmarket", shortcuts, "find local help or post a SideJob"), activityBySource, unreadBySource,
                         List.of()),
-                module("business", "Business", "business", "/business", 3, "your business spaces", activityBySource, unreadBySource,
+                module("business", "Offer services", "business", "/business", 3, "set up and manage services you offer", activityBySource, unreadBySource,
                         List.of()),
-                module("services", "Services", "business", "/business/find", 4, "discover businesses and services", activityBySource, unreadBySource,
+                module("services", "Find services", "business", "/business/find", 4, "find a local service to book", activityBySource, unreadBySource,
                         List.of()),
                 module("things", "Things", "things", "/things/mine", 5, "lending and borrowing", activityBySource, unreadBySource,
                         List.of()),

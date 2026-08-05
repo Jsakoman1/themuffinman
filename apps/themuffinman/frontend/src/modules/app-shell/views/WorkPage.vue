@@ -9,9 +9,9 @@ const route = useRoute()
 const isApplications = computed(() => route.name === "work-applications")
 const activeTabId = computed(() => isApplications.value ? "applications" : route.name === "work-quests" ? "mine" : "discover")
 const tabs = [
-  {id: "discover", label: "Find SideJobs", route: "/work/find", backendScope: "work.discover", emptyState: "No SideJobs are available yet."},
-  {id: "mine", label: "My SideJobs", route: "/work/quests", backendScope: "work.mine", emptyState: "You have not posted a SideJob yet."},
-  {id: "applications", label: "My activity", route: "/work/applications", backendScope: "work.applications", emptyState: "You have no SideJob activity yet."}
+  {id: "discover", label: "Find help", route: "/work/find", backendScope: "work.discover", emptyState: "No SideJobs are available yet."},
+  {id: "mine", label: "My posts", route: "/work/quests", backendScope: "work.mine", emptyState: "You have not posted a SideJob yet."},
+  {id: "applications", label: "My help offers", route: "/work/applications", backendScope: "work.applications", emptyState: "You have no SideJob activity yet."}
 ]
 </script>
 
