@@ -6,6 +6,8 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
+- DORA-V17-CODEX-ACCELERATION-001: prepare and execute the Dora v1.7 Codex acceleration program: one guided agent entrypoint, compact cited task context, confirmed-domain capability dependency graph, project convention checks, safe related-feature composition, proof orchestration, independent-consumer proof, and a concise Codex guide. Master: `docs/work/dora-v17-codex-acceleration-master.yaml`.
+
 - DORA-V12-IDEA-TO-VERIFIED-CAPABILITY-001: make Dora turn a declared idea into a ready first capability with minimal Codex setup. Prioritize guided intake with answer provenance, generated knowledge and capability packages, deterministic readiness/contradiction detection, compact Codex startup commands, neutral technical stack packs, and stronger evidence traceability. Plan: `docs/work/dora-v12-idea-to-verified-capability-master.yaml`.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.

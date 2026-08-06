@@ -1,0 +1,177 @@
+kind: master
+version: 1
+id: dora-v17-codex-acceleration-master
+title: Make Dora a faster, more precise Codex-first application delivery system
+status: verified
+implementation_ready: true
+baseline: 0a5ca21
+target_release: v1.7.0
+analysis_source: docs/work/dora-v17-codex-acceleration-analysis.md
+preflight_source: docs/work/dora-v17-codex-acceleration-preflight.md
+goal_readiness_source: docs/work/dora-v17-codex-acceleration-goal-readiness.md
+objective: Reduce the manual context assembly and repeated planning work a Codex agent
+  needs when taking a confirmed product idea or capability through implementation,
+  validation, and documentation, while preserving Dora's explicit product-decision,
+  safety, and evidence boundaries.
+principles:
+- Dora asks for or records only material missing decisions; it never silently invents
+  business rules, permissions, workflows, copy, or architecture.
+- Codex receives a compact machine-readable task context with cited source decisions,
+  allowed paths, required proof, and the one recommended next action.
+- A generated feature must fit a declared project convention profile and must remain
+  additive, previewable, collision-safe, and reversible through normal Git history.
+- Domain dependency, API, migration, workflow, permission, and evidence gaps fail
+  closed before source generation or implementation work begins.
+- Static, compile, database, browser, accessibility, security, business acceptance,
+  and production evidence remain separate evidence classes.
+- Product projects remain the authority for source code, real data, credentials, runtime
+  execution, release approval, and external mutations.
+workstreams:
+- id: guided-agent-entrypoint
+  priority: 1
+  outcome: A Codex agent can begin with one guided Dora entrypoint that resumes a
+    confirmed interview, identifies the smallest unanswered question, and creates
+    a reviewed project/capability handoff without the user hand-authoring YAML.
+- id: codex-context-packet
+  priority: 1
+  outcome: Dora produces one bounded implementation packet for one selected task,
+    containing confirmed product/domain/permission/workflow decisions, conventions,
+    exact paths, dependencies, tests, evidence obligations, and explicit omissions.
+- id: domain-capability-compiler
+  priority: 1
+  outcome: Confirmed domain knowledge compiles to a deterministic capability dependency
+    graph that identifies blockers, decision gaps, ordering, and the next safe capability
+    without treating proposed work as completed work.
+- id: project-conventions-and-evolution
+  priority: 1
+  outcome: A project can declare its Spring, Vue, database, test, documentation, and
+    generated-code conventions so an additive feature preview can detect incompatible
+    paths, naming, package, migration, API, and ownership choices before apply.
+- id: resource-feature-composition
+  priority: 2
+  outcome: The compiled-feature route can safely describe a related resource feature
+    with explicit references, list/detail/form states, query requirements, validation,
+    workflow, and permission checks, then produce a reviewable multi-layer feature
+    packet without overwriting existing code.
+- id: proof-orchestration
+  priority: 2
+  outcome: Each confirmed capability receives a deterministic proof matrix that maps
+    assertions to unit, API, migration, browser/runtime, accessibility, and acceptance
+    obligations; optional runtime adapters remain approval-gated and product-owned.
+- id: independent-consumer-and-codex-guide
+  priority: 3
+  outcome: A fresh technical consumer proves the new command, context, compiler, convention,
+    composition, and proof contracts; the public guide gives Codex and a beginner
+    one concise route from idea to the first verified implementation task.
+milestones:
+- id: v1.7-core
+  includes:
+  - guided-agent-entrypoint
+  - codex-context-packet
+  - domain-capability-compiler
+  - project-conventions-and-evolution
+  - independent-consumer-and-codex-guide
+  benefit: Codex needs less manual context assembly and can stop at an explicit gap
+    instead of guessing the next task.
+- id: v1.7-feature-flow
+  includes:
+  - resource-feature-composition
+  - proof-orchestration
+  benefit: A confirmed inventory-style feature can be prepared as one traced, reviewable
+    multi-layer change with explicit proof requirements.
+next-programs:
+- id: DORA-V18-SECURITY-OPERATIONS-001
+  scope: Opt-in implementation adapters for authentication, authorization tests, data
+    safety execution, and production-readiness checks after a separate threat, credential,
+    and real-data safety review.
+- id: DORA-V19-PLATFORM-UX-001
+  scope: Reusable UI blueprints, offline/sync architecture decision support, and opt-in
+    deployment adapters after v1.7 proves project convention and feature composition
+    contracts.
+non_goals:
+- Build a named consumer application from an unconfirmed free-text request.
+- Generate users, passwords, tokens, OIDC/JWT policy, secrets, real data, backups,
+  cloud infrastructure, deployment, or a production release.
+- Rewrite, delete, or silently regenerate an existing product file or a historic Flyway
+  migration.
+- Claim that static checks, compilation, a generated proof matrix, or a browser template
+  prove business acceptance, security, accessibility, or release readiness.
+required_before_goal_pursuit:
+- Compare all proposed commands with v1.5/v1.6 public command ownership; extend an
+  existing command only when its safety boundary remains clear.
+- Define schemas, fixtures, deterministic output rules, collision policy, and explicit
+  missing-decision failures before writing a generator or compiler.
+- Split each workstream into atomic child tasks with exact bounded paths, direct dependencies,
+  leaf validation, and an evidence boundary.
+- Prepare one strict serial execution inventory and verifier-verify its atomic-task
+  hardening task before implementation starts.
+- Define independent-consumer proof with no product data, credentials, Docker, database,
+  browser, or network requirement by default.
+- Identify any package installation, database startup, browser execution, external
+  service, or deployment action as a separately approved task rather than a plan default.
+children:
+- docs/work/dora-v17-atomic-hardening.yaml
+- docs/work/dora-v17-guided-agent-entrypoint.yaml
+- docs/work/dora-v17-codex-context-packet.yaml
+- docs/work/dora-v17-domain-capability-compiler.yaml
+- docs/work/dora-v17-project-conventions-evolution.yaml
+- docs/work/dora-v17-resource-feature-composition.yaml
+- docs/work/dora-v17-proof-orchestration.yaml
+- docs/work/dora-v17-independent-consumer-documentation.yaml
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v17-atomic-hardening.yaml
+atomic_task_hardening_review: All sixteen inventory mappings were audited for one
+  observable outcome, required paths, direct serial dependency, leaf validation, and
+  an explicit evidence boundary before goal pursuit.
+strict_verification: true
+serial_task_execution: true
+atomic_task_contract:
+  required_fields:
+  - observable_outcome
+  - dependencies
+  - required_paths
+  - evidence_boundary
+  - validation
+  execution_rule: Start one inventory item only after its direct predecessor is verifier-marked
+    verified.
+  generation_rule: Generator work requires a confirmed declaration, deterministic
+    preview, declared empty paths, non-overwrite protection, and a generated-output
+    manifest.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - Dora v1.5 confirmed interview, session-create-app, neutral profiles, and first
+    feature skeleton behavior remain baseline-only.
+  - Dora v1.6 starter, one-feature rendering, manifest, safe apply, static/compile
+    consumer proof, and release pin remain baseline-only.
+  - MuffinMan product source, product documentation, runtime evidence, and business
+    rules are outside the Dora v1.7 scope.
+  residual_scope:
+  - v1.6 has no single guided agent entrypoint or compact task context packet.
+  - v1.6 does not compile confirmed domain knowledge into a capability dependency
+    graph and next-safe-capability recommendation.
+  - v1.6 does not declare project conventions for safe additive feature evolution
+    or compose a related resource feature with a complete proof matrix.
+  retest_triggers:
+  - Changes to v1.5/v1.6 interview, create-app, agent context, feature manifest, starter
+    layout, shared CLI envelope, generated output, or evidence contracts.
+  non_duplication_rule: v1.5 and v1.6 evidence is baseline context only. New v1.7
+    completion must be proved by its own bounded tests and independent consumer.
+completion_boundary: This draft is a scoped roadmap only. It does not authorize goal
+  pursuit, implementation, package installation, database/browser execution, release,
+  deployment, or a claim that Dora has created a complete product.
+evidence:
+- verifiedAt: '2026-08-06T17:10:40Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  children:
+  - docs/work/dora-v17-atomic-hardening.yaml
+  - docs/work/dora-v17-guided-agent-entrypoint.yaml
+  - docs/work/dora-v17-codex-context-packet.yaml
+  - docs/work/dora-v17-domain-capability-compiler.yaml
+  - docs/work/dora-v17-project-conventions-evolution.yaml
+  - docs/work/dora-v17-resource-feature-composition.yaml
+  - docs/work/dora-v17-proof-orchestration.yaml
+  - docs/work/dora-v17-independent-consumer-documentation.yaml

@@ -46,6 +46,11 @@ require File.join(ROOT, "lib/dora/plugin_runner")
 require File.join(ROOT, "lib/dora/command_envelope")
 require File.join(ROOT, "lib/dora/starter_compatibility")
 require File.join(ROOT, "lib/dora/idea_interview_session")
+require File.join(ROOT, "lib/dora/guided_agent_entrypoint")
+require File.join(ROOT, "lib/dora/codex_context_packet")
+require File.join(ROOT, "lib/dora/domain_capability_graph")
+require File.join(ROOT, "lib/dora/project_convention_check")
+require File.join(ROOT, "lib/dora/capability_proof_packet")
 require File.join(ROOT, "lib/dora/authoring_next")
 require File.join(ROOT, "lib/dora/session_create_app")
 require File.join(ROOT, "lib/dora/feature_skeleton")
@@ -353,6 +358,51 @@ def show_interview_question(path)
   return if emit_envelope(result, citations: [File.basename(path)])
   puts YAML.dump(result).sub(/\A---\n/, "")
 rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def show_guided_agent_entrypoint(path)
+  result = Dora::GuidedAgentEntrypoint.resolve!(YAML.load_file(path))
+  citation = path.start_with?("/") ? File.basename(path) : path
+  return if emit_envelope(result, citations: [citation])
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_codex_context_packet(path)
+  result = Dora::CodexContextPacket.build!(YAML.load_file(path))
+  citation = path.start_with?("/") ? File.basename(path) : path
+  return if emit_envelope(result, citations: [citation])
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_domain_capability_graph(path)
+  result = Dora::DomainCapabilityGraph.report!(YAML.load_file(path))
+  citation = path.start_with?("/") ? File.basename(path) : path
+  return if emit_envelope(result, citations: [citation])
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_project_convention_check(profile_path, manifest_path)
+  result = Dora::ProjectConventionCheck.inspect!(profile: YAML.load_file(profile_path), manifest: YAML.load_file(manifest_path))
+  citations = [profile_path, manifest_path].map { |path| path.start_with?("/") ? File.basename(path) : path }
+  return if emit_envelope(result, citations: citations)
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_capability_proof_packet(path)
+  result = Dora::CapabilityProofPacket.build!(YAML.load_file(path))
+  citation = path.start_with?("/") ? File.basename(path) : path
+  return if emit_envelope(result, citations: [citation])
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
 
@@ -771,6 +821,21 @@ when "interview-start"
 when "interview-next"
   fail!("usage: dora interview-next <session.yaml> [--format json|yaml]") unless ARGV.length == 1
   show_interview_question(ARGV.first)
+when "guided-next"
+  fail!("usage: dora guided-next <guided-agent-entrypoint.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_guided_agent_entrypoint(ARGV.first)
+when "codex-context"
+  fail!("usage: dora codex-context <codex-context-packet.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_codex_context_packet(ARGV.first)
+when "capability-graph"
+  fail!("usage: dora capability-graph <domain-capability-graph.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_domain_capability_graph(ARGV.first)
+when "convention-check"
+  fail!("usage: dora convention-check <project-convention-profile.yaml> <generated-feature-manifest.yaml> [--format json|yaml]") unless ARGV.length == 2
+  show_project_convention_check(ARGV[0], ARGV[1])
+when "proof-packet"
+  fail!("usage: dora proof-packet <capability-proof-matrix.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_capability_proof_packet(ARGV.first)
 when "interview-answer"
   session_path = ARGV.shift
   id_option = ARGV.index("--id")

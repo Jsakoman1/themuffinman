@@ -1,0 +1,144 @@
+kind: work
+version: 1
+id: dora-v17-resource-feature-composition
+title: Compose one related resource feature without unsafe regeneration
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - The v1.6 one-feature schema
+  - manifest
+  - renderers
+  - safe apply
+  - and generated safety trace.
+  residual_scope:
+  - Explicitly related resource declarations and additive multi-state rendering under
+    a convention profile.
+  retest_triggers:
+  - Changes to compiled-feature schema
+  - manifest
+  - renderers
+  - safe apply
+  - type map
+  - or convention profile.
+  non_duplication_rule: v1.6 single-feature proof is not counted as relation or update
+    proof.
+atomic_task_contract:
+  hardened: false
+  boundary: Composition uses declared relations and new paths only; existing/manual
+    files and historic migrations remain protected.
+tasks:
+- id: define-related-resource-composition-contract
+  inventory_item: v17-composition-contract
+  title: Define explicit related-resource and UI-state declarations
+  type: implementation
+  observable_outcome: The composed feature contract requires confirmed relation mappings,
+    query/index choices, list/detail/form states, validation, permissions, workflow,
+    and compatibility profile citations.
+  dependencies:
+  - v17-convention-check
+  paths:
+  - dora/related-resource-feature.schema.yaml
+  - dora/test/fixtures/related-resource-feature.yaml
+  - dora/test/related_resource_feature_contract_test.rb
+  required_paths:
+  - dora/related-resource-feature.schema.yaml
+  - dora/test/fixtures/related-resource-feature.yaml
+  - dora/test/related_resource_feature_contract_test.rb
+  evidence_boundary:
+  - Contract/fixture validation only; no application source or product behavior proof.
+  validation: ruby dora/test/related_resource_feature_contract_test.rb
+  status: done
+  started_at: '2026-08-06T17:03:18Z'
+  start_fingerprints:
+    dora/related-resource-feature.schema.yaml: __missing__
+    dora/test/fixtures/related-resource-feature.yaml: __missing__
+    dora/test/related_resource_feature_contract_test.rb: __missing__
+- id: render-related-resource-feature
+  inventory_item: v17-composition-render
+  title: Render and inspect a safe related-resource feature packet
+  type: implementation
+  observable_outcome: Dora previews deterministic additive Spring, Flyway, API, Vue,
+    test, documentation, and trace outputs and rejects missing relations, convention
+    mismatches, collisions, or historic migration targets.
+  dependencies:
+  - v17-composition-contract
+  paths:
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/test/related_resource_feature_renderer_test.rb
+  required_paths:
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/test/related_resource_feature_renderer_test.rb
+  evidence_boundary:
+  - Rendered local source and safety trace only; no compile
+  - database
+  - browser
+  - security
+  - or business acceptance proof.
+  validation: ruby dora/test/related_resource_feature_renderer_test.rb
+  status: done
+  started_at: '2026-08-06T17:04:45Z'
+  start_fingerprints:
+    dora/lib/dora/compiled_feature_contract.rb: 3703739524353bee820fde84ebb6a5c8037377a108fdb4f8179a6af29d034ed7
+    dora/lib/dora/compiled_feature_renderers.rb: a0da901dc3c3db0e1232df7a8e411ae8f39800c496deacdbf0a51807ad8fcce2
+    dora/lib/dora/generated_feature_manifest.rb: 39bee35b70c077d84e61a357d3dff9320596fe08992b120d146c663a4f9c5cc6
+    dora/lib/dora/generated_feature_safety.rb: d8ffbabc517cca94d6697a369f53dbd996b9e54515b50b235d401ebf3d8c6b0e
+    dora/test/related_resource_feature_renderer_test.rb: __missing__
+evidence:
+- task: define-related-resource-composition-contract
+  command: ruby dora/test/related_resource_feature_contract_test.rb
+  ranAt: '2026-08-06T17:04:45Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/related-resource-feature.schema.yaml
+  - dora/test/fixtures/related-resource-feature.yaml
+  - dora/test/related_resource_feature_contract_test.rb
+  output: "Dora related resource feature contract test passed (explicit relation,
+    query, states, convention, and additive boundary are declared).\n\n"
+  requiredPaths: &1
+  - dora/related-resource-feature.schema.yaml
+  - dora/test/fixtures/related-resource-feature.yaml
+  - dora/test/related_resource_feature_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:03:18Z'
+  changedAfterStart: *1
+- task: render-related-resource-feature
+  command: ruby dora/test/related_resource_feature_renderer_test.rb
+  ranAt: '2026-08-06T17:06:30Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/test/related_resource_feature_renderer_test.rb
+  output: "Dora related resource feature renderer test passed (deterministic additive
+    sources and relation trace reject inconsistent declared relations).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/test/related_resource_feature_renderer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:04:45Z'
+  changedAfterStart: *2

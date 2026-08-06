@@ -1,0 +1,10 @@
+kind: dora_project_convention_profile_schema
+version: 1
+description: Explicit source, naming, migration, API, test, and documentation conventions for safe additive Dora feature work.
+required_fields: [kind, version, project_id, backend_root, frontend_root, java_package, migration_directory, api_contract_directory, frontend_feature_directory, test_commands, documentation_root, confirmation, completion_boundary]
+test_command_required_fields: [id, command]
+invariants:
+  - Every source and documentation location is a project-relative path.
+  - The profile declares conventions only; it does not inspect, normalize, rewrite, or delete consumer source.
+  - A feature must cite a confirmed profile before Dora treats its output path or package choice as compatible.
+completion_boundary: A convention profile is declared compatibility input only; it does not generate a feature, run tests, or prove a consumer project is healthy.

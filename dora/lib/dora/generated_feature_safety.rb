@@ -28,6 +28,12 @@ module Dora
       {"kind" => "dora_generated_feature_safety_report", "version" => 1, "findings" => findings, "safe_to_continue" => findings.empty?, "completion_boundary" => "This is a static generated-output inspection. It does not modify source, compile a project, run a database, or prove runtime or acceptance."}.freeze
     end
 
+    def self.inspect_related_trace!(trace:, feature:)
+      expected = GeneratedFeatureManifest.related_trace_path(feature)
+      fail!("generated related trace is invalid") unless trace.is_a?(Hash) && trace["kind"] == "dora_related_resource_trace" && trace["capability"] == feature.fetch("capability") && trace.dig("relation", "confirmed") == true
+      {"kind" => "dora_generated_related_resource_safety", "version" => 1, "safe_to_continue" => true, "trace_path" => expected, "completion_boundary" => "Related-resource inspection checks declared trace alignment only; it does not prove compilation, database behavior, browser behavior, or acceptance."}.freeze
+    end
+
     def self.trace_findings(model, trace)
       fail!("generated feature trace is invalid") unless trace.is_a?(Hash)
       findings = []

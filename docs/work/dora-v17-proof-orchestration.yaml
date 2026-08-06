@@ -1,0 +1,131 @@
+kind: work
+version: 1
+id: dora-v17-proof-orchestration
+title: Turn confirmed capability assertions into explicit proof obligations
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - Existing capability acceptance declarations
+  - runtime profile
+  - and v1.6 evidence obligations.
+  residual_scope:
+  - A deterministic proof matrix and task-level proof packet for one confirmed capability.
+  retest_triggers:
+  - Changes to capability contract
+  - runtime profile
+  - compiled feature evidence
+  - or project validation conventions.
+  non_duplication_rule: Existing static or runtime evidence is baseline only and never
+    becomes v1.7 acceptance evidence.
+atomic_task_contract:
+  hardened: false
+  boundary: Proof orchestration declares obligations and approved commands; it never
+    runs browser/database/deployment work or marks evidence passed.
+tasks:
+- id: define-capability-proof-matrix
+  inventory_item: v17-proof-contract
+  title: Define test and evidence obligation matrix
+  type: implementation
+  observable_outcome: A schema maps each confirmed assertion to static, unit, API,
+    migration, browser/runtime, accessibility, security, and acceptance obligations
+    with explicit unresolved states.
+  dependencies:
+  - v17-composition-render
+  paths:
+  - dora/capability-proof-matrix.schema.yaml
+  - dora/templates/capability-proof-matrix.yaml
+  - dora/test/capability_proof_matrix_test.rb
+  required_paths:
+  - dora/capability-proof-matrix.schema.yaml
+  - dora/templates/capability-proof-matrix.yaml
+  - dora/test/capability_proof_matrix_test.rb
+  evidence_boundary:
+  - Schema/template validation only; no evidence execution or pass state.
+  validation: ruby dora/test/capability_proof_matrix_test.rb
+  status: done
+  started_at: '2026-08-06T17:06:35Z'
+  start_fingerprints:
+    dora/capability-proof-matrix.schema.yaml: __missing__
+    dora/templates/capability-proof-matrix.yaml: __missing__
+    dora/test/capability_proof_matrix_test.rb: __missing__
+- id: expose-capability-proof-packet
+  inventory_item: v17-proof-command
+  title: Expose a cited proof packet for Codex
+  type: implementation
+  observable_outcome: Dora emits a deterministic proof packet that maps assertions
+    to project-owned commands and flags approval-gated database, browser, and external
+    actions.
+  dependencies:
+  - v17-proof-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/capability_proof_packet.rb
+  - dora/test/capability_proof_packet_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/capability_proof_packet.rb
+  - dora/test/capability_proof_packet_test.rb
+  evidence_boundary:
+  - Read-only obligation output only; no browser
+  - database
+  - security
+  - accessibility
+  - acceptance
+  - or release proof.
+  validation: ruby dora/test/capability_proof_packet_test.rb
+  status: done
+  started_at: '2026-08-06T17:07:01Z'
+  start_fingerprints:
+    dora/bin/dora: 91dc0e937c53f4ccb15d384bf6a87444d901f067471047349b151a9002413a77
+    dora/lib/dora/capability_proof_packet.rb: __missing__
+    dora/test/capability_proof_packet_test.rb: __missing__
+evidence:
+- task: define-capability-proof-matrix
+  command: ruby dora/test/capability_proof_matrix_test.rb
+  ranAt: '2026-08-06T17:07:01Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/capability-proof-matrix.schema.yaml
+  - dora/templates/capability-proof-matrix.yaml
+  - dora/test/capability_proof_matrix_test.rb
+  output: "Dora capability proof matrix test passed (confirmed assertions and unresolved
+    evidence obligations remain explicit).\n\n"
+  requiredPaths: &1
+  - dora/capability-proof-matrix.schema.yaml
+  - dora/templates/capability-proof-matrix.yaml
+  - dora/test/capability_proof_matrix_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:06:35Z'
+  changedAfterStart: *1
+- task: expose-capability-proof-packet
+  command: ruby dora/test/capability_proof_packet_test.rb
+  ranAt: '2026-08-06T17:07:43Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/capability_proof_packet.rb
+  - dora/test/capability_proof_packet_test.rb
+  output: "Dora capability proof packet test passed (declared proof remains unresolved
+    and approval-gated where appropriate).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/capability_proof_packet.rb
+  - dora/test/capability_proof_packet_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:07:01Z'
+  changedAfterStart: *2

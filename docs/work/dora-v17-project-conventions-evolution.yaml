@@ -1,0 +1,124 @@
+kind: work
+version: 1
+id: dora-v17-project-conventions-evolution
+title: Keep additive Dora features aligned with declared project conventions
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - v1.6 generated feature manifest
+  - collision policy
+  - Flyway renderer
+  - and safe apply behavior.
+  residual_scope:
+  - A declared convention profile and an additive feature compatibility diagnostic.
+  retest_triggers:
+  - Changes to starter layout
+  - manifest paths
+  - renderer conventions
+  - or safe apply policy.
+  non_duplication_rule: v1.6 compilation evidence is reused baseline only.
+atomic_task_contract:
+  hardened: false
+  boundary: Convention checking rejects or reports mismatch; it does not normalize,
+    rewrite, or delete consumer code.
+tasks:
+- id: define-project-convention-profile
+  inventory_item: v17-convention-contract
+  title: Define the project convention profile
+  type: implementation
+  observable_outcome: A profile explicitly declares source roots, package/naming rules,
+    migration ownership, API locations, Vue conventions, test commands, and documentation
+    roots.
+  dependencies:
+  - v17-graph-command
+  paths:
+  - dora/project-convention-profile.schema.yaml
+  - dora/templates/project-convention-profile.yaml
+  - dora/test/project_convention_profile_test.rb
+  required_paths:
+  - dora/project-convention-profile.schema.yaml
+  - dora/templates/project-convention-profile.yaml
+  - dora/test/project_convention_profile_test.rb
+  evidence_boundary:
+  - Profile validation only; no inspection or mutation of a real consumer.
+  validation: ruby dora/test/project_convention_profile_test.rb
+  status: done
+  started_at: '2026-08-06T17:01:39Z'
+  start_fingerprints:
+    dora/project-convention-profile.schema.yaml: __missing__
+    dora/templates/project-convention-profile.yaml: __missing__
+    dora/test/project_convention_profile_test.rb: __missing__
+- id: validate-additive-feature-conventions
+  inventory_item: v17-convention-check
+  title: Validate a feature manifest against declared conventions
+  type: implementation
+  observable_outcome: Dora reports each incompatible output root, package, migration,
+    API, test, or documentation choice before apply and accepts one compatible fixture.
+  dependencies:
+  - v17-convention-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/project_convention_check.rb
+  - dora/test/project_convention_check_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/project_convention_check.rb
+  - dora/test/project_convention_check_test.rb
+  evidence_boundary:
+  - Local compatibility diagnostic only; no generated source or runtime proof.
+  validation: ruby dora/test/project_convention_check_test.rb
+  status: done
+  started_at: '2026-08-06T17:02:01Z'
+  start_fingerprints:
+    dora/bin/dora: 4f652d0d880cd0e3f3830aae4b93e7a588c733bf733c7d5ddd77c82e9d665b29
+    dora/lib/dora/project_convention_check.rb: __missing__
+    dora/test/project_convention_check_test.rb: __missing__
+evidence:
+- task: define-project-convention-profile
+  command: ruby dora/test/project_convention_profile_test.rb
+  ranAt: '2026-08-06T17:02:01Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/project-convention-profile.schema.yaml
+  - dora/templates/project-convention-profile.yaml
+  - dora/test/project_convention_profile_test.rb
+  output: "Dora project convention profile test passed (explicit relative roots, commands,
+    and confirmation are declared without inspecting a consumer).\n\n"
+  requiredPaths: &1
+  - dora/project-convention-profile.schema.yaml
+  - dora/templates/project-convention-profile.yaml
+  - dora/test/project_convention_profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:01:39Z'
+  changedAfterStart: *1
+- task: validate-additive-feature-conventions
+  command: ruby dora/test/project_convention_check_test.rb
+  ranAt: '2026-08-06T17:03:07Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_convention_check.rb
+  - dora/test/project_convention_check_test.rb
+  output: "Dora project convention check test passed (declared additive output roots
+    are accepted and mismatches fail closed).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/project_convention_check.rb
+  - dora/test/project_convention_check_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:02:01Z'
+  changedAfterStart: *2

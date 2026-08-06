@@ -1,0 +1,192 @@
+kind: execution_inventory
+version: 1
+id: dora-v17-codex-acceleration
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+status: prepared
+execution_mode: strict_serial
+atomic_hardening:
+  task_count: 16
+  task_shape: One observable outcome, bounded required paths, direct dependency, leaf
+    validation, and evidence boundary.
+  queue_rule: A later item cannot start until its direct predecessor is verifier-marked
+    verified.
+ownership_boundary: Dora owns neutral command mechanics, schemas, templates, renderers,
+  diagnostics, and tests. A consumer owns product decisions, code review, implementation,
+  real data, runtime authority, and external actions.
+items:
+- id: v17-harden
+  order: 1
+  plan: docs/work/dora-v17-atomic-hardening.yaml
+  task: harden-v17-program
+  status: verified
+  started_at: '2026-08-06T16:52:43Z'
+  verified_at: '2026-08-06T16:52:52Z'
+  evidence:
+    plan: docs/work/dora-v17-atomic-hardening.yaml
+    task: harden-v17-program
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-guided-contract
+  order: 2
+  plan: docs/work/dora-v17-guided-agent-entrypoint.yaml
+  task: define-guided-entrypoint-contract
+  status: verified
+  started_at: '2026-08-06T16:54:03Z'
+  verified_at: '2026-08-06T16:55:10Z'
+  evidence:
+    plan: docs/work/dora-v17-guided-agent-entrypoint.yaml
+    task: define-guided-entrypoint-contract
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-guided-command
+  order: 3
+  plan: docs/work/dora-v17-guided-agent-entrypoint.yaml
+  task: expose-guided-entrypoint-command
+  status: verified
+  started_at: '2026-08-06T16:55:28Z'
+  verified_at: '2026-08-06T16:57:23Z'
+  evidence:
+    plan: docs/work/dora-v17-guided-agent-entrypoint.yaml
+    task: expose-guided-entrypoint-command
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-guided-consumer
+  order: 4
+  plan: docs/work/dora-v17-guided-agent-entrypoint.yaml
+  task: prove-guided-entrypoint-consumer
+  status: verified
+  started_at: '2026-08-06T16:57:29Z'
+  verified_at: '2026-08-06T16:57:47Z'
+  evidence:
+    plan: docs/work/dora-v17-guided-agent-entrypoint.yaml
+    task: prove-guided-entrypoint-consumer
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-context-contract
+  order: 5
+  plan: docs/work/dora-v17-codex-context-packet.yaml
+  task: define-codex-context-packet-contract
+  status: verified
+  started_at: '2026-08-06T16:57:54Z'
+  verified_at: '2026-08-06T16:58:31Z'
+  evidence:
+    plan: docs/work/dora-v17-codex-context-packet.yaml
+    task: define-codex-context-packet-contract
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-context-command
+  order: 6
+  plan: docs/work/dora-v17-codex-context-packet.yaml
+  task: expose-codex-context-packet
+  status: verified
+  started_at: '2026-08-06T16:58:53Z'
+  verified_at: '2026-08-06T16:59:52Z'
+  evidence:
+    plan: docs/work/dora-v17-codex-context-packet.yaml
+    task: expose-codex-context-packet
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-graph-contract
+  order: 7
+  plan: docs/work/dora-v17-domain-capability-compiler.yaml
+  task: define-capability-graph-contract
+  status: verified
+  started_at: '2026-08-06T16:59:57Z'
+  verified_at: '2026-08-06T17:00:29Z'
+  evidence:
+    plan: docs/work/dora-v17-domain-capability-compiler.yaml
+    task: define-capability-graph-contract
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-graph-command
+  order: 8
+  plan: docs/work/dora-v17-domain-capability-compiler.yaml
+  task: expose-capability-graph-diagnostic
+  status: verified
+  started_at: '2026-08-06T17:00:29Z'
+  verified_at: '2026-08-06T17:01:31Z'
+  evidence:
+    plan: docs/work/dora-v17-domain-capability-compiler.yaml
+    task: expose-capability-graph-diagnostic
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-convention-contract
+  order: 9
+  plan: docs/work/dora-v17-project-conventions-evolution.yaml
+  task: define-project-convention-profile
+  status: verified
+  started_at: '2026-08-06T17:01:39Z'
+  verified_at: '2026-08-06T17:02:01Z'
+  evidence:
+    plan: docs/work/dora-v17-project-conventions-evolution.yaml
+    task: define-project-convention-profile
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-convention-check
+  order: 10
+  plan: docs/work/dora-v17-project-conventions-evolution.yaml
+  task: validate-additive-feature-conventions
+  status: verified
+  started_at: '2026-08-06T17:02:01Z'
+  verified_at: '2026-08-06T17:03:07Z'
+  evidence:
+    plan: docs/work/dora-v17-project-conventions-evolution.yaml
+    task: validate-additive-feature-conventions
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-composition-contract
+  order: 11
+  plan: docs/work/dora-v17-resource-feature-composition.yaml
+  task: define-related-resource-composition-contract
+  status: verified
+  started_at: '2026-08-06T17:03:18Z'
+  verified_at: '2026-08-06T17:04:45Z'
+  evidence:
+    plan: docs/work/dora-v17-resource-feature-composition.yaml
+    task: define-related-resource-composition-contract
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-composition-render
+  order: 12
+  plan: docs/work/dora-v17-resource-feature-composition.yaml
+  task: render-related-resource-feature
+  status: verified
+  started_at: '2026-08-06T17:04:45Z'
+  verified_at: '2026-08-06T17:06:30Z'
+  evidence:
+    plan: docs/work/dora-v17-resource-feature-composition.yaml
+    task: render-related-resource-feature
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-proof-contract
+  order: 13
+  plan: docs/work/dora-v17-proof-orchestration.yaml
+  task: define-capability-proof-matrix
+  status: verified
+  started_at: '2026-08-06T17:06:35Z'
+  verified_at: '2026-08-06T17:07:01Z'
+  evidence:
+    plan: docs/work/dora-v17-proof-orchestration.yaml
+    task: define-capability-proof-matrix
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-proof-command
+  order: 14
+  plan: docs/work/dora-v17-proof-orchestration.yaml
+  task: expose-capability-proof-packet
+  status: verified
+  started_at: '2026-08-06T17:07:01Z'
+  verified_at: '2026-08-06T17:07:43Z'
+  evidence:
+    plan: docs/work/dora-v17-proof-orchestration.yaml
+    task: expose-capability-proof-packet
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-consumer
+  order: 15
+  plan: docs/work/dora-v17-independent-consumer-documentation.yaml
+  task: prove-v17-independent-consumer
+  status: verified
+  started_at: '2026-08-06T17:07:49Z'
+  verified_at: '2026-08-06T17:08:39Z'
+  evidence:
+    plan: docs/work/dora-v17-independent-consumer-documentation.yaml
+    task: prove-v17-independent-consumer
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+- id: v17-docs
+  order: 16
+  plan: docs/work/dora-v17-independent-consumer-documentation.yaml
+  task: document-v17-codex-route
+  status: verified
+  started_at: '2026-08-06T17:09:05Z'
+  verified_at: '2026-08-06T17:10:21Z'
+  evidence:
+    plan: docs/work/dora-v17-independent-consumer-documentation.yaml
+    task: document-v17-codex-route
+    revision: 0a5ca214d1ec372c791233ae403cbac920e539e9

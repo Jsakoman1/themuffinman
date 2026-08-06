@@ -44,6 +44,14 @@ module Dora
       fail!("compiled feature type map YAML is invalid: #{error.message}")
     end
 
+    def self.confirmed_foreign_key!(document, field_id:)
+      feature = validate_type_mappings!(document)
+      field = feature.dig("entity", "fields").find { |candidate| candidate.fetch("id") == field_id }
+      foreign_key = field && field.dig("database", "foreign_key")
+      fail!("compiled feature field #{field_id} lacks a confirmed foreign key") unless foreign_key && foreign_key.fetch("confirmed") == true
+      foreign_key.freeze
+    end
+
     def self.validate_database_controls!(database)
       allowed = %w[column sql_type nullable confirmed default default_confirmed unique unique_confirmed index index_confirmed foreign_key foreign_key_confirmed]
       unknown = database.keys - allowed

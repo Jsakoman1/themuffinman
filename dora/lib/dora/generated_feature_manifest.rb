@@ -60,6 +60,11 @@ module Dora
       fail!("generated feature manifest YAML is invalid: #{error.message}")
     end
 
+    def self.related_trace_path(feature)
+      model = CompiledFeatureContract.validate!(feature)
+      "docs/capabilities/#{model.fetch("capability")}-relation.yaml"
+    end
+
     def self.validate_template_digests!(value)
       fail!("generated feature template digests are invalid") unless value.is_a?(Hash) && TEMPLATE_IDS.all? { |id| sha256?(value[id]) }
       value.slice(*TEMPLATE_IDS).freeze

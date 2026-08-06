@@ -1,0 +1,127 @@
+kind: work
+version: 1
+id: dora-v17-domain-capability-compiler
+title: Compile confirmed domain knowledge into a safe capability graph
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - Existing domain library
+  - readiness
+  - and vertical-slice contracts.
+  residual_scope:
+  - Deterministic capability dependencies and blocking-gap output from confirmed declarations.
+  retest_triggers:
+  - Changes to domain library
+  - workflow
+  - permission
+  - capability package
+  - or decision-log contracts.
+  non_duplication_rule: Prior readiness evidence is baseline only and does not prove
+    graph ordering.
+atomic_task_contract:
+  hardened: false
+  boundary: A graph recommends order and reports declared gaps; it never selects product
+    meaning or changes work status.
+tasks:
+- id: define-capability-graph-contract
+  inventory_item: v17-graph-contract
+  title: Define capability graph nodes, edges, and gap semantics
+  type: implementation
+  observable_outcome: A schema and fixture define confirmed capabilities, dependency
+    edges, cited decisions, blocking gaps, and a deterministic non-completion status.
+  dependencies:
+  - v17-context-command
+  paths:
+  - dora/domain-capability-graph.schema.yaml
+  - dora/test/fixtures/domain-capability-graph.yaml
+  - dora/test/domain_capability_graph_contract_test.rb
+  required_paths:
+  - dora/domain-capability-graph.schema.yaml
+  - dora/test/fixtures/domain-capability-graph.yaml
+  - dora/test/domain_capability_graph_contract_test.rb
+  evidence_boundary:
+  - Schema and fixture validation only; no work creation or implementation proof.
+  validation: ruby dora/test/domain_capability_graph_contract_test.rb
+  status: done
+  started_at: '2026-08-06T16:59:57Z'
+  start_fingerprints:
+    dora/domain-capability-graph.schema.yaml: __missing__
+    dora/test/fixtures/domain-capability-graph.yaml: __missing__
+    dora/test/domain_capability_graph_contract_test.rb: __missing__
+- id: expose-capability-graph-diagnostic
+  inventory_item: v17-graph-command
+  title: Expose deterministic capability graph diagnostic
+  type: implementation
+  observable_outcome: Dora reports cycles, missing decisions, unavailable prerequisites,
+    and one next-safe capability from declared data only.
+  dependencies:
+  - v17-graph-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/domain_capability_graph.rb
+  - dora/test/domain_capability_graph_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/domain_capability_graph.rb
+  - dora/test/domain_capability_graph_test.rb
+  evidence_boundary:
+  - Local diagnostic output only; no implementation
+  - runtime
+  - or acceptance proof.
+  validation: ruby dora/test/domain_capability_graph_test.rb
+  status: done
+  started_at: '2026-08-06T17:00:29Z'
+  start_fingerprints:
+    dora/bin/dora: bbad70537fbdae3799ad4452bb026ed72ae44055c25b341a6109fb0ac6f7261f
+    dora/lib/dora/domain_capability_graph.rb: __missing__
+    dora/test/domain_capability_graph_test.rb: __missing__
+evidence:
+- task: define-capability-graph-contract
+  command: ruby dora/test/domain_capability_graph_contract_test.rb
+  ranAt: '2026-08-06T17:00:29Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/domain-capability-graph.schema.yaml
+  - dora/test/domain_capability_graph_contract_test.rb
+  - dora/test/fixtures/domain-capability-graph.yaml
+  output: "Dora domain capability graph contract test passed (confirmed capabilities,
+    dependencies, and open decisions remain explicit).\n\n"
+  requiredPaths: &1
+  - dora/domain-capability-graph.schema.yaml
+  - dora/test/fixtures/domain-capability-graph.yaml
+  - dora/test/domain_capability_graph_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:59:57Z'
+  changedAfterStart: *1
+- task: expose-capability-graph-diagnostic
+  command: ruby dora/test/domain_capability_graph_test.rb
+  ranAt: '2026-08-06T17:01:30Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/domain_capability_graph.rb
+  - dora/test/domain_capability_graph_test.rb
+  output: "Dora domain capability graph test passed (declared gaps and one safe next
+    capability are reported without completion claims).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/domain_capability_graph.rb
+  - dora/test/domain_capability_graph_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T17:00:29Z'
+  changedAfterStart: *2

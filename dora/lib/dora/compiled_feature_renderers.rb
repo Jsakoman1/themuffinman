@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "compiled_feature_contract"
+require_relative "related_resource_feature"
 
 module Dora
   class CompiledFeatureRenderers
@@ -57,6 +58,15 @@ module Dora
         "#{frontend}/src/features/#{feature_path}/FeatureView.js" => vue_view_source(class_name, model.fetch("ui")),
         "#{frontend}/src/features/#{feature_path}/feature.test.js" => vue_test_source(class_name)
       }
+    end
+
+    def self.render_related_resource_packet!(document:)
+      model = RelatedResourceFeature.validate!(document)
+      feature = model.fetch("feature")
+      capability = feature.fetch("capability")
+      sources = render_spring_jdbc!(feature: feature).merge(render_api_and_vue!(feature: feature))
+      sources["docs/capabilities/#{capability}-relation.yaml"] = YAML.dump({"kind" => "dora_related_resource_trace", "version" => 1, "capability" => capability, "relation" => model.fetch("relation"), "query" => model.fetch("query"), "ui_states" => model.fetch("ui_states"), "convention_profile" => model.fetch("convention_profile"), "completion_boundary" => "This trace records confirmed additive relation intent only; it does not prove a database, API, UI, or runtime relationship."})
+      sources.freeze
     end
 
     def self.api_contract_source(model)

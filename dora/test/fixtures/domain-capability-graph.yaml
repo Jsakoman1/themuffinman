@@ -1,0 +1,11 @@
+kind: dora_domain_capability_graph
+version: 1
+capabilities:
+  - {id: item-catalog, title: Record household item metadata, dependencies: [], required_decisions: [item-model], confirmed: true}
+  - {id: stock-entry, title: Record a quantity at a location, dependencies: [item-catalog], required_decisions: [stock-permission], confirmed: true}
+  - {id: expiry-review, title: Review dated household records, dependencies: [stock-entry], required_decisions: [expiry-policy], confirmed: false}
+decisions:
+  - {id: item-model, status: confirmed}
+  - {id: stock-permission, status: open}
+  - {id: expiry-policy, status: open}
+completion_boundary: A capability graph reports declared ordering and gaps only; it does not create work, infer a decision, start implementation, or prove completion.

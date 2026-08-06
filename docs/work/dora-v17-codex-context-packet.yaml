@@ -1,0 +1,125 @@
+kind: work
+version: 1
+id: dora-v17-codex-context-packet
+title: Give Codex one bounded, cited implementation context packet
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - Existing agent-context and agent-next command behavior.
+  residual_scope:
+  - A task-level packet that combines confirmed decisions
+  - conventions
+  - proof obligations
+  - and omissions.
+  retest_triggers:
+  - Changes to agent context
+  - project profile
+  - work plan
+  - or compiled feature manifest contracts.
+  non_duplication_rule: Existing navigation evidence is baseline only and does not
+    prove the new packet.
+atomic_task_contract:
+  hardened: false
+  boundary: Packet creation is read-only navigation context and never marks work complete.
+tasks:
+- id: define-codex-context-packet-contract
+  inventory_item: v17-context-contract
+  title: Define cited task context and omission contract
+  type: implementation
+  observable_outcome: A context-packet schema requires citations, allowed paths, confirmed
+    rules, dependencies, validation, proof obligations, and explicit omitted information.
+  dependencies:
+  - v17-guided-consumer
+  paths:
+  - dora/codex-context-packet.schema.yaml
+  - dora/test/fixtures/codex-context-packet.yaml
+  - dora/test/codex_context_packet_contract_test.rb
+  required_paths:
+  - dora/codex-context-packet.schema.yaml
+  - dora/test/fixtures/codex-context-packet.yaml
+  - dora/test/codex_context_packet_contract_test.rb
+  evidence_boundary:
+  - Schema/fixture proof only; no task execution or completion claim.
+  validation: ruby dora/test/codex_context_packet_contract_test.rb
+  status: done
+  started_at: '2026-08-06T16:57:54Z'
+  start_fingerprints:
+    dora/codex-context-packet.schema.yaml: __missing__
+    dora/test/fixtures/codex-context-packet.yaml: __missing__
+    dora/test/codex_context_packet_contract_test.rb: __missing__
+- id: expose-codex-context-packet
+  inventory_item: v17-context-command
+  title: Expose bounded Codex context packet output
+  type: implementation
+  observable_outcome: Dora emits deterministic task context from declared sources
+    and fails when a required citation, decision, path, or proof boundary is absent.
+  dependencies:
+  - v17-context-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/codex_context_packet.rb
+  - dora/test/codex_context_packet_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/codex_context_packet.rb
+  - dora/test/codex_context_packet_test.rb
+  evidence_boundary:
+  - Read-only local packet output; no source generation
+  - browser
+  - or runtime proof.
+  validation: ruby dora/test/codex_context_packet_test.rb
+  status: done
+  started_at: '2026-08-06T16:58:53Z'
+  start_fingerprints:
+    dora/bin/dora: 4107621bdee1257c8c33ff8f510ac0b39b1368f28c1b553a92455f14960c9fdc
+    dora/lib/dora/codex_context_packet.rb: __missing__
+    dora/test/codex_context_packet_test.rb: __missing__
+evidence:
+- task: define-codex-context-packet-contract
+  command: ruby dora/test/codex_context_packet_contract_test.rb
+  ranAt: '2026-08-06T16:58:31Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/codex-context-packet.schema.yaml
+  - dora/test/codex_context_packet_contract_test.rb
+  - dora/test/fixtures/codex-context-packet.yaml
+  output: "Dora Codex context packet contract test passed (cited confirmed context,
+    allowed paths, proof obligations, and omissions are explicit).\n\n"
+  requiredPaths: &1
+  - dora/codex-context-packet.schema.yaml
+  - dora/test/fixtures/codex-context-packet.yaml
+  - dora/test/codex_context_packet_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:57:54Z'
+  changedAfterStart: *1
+- task: expose-codex-context-packet
+  command: ruby dora/test/codex_context_packet_test.rb
+  ranAt: '2026-08-06T16:59:52Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/codex_context_packet.rb
+  - dora/test/codex_context_packet_test.rb
+  output: "Dora Codex context packet test passed (cited declared context fails closed
+    when required task guidance is absent).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/codex_context_packet.rb
+  - dora/test/codex_context_packet_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:58:53Z'
+  changedAfterStart: *2

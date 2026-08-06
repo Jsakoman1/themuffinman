@@ -1,0 +1,14 @@
+kind: dora_codex_context_packet_schema
+version: 1
+description: Bounded, cited context for one Codex implementation task assembled only from declared project artifacts.
+required_fields: [kind, version, task, allowed_paths, confirmed, dependencies, validation, proof_obligations, citations, omitted, completion_boundary]
+confirmed_sections: [product, domain, permissions, workflows, conventions]
+task_required_fields: [id, observable_outcome]
+proof_obligation_required_fields: [id, evidence_class, status, boundary]
+evidence_classes: [static, unit, api, migration, browser_runtime, accessibility, security, acceptance]
+invariants:
+  - Every included rule, convention, path, validation command, and proof obligation has a declared source citation.
+  - The packet includes only the selected task's allowed paths and direct dependencies.
+  - Missing required context, a missing citation, or an unresolved required decision fails closed.
+  - Omitted information remains explicit; the packet does not inspect undeclared files or infer product behavior.
+completion_boundary: A context packet is read-only planning and implementation guidance; it does not start work, write source, approve a change, or prove completion.

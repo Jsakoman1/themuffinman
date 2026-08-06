@@ -143,3 +143,31 @@ Generation is not completion. Run the generated safety inspection; obtain approv
 before compile work that may download dependencies; keep database and browser proof
 as separate approved tasks; and record project-owned business acceptance evidence.
 The full route is in [`docs/compiled-feature-route.md`](docs/compiled-feature-route.md).
+
+## v1.7 Codex acceleration route
+
+v1.7 shortens the safe path a Codex agent follows without giving Dora authority to
+invent a product. Start with a declared guided entrypoint:
+
+```text
+dora guided-next guided-agent-entrypoint.yaml
+```
+
+It returns either exactly one user-confirmed interview question or a review-only
+handoff. For one bounded task, use a cited context packet:
+
+```text
+dora codex-context codex-context-packet.yaml
+dora capability-graph domain-capability-graph.yaml
+dora convention-check project-convention-profile.yaml generated-feature-manifest.yaml
+dora proof-packet capability-proof-matrix.yaml
+```
+
+The graph reports only declared blockers and one safe next capability. Convention
+checking is additive and read-only. The proof packet separates required local checks
+from unresolved browser, security, and acceptance work. A related-resource packet
+can render an explicit foreign-key trace only after its relation and convention are
+confirmed. None of these commands creates product source, starts work, runs a
+database/browser, approves a change, or proves a release. Read
+[`docs/codex-accelerated-route.md`](docs/codex-accelerated-route.md) for the complete
+route.

@@ -1,0 +1,160 @@
+kind: work
+version: 1
+id: dora-v17-guided-agent-entrypoint
+title: Provide one guided Dora entrypoint for a Codex agent
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  baseline_only_surfaces:
+  - Existing interview commands and session-create-app behavior.
+  residual_scope:
+  - One resumable command contract that selects a declared next question or handoff.
+  retest_triggers:
+  - Changes to interview session format
+  - create-app handoff
+  - or public command registry.
+  non_duplication_rule: v1.5 interview evidence is baseline only, not v1.7 command
+    evidence.
+atomic_task_contract:
+  hardened: false
+  boundary: Guidance reads and writes only the declared interview/session artifacts;
+    it does not implement a product.
+tasks:
+- id: define-guided-entrypoint-contract
+  inventory_item: v17-guided-contract
+  title: Define the resumable guided-entrypoint contract
+  type: implementation
+  observable_outcome: A schema and fixture distinguish the next confirmed question,
+    an explicit open decision, and a safe create-app/capability handoff.
+  dependencies:
+  - v17-harden
+  paths:
+  - dora/guided-agent-entrypoint.schema.yaml
+  - dora/test/fixtures/guided-agent-entrypoint.yaml
+  - dora/test/guided_agent_entrypoint_contract_test.rb
+  required_paths:
+  - dora/guided-agent-entrypoint.schema.yaml
+  - dora/test/fixtures/guided-agent-entrypoint.yaml
+  - dora/test/guided_agent_entrypoint_contract_test.rb
+  evidence_boundary:
+  - Schema and fixture validation only; no product source
+  - runtime
+  - or create-app mutation proof.
+  validation: ruby dora/test/guided_agent_entrypoint_contract_test.rb
+  status: done
+  started_at: '2026-08-06T16:54:03Z'
+  start_fingerprints:
+    dora/guided-agent-entrypoint.schema.yaml: __missing__
+    dora/test/fixtures/guided-agent-entrypoint.yaml: __missing__
+    dora/test/guided_agent_entrypoint_contract_test.rb: __missing__
+- id: expose-guided-entrypoint-command
+  inventory_item: v17-guided-command
+  title: Expose a deterministic guided-entrypoint command
+  type: implementation
+  observable_outcome: A public command returns exactly one cited next question or
+    reviewed handoff from declared session state without inventing an answer.
+  dependencies:
+  - v17-guided-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/guided_agent_entrypoint.rb
+  - dora/test/guided_agent_entrypoint_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/guided_agent_entrypoint.rb
+  - dora/test/guided_agent_entrypoint_test.rb
+  evidence_boundary:
+  - Local command output only; no project source generation or external action.
+  validation: ruby dora/test/guided_agent_entrypoint_test.rb
+  status: done
+  started_at: '2026-08-06T16:55:28Z'
+  start_fingerprints:
+    dora/bin/dora: 0f236f9ddbe2230a7b6d7c7c6c989bf510052d2e371d27eb05c8c3004b7179d9
+    dora/lib/dora/guided_agent_entrypoint.rb: __missing__
+    dora/test/guided_agent_entrypoint_test.rb: __missing__
+- id: prove-guided-entrypoint-consumer
+  inventory_item: v17-guided-consumer
+  title: Prove guided resumption and handoff in a fresh consumer
+  type: implementation
+  observable_outcome: A temporary consumer proves that an incomplete interview stops
+    at one question and a complete confirmed session produces only a reviewable handoff.
+  dependencies:
+  - v17-guided-command
+  paths:
+  - dora/test/independent_guided_agent_entrypoint_test.rb
+  required_paths:
+  - dora/test/independent_guided_agent_entrypoint_test.rb
+  evidence_boundary:
+  - Temporary local consumer proof only; no network
+  - database
+  - browser
+  - or product implementation.
+  validation: ruby dora/test/independent_guided_agent_entrypoint_test.rb
+  status: done
+  started_at: '2026-08-06T16:57:29Z'
+  start_fingerprints:
+    dora/test/independent_guided_agent_entrypoint_test.rb: __missing__
+evidence:
+- task: define-guided-entrypoint-contract
+  command: ruby dora/test/guided_agent_entrypoint_contract_test.rb
+  ranAt: '2026-08-06T16:55:10Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/guided-agent-entrypoint.schema.yaml
+  - dora/test/fixtures/guided-agent-entrypoint.yaml
+  - dora/test/guided_agent_entrypoint_contract_test.rb
+  output: "Dora guided agent entrypoint contract test passed (one confirmed question
+    or review-only handoff with explicit decisions preserved).\n\n"
+  requiredPaths: &1
+  - dora/guided-agent-entrypoint.schema.yaml
+  - dora/test/fixtures/guided-agent-entrypoint.yaml
+  - dora/test/guided_agent_entrypoint_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:54:03Z'
+  changedAfterStart: *1
+- task: expose-guided-entrypoint-command
+  command: ruby dora/test/guided_agent_entrypoint_test.rb
+  ranAt: '2026-08-06T16:57:23Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/guided_agent_entrypoint.rb
+  - dora/test/guided_agent_entrypoint_test.rb
+  output: "Dora guided agent entrypoint test passed (one confirmed question or cited
+    review-only handoff without inferred product behavior).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/guided_agent_entrypoint.rb
+  - dora/test/guided_agent_entrypoint_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:55:28Z'
+  changedAfterStart: *2
+- task: prove-guided-entrypoint-consumer
+  command: ruby dora/test/independent_guided_agent_entrypoint_test.rb
+  ranAt: '2026-08-06T16:57:47Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/independent_guided_agent_entrypoint_test.rb
+  output: "Dora independent guided agent entrypoint test passed (fresh incomplete
+    and complete consumers receive isolated read-only next actions).\n\n"
+  requiredPaths: &3
+  - dora/test/independent_guided_agent_entrypoint_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:57:29Z'
+  changedAfterStart: *3

@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: dora-v17-atomic-hardening
+title: Harden the Dora v1.7 Codex acceleration program
+status: verified
+baseline: 0a5ca21
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v17-codex-acceleration-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  baseline_only_surfaces:
+  - Verified v1.5/v1.6 planning controls.
+  residual_scope:
+  - Atomic precision for v1.7 planning only.
+  retest_triggers:
+  - Changes to a v1.7 plan or inventory before implementation begins.
+  non_duplication_rule: v1.5/v1.6 planning evidence is baseline only and cannot verify
+    v1.7 task precision.
+atomic_task_contract:
+  queue_position:
+  - v17-harden
+  boundary: Plan structure only; no Dora feature behavior, source generation, external
+    action, or product proof.
+tasks:
+- id: harden-v17-program
+  inventory_item: v17-harden
+  title: Verify v1.7 atomic task precision
+  type: implementation
+  observable_outcome: Every v1.7 inventory item maps to one bounded child task with
+    direct dependencies, exact required paths, a leaf validation command, and an explicit
+    evidence boundary.
+  dependencies: []
+  paths:
+  - docs/work/dora-v17-codex-acceleration-master.yaml
+  - docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+  - docs/work/dora-v17-atomic-hardening.yaml
+  required_paths:
+  - docs/work/dora-v17-codex-acceleration-master.yaml
+  - docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+  - docs/work/dora-v17-atomic-hardening.yaml
+  evidence_boundary:
+  - Atomic task structure only; no generator
+  - compile
+  - database
+  - browser
+  - runtime
+  - or product evidence.
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v17-codex-acceleration-master.yaml
+    docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-06T16:52:43Z'
+  start_fingerprints:
+    docs/work/dora-v17-codex-acceleration-master.yaml: e837cd122983fb8e832749a2558f57159bb572b28490f9ca60fc75c82f726d08
+    docs/work/dora-v17-codex-acceleration-execution-inventory.yaml: ce170cd48834a1800b977dfcfaea2375392706b3139d5741efeeace907bd44f0
+    docs/work/dora-v17-atomic-hardening.yaml: '078c08e8c3cb21fc1e6ae30f559d74a96da5a009249632a74211cfa6f1285e90'
+evidence:
+- task: harden-v17-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v17-codex-acceleration-master.yaml
+    docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+  ranAt: '2026-08-06T16:52:52Z'
+  revision: 0a5ca214d1ec372c791233ae403cbac920e539e9
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v17-atomic-hardening.yaml
+  - docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+  - docs/work/dora-v17-codex-acceleration-master.yaml
+  output: "Atomic task hardening audit passed (16 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v17-codex-acceleration-master.yaml
+  - docs/work/dora-v17-codex-acceleration-execution-inventory.yaml
+  - docs/work/dora-v17-atomic-hardening.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:52:43Z'
+  changedAfterStart: *1
