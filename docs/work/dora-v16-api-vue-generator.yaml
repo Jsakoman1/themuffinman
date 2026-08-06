@@ -1,0 +1,84 @@
+kind: work
+version: 1
+id: dora-v16-api-vue-generator
+title: Render aligned API and Vue feature outputs
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  baseline_only_surfaces:
+  - v1.5 UI blueprint catalog and neutral Vue technical starter
+  residual_scope:
+  - Declared API contract and Vue module generated from one confirmed model
+  retest_triggers:
+  - API shape
+  - Vue template
+  - UI blueprint
+  - generator manifest
+  - or frontend starter changes
+  non_duplication_rule: UI catalog guidance is not source, visual, browser, or acceptance
+    evidence.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-api-vue
+  boundary: Rendered API and Vue output only; no browser or visual completion claim.
+tasks:
+- id: render-api-and-vue-feature
+  inventory_item: v16-api-vue
+  title: Render aligned API contract and Vue feature module
+  type: implementation
+  observable_outcome: Dora renders declared endpoint shapes, a Vue API client, feature
+    surface, explicit loading/empty/error states, and frontend test scaffold aligned
+    to the same confirmed capability.
+  dependencies:
+  - v16-spring
+  paths:
+  - dora/templates/compiled-feature/api-contract.yaml.erb
+  - dora/templates/compiled-feature/vue-feature.js.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_vue_renderer_test.rb
+  required_paths:
+  - dora/templates/compiled-feature/api-contract.yaml.erb
+  - dora/templates/compiled-feature/vue-feature.js.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_vue_renderer_test.rb
+  evidence_boundary:
+  - Rendered contract and Vue source fixtures only; no browser or accessibility evidence.
+  validation: ruby dora/test/compiled_feature_vue_renderer_test.rb
+  status: done
+  started_at: '2026-08-06T16:20:03Z'
+  start_fingerprints:
+    dora/templates/compiled-feature/api-contract.yaml.erb: __missing__
+    dora/templates/compiled-feature/vue-feature.js.erb: __missing__
+    dora/lib/dora/compiled_feature_renderers.rb: de424c11cb07180e98bc30b1f96106f162bf0c7b34f2c72ecca27da91b1f33ff
+    dora/test/compiled_feature_vue_renderer_test.rb: __missing__
+evidence:
+- task: render-api-and-vue-feature
+  command: ruby dora/test/compiled_feature_vue_renderer_test.rb
+  ranAt: '2026-08-06T16:20:53Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/templates/compiled-feature/api-contract.yaml.erb
+  - dora/templates/compiled-feature/vue-feature.js.erb
+  - dora/test/compiled_feature_vue_renderer_test.rb
+  output: "Dora compiled feature Vue renderer test passed (declared API, Vue client,
+    UI states, and frontend test scaffold are aligned).\n\n"
+  requiredPaths: &1
+  - dora/templates/compiled-feature/api-contract.yaml.erb
+  - dora/templates/compiled-feature/vue-feature.js.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_vue_renderer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:20:03Z'
+  changedAfterStart: *1

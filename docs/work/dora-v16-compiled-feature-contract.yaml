@@ -1,0 +1,123 @@
+kind: work
+version: 1
+id: dora-v16-compiled-feature-contract
+title: Define confirmed compiled-feature inputs
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-first-feature-generator.yaml
+  baseline_only_surfaces:
+  - v1.5 feature skeleton validation
+  residual_scope:
+  - Explicit technical mapping required for compilable output
+  retest_triggers:
+  - Feature skeleton
+  - target starter
+  - or compiled feature contract changes
+  non_duplication_rule: v1.5 skeleton validation is baseline-only, not compiled-output
+    proof.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-contract
+  - v16-type-map
+  boundary: Confirmed input validation only; no source output.
+tasks:
+- id: define-compiled-feature-contract
+  inventory_item: v16-contract
+  title: Define explicit compiled feature input
+  type: implementation
+  observable_outcome: Dora rejects a feature unless fields, database mappings, API
+    shapes, permissions, workflow transitions, package, and target locations are explicitly
+    confirmed.
+  dependencies:
+  - v16-harden
+  paths:
+  - dora/compiled-feature.schema.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_contract_test.rb
+  required_paths:
+  - dora/compiled-feature.schema.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_contract_test.rb
+  evidence_boundary:
+  - Valid and missing-decision fixtures only; no generated source.
+  validation: ruby dora/test/compiled_feature_contract_test.rb
+  status: done
+  started_at: '2026-08-06T16:12:00Z'
+  start_fingerprints:
+    dora/compiled-feature.schema.yaml: __missing__
+    dora/lib/dora/compiled_feature_contract.rb: __missing__
+    dora/test/compiled_feature_contract_test.rb: __missing__
+- id: define-jdbc-type-map
+  inventory_item: v16-type-map
+  title: Define explicit JDBC and PostgreSQL type mappings
+  type: implementation
+  observable_outcome: Dora accepts only declared supported field-to-SQL/JDBC mappings
+    and rejects an unmapped type, constraint, default, index, or foreign key.
+  dependencies:
+  - v16-contract
+  paths:
+  - dora/compiled-feature-type-map.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_type_map_test.rb
+  required_paths:
+  - dora/compiled-feature-type-map.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_type_map_test.rb
+  evidence_boundary:
+  - Mapping fixtures only; no migration or database execution.
+  validation: ruby dora/test/compiled_feature_type_map_test.rb
+  status: done
+  started_at: '2026-08-06T16:13:15Z'
+  start_fingerprints:
+    dora/compiled-feature-type-map.yaml: __missing__
+    dora/lib/dora/compiled_feature_contract.rb: 1edc59f107a104ba5a90be0fe67e0faf8fccb50661128199e94b4062f91b79b2
+    dora/test/compiled_feature_type_map_test.rb: __missing__
+evidence:
+- task: define-compiled-feature-contract
+  command: ruby dora/test/compiled_feature_contract_test.rb
+  ranAt: '2026-08-06T16:12:59Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/compiled-feature.schema.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_contract_test.rb
+  output: "Dora compiled feature contract test passed (all technical mappings, API
+    shapes, permissions, workflow transitions, and locations must be explicitly confirmed).\n\n"
+  requiredPaths: &1
+  - dora/compiled-feature.schema.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:12:00Z'
+  changedAfterStart: *1
+- task: define-jdbc-type-map
+  command: ruby dora/test/compiled_feature_type_map_test.rb
+  ranAt: '2026-08-06T16:13:54Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/compiled-feature-type-map.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_type_map_test.rb
+  output: "Dora compiled feature type map test passed (supported JDBC/PostgreSQL mappings
+    and every constraint control must be explicit).\n\n"
+  requiredPaths: &2
+  - dora/compiled-feature-type-map.yaml
+  - dora/lib/dora/compiled_feature_contract.rb
+  - dora/test/compiled_feature_type_map_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:13:15Z'
+  changedAfterStart: *2

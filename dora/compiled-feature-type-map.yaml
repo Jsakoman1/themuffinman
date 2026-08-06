@@ -1,0 +1,10 @@
+kind: dora_compiled_feature_type_map
+version: 1
+mappings:
+  - {sql_type: varchar, java_type: String}
+  - {sql_type: text, java_type: String}
+  - {sql_type: integer, java_type: Integer}
+  - {sql_type: bigint, java_type: Long}
+  - {sql_type: boolean, java_type: Boolean}
+  - {sql_type: date, java_type: LocalDate}
+completion_boundary: This map validates declared source mappings only. It does not create a migration, access PostgreSQL, or prove data behavior.

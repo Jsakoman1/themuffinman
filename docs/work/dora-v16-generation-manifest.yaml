@@ -1,0 +1,176 @@
+kind: work
+version: 1
+id: dora-v16-generation-manifest
+title: Add deterministic preview, manifest, and safe apply
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-first-feature-generator.yaml
+  baseline_only_surfaces:
+  - v1.5 read-only skeleton proposal and collision-safe placeholders
+  residual_scope:
+  - Deterministic compiled-output manifest and controlled source apply
+  retest_triggers:
+  - Compiled feature input
+  - output templates
+  - apply logic
+  - or command envelope changes
+  non_duplication_rule: v1.5 placeholder evidence is not evidence of v1.6 source generation.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-manifest-contract
+  - v16-preview
+  - v16-apply
+  boundary: Preview and controlled output mechanics only; no product acceptance claim.
+tasks:
+- id: define-generated-feature-manifest
+  inventory_item: v16-manifest-contract
+  title: Define deterministic generated feature manifest
+  type: implementation
+  observable_outcome: Dora records generator version, confirmed input digest, templates,
+    exact output paths, hashes, and unresolved obligations in a validated manifest.
+  dependencies:
+  - v16-type-map
+  paths:
+  - dora/generated-feature-manifest.schema.yaml
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/test/generated_feature_manifest_test.rb
+  required_paths:
+  - dora/generated-feature-manifest.schema.yaml
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/test/generated_feature_manifest_test.rb
+  evidence_boundary:
+  - Manifest validation and determinism fixtures only; no project output.
+  validation: ruby dora/test/generated_feature_manifest_test.rb
+  status: done
+  started_at: '2026-08-06T16:14:17Z'
+  start_fingerprints:
+    dora/generated-feature-manifest.schema.yaml: __missing__
+    dora/lib/dora/generated_feature_manifest.rb: __missing__
+    dora/test/generated_feature_manifest_test.rb: __missing__
+- id: expose-compiled-feature-preview
+  inventory_item: v16-preview
+  title: Expose read-only compiled feature preview
+  type: implementation
+  observable_outcome: Codex can request an envelope preview with exact paths, source
+    references, template hashes, blockers, and unresolved evidence obligations without
+    writing a project file.
+  dependencies:
+  - v16-manifest-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/compiled_feature_preview.rb
+  - dora/test/compiled_feature_preview_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/compiled_feature_preview.rb
+  - dora/test/compiled_feature_preview_command_test.rb
+  evidence_boundary:
+  - Read-only command output and no-write assertion only.
+  validation: ruby dora/test/compiled_feature_preview_command_test.rb
+  status: done
+  started_at: '2026-08-06T16:15:59Z'
+  start_fingerprints:
+    dora/bin/dora: 42962780f0282e57ba96925a026e46b61fd3605fe3b88e38e3bce35fc057cc9d
+    dora/lib/dora/compiled_feature_preview.rb: __missing__
+    dora/test/compiled_feature_preview_command_test.rb: __missing__
+- id: add-compiled-feature-safe-apply
+  inventory_item: v16-apply
+  title: Apply compiled feature only to safe empty paths
+  type: implementation
+  observable_outcome: Dora writes a reviewed compiled feature and manifest only beneath
+    declared empty paths, rejecting traversal, collisions, historical migration edits,
+    and manifest mismatch.
+  dependencies:
+  - v16-preview
+  paths:
+  - dora/lib/dora/compiled_feature_apply.rb
+  - dora/templates/compiled-feature/manifest.yaml.erb
+  - dora/test/compiled_feature_apply_test.rb
+  required_paths:
+  - dora/lib/dora/compiled_feature_apply.rb
+  - dora/templates/compiled-feature/manifest.yaml.erb
+  - dora/test/compiled_feature_apply_test.rb
+  evidence_boundary:
+  - Temporary dry-run
+  - apply
+  - collision
+  - traversal
+  - migration
+  - and manifest rejection fixtures only.
+  validation: ruby dora/test/compiled_feature_apply_test.rb
+  status: done
+  started_at: '2026-08-06T16:16:46Z'
+  start_fingerprints:
+    dora/lib/dora/compiled_feature_apply.rb: __missing__
+    dora/templates/compiled-feature/manifest.yaml.erb: __missing__
+    dora/test/compiled_feature_apply_test.rb: __missing__
+evidence:
+- task: define-generated-feature-manifest
+  command: ruby dora/test/generated_feature_manifest_test.rb
+  ranAt: '2026-08-06T16:15:49Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/generated-feature-manifest.schema.yaml
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/test/generated_feature_manifest_test.rb
+  output: "Dora generated feature manifest test passed (confirmed input, explicit
+    migration version, template hashes, exact outputs, and unresolved obligations
+    are deterministic).\n\n"
+  requiredPaths: &1
+  - dora/generated-feature-manifest.schema.yaml
+  - dora/lib/dora/generated_feature_manifest.rb
+  - dora/test/generated_feature_manifest_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:14:17Z'
+  changedAfterStart: *1
+- task: expose-compiled-feature-preview
+  command: ruby dora/test/compiled_feature_preview_command_test.rb
+  ranAt: '2026-08-06T16:16:36Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/compiled_feature_preview.rb
+  - dora/test/compiled_feature_preview_command_test.rb
+  output: "Dora compiled feature preview command test passed (a read-only envelope
+    reports deterministic generated paths without writing a consumer).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/compiled_feature_preview.rb
+  - dora/test/compiled_feature_preview_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:15:59Z'
+  changedAfterStart: *2
+- task: add-compiled-feature-safe-apply
+  command: ruby dora/test/compiled_feature_apply_test.rb
+  ranAt: '2026-08-06T16:17:41Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/compiled_feature_apply.rb
+  - dora/templates/compiled-feature/manifest.yaml.erb
+  - dora/test/compiled_feature_apply_test.rb
+  output: "Dora compiled feature apply test passed (manifest-only dry-run and apply
+    reject traversal and historical migration collisions).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/compiled_feature_apply.rb
+  - dora/templates/compiled-feature/manifest.yaml.erb
+  - dora/test/compiled_feature_apply_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:16:46Z'
+  changedAfterStart: *3

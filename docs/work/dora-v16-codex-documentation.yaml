@@ -1,0 +1,82 @@
+kind: work
+version: 1
+id: dora-v16-codex-documentation
+title: Document the compiled feature route for Codex
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  baseline_only_surfaces:
+  - v1.5 idea-to-project and reviewable skeleton guidance
+  residual_scope:
+  - One Codex-first route through compiled output and evidence boundaries
+  retest_triggers:
+  - Public compiled feature command
+  - contract
+  - manifest
+  - or evidence flow changes
+  non_duplication_rule: v1.5 documentation is retained baseline context, not v1.6
+    guidance evidence.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-docs
+  boundary: Dora documentation only; no generated consumer, release, or product completion
+    claim.
+tasks:
+- id: document-compiled-feature-route
+  inventory_item: v16-docs
+  title: Document one Codex-first compiled feature route
+  type: implementation
+  observable_outcome: Dora documents confirmed input, preview, review, safe apply,
+    static inspection, compile approval, runtime obligations, and explicit release
+    boundary in plain language.
+  dependencies:
+  - v16-consumer-compile
+  paths:
+  - dora/README.md
+  - dora/docs/compiled-feature-route.md
+  - dora/test/compiled_feature_documentation_test.rb
+  required_paths:
+  - dora/README.md
+  - dora/docs/compiled-feature-route.md
+  - dora/test/compiled_feature_documentation_test.rb
+  evidence_boundary:
+  - Documentation and command-reference assertions only; no browser
+  - runtime
+  - production
+  - or release proof.
+  validation: ruby dora/test/compiled_feature_documentation_test.rb
+  status: done
+  started_at: '2026-08-06T16:26:01Z'
+  start_fingerprints:
+    dora/README.md: 1975efd5b9bd1ad2be191d9894f5505a909ffe1d9e58d2cf044f1e8381110c4f
+    dora/docs/compiled-feature-route.md: __missing__
+    dora/test/compiled_feature_documentation_test.rb: __missing__
+evidence:
+- task: document-compiled-feature-route
+  command: ruby dora/test/compiled_feature_documentation_test.rb
+  ranAt: '2026-08-06T16:26:29Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/compiled-feature-route.md
+  - dora/test/compiled_feature_documentation_test.rb
+  output: "Dora compiled feature documentation test passed (Codex route, confirmation,
+    safe apply, approval, and completion boundaries are documented).\n\n"
+  requiredPaths: &1
+  - dora/README.md
+  - dora/docs/compiled-feature-route.md
+  - dora/test/compiled_feature_documentation_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:26:01Z'
+  changedAfterStart: *1

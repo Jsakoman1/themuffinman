@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: dora-v16-evidence-boundaries
+title: Declare generated feature evidence boundaries
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml
+  baseline_only_surfaces:
+  - v1.5 unresolved capability acceptance obligation model
+  residual_scope:
+  - Generated build
+  - static
+  - test
+  - runtime
+  - and acceptance obligations
+  retest_triggers:
+  - Generator manifest
+  - evidence model
+  - test templates
+  - or runtime profile changes
+  non_duplication_rule: Existing unresolved v1.5 obligations are not new v1.6 evidence.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-evidence
+  boundary: Obligation declarations only; no passed test, database, browser, or acceptance
+    claim.
+tasks:
+- id: declare-compiled-feature-evidence-boundaries
+  inventory_item: v16-evidence
+  title: Declare evidence obligations for compiled output
+  type: implementation
+  observable_outcome: Every generated feature manifest records static, compile, test,
+    runtime, and acceptance obligations with unresolved status and explicit Docker/database
+    and browser approval gates.
+  dependencies:
+  - v16-safety
+  paths:
+  - dora/lib/dora/compiled_feature_evidence.rb
+  - dora/templates/compiled-feature/evidence-obligations.yaml.erb
+  - dora/test/compiled_feature_evidence_test.rb
+  required_paths:
+  - dora/lib/dora/compiled_feature_evidence.rb
+  - dora/templates/compiled-feature/evidence-obligations.yaml.erb
+  - dora/test/compiled_feature_evidence_test.rb
+  evidence_boundary:
+  - Unresolved obligation fixtures only; no fabricated pass
+  - database
+  - browser
+  - or acceptance evidence.
+  validation: ruby dora/test/compiled_feature_evidence_test.rb
+  status: done
+  started_at: '2026-08-06T16:22:08Z'
+  start_fingerprints:
+    dora/lib/dora/compiled_feature_evidence.rb: __missing__
+    dora/templates/compiled-feature/evidence-obligations.yaml.erb: __missing__
+    dora/test/compiled_feature_evidence_test.rb: __missing__
+evidence:
+- task: declare-compiled-feature-evidence-boundaries
+  command: ruby dora/test/compiled_feature_evidence_test.rb
+  ranAt: '2026-08-06T16:22:31Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/compiled_feature_evidence.rb
+  - dora/templates/compiled-feature/evidence-obligations.yaml.erb
+  - dora/test/compiled_feature_evidence_test.rb
+  output: "Dora compiled feature evidence test passed (all generated evidence remains
+    unresolved and external execution requires explicit approval).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/compiled_feature_evidence.rb
+  - dora/templates/compiled-feature/evidence-obligations.yaml.erb
+  - dora/test/compiled_feature_evidence_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:22:08Z'
+  changedAfterStart: *1

@@ -122,3 +122,24 @@ v1.5 also supplies neutral auth/permission, data-safety/demo-data, UI/accessibil
 operational-readiness, migration/API-workflow safety, architecture-decision, and
 capability-acceptance contracts. They require explicit consumer declarations. They
 never create credentials, real data, secrets, deployments, or passing evidence.
+
+## v1.6 compiled feature route
+
+For the declared `spring-vue-postgres-buildable` starter, v1.6 can turn a fully
+confirmed compiled-feature document into a deterministic Spring JDBC, Flyway, API,
+Vue, test, documentation, and evidence output set. First inspect the exact output:
+
+```text
+dora compiled-feature-preview confirmed-compiled-feature.yaml --format yaml
+```
+
+The preview includes the migration version, output paths, template hashes, and
+unresolved obligations. A Codex agent must review it, render the declared source,
+and use the explicit `Dora::CompiledFeatureApply` API with the exact manifest and
+rendered-file map. Apply rejects a collision, traversal, historic migration target,
+or a map that differs from the manifest.
+
+Generation is not completion. Run the generated safety inspection; obtain approval
+before compile work that may download dependencies; keep database and browser proof
+as separate approved tasks; and record project-owned business acceptance evidence.
+The full route is in [`docs/compiled-feature-route.md`](docs/compiled-feature-route.md).

@@ -1,0 +1,7 @@
+kind: dora_compiled_feature_schema
+version: 1
+required_fields: [kind, version, capability, stack, entity, permission, workflow, api, ui, confirmation]
+target_stack: spring-vue-postgres-buildable
+invariants:
+  - Every database mapping, API request/response shape, permission enforcement point, workflow transition, and UI state is explicitly confirmed.
+  - A compiled feature declaration is generator input only; it is never implementation, runtime, acceptance, security, accessibility, or release evidence.

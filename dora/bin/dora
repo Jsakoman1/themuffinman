@@ -50,6 +50,7 @@ require File.join(ROOT, "lib/dora/authoring_next")
 require File.join(ROOT, "lib/dora/session_create_app")
 require File.join(ROOT, "lib/dora/feature_skeleton")
 require File.join(ROOT, "lib/dora/architecture_decision")
+require File.join(ROOT, "lib/dora/compiled_feature_preview")
 require File.join(ROOT, "lib/dora/vertical_slice_generator")
 require File.join(ROOT, "lib/dora/vertical_slice_readiness")
 require File.join(ROOT, "lib/dora/decision_record")
@@ -237,6 +238,16 @@ end
 
 def preview_feature_skeleton(input_path)
   payload = Dora::FeatureSkeleton.preview!(YAML.load_file(input_path))
+  citation = input_path.start_with?("/") ? File.basename(input_path) : input_path
+  return if emit_envelope(payload, citations: [citation])
+
+  puts YAML.dump(payload).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def preview_compiled_feature(input_path)
+  payload = Dora::CompiledFeaturePreview.preview!(YAML.load_file(input_path))
   citation = input_path.start_with?("/") ? File.basename(input_path) : input_path
   return if emit_envelope(payload, citations: [citation])
 
@@ -727,6 +738,9 @@ when "session-create-app"
 when "feature-skeleton"
   fail!("usage: dora feature-skeleton <confirmed-feature-skeleton.yaml> [--format json|yaml]") unless ARGV.length == 1
   preview_feature_skeleton(ARGV.first)
+when "compiled-feature-preview"
+  fail!("usage: dora compiled-feature-preview <confirmed-compiled-feature.yaml> [--format json|yaml]") unless ARGV.length == 1
+  preview_compiled_feature(ARGV.first)
 when "architecture-decision"
   log_path = ARGV.shift
   input_option = ARGV.index("--input")

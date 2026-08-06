@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: dora-v16-generated-safety-trace
+title: Inspect generated source safety and traceability
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-migration-api-safety.yaml
+  baseline_only_surfaces:
+  - v1.5 declaration-only migration and API/workflow checks
+  residual_scope:
+  - Inspect actual generated paths against their manifest and confirmed model
+  retest_triggers:
+  - Generated manifest
+  - SQL
+  - Java
+  - API
+  - Vue
+  - or safety inspector changes
+  non_duplication_rule: v1.5 declaration findings are not evidence for v1.6 generated
+    paths.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-safety
+  boundary: Static source inspection only; no source mutation, database, or runtime
+    action.
+tasks:
+- id: inspect-generated-feature-safety-and-trace
+  inventory_item: v16-safety
+  title: Detect generated source drift and contract gaps
+  type: implementation
+  observable_outcome: Dora reports generated-file hash drift, missing manifest paths,
+    changed historic migrations, and DTO/API/workflow/permission trace gaps without
+    rewriting any consumer file.
+  dependencies:
+  - v16-api-vue
+  paths:
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/packs/generated-feature-safety.yaml
+  - dora/test/generated_feature_safety_test.rb
+  required_paths:
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/packs/generated-feature-safety.yaml
+  - dora/test/generated_feature_safety_test.rb
+  evidence_boundary:
+  - Static generated-project fixtures and findings only; no compile
+  - database
+  - or browser execution.
+  validation: ruby dora/test/generated_feature_safety_test.rb
+  status: done
+  started_at: '2026-08-06T16:21:06Z'
+  start_fingerprints:
+    dora/lib/dora/generated_feature_safety.rb: __missing__
+    dora/packs/generated-feature-safety.yaml: __missing__
+    dora/test/generated_feature_safety_test.rb: __missing__
+evidence:
+- task: inspect-generated-feature-safety-and-trace
+  command: ruby dora/test/generated_feature_safety_test.rb
+  ranAt: '2026-08-06T16:22:02Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/packs/generated-feature-safety.yaml
+  - dora/test/generated_feature_safety_test.rb
+  output: "Dora generated feature safety test passed (actual output hashes, historic
+    migration targets, and DTO/API/workflow/permission traces are inspected statically).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/generated_feature_safety.rb
+  - dora/packs/generated-feature-safety.yaml
+  - dora/test/generated_feature_safety_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:21:06Z'
+  changedAfterStart: *1

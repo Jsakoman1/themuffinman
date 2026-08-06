@@ -1,0 +1,129 @@
+kind: work
+version: 1
+id: dora-v16-independent-consumer
+title: Prove compiled feature behavior in a fresh consumer
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-session-to-create-app.yaml
+  - docs/work/dora-v15-first-feature-generator.yaml
+  baseline_only_surfaces:
+  - v1.5 temporary project creation and placeholder consumer evidence
+  residual_scope:
+  - Fresh compiled-feature consumer layout and explicit compile proof
+  retest_triggers:
+  - Starter
+  - compiled renderer
+  - apply
+  - manifest
+  - or generated safety changes
+  non_duplication_rule: v1.5 consumer proof does not prove v1.6 generated code or
+    compile behavior.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-consumer-static
+  - v16-consumer-compile
+  boundary: Fresh temporary consumer only; no product data, deployment, database,
+    or browser proof.
+tasks:
+- id: prove-generated-consumer-layout
+  inventory_item: v16-consumer-static
+  title: Prove fresh consumer generation and collision rejection
+  type: implementation
+  observable_outcome: A temporary Spring/Vue/PostgreSQL consumer receives the declared
+    generated files and manifest, retains unresolved obligations, and rejects a second
+    apply or manual-output drift.
+  dependencies:
+  - v16-evidence
+  paths:
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  - dora/test/independent_compiled_feature_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  - dora/test/independent_compiled_feature_consumer_test.rb
+  evidence_boundary:
+  - Temporary consumer layout
+  - collision
+  - drift
+  - and unresolved-obligation assertions only; no compilation or external process.
+  validation: ruby dora/test/independent_compiled_feature_consumer_test.rb
+  status: done
+  started_at: '2026-08-06T16:22:41Z'
+  start_fingerprints:
+    dora/test/fixtures/compiled-feature-consumer.yaml: __missing__
+    dora/test/independent_compiled_feature_consumer_test.rb: __missing__
+- id: prove-generated-consumer-compiles
+  inventory_item: v16-consumer-compile
+  title: Prove generated consumer compiles with its declared toolchain
+  type: implementation
+  observable_outcome: An approved temporary consumer runs the declared backend and
+    frontend compile/test commands and records the resulting local evidence without
+    starting Docker, PostgreSQL, or a browser.
+  dependencies:
+  - v16-consumer-static
+  paths:
+  - dora/test/independent_compiled_feature_compile_test.rb
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  required_paths:
+  - dora/test/independent_compiled_feature_compile_test.rb
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  evidence_boundary:
+  - Fresh temporary build and test output only; no database
+  - browser
+  - real data
+  - or acceptance proof.
+  validation: ruby dora/test/independent_compiled_feature_compile_test.rb
+  requires_external_approval: true
+  external_approval_reason: Maven or npm may download dependencies while compiling
+    the temporary consumer.
+  status: done
+  started_at: '2026-08-06T16:24:53Z'
+  start_fingerprints:
+    dora/test/independent_compiled_feature_compile_test.rb: __missing__
+    dora/test/fixtures/compiled-feature-consumer.yaml: aca7a6bbc11a2caef78b3b92085c199ea43e70c8f8415c5435c98972b55d3166
+evidence:
+- task: prove-generated-consumer-layout
+  command: ruby dora/test/independent_compiled_feature_consumer_test.rb
+  ranAt: '2026-08-06T16:24:37Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  - dora/test/independent_compiled_feature_consumer_test.rb
+  output: "Dora independent compiled feature consumer test passed (a fresh consumer
+    receives the full manifest output, unresolved evidence, static safety trace, and
+    collision protection).\n\n"
+  requiredPaths: &1
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  - dora/test/independent_compiled_feature_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:22:41Z'
+  changedAfterStart: *1
+- task: prove-generated-consumer-compiles
+  command: ruby dora/test/independent_compiled_feature_compile_test.rb
+  ranAt: '2026-08-06T16:25:44Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  - dora/test/independent_compiled_feature_compile_test.rb
+  output: "Dora independent compiled feature compile test passed (fresh Spring JDBC
+    source compiles and generated Vue module syntax and test pass without Docker,
+    PostgreSQL, or a browser).\n\n"
+  requiredPaths: &2
+  - dora/test/independent_compiled_feature_compile_test.rb
+  - dora/test/fixtures/compiled-feature-consumer.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:24:53Z'
+  changedAfterStart: *2

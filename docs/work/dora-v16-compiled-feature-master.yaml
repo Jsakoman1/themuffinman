@@ -1,0 +1,159 @@
+kind: master
+version: 1
+id: dora-v16-compiled-feature-master
+title: Generate a controlled, compilable first vertical feature from confirmed intent
+status: verified
+implementation_ready: true
+baseline: c7dcfaa
+target_release: v1.6.0
+objective: Extend Dora v1.5 from reviewable feature placeholders to a deterministic,
+  stack-specific Spring Boot, Vue, PostgreSQL, and Flyway feature generator that a
+  Codex agent can inspect, build, test, and document without Dora inventing product
+  meaning or changing external systems.
+analysis_source: docs/work/dora-v16-compiled-feature-analysis.md
+target_stack: spring-vue-postgres-buildable
+target_persistence: Spring JDBC repository; the v1.5 technical starter already owns
+  JDBC and does not declare an ORM or JPA policy.
+principles:
+- Generate only from explicit, user-confirmed business and technical declarations.
+- Preview must be deterministic and read-only; apply must be explicit, bounded, collision-safe,
+  and reversible through normal Git history.
+- Every generated file must have a traceable source declaration and a clear review
+  marker or generated-output manifest.
+- Compile and static contract evidence are distinct from database, browser, security,
+  accessibility, business acceptance, release, and production evidence.
+- A missing type, constraint, permission, transition, API shape, or UI behavior is
+  a blocking gap, never a reason to infer a default.
+- The feature generator is stack-specific in v1.6; generic multi-stack generation
+  is deferred until one stack has independent-consumer proof.
+workstreams:
+- id: compiled-feature-contract
+  priority: 1
+  outcome: A confirmed feature has explicit field-to-database mappings, API shapes,
+    workflow transitions, permission checks, and selected technical locations; all
+    unresolved technical decisions block generation.
+- id: deterministic-generation-manifest
+  priority: 1
+  outcome: Dora previews the exact files, templates, source references, hashes, generation
+    version, and post-generation obligations before any write.
+- id: flyway-and-spring-generator
+  priority: 1
+  outcome: Dora generates an append-only Flyway migration and compilable Java model,
+    JDBC repository, DTO, service, controller, validation, and unit-test surface from
+    explicit mappings only.
+- id: api-and-vue-generator
+  priority: 1
+  outcome: Dora generates an explicit API contract plus compilable Vue API client,
+    feature surface, and frontend test scaffolding aligned to the same declaration.
+- id: generated-safety-and-trace
+  priority: 1
+  outcome: Dora rejects collisions and historic migration changes, inspects its generated
+    manifest against actual paths, and reports DTO/API/workflow/ permission trace
+    gaps.
+- id: executable-evidence-boundaries
+  priority: 2
+  outcome: Generated projects receive build, static contract, test, runtime, and acceptance
+    obligations with separate opt-in Docker/database and Playwright approval gates.
+- id: independent-consumer-proof
+  priority: 2
+  outcome: A fresh temporary consumer proves preview, apply, generated source layout,
+    compilation, and collision rejection without product data or external deployment.
+- id: codex-first-documentation
+  priority: 3
+  outcome: Dora documents one clear Codex route from confirmed interview through compiled
+    feature review, implementation work, evidence, and explicit release decisions.
+non_goals:
+- Generate a complete DoomsDayStorage product or infer any of its rules.
+- Generate credentials, JWT/OIDC policy, users, real data, backups, secrets, deployments,
+  cloud resources, or production configuration.
+- Modify existing source, historical Flyway migrations, or manually edited generated
+  files during apply or regeneration.
+- Run Docker, PostgreSQL, package installation, browser tests, or deployment without
+  a separate explicit approval at execution time.
+- Treat compile success as business acceptance, security validation, accessibility
+  validation, or release readiness.
+required_before_goal_pursuit:
+- Compare the v1.5 starter's actual package names, build commands, dependencies, Flyway
+  locations, Vue tooling, and test framework with the proposed templates.
+- Convert every workstream into strict serial atomic tasks with exact required paths,
+  direct predecessors, leaf validations, and evidence boundaries.
+- Create a complete schema and fixtures for confirmed technical mappings before any
+  generator implementation starts.
+- Define the generated-file manifest, collision policy, preview/apply contract, and
+  explicit no-regeneration-over-manual-edits policy before source output exists.
+- Split static/compile proof from opt-in database and browser proof; request those
+  approvals only when an actual task reaches them.
+- Define independent-consumer proof using temporary directories and no product data.
+- Verifier-verify an atomic-task hardening plan before implementation starts.
+children:
+- docs/work/dora-v16-atomic-hardening.yaml
+- docs/work/dora-v16-compiled-feature-contract.yaml
+- docs/work/dora-v16-generation-manifest.yaml
+- docs/work/dora-v16-flyway-spring-generator.yaml
+- docs/work/dora-v16-api-vue-generator.yaml
+- docs/work/dora-v16-generated-safety-trace.yaml
+- docs/work/dora-v16-evidence-boundaries.yaml
+- docs/work/dora-v16-independent-consumer.yaml
+- docs/work/dora-v16-codex-documentation.yaml
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v16-atomic-hardening.yaml
+atomic_task_hardening_review: Each planned item maps to one exact child task and one
+  serial inventory position.
+strict_verification: true
+serial_task_execution: true
+atomic_task_contract:
+  required_fields:
+  - observable_outcome
+  - dependencies
+  - required_paths
+  - evidence_boundary
+  - validation
+  execution_rule: Start exactly one inventory item only after its direct predecessor
+    is verifier-marked verified.
+  generation_rule: Generation requires confirmed technical input, deterministic preview,
+    empty declared paths, a manifest, and no overwrite or regeneration of manual edits.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  baseline_only_surfaces:
+  - v1.5 guided interview, session-create-app, neutral starter, placeholders, safety
+    declarations, and runtime profile behavior remain baseline-only.
+  - Existing MuffinMan product code, data, runtime evidence, and release pin are outside
+    the v1.6 generator scope.
+  residual_scope:
+  - v1.5 cannot render a compilable Spring JDBC, Flyway, API, Vue, and test feature.
+  - v1.5 has no deterministic generated-output manifest or source-level consumer proof.
+  retest_triggers:
+  - Changes to the v1.5 Spring/Vue/PostgreSQL starter, feature-skeleton contract,
+    shared command envelope, generation templates, or compiler-facing commands.
+  non_duplication_rule: Prior v1.5 evidence remains baseline context and is not counted
+    as v1.6 source, compile, database, browser, or acceptance evidence.
+required_release_evidence:
+- All child plans are verifier-verified through one strict serial inventory.
+- A fresh generated consumer passes static and compile checks without a real database
+  or browser.
+- Collision, traversal, missing-declaration, historic-migration, and manual-edit rejection
+  paths have direct tests.
+- The generated manifest traces every artifact to confirmed input and records only
+  unresolved runtime and acceptance obligations.
+- The Dora package boundary, documentation, release handoff, immutable tag, and MuffinMan
+  pin are verified in separate approved release steps.
+preflight_source: docs/work/dora-v16-compiled-feature-preflight.md
+goal_readiness_source: docs/work/dora-v16-compiled-feature-goal-readiness.md
+completion_boundary: This prepared master authorizes only controlled goal pursuit
+  after the hardening task is verifier-verified. It does not authorize implementation,
+  package installation, database startup, browser proof, release, or deployment.
+evidence:
+- verifiedAt: '2026-08-06T16:27:06Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  children:
+  - docs/work/dora-v16-atomic-hardening.yaml
+  - docs/work/dora-v16-compiled-feature-contract.yaml
+  - docs/work/dora-v16-generation-manifest.yaml
+  - docs/work/dora-v16-flyway-spring-generator.yaml
+  - docs/work/dora-v16-api-vue-generator.yaml
+  - docs/work/dora-v16-generated-safety-trace.yaml
+  - docs/work/dora-v16-evidence-boundaries.yaml
+  - docs/work/dora-v16-independent-consumer.yaml
+  - docs/work/dora-v16-codex-documentation.yaml

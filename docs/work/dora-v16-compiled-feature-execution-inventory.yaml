@@ -1,0 +1,161 @@
+kind: execution_inventory
+version: 1
+id: dora-v16-compiled-feature
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+atomic_task_hardening_review: Tasks are globally serial and each maps to one child-plan
+  task.
+items:
+- id: v16-harden
+  order: 1
+  plan: docs/work/dora-v16-atomic-hardening.yaml
+  task: harden-v16-program
+  status: verified
+  started_at: '2026-08-06T16:11:26Z'
+  verified_at: '2026-08-06T16:11:50Z'
+  evidence:
+    plan: docs/work/dora-v16-atomic-hardening.yaml
+    task: harden-v16-program
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-contract
+  order: 2
+  plan: docs/work/dora-v16-compiled-feature-contract.yaml
+  task: define-compiled-feature-contract
+  status: verified
+  started_at: '2026-08-06T16:12:00Z'
+  verified_at: '2026-08-06T16:12:59Z'
+  evidence:
+    plan: docs/work/dora-v16-compiled-feature-contract.yaml
+    task: define-compiled-feature-contract
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-type-map
+  order: 3
+  plan: docs/work/dora-v16-compiled-feature-contract.yaml
+  task: define-jdbc-type-map
+  status: verified
+  started_at: '2026-08-06T16:13:15Z'
+  verified_at: '2026-08-06T16:13:54Z'
+  evidence:
+    plan: docs/work/dora-v16-compiled-feature-contract.yaml
+    task: define-jdbc-type-map
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-manifest-contract
+  order: 4
+  plan: docs/work/dora-v16-generation-manifest.yaml
+  task: define-generated-feature-manifest
+  status: verified
+  started_at: '2026-08-06T16:14:17Z'
+  verified_at: '2026-08-06T16:15:49Z'
+  evidence:
+    plan: docs/work/dora-v16-generation-manifest.yaml
+    task: define-generated-feature-manifest
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-preview
+  order: 5
+  plan: docs/work/dora-v16-generation-manifest.yaml
+  task: expose-compiled-feature-preview
+  status: verified
+  started_at: '2026-08-06T16:15:59Z'
+  verified_at: '2026-08-06T16:16:36Z'
+  evidence:
+    plan: docs/work/dora-v16-generation-manifest.yaml
+    task: expose-compiled-feature-preview
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-apply
+  order: 6
+  plan: docs/work/dora-v16-generation-manifest.yaml
+  task: add-compiled-feature-safe-apply
+  status: verified
+  started_at: '2026-08-06T16:16:46Z'
+  verified_at: '2026-08-06T16:17:41Z'
+  evidence:
+    plan: docs/work/dora-v16-generation-manifest.yaml
+    task: add-compiled-feature-safe-apply
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-flyway
+  order: 7
+  plan: docs/work/dora-v16-flyway-spring-generator.yaml
+  task: render-append-only-flyway-migration
+  status: verified
+  started_at: '2026-08-06T16:17:47Z'
+  verified_at: '2026-08-06T16:18:37Z'
+  evidence:
+    plan: docs/work/dora-v16-flyway-spring-generator.yaml
+    task: render-append-only-flyway-migration
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-spring
+  order: 8
+  plan: docs/work/dora-v16-flyway-spring-generator.yaml
+  task: render-spring-jdbc-feature
+  status: verified
+  started_at: '2026-08-06T16:18:54Z'
+  verified_at: '2026-08-06T16:19:47Z'
+  evidence:
+    plan: docs/work/dora-v16-flyway-spring-generator.yaml
+    task: render-spring-jdbc-feature
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-api-vue
+  order: 9
+  plan: docs/work/dora-v16-api-vue-generator.yaml
+  task: render-api-and-vue-feature
+  status: verified
+  started_at: '2026-08-06T16:20:03Z'
+  verified_at: '2026-08-06T16:20:53Z'
+  evidence:
+    plan: docs/work/dora-v16-api-vue-generator.yaml
+    task: render-api-and-vue-feature
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-safety
+  order: 10
+  plan: docs/work/dora-v16-generated-safety-trace.yaml
+  task: inspect-generated-feature-safety-and-trace
+  status: verified
+  started_at: '2026-08-06T16:21:06Z'
+  verified_at: '2026-08-06T16:22:02Z'
+  evidence:
+    plan: docs/work/dora-v16-generated-safety-trace.yaml
+    task: inspect-generated-feature-safety-and-trace
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-evidence
+  order: 11
+  plan: docs/work/dora-v16-evidence-boundaries.yaml
+  task: declare-compiled-feature-evidence-boundaries
+  status: verified
+  started_at: '2026-08-06T16:22:08Z'
+  verified_at: '2026-08-06T16:22:31Z'
+  evidence:
+    plan: docs/work/dora-v16-evidence-boundaries.yaml
+    task: declare-compiled-feature-evidence-boundaries
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-consumer-static
+  order: 12
+  plan: docs/work/dora-v16-independent-consumer.yaml
+  task: prove-generated-consumer-layout
+  status: verified
+  started_at: '2026-08-06T16:22:41Z'
+  verified_at: '2026-08-06T16:24:37Z'
+  evidence:
+    plan: docs/work/dora-v16-independent-consumer.yaml
+    task: prove-generated-consumer-layout
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-consumer-compile
+  order: 13
+  plan: docs/work/dora-v16-independent-consumer.yaml
+  task: prove-generated-consumer-compiles
+  status: verified
+  started_at: '2026-08-06T16:24:53Z'
+  verified_at: '2026-08-06T16:25:47Z'
+  evidence:
+    plan: docs/work/dora-v16-independent-consumer.yaml
+    task: prove-generated-consumer-compiles
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+- id: v16-docs
+  order: 14
+  plan: docs/work/dora-v16-codex-documentation.yaml
+  task: document-compiled-feature-route
+  status: verified
+  started_at: '2026-08-06T16:26:01Z'
+  verified_at: '2026-08-06T16:26:29Z'
+  evidence:
+    plan: docs/work/dora-v16-codex-documentation.yaml
+    task: document-compiled-feature-route
+    revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c

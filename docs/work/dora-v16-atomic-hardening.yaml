@@ -1,0 +1,116 @@
+kind: work
+version: 1
+id: dora-v16-atomic-hardening
+title: Harden the Dora v1.6 compiled feature program
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  baseline_only_surfaces:
+  - Dora v1.5 verified application-authoring controls
+  residual_scope:
+  - Atomic precision for the new v1.6 compiler program
+  retest_triggers:
+  - Changes to any v1.6 plan or inventory before implementation
+  non_duplication_rule: v1.5 evidence is baseline only and does not verify v1.6 planning.
+atomic_task_contract:
+  queue_position:
+  - v16-harden
+  boundary: Plan structure only; no generator or consumer behavior.
+tasks:
+- id: harden-v16-program
+  inventory_item: v16-harden
+  title: Verify v1.6 atomic task precision
+  type: implementation
+  observable_outcome: Every v1.6 item has one bounded outcome, exact paths, direct
+    serial dependency, leaf validation, and evidence boundary.
+  dependencies: []
+  paths:
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  - docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+  - docs/work/dora-v16-atomic-hardening.yaml
+  - docs/work/dora-v16-compiled-feature-contract.yaml
+  - docs/work/dora-v16-generation-manifest.yaml
+  - docs/work/dora-v16-flyway-spring-generator.yaml
+  - docs/work/dora-v16-api-vue-generator.yaml
+  - docs/work/dora-v16-generated-safety-trace.yaml
+  - docs/work/dora-v16-evidence-boundaries.yaml
+  - docs/work/dora-v16-independent-consumer.yaml
+  - docs/work/dora-v16-codex-documentation.yaml
+  required_paths:
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  - docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+  - docs/work/dora-v16-atomic-hardening.yaml
+  - docs/work/dora-v16-compiled-feature-contract.yaml
+  - docs/work/dora-v16-generation-manifest.yaml
+  - docs/work/dora-v16-flyway-spring-generator.yaml
+  - docs/work/dora-v16-api-vue-generator.yaml
+  - docs/work/dora-v16-generated-safety-trace.yaml
+  - docs/work/dora-v16-evidence-boundaries.yaml
+  - docs/work/dora-v16-independent-consumer.yaml
+  - docs/work/dora-v16-codex-documentation.yaml
+  evidence_boundary:
+  - Atomic task structure only; no generator
+  - compile
+  - database
+  - browser
+  - or runtime behavior.
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v16-compiled-feature-master.yaml
+    docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-06T16:11:26Z'
+  start_fingerprints:
+    docs/work/dora-v16-compiled-feature-master.yaml: f23fa21185a697fcdecf42876dd9595bd464bbc7ec990787f7ffe88bcc3634b1
+    docs/work/dora-v16-compiled-feature-execution-inventory.yaml: 4da4d9b8050e8775b56678f4e1c8acf1babd54af5ebc6c4e12845f3318f5ef0f
+    docs/work/dora-v16-atomic-hardening.yaml: d5a7930ea84ef9db646fd4a82fb0c1124e860334ff8e6e3b97cf9a2931a75eec
+    docs/work/dora-v16-compiled-feature-contract.yaml: 53a5d0b51d48e80b0a784e5351ee86260994f50dab9006d25b8b413a7d24d982
+    docs/work/dora-v16-generation-manifest.yaml: 5cd82522852ac9bf199b1b5ccdcda1e0875049a5083f56c2b776f16846a5fb74
+    docs/work/dora-v16-flyway-spring-generator.yaml: b302e856694e411e9c9879b195e1640216b0b64ecf5d1458921d276e72872b1e
+    docs/work/dora-v16-api-vue-generator.yaml: 1a32869f4bef8cccd2a35c6f0be59f189b1fac61e2682e7a2eb63b664f0d9ec1
+    docs/work/dora-v16-generated-safety-trace.yaml: c737791a527ee590dc02170c5829e20eaf60f022dea2099e24fec6b67992e6af
+    docs/work/dora-v16-evidence-boundaries.yaml: d99e9f9c8de2b3d8d8c4fa867da7fdf23fd6598c9426372f6e0f7af8584e1ee8
+    docs/work/dora-v16-independent-consumer.yaml: b80143e97e44c1793920854f8e6bc45701183ed84793cdd9973f63ddccbda8ee
+    docs/work/dora-v16-codex-documentation.yaml: 3a57f9bb144cad1465e8e54c6ad950e850ebfa4ba76f7e22c325ca1d3a1f7cde
+evidence:
+- task: harden-v16-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v16-compiled-feature-master.yaml
+    docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+  ranAt: '2026-08-06T16:11:50Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v16-api-vue-generator.yaml
+  - docs/work/dora-v16-atomic-hardening.yaml
+  - docs/work/dora-v16-codex-documentation.yaml
+  - docs/work/dora-v16-compiled-feature-contract.yaml
+  - docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  - docs/work/dora-v16-evidence-boundaries.yaml
+  - docs/work/dora-v16-flyway-spring-generator.yaml
+  - docs/work/dora-v16-generated-safety-trace.yaml
+  - docs/work/dora-v16-generation-manifest.yaml
+  - docs/work/dora-v16-independent-consumer.yaml
+  output: "Atomic task hardening audit passed (14 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v16-compiled-feature-master.yaml
+  - docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+  - docs/work/dora-v16-atomic-hardening.yaml
+  - docs/work/dora-v16-compiled-feature-contract.yaml
+  - docs/work/dora-v16-generation-manifest.yaml
+  - docs/work/dora-v16-flyway-spring-generator.yaml
+  - docs/work/dora-v16-api-vue-generator.yaml
+  - docs/work/dora-v16-generated-safety-trace.yaml
+  - docs/work/dora-v16-evidence-boundaries.yaml
+  - docs/work/dora-v16-independent-consumer.yaml
+  - docs/work/dora-v16-codex-documentation.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:11:26Z'
+  changedAfterStart: *1

@@ -1,0 +1,126 @@
+kind: work
+version: 1
+id: dora-v16-flyway-spring-generator
+title: Render explicit Flyway and Spring JDBC feature sources
+status: verified
+baseline: c7dcfaa
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v16-compiled-feature-execution-inventory.yaml
+master_plan: docs/work/dora-v16-compiled-feature-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v15-first-feature-generator.yaml
+  baseline_only_surfaces:
+  - v1.5 feature placeholder and Spring JDBC technical starter
+  residual_scope:
+  - Append-only migration and compilable Java JDBC output
+  retest_triggers:
+  - Type map
+  - Java or SQL template
+  - generated apply
+  - or starter dependency changes
+  non_duplication_rule: Existing starter build evidence is not generated feature compilation
+    evidence.
+atomic_task_contract:
+  hardened: true
+  queue_position:
+  - v16-flyway
+  - v16-spring
+  boundary: Generated source templates and renderer tests only; no database execution.
+tasks:
+- id: render-append-only-flyway-migration
+  inventory_item: v16-flyway
+  title: Render an explicit append-only Flyway migration
+  type: implementation
+  observable_outcome: Dora renders declared PostgreSQL columns, constraints, indexes,
+    and foreign keys into one new migration and rejects any undeclared or historic
+    migration operation.
+  dependencies:
+  - v16-apply
+  paths:
+  - dora/templates/compiled-feature/flyway-migration.sql.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_flyway_renderer_test.rb
+  required_paths:
+  - dora/templates/compiled-feature/flyway-migration.sql.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_flyway_renderer_test.rb
+  evidence_boundary:
+  - Rendered SQL text and rejection fixtures only; no Flyway or database run.
+  validation: ruby dora/test/compiled_feature_flyway_renderer_test.rb
+  status: done
+  started_at: '2026-08-06T16:17:47Z'
+  start_fingerprints:
+    dora/templates/compiled-feature/flyway-migration.sql.erb: __missing__
+    dora/lib/dora/compiled_feature_renderers.rb: __missing__
+    dora/test/compiled_feature_flyway_renderer_test.rb: __missing__
+- id: render-spring-jdbc-feature
+  inventory_item: v16-spring
+  title: Render compilable Spring JDBC feature sources
+  type: implementation
+  observable_outcome: Dora renders a Java model, JDBC repository, DTOs, service, controller,
+    validation, and JUnit surface from explicit package, API, permission, and workflow
+    declarations.
+  dependencies:
+  - v16-flyway
+  paths:
+  - dora/templates/compiled-feature/spring-jdbc-feature.java.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_spring_renderer_test.rb
+  required_paths:
+  - dora/templates/compiled-feature/spring-jdbc-feature.java.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_spring_renderer_test.rb
+  evidence_boundary:
+  - Rendered Java source and declared validation fixtures only; no consumer compile
+    or runtime run.
+  validation: ruby dora/test/compiled_feature_spring_renderer_test.rb
+  status: done
+  started_at: '2026-08-06T16:18:54Z'
+  start_fingerprints:
+    dora/templates/compiled-feature/spring-jdbc-feature.java.erb: __missing__
+    dora/lib/dora/compiled_feature_renderers.rb: 63aadc3c95c9a31c3f8384bdb2603720a52a94c54fe388732249c31a6dcc4f08
+    dora/test/compiled_feature_spring_renderer_test.rb: __missing__
+evidence:
+- task: render-append-only-flyway-migration
+  command: ruby dora/test/compiled_feature_flyway_renderer_test.rb
+  ranAt: '2026-08-06T16:18:37Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/templates/compiled-feature/flyway-migration.sql.erb
+  - dora/test/compiled_feature_flyway_renderer_test.rb
+  output: "Dora compiled feature Flyway renderer test passed (explicit SQL mappings
+    render append-only migration text and unsafe identifiers are rejected).\n\n"
+  requiredPaths: &1
+  - dora/templates/compiled-feature/flyway-migration.sql.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_flyway_renderer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:17:47Z'
+  changedAfterStart: *1
+- task: render-spring-jdbc-feature
+  command: ruby dora/test/compiled_feature_spring_renderer_test.rb
+  ranAt: '2026-08-06T16:19:47Z'
+  revision: c7dcfaa1992a0487998d1bf7ed8873789d9dfc3c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/templates/compiled-feature/spring-jdbc-feature.java.erb
+  - dora/test/compiled_feature_spring_renderer_test.rb
+  output: "Dora compiled feature Spring renderer test passed (confirmed input renders
+    Java model, JDBC repository, DTO, service, controller, validation, and JUnit scaffold).\n\n"
+  requiredPaths: &2
+  - dora/templates/compiled-feature/spring-jdbc-feature.java.erb
+  - dora/lib/dora/compiled_feature_renderers.rb
+  - dora/test/compiled_feature_spring_renderer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-06T16:18:54Z'
+  changedAfterStart: *2
