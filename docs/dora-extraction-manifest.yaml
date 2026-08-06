@@ -44,6 +44,6 @@ release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
   current_state: approved_and_published
 next_release:
-  version: v1.6.0
-  handoff: docs/dora-release-handoff-v16.yaml
+  version: v1.7.0
+  handoff: docs/dora-release-handoff-v17.yaml
   state: published_pinned
