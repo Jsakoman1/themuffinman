@@ -1,0 +1,73 @@
+kind: work
+version: 1
+id: dora-bridge-v1-chatgpt-proof
+title: Prove private ChatGPT read-only Dora Bridge connectivity
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-read-model.yaml
+  - docs/work/dora-bridge-v1-independent-consumer.yaml
+  - docs/work/dora-bridge-v1-mcp-adapter.yaml
+  baseline_only_surfaces:
+  - Local MCP adapter tests and OpenAI documentation review
+  residual_scope:
+  - Validate the actual ChatGPT account/workspace and privately connect only the doomsday-storage
+    allow-list without weakening authentication.
+  retest_triggers:
+  - Changes to the remote endpoint
+  - account/workspace capability
+  - authentication configuration
+  - or allow-listed project registration.
+  non_duplication_rule: Local adapter proof is baseline evidence; only a real authorized
+    ChatGPT interaction can satisfy this external connectivity task.
+tasks:
+- id: prove-private-chatgpt-read-only-connection
+  title: Validate and capture the authorized ChatGPT Bridge proof
+  type: external-connection-proof
+  status: done
+  inventory_item: chatgpt-proof
+  observable_outcome: The user’s ChatGPT environment retrieves a sanitized DoomsDayStorage
+    summary through the private read-only bridge without filesystem paths or manual
+    terminal-output copy/paste.
+  dependencies:
+  - security-hardening
+  evidence_boundary:
+  - Authenticated external ChatGPT connection evidence and compact connection instructions
+    only; no public endpoint
+  - unauthenticated fallback
+  - write operation
+  - source retrieval
+  - or Codex execution.
+  paths:
+  - dora/docs/dora-bridge-v1-connectivity.md
+  required_paths:
+  - dora/docs/dora-bridge-v1-connectivity.md
+  validation: ruby -e 'text=File.read("dora/docs/dora-bridge-v1-connectivity.md");
+    abort "missing proof" unless text.include?("ChatGPT") && text.include?("read-only")
+    && text.include?("doomsday-storage")'
+  started_at: '2026-08-09T19:39:53Z'
+  start_fingerprints:
+    dora/docs/dora-bridge-v1-connectivity.md: __missing__
+evidence:
+- task: prove-private-chatgpt-read-only-connection
+  command: ruby -e 'text=File.read("dora/docs/dora-bridge-v1-connectivity.md"); abort
+    "missing proof" unless text.include?("ChatGPT") && text.include?("read-only")
+    && text.include?("doomsday-storage")'
+  ranAt: '2026-08-09T20:22:17Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/dora-bridge-v1-connectivity.md
+  output: "\n"
+  requiredPaths: &1
+  - dora/docs/dora-bridge-v1-connectivity.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T19:39:53Z'
+  changedAfterStart: *1

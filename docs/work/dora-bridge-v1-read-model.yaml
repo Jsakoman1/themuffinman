@@ -1,0 +1,84 @@
+kind: work
+version: 1
+id: dora-bridge-v1-read-model
+title: Add the safe Dora project read model
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Existing individual Dora validators and read services
+  residual_scope:
+  - Compose existing validated artifacts into one deterministic
+  - sanitized read-only project projection.
+  retest_triggers:
+  - Changes to project state
+  - decision
+  - memory
+  - inventory
+  - plan
+  - or evidence projection semantics.
+  non_duplication_rule: Existing individual service tests remain baseline evidence
+    and are not counted as aggregate-read-model proof.
+tasks:
+- id: add-safe-dora-project-read-model
+  title: Compose validated artifacts into a sanitized project projection
+  type: core-read-model
+  status: done
+  inventory_item: project-read-model
+  observable_outcome: Dora exposes one tested read-only project summary that reports
+    health, current/latest delivery, next work, decisions, safe evidence, and inconsistencies
+    without reading arbitrary files or returning raw verifier output.
+  dependencies:
+  - atomic-hardening
+  evidence_boundary:
+  - Dora core read projection
+  - focused fixtures/tests
+  - and contract documentation only; no MCP transport
+  - project mutation
+  - shell execution
+  - or consumer-state correction.
+  paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  - dora/docs/project-read-model.md
+  required_paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  - dora/docs/project-read-model.md
+  validation: ruby dora/test/project_read_model_test.rb
+  started_at: '2026-08-09T15:02:23Z'
+  start_fingerprints:
+    dora/lib/dora/project_read_model.rb: __missing__
+    dora/test/project_read_model_test.rb: __missing__
+    dora/test/fixtures/project-read-model-projects.yaml: __missing__
+    dora/docs/project-read-model.md: __missing__
+evidence:
+- task: add-safe-dora-project-read-model
+  command: ruby dora/test/project_read_model_test.rb
+  ranAt: '2026-08-09T15:08:01Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/project-read-model.md
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  - dora/test/project_read_model_test.rb
+  output: "Dora project read model test passed (safe summary, evidence projection,
+    invalid memory, ambiguity, and path containment).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  - dora/docs/project-read-model.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T15:02:23Z'
+  changedAfterStart: *1

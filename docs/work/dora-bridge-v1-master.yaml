@@ -1,0 +1,45 @@
+kind: master
+version: 1
+id: dora-bridge-v1
+title: Deliver a private read-only Dora project bridge
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-bridge-v1-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Existing Dora CLI commands and Codex file/CLI workflow remain unchanged.
+  - Consumer project files, including DoomsDayStorage state, remain read-only inputs.
+  residual_scope:
+  - Add a Dora-owned read-only project projection with explicit inconsistency reporting.
+  - Add a separately packaged, allow-listed, read-only MCP adapter.
+  - Prove the adapter locally and record the external ChatGPT connection boundary
+    honestly.
+  retest_triggers:
+  - Any change to Dora work, knowledge, memory, decision, or evidence readers requires
+    read-model regression tests.
+  - Any change to allow-list, transport, or serialization code requires bridge adversarial
+    tests.
+  non_duplication_rule: Existing Dora and consumer verification remains baseline evidence
+    and is not counted as new Bridge V1 completion.
+children:
+- docs/work/dora-bridge-v1-atomic-hardening.yaml
+- docs/work/dora-bridge-v1-read-model.yaml
+- docs/work/dora-bridge-v1-independent-consumer.yaml
+- docs/work/dora-bridge-v1-mcp-adapter.yaml
+- docs/work/dora-bridge-v1-security-hardening.yaml
+- docs/work/dora-bridge-v1-chatgpt-proof.yaml
+evidence:
+- verifiedAt: '2026-08-09T20:22:20Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  children:
+  - docs/work/dora-bridge-v1-atomic-hardening.yaml
+  - docs/work/dora-bridge-v1-read-model.yaml
+  - docs/work/dora-bridge-v1-independent-consumer.yaml
+  - docs/work/dora-bridge-v1-mcp-adapter.yaml
+  - docs/work/dora-bridge-v1-security-hardening.yaml
+  - docs/work/dora-bridge-v1-chatgpt-proof.yaml

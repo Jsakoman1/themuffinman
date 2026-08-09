@@ -1,0 +1,24 @@
+kind: dora_atomic_hardening_review
+version: 1
+id: dora-bridge-v1-atomic-hardening-review
+master_plan: docs/work/dora-bridge-v1-master.yaml
+status: verified
+reviewed_at: '2026-08-09T00:00:00Z'
+dogfooding_decision: The parent control plane governs the pinned dora subtree; creating a second control tree inside dora would duplicate the active workflow without creating an independent repository boundary.
+checks:
+  - id: bounded-program
+    status: passed
+    evidence: Five serial tasks separate planning, read semantics, isolated-consumer proof, transport, and external acceptance.
+  - id: one-outcome-per-task
+    status: passed
+    evidence: Each inventory item maps to one work-plan task with exact required paths and one leaf validation command.
+  - id: read-only-boundary
+    status: passed
+    evidence: No task authorizes work-start/work-verify exposure, shell execution, source retrieval, arbitrary file access, or consumer mutation through the bridge.
+  - id: external-proof-boundary
+    status: passed
+    evidence: The ChatGPT task is explicitly external and cannot be satisfied by local MCP tests or documentation alone.
+  - id: state-conflict-boundary
+    status: passed
+    evidence: The read-model task must report invalid memory and ambiguous inventories rather than selecting a state silently.
+completion_boundary: This review hardens the Dora Bridge V1 delivery program only. It does not implement the read model, install an MCP server, expose a project, or prove external ChatGPT connectivity.

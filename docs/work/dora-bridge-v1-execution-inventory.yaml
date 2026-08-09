@@ -1,0 +1,71 @@
+kind: execution_inventory
+version: 1
+id: dora-bridge-v1-execution
+master_plan: docs/work/dora-bridge-v1-master.yaml
+items:
+- id: atomic-hardening
+  order: 1
+  plan: docs/work/dora-bridge-v1-atomic-hardening.yaml
+  task: establish-dora-bridge-dogfooding-and-hardening
+  status: verified
+  started_at: '2026-08-09T15:01:53Z'
+  verified_at: '2026-08-09T15:02:16Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-atomic-hardening.yaml
+    task: establish-dora-bridge-dogfooding-and-hardening
+    revision: f8dd3953108ec7c434085248286940eb35b7e333
+- id: project-read-model
+  order: 2
+  plan: docs/work/dora-bridge-v1-read-model.yaml
+  task: add-safe-dora-project-read-model
+  status: verified
+  started_at: '2026-08-09T15:02:23Z'
+  verified_at: '2026-08-09T15:08:01Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-read-model.yaml
+    task: add-safe-dora-project-read-model
+    revision: f8dd3953108ec7c434085248286940eb35b7e333
+- id: independent-consumer
+  order: 3
+  plan: docs/work/dora-bridge-v1-independent-consumer.yaml
+  task: prove-independent-read-model-consumer
+  status: verified
+  started_at: '2026-08-09T15:08:04Z'
+  verified_at: '2026-08-09T15:09:32Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-independent-consumer.yaml
+    task: prove-independent-read-model-consumer
+    revision: f8dd3953108ec7c434085248286940eb35b7e333
+- id: mcp-adapter
+  order: 4
+  plan: docs/work/dora-bridge-v1-mcp-adapter.yaml
+  task: deliver-allowlisted-read-only-mcp-adapter
+  status: verified
+  started_at: '2026-08-09T15:09:45Z'
+  verified_at: '2026-08-09T15:11:56Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-mcp-adapter.yaml
+    task: deliver-allowlisted-read-only-mcp-adapter
+    revision: f8dd3953108ec7c434085248286940eb35b7e333
+- id: security-hardening
+  order: 5
+  plan: docs/work/dora-bridge-v1-security-hardening.yaml
+  task: harden-read-model-symlink-containment
+  status: verified
+  started_at: '2026-08-09T15:15:08Z'
+  verified_at: '2026-08-09T15:16:00Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-security-hardening.yaml
+    task: harden-read-model-symlink-containment
+    revision: f8dd3953108ec7c434085248286940eb35b7e333
+- id: chatgpt-proof
+  order: 6
+  plan: docs/work/dora-bridge-v1-chatgpt-proof.yaml
+  task: prove-private-chatgpt-read-only-connection
+  status: verified
+  started_at: '2026-08-09T19:39:53Z'
+  verified_at: '2026-08-09T20:22:17Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-chatgpt-proof.yaml
+    task: prove-private-chatgpt-read-only-connection
+    revision: f8dd3953108ec7c434085248286940eb35b7e333

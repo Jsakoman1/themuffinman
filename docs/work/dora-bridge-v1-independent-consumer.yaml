@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: dora-bridge-v1-independent-consumer
+title: Prove an independent consumer uses the Dora read model
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-read-model.yaml
+  baseline_only_surfaces:
+  - Read-model unit fixture coverage
+  residual_scope:
+  - Prove a fresh declared consumer receives a structured projection without shelling
+    out to the Dora CLI.
+  retest_triggers:
+  - Changes to projection API
+  - adapter containment
+  - or consumer-facing references.
+  non_duplication_rule: Read-model unit results are baseline evidence; this task proves
+    only independent-consumer integration.
+tasks:
+- id: prove-independent-read-model-consumer
+  title: Test an isolated consumer against the read-model contract
+  type: independent-consumer-proof
+  status: done
+  inventory_item: independent-consumer
+  observable_outcome: A temporary Dora consumer receives safe structured state, flags
+    malformed memory and ambiguous work, and cannot escape its declared project root.
+  dependencies:
+  - project-read-model
+  evidence_boundary:
+  - Independent temporary-consumer test and fixture data only; no MCP
+  - external client
+  - or real consumer repository change.
+  paths:
+  - dora/test/independent_project_read_model_consumer_test.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  required_paths:
+  - dora/test/independent_project_read_model_consumer_test.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  validation: ruby dora/test/independent_project_read_model_consumer_test.rb
+  started_at: '2026-08-09T15:08:04Z'
+  start_fingerprints:
+    dora/test/independent_project_read_model_consumer_test.rb: __missing__
+    dora/test/fixtures/project-read-model-projects.yaml: '09168e17a8251c67a90a68c066827fe074b62e61fb61acf5ab421b3923766b2c'
+evidence:
+- task: prove-independent-read-model-consumer
+  command: ruby dora/test/independent_project_read_model_consumer_test.rb
+  ranAt: '2026-08-09T15:09:32Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/project-read-model-projects.yaml
+  - dora/test/independent_project_read_model_consumer_test.rb
+  output: "Independent Dora read-model consumer test passed (structured contract,
+    invalid memory, ambiguity, and containment).\n\n"
+  requiredPaths: &1
+  - dora/test/independent_project_read_model_consumer_test.rb
+  - dora/test/fixtures/project-read-model-projects.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T15:08:04Z'
+  changedAfterStart: *1

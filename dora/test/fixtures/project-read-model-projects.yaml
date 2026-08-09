@@ -1,0 +1,14 @@
+kind: dora_project_read_model_fixtures
+version: 1
+project:
+  id: bridge-fixture
+  name: Bridge fixture
+  open_decision: Confirm the retention policy before public release.
+  latest_master: docs/work/delivery-master.yaml
+  latest_inventory: docs/work/delivery-inventory.yaml
+  latest_task: verify-delivery
+  latest_verified_at: '2026-08-09T15:00:00Z'
+  raw_output: /private/secret/raw-command-output
+  independent_consumer:
+    raw_output: /private/secret/independent-consumer-output
+    invalid_memory_reference: docs/project-memory.yaml

@@ -1,0 +1,95 @@
+kind: work
+version: 1
+id: dora-bridge-v1-mcp-adapter
+title: Deliver the allow-listed read-only Dora MCP adapter
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-read-model.yaml
+  - docs/work/dora-bridge-v1-independent-consumer.yaml
+  baseline_only_surfaces:
+  - Dora CLI work-start/work-verify and direct Codex workflow
+  residual_scope:
+  - Package a transport adapter that accepts only allow-listed project IDs and delegates
+    all project semantics to the read model.
+  retest_triggers:
+  - Changes to transport framing
+  - allow-list
+  - authentication boundary
+  - or serialized projection.
+  non_duplication_rule: Read-model evidence is reused; this task verifies only adapter
+    routing, server-side sanitization, and read-only protocol behavior.
+tasks:
+- id: deliver-allowlisted-read-only-mcp-adapter
+  title: Serve the Dora read model through a minimal read-only MCP interface
+  type: transport-adapter
+  status: done
+  inventory_item: mcp-adapter
+  observable_outcome: A tested Dora Bridge MCP process exposes only allow-listed read
+    operations, rejects unknown projects before filesystem access, and cannot mutate
+    projects, run shell commands, or return raw evidence output.
+  dependencies:
+  - independent-consumer
+  evidence_boundary:
+  - Bridge package
+  - protocol tests
+  - allow-list fixture
+  - and connection documentation only; no public endpoint
+  - consumer-project write
+  - Codex invocation
+  - or ChatGPT-specific core logic.
+  paths:
+  - dora/bridge/bin/dora-bridge-mcp
+  - dora/bridge/lib/dora_bridge/server.rb
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/bridge/test/fixtures/bridge-projects.yaml
+  - dora/docs/dora-bridge-mcp.md
+  required_paths:
+  - dora/bridge/bin/dora-bridge-mcp
+  - dora/bridge/lib/dora_bridge/server.rb
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/bridge/test/fixtures/bridge-projects.yaml
+  - dora/docs/dora-bridge-mcp.md
+  validation: ruby dora/bridge/test/mcp_server_test.rb
+  started_at: '2026-08-09T15:09:45Z'
+  start_fingerprints:
+    dora/bridge/bin/dora-bridge-mcp: __missing__
+    dora/bridge/lib/dora_bridge/server.rb: __missing__
+    dora/bridge/lib/dora_bridge/project_registry.rb: __missing__
+    dora/bridge/test/mcp_server_test.rb: __missing__
+    dora/bridge/test/fixtures/bridge-projects.yaml: __missing__
+    dora/docs/dora-bridge-mcp.md: __missing__
+evidence:
+- task: deliver-allowlisted-read-only-mcp-adapter
+  command: ruby dora/bridge/test/mcp_server_test.rb
+  ranAt: '2026-08-09T15:11:56Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bridge/bin/dora-bridge-mcp
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/lib/dora_bridge/server.rb
+  - dora/bridge/test/fixtures/bridge-projects.yaml
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/docs/dora-bridge-mcp.md
+  output: "Dora Bridge MCP test passed (allow-list, safe read projection, stdio framing,
+    path containment, and no write tools).\n\n"
+  requiredPaths: &1
+  - dora/bridge/bin/dora-bridge-mcp
+  - dora/bridge/lib/dora_bridge/server.rb
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/bridge/test/fixtures/bridge-projects.yaml
+  - dora/docs/dora-bridge-mcp.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T15:09:45Z'
+  changedAfterStart: *1

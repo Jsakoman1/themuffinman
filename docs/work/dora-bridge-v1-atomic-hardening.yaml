@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: dora-bridge-v1-atomic-hardening
+title: Establish Dora Bridge V1 dogfooding and atomic hardening
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Existing parent Dora control plane and pinned dora subtree distribution
+  residual_scope:
+  - Document why the parent control plane is the minimal Dora dogfooding mechanism
+    and verify the five-task serial program is internally consistent.
+  retest_triggers:
+  - Any change to the master
+  - child plan
+  - or execution inventory requires a new hardening review.
+  non_duplication_rule: Existing Dora workflow documentation is referenced as baseline
+    and is not counted as Bridge V1 evidence.
+tasks:
+- id: establish-dora-bridge-dogfooding-and-hardening
+  title: Record the dogfooding decision and harden the serial program
+  type: planning-control
+  status: done
+  inventory_item: atomic-hardening
+  observable_outcome: A cited review explains why the parent Dora control plane governs
+    the embedded Dora source and verifies the bounded Bridge V1 master, children,
+    inventory order, and external-proof boundary.
+  dependencies: []
+  evidence_boundary:
+  - Bridge planning and control documentation only; no Dora core behavior
+  - consumer project state
+  - MCP transport
+  - or external service changes.
+  paths:
+  - dora/docs/dora-bridge-v1-dogfooding.md
+  - docs/work/dora-bridge-v1-atomic-hardening-review.yaml
+  required_paths:
+  - dora/docs/dora-bridge-v1-dogfooding.md
+  - docs/work/dora-bridge-v1-atomic-hardening-review.yaml
+  validation: ruby -ryaml -e 'master=YAML.load_file("docs/work/dora-bridge-v1-master.yaml");
+    inventory=YAML.load_file("docs/work/dora-bridge-v1-execution-inventory.yaml");
+    review=YAML.load_file("docs/work/dora-bridge-v1-atomic-hardening-review.yaml");
+    abort "master children" unless master.fetch("children").length == 5; abort "inventory
+    order" unless inventory.fetch("items").map { |item| item.fetch("order") } == [1,
+    2, 3, 4, 5]; abort "review" unless review.fetch("status") == "verified"; abort
+    "dogfooding" unless File.read("dora/docs/dora-bridge-v1-dogfooding.md").include?("parent
+    control plane")'
+  started_at: '2026-08-09T15:01:53Z'
+  start_fingerprints:
+    dora/docs/dora-bridge-v1-dogfooding.md: __missing__
+    docs/work/dora-bridge-v1-atomic-hardening-review.yaml: __missing__
+evidence:
+- task: establish-dora-bridge-dogfooding-and-hardening
+  command: ruby -ryaml -e 'master=YAML.load_file("docs/work/dora-bridge-v1-master.yaml");
+    inventory=YAML.load_file("docs/work/dora-bridge-v1-execution-inventory.yaml");
+    review=YAML.load_file("docs/work/dora-bridge-v1-atomic-hardening-review.yaml");
+    abort "master children" unless master.fetch("children").length == 5; abort "inventory
+    order" unless inventory.fetch("items").map { |item| item.fetch("order") } == [1,
+    2, 3, 4, 5]; abort "review" unless review.fetch("status") == "verified"; abort
+    "dogfooding" unless File.read("dora/docs/dora-bridge-v1-dogfooding.md").include?("parent
+    control plane")'
+  ranAt: '2026-08-09T15:02:16Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-bridge-v1-atomic-hardening-review.yaml
+  - dora/docs/dora-bridge-v1-dogfooding.md
+  output: "\n"
+  requiredPaths: &1
+  - dora/docs/dora-bridge-v1-dogfooding.md
+  - docs/work/dora-bridge-v1-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T15:01:53Z'
+  changedAfterStart: *1

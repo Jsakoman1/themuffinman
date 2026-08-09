@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: dora-bridge-v1-security-hardening
+title: Harden Dora Bridge read-model artifact containment
+status: verified
+baseline: e68cfc3f5d1c3f8a99a8e627b9d09b7baf86382d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-read-model.yaml
+  - docs/work/dora-bridge-v1-mcp-adapter.yaml
+  baseline_only_surfaces:
+  - Dora CLI execution workflow
+  - remote transport
+  - and consumer-project state
+  residual_scope:
+  - Canonicalize read artifact paths before opening them
+  - reject symlink escape
+  - and prove the bridge still never serializes raw paths or evidence.
+  retest_triggers:
+  - Changes to project root resolution
+  - project artifact reads
+  - or bridge path routing.
+  non_duplication_rule: Earlier read-model and MCP results are baseline evidence;
+    this task proves only the newly discovered symlink containment boundary.
+tasks:
+- id: harden-read-model-symlink-containment
+  title: Reject symlinked artifacts that resolve outside a declared project root
+  type: security-hardening
+  status: done
+  inventory_item: security-hardening
+  observable_outcome: A caller cannot use a project-relative plan or known read artifact
+    symlink to make the read model open data outside the configured project root.
+  dependencies:
+  - mcp-adapter
+  evidence_boundary:
+  - Read-model containment code
+  - adversarial tests
+  - and bridge security documentation only; no remote endpoint
+  - authentication change
+  - source retrieval
+  - or consumer-project mutation.
+  paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/docs/project-read-model.md
+  - dora/docs/dora-bridge-mcp.md
+  required_paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/docs/project-read-model.md
+  - dora/docs/dora-bridge-mcp.md
+  validation: ruby dora/test/project_read_model_test.rb && ruby dora/bridge/test/mcp_server_test.rb
+  started_at: '2026-08-09T15:15:08Z'
+  start_fingerprints:
+    dora/lib/dora/project_read_model.rb: 7c9dda1498a4734a7e9654c0a6087c01aa9e679cacf919afcd1a6df5dffc2a3b
+    dora/test/project_read_model_test.rb: a8be3daa86e814bc88f46e258af151d4160ddbeed8b5fd8fe33debe76725d90e
+    dora/bridge/test/mcp_server_test.rb: 1167ebe6d2cfec3811353f87153de0d5af29c7293bba1e2719d7859f29090588
+    dora/docs/project-read-model.md: 6374c04df86e5873943b1d6da7494f19c0a1bac5965567e0866086d7736784cf
+    dora/docs/dora-bridge-mcp.md: 77baa8ddeb23b3e710ef6c2c5a57da72ce7727a428c59c1365097ec733612f38
+evidence:
+- task: harden-read-model-symlink-containment
+  command: ruby dora/test/project_read_model_test.rb && ruby dora/bridge/test/mcp_server_test.rb
+  ranAt: '2026-08-09T15:16:00Z'
+  revision: f8dd3953108ec7c434085248286940eb35b7e333
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/docs/dora-bridge-mcp.md
+  - dora/docs/project-read-model.md
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  output: |+
+    Dora project read model test passed (safe summary, evidence projection, invalid memory, ambiguity, and path containment).
+    Dora Bridge MCP test passed (allow-list, safe read projection, stdio framing, path containment, and no write tools).
+
+  requiredPaths: &1
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  - dora/bridge/test/mcp_server_test.rb
+  - dora/docs/project-read-model.md
+  - dora/docs/dora-bridge-mcp.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T15:15:08Z'
+  changedAfterStart: *1
