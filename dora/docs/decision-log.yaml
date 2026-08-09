@@ -1,0 +1,12 @@
+kind: dora_decision_log
+version: 1
+entries:
+- id: future-write-handoff-program
+  decision: Keep Dora Bridge V1 read-only; evaluate any structured handoff or write capability only as a separate security and product program.
+  status: proposed
+  domain_references:
+  - docs/domain-library.yaml
+  plan_references:
+  - docs/work/dora-bridge-v1-historical-record-master.yaml
+  evidence_references:
+  - docs/dora-bridge-v1-connectivity.md

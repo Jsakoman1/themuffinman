@@ -6,7 +6,7 @@ require_relative "project_knowledge"
 module Dora
   class ProjectMemory
     REQUIRED_FIELDS = %w[project_intent canonical_knowledge open_decisions capability_intent current_work].freeze
-    CURRENT_WORK_STATES = %w[planned active blocked].freeze
+    CURRENT_WORK_STATES = %w[planned active blocked none].freeze
 
     def self.load!(path)
       fail!("project memory file is missing") unless File.file?(path)
@@ -49,8 +49,10 @@ module Dora
       declared = memory.fetch("open_decisions").map { |entry| entry.fetch("statement") }.sort
       canonical = knowledge.dig("product_brief", "unanswered_decisions").sort
       differences << {"kind" => "open_decisions", "memory" => declared, "canonical" => canonical} unless declared == canonical
-      work_path = File.join(root, memory.dig("current_work", "plan"))
-      differences << {"kind" => "missing_work_plan", "path" => memory.dig("current_work", "plan")} unless File.file?(work_path)
+      unless memory.dig("current_work", "state") == "none"
+        work_path = File.join(root, memory.dig("current_work", "plan"))
+        differences << {"kind" => "missing_work_plan", "path" => memory.dig("current_work", "plan")} unless File.file?(work_path)
+      end
       {"kind" => "dora_project_memory_drift", "version" => 1, "drifted" => !differences.empty?, "differences" => differences, "memory_path" => memory_path, "mutation" => "none", "completion_boundary" => "Drift is diagnostic only; Dora does not overwrite product-owned memory or infer completion."}.freeze
     end
 
@@ -110,9 +112,16 @@ module Dora
 
     def self.validate_current_work!(work)
       fail!("project memory current_work must be a mapping") unless work.is_a?(Hash)
+      state = work["state"]
+      fail!("project memory current_work state is invalid") unless CURRENT_WORK_STATES.include?(state)
+      if state == "none"
+        extra = work.reject { |key, value| key == "state" || value.nil? }
+        fail!("project memory current_work none must not declare a plan or task") unless extra.empty?
+
+        return {"state" => "none"}
+      end
       fail!("project memory current_work plan is invalid") unless safe_relative_path?(work["plan"])
       fail!("project memory current_work task is invalid") unless identifier?(work["task"])
-      fail!("project memory current_work state is invalid") unless CURRENT_WORK_STATES.include?(work["state"])
 
       work.slice("plan", "task", "state")
     end

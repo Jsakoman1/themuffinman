@@ -1,0 +1,16 @@
+kind: dora_workspace_inventory
+version: 1
+categories:
+- id: dora-core
+  path_prefixes:
+  - lib/
+  - bin/
+  - templates/
+- id: bridge-adapter
+  path_prefixes:
+  - bridge/
+- id: project-controls
+  path_prefixes:
+  - .dora/
+  - docs/
+  - AGENTS.md

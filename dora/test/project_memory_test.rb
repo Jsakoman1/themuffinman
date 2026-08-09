@@ -33,4 +33,13 @@ begin
 rescue ArgumentError
 end
 
-puts "Dora project memory test passed (declared intent and work remain navigable without completion claims)."
+idle = Dora::ProjectMemory.validate!(memory.merge("current_work" => {"state" => "none"}))
+abort "project memory lost an explicit idle state" unless idle.fetch("current_work") == {"state" => "none"}
+
+begin
+  Dora::ProjectMemory.validate!(memory.merge("current_work" => {"state" => "none", "plan" => "docs/work/first-work.yaml"}))
+  abort "project memory accepted an idle work declaration with a plan"
+rescue ArgumentError
+end
+
+puts "Dora project memory test passed (declared intent, active work, and idle state remain navigable without completion claims)."

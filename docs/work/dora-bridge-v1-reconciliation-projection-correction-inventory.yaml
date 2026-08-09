@@ -1,0 +1,28 @@
+kind: execution_inventory
+version: 1
+id: dora-bridge-v1-reconciliation-projection-correction-execution
+master_plan: docs/work/dora-bridge-v1-reconciliation-projection-correction-master.yaml
+state: ready_for_atomic_hardening
+items:
+- id: atomic-hardening
+  order: 1
+  plan: docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening.yaml
+  task: harden-projection-correction
+  status: verified
+  started_at: '2026-08-09T20:44:59Z'
+  verified_at: '2026-08-09T20:45:16Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening.yaml
+    task: harden-projection-correction
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+- id: projection-correction
+  order: 2
+  plan: docs/work/dora-bridge-v1-reconciliation-projection-correction.yaml
+  task: distinguish-control-reconciliation-from-delivery
+  status: verified
+  started_at: '2026-08-09T20:45:16Z'
+  verified_at: '2026-08-09T20:45:43Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-reconciliation-projection-correction.yaml
+    task: distinguish-control-reconciliation-from-delivery
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'

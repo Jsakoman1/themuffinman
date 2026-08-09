@@ -1,0 +1,5 @@
+kind: dora_artifact_policy
+version: 1
+generated_roots:
+- docs/audit-output
+deletion_authority: project_authorized_command

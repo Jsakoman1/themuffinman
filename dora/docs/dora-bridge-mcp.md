@@ -23,6 +23,6 @@ all projections require an allow-listed project ID and some require a declared,
 project-relative plan/task reference. There are no write, shell, source, search, or
 arbitrary-file operations.
 
-The adapter is stdio-only in this task. A future private remote transport must retain
-this registry and read-model boundary, add authentication outside Dora core, and must
-not publish an unauthenticated endpoint.
+For private ChatGPT use, Secure MCP Tunnel supplies the remote-capable authenticated
+transport above this unchanged local stdio process. The bridge itself remains
+transport-neutral and must never publish an unauthenticated HTTP endpoint.

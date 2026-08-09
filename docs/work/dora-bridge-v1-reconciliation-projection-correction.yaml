@@ -1,0 +1,54 @@
+kind: work
+version: 1
+id: dora-bridge-v1-reconciliation-projection-correction
+title: Keep project summaries focused on delivery and canonical decisions
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-projection-correction-inventory.yaml
+tasks:
+- id: distinguish-control-reconciliation-from-delivery
+  title: Exclude control reconciliation from product delivery and collapse mirrored
+    decisions
+  type: core-read-model-and-test
+  status: done
+  inventory_item: projection-correction
+  observable_outcome: A control_reconciled inventory remains auditable but cannot
+    replace the latest verified delivery, and a project-memory copy of a canonical
+    open decision does not appear as a duplicate external decision.
+  dependencies:
+  - harden-projection-correction
+  evidence_boundary:
+  - ProjectReadModel aggregation and focused tests only; no raw data exposure, MCP
+    tool change, registry/tunnel change, consumer evidence rewrite, or write capability.
+  paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  required_paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  validation: ruby dora/test/project_read_model_test.rb
+  started_at: '2026-08-09T20:45:16Z'
+  start_fingerprints:
+    dora/lib/dora/project_read_model.rb: 41a5f019ba938ae4ae2c618d35469394e96c9783d94d5d3be751d098832450f0
+    dora/test/project_read_model_test.rb: eb8715e3f33abb24b58c06cac36978323e992ca04a22fdb8721835455a2c72f4
+evidence:
+- task: distinguish-control-reconciliation-from-delivery
+  command: ruby dora/test/project_read_model_test.rb
+  ranAt: '2026-08-09T20:45:43Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  output: "Dora project read model test passed (safe summary, evidence projection,
+    invalid memory, supersession, ambiguity, and path containment).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_read_model.rb
+  - dora/test/project_read_model_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:45:16Z'
+  changedAfterStart: *1

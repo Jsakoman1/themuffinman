@@ -1,0 +1,67 @@
+kind: work
+version: 1
+id: dora-bridge-v1-reconciliation-state-readers
+title: Resolve explicit supersession and declared decision locations
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-execution-inventory.yaml
+tasks:
+- id: resolve-superseded-state-and-declared-decisions
+  title: Keep retired inventory work and declared decision logs out of false read-only
+    state
+  type: core-read-model-and-test
+  status: done
+  inventory_item: state-readers
+  observable_outcome: Explicitly superseded inventories cannot resolve as active or
+    latest delivery, and ProjectStatus reads decision logs from the adapter's declared
+    documentation root as well as the legacy Dora control location.
+  dependencies:
+  - support-no-current-work-memory-state
+  evidence_boundary:
+  - Read-only Dora aggregation and focused tests only; no MCP tool expansion, raw
+    evidence exposure, registry change, shell execution, or consumer application behavior
+    changes.
+  paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/lib/dora/project_status.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/project_status_test.rb
+  required_paths:
+  - dora/lib/dora/project_read_model.rb
+  - dora/lib/dora/project_status.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/project_status_test.rb
+  validation: ruby dora/test/project_read_model_test.rb && ruby dora/test/project_status_test.rb
+  started_at: '2026-08-09T20:36:50Z'
+  start_fingerprints:
+    dora/lib/dora/project_read_model.rb: d9016625f6077286d90b6f1893b84838e18705128aa0632211b810b5245ce717
+    dora/lib/dora/project_status.rb: 6ebdb9248461d0e20099a514cd8421b73212cb094bf3fcfaaa31a4854356374c
+    dora/test/project_read_model_test.rb: d4146203dace022bafba805e9336a87afa0872e9bf8ba53d5ab9e2915dc89097
+    dora/test/project_status_test.rb: 1852e2717af49287d06a3cfc8faf45230eeffd76e338504c98087b6cd05233bb
+evidence:
+- task: resolve-superseded-state-and-declared-decisions
+  command: ruby dora/test/project_read_model_test.rb && ruby dora/test/project_status_test.rb
+  ranAt: '2026-08-09T20:38:18Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_read_model.rb
+  - dora/lib/dora/project_status.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/project_status_test.rb
+  output: |+
+    Dora project read model test passed (safe summary, evidence projection, invalid memory, supersession, ambiguity, and path containment).
+    Dora project status test passed (health, work, decisions, and evidence gaps stay separate).
+
+  requiredPaths: &1
+  - dora/lib/dora/project_read_model.rb
+  - dora/lib/dora/project_status.rb
+  - dora/test/project_read_model_test.rb
+  - dora/test/project_status_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:36:50Z'
+  changedAfterStart: *1

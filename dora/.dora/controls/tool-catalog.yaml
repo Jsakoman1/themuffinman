@@ -1,0 +1,9 @@
+kind: dora_tool_catalog
+version: 1
+commands:
+- id: control-check
+  target: bin/dora doctor .dora/project.yaml
+  purpose: Validate Dora's self-project controls and canonical knowledge.
+  preconditions:
+  - Dora self-project controls are present.
+  expected_cost: short

@@ -1,0 +1,18 @@
+kind: dora_change_routing
+version: 1
+rules:
+- id: dora-core-and-bridge
+  path_prefixes:
+  - lib/
+  - bridge/
+  - test/
+  commands:
+  - ruby test/project_read_model_test.rb
+  - ruby bridge/test/mcp_server_test.rb
+- id: self-project-controls
+  path_prefixes:
+  - .dora/
+  - docs/
+  - AGENTS.md
+  commands:
+  - bin/dora doctor .dora/project.yaml

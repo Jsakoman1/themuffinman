@@ -1,0 +1,57 @@
+kind: work
+version: 1
+id: dora-bridge-v1-two-project-runbook
+title: Update the private Bridge V1 two-project runbook
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-two-project-runbook-inventory.yaml
+tasks:
+- id: document-two-project-private-bridge
+  title: Document the post-reconciliation private two-project connection
+  type: documentation-control
+  status: done
+  inventory_item: two-project-runbook
+  observable_outcome: The Bridge runbook accurately documents the private `doomsday-storage`
+    and `dora` allow-list, reconciled DoomsDayStorage expectations, and the required
+    user-side tool refresh without recording private tunnel credentials.
+  dependencies: []
+  evidence_boundary:
+  - Dora bridge documentation only; no MCP implementation, registry content, tunnel
+    credential, consumer application, write capability, commit, or push change.
+  paths:
+  - dora/docs/dora-bridge-mcp.md
+  - dora/docs/dora-bridge-v1-connectivity.md
+  required_paths:
+  - dora/docs/dora-bridge-mcp.md
+  - dora/docs/dora-bridge-v1-connectivity.md
+  validation: ruby -e 'mcp=File.read("dora/docs/dora-bridge-mcp.md"); runbook=File.read("dora/docs/dora-bridge-v1-connectivity.md");
+    abort "two projects" unless runbook.include?("doomsday-storage") && runbook.include?("dora");
+    abort "read-only" unless mcp.include?("read-only") && runbook.include?("read-only");
+    abort "stale state" if runbook.include?("invalid project memory")'
+  started_at: '2026-08-09T20:48:43Z'
+  start_fingerprints:
+    dora/docs/dora-bridge-mcp.md: '0009ac4479cdbe06fd91127a50cac682369be4b8d5b5d33df7d7ace07d6d4da7'
+    dora/docs/dora-bridge-v1-connectivity.md: ae18807a4899709a2edc9be4aeb81ed0fd511f7c52206232d6821dda1f6ea8f3
+evidence:
+- task: document-two-project-private-bridge
+  command: ruby -e 'mcp=File.read("dora/docs/dora-bridge-mcp.md"); runbook=File.read("dora/docs/dora-bridge-v1-connectivity.md");
+    abort "two projects" unless runbook.include?("doomsday-storage") && runbook.include?("dora");
+    abort "read-only" unless mcp.include?("read-only") && runbook.include?("read-only");
+    abort "stale state" if runbook.include?("invalid project memory")'
+  ranAt: '2026-08-09T20:50:06Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/dora-bridge-mcp.md
+  - dora/docs/dora-bridge-v1-connectivity.md
+  output: "\n"
+  requiredPaths: &1
+  - dora/docs/dora-bridge-mcp.md
+  - dora/docs/dora-bridge-v1-connectivity.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:48:43Z'
+  changedAfterStart: *1

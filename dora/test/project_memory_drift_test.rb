@@ -14,5 +14,10 @@ Dir.mktmpdir("dora-memory-drift") do |root|
   report = Dora::ProjectMemory.drift!(project_root: root)
   abort "memory drift was not reported" unless report.fetch("drifted") && report.fetch("differences").map { |row| row.fetch("kind") }.include?("open_decisions")
   abort "memory drift overwrote project-owned memory" unless File.read(path) == before
+
+  idle_memory = memory.merge("current_work" => {"state" => "none"})
+  File.write(path, YAML.dump(idle_memory))
+  idle_report = Dora::ProjectMemory.drift!(project_root: root)
+  abort "idle memory invented a missing work plan" if idle_report.fetch("differences").any? { |row| row.fetch("kind") == "missing_work_plan" }
 end
-puts "Dora project memory drift test passed (stale memory is reported without overwrite)."
+puts "Dora project memory drift test passed (stale and idle memory are reported without overwrite or invented work)."

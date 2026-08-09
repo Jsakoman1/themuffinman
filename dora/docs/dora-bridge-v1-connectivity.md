@@ -19,7 +19,7 @@ ChatGPT developer-mode app
 ```
 
 The bridge command exposes only the existing read-only tools. It holds the explicit
-`doomsday-storage` allow-list in a private local registry. The tunnel runtime API key is used only by `tunnel-client`;
+`doomsday-storage` and `dora` allow-list in a private local registry. The tunnel runtime API key is used only by `tunnel-client`;
 neither it nor a tunnel ID belongs in this repository, Dora evidence, or any project artifact.
 
 ## Required account and network access
@@ -38,7 +38,7 @@ inbound port, public DNS name, public HTTPS endpoint, or third-party tunnel.
    `tunnel_id` privately.
 2. Obtain the runtime API key for `tunnel-client` privately. Do not paste it into a shell history, repository file, Dora
    plan, or ChatGPT conversation.
-3. Create a private local registry outside the repository with permissions limited to the local owner. Its only entry
+3. Create a private local registry outside the repository with permissions limited to the local owner. Its only entries
    must be:
 
    ```yaml
@@ -48,6 +48,9 @@ inbound port, public DNS name, public HTTPS endpoint, or third-party tunnel.
      - id: doomsday-storage
        name: DoomsDayStorage
        adapter_path: /Users/jsakoman/Desktop/DoomsDayStorage/.dora/project.yaml
+     - id: dora
+       name: Dora
+       adapter_path: /Users/jsakoman/Desktop/themuffinman/dora/.dora/project.yaml
    ```
 
 4. Download the latest `tunnel-client` from Platform tunnel settings, then initialize a named local stdio profile.
@@ -79,10 +82,13 @@ In ChatGPT, without pasting filesystem paths or terminal output, ask:
 3. Are there open product decisions?
 4. What task is next?
 5. What evidence verified the latest delivery?
+6. What is the current state of Dora?
+7. Is Dora Bridge V1 complete, and what is Dora's next task?
 
 Record only the high-level answers and confirmation that the server returned no absolute paths, credentials, raw output,
-source code, or write capability. The expected honest state currently includes invalid project memory, the active V17
-inventory, and latest verified V21 evidence-corrections delivery. Do not change DoomsDayStorage just to make this proof
+source code, or write capability. The reconciled DoomsDayStorage projection is `HEALTHY`, has no active or next task,
+and identifies V21 evidence corrections as its latest verified delivery. Dora is `HEALTHY`, has no next task, and cites
+the integrated private read-only Bridge V1 provenance record. Do not change either project merely to make this proof
 look healthy.
 
 ## Completion boundary
@@ -115,6 +121,15 @@ discovered the sole allowed project, `doomsday-storage`, then successfully answe
 The connected client received no credentials, environment values, source code, raw
 terminal/verifier output, manual filesystem browser, write capability, or project
 path input. The private tunnel remained the sole external transport.
+
+## Two-project refresh checkpoint
+
+The private local registry now contains only `doomsday-storage` and `dora`. Restart
+the local `tunnel-client run --profile dora-bridge-v1` process if it was already
+running when the registry changed. In ChatGPT, reopen the developer-mode Dora app or
+start a new conversation so tool discovery refreshes, then confirm `list_projects`
+shows exactly those two IDs. This final user-side checkpoint does not add any write
+authority.
 
 ## Final adversarial review
 

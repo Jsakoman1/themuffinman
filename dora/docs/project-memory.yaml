@@ -1,0 +1,19 @@
+kind: dora_project_memory
+version: 1
+project_intent:
+  product_brief: docs/product-brief.yaml
+  domain_library: docs/domain-library.yaml
+canonical_knowledge:
+- id: product-brief
+  path: docs/product-brief.yaml
+  purpose: Dora product intent, scope, risks, and explicit unresolved decisions.
+- id: domain-library
+  path: docs/domain-library.yaml
+  purpose: Dora control vocabulary, invariants, permissions, and workflow intent.
+open_decisions:
+- id: future-write-handoff-program
+  statement: Any future product-to-implementation handoff or write capability requires a separately approved security and product program.
+  source: docs/product-brief.yaml
+capability_intent: []
+current_work:
+  state: none

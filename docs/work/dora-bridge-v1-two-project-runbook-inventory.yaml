@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: dora-bridge-v1-two-project-runbook-execution
+master_plan: docs/work/dora-bridge-v1-two-project-runbook.yaml
+state: documentation_control
+items:
+- id: two-project-runbook
+  order: 1
+  plan: docs/work/dora-bridge-v1-two-project-runbook.yaml
+  task: document-two-project-private-bridge
+  status: verified
+  started_at: '2026-08-09T20:48:43Z'
+  verified_at: '2026-08-09T20:50:06Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-two-project-runbook.yaml
+    task: document-two-project-private-bridge
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'

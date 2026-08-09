@@ -1,0 +1,50 @@
+kind: execution_inventory
+version: 1
+id: dora-bridge-v1-reconciliation-execution
+master_plan: docs/work/dora-bridge-v1-reconciliation-master.yaml
+state: ready_for_atomic_hardening
+items:
+- id: atomic-hardening
+  order: 1
+  plan: docs/work/dora-bridge-v1-reconciliation-atomic-hardening.yaml
+  task: harden-bridge-v1-reconciliation
+  status: verified
+  started_at: '2026-08-09T20:35:58Z'
+  verified_at: '2026-08-09T20:36:11Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-reconciliation-atomic-hardening.yaml
+    task: harden-bridge-v1-reconciliation
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+- id: memory-idle
+  order: 2
+  plan: docs/work/dora-bridge-v1-reconciliation-memory-idle.yaml
+  task: support-no-current-work-memory-state
+  status: verified
+  started_at: '2026-08-09T20:36:22Z'
+  verified_at: '2026-08-09T20:36:45Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-reconciliation-memory-idle.yaml
+    task: support-no-current-work-memory-state
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+- id: state-readers
+  order: 3
+  plan: docs/work/dora-bridge-v1-reconciliation-state-readers.yaml
+  task: resolve-superseded-state-and-declared-decisions
+  status: verified
+  started_at: '2026-08-09T20:36:50Z'
+  verified_at: '2026-08-09T20:38:19Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-reconciliation-state-readers.yaml
+    task: resolve-superseded-state-and-declared-decisions
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+- id: dora-self-project
+  order: 4
+  plan: docs/work/dora-bridge-v1-reconciliation-dora-self-project.yaml
+  task: establish-dora-self-project-boundary
+  status: verified
+  started_at: '2026-08-09T20:38:25Z'
+  verified_at: '2026-08-09T20:40:41Z'
+  evidence:
+    plan: docs/work/dora-bridge-v1-reconciliation-dora-self-project.yaml
+    task: establish-dora-self-project-boundary
+    revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'

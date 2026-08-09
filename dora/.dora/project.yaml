@@ -1,0 +1,21 @@
+kind: dora_project_adapter
+version: 1
+project:
+  id: dora
+  root: ".."
+paths:
+  docs: docs
+  work_plans: docs/work
+  audit_output: docs/audit-output
+  runtime_evidence: docs/runtime-evidence
+commands:
+  work_start: bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>
+  work_verify: bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
+  control_check: bin/dora doctor .dora/project.yaml
+extensions:
+- id: dora-documentation
+  category: documentation
+  paths:
+  - docs
+  - AGENTS.md
+  invocation: Dora-owned documentation and control validation

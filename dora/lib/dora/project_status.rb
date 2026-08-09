@@ -27,7 +27,7 @@ module Dora
         "active_work" => items.select { |item| item["status"] == "in_progress" }.map { |item| item.slice("id", "plan", "task") },
         "open_decisions" => knowledge.dig("product_brief", "unanswered_decisions"),
         "findings" => findings_for(root),
-        "decision_log" => decision_entries_for(root),
+        "decision_log" => decision_entries_for(root, adapter.dig("paths", "docs")),
         "evidence_gaps" => items.reject { |item| item["status"] == "verified" }.map { |item| item.slice("id", "plan", "task", "status") },
         "completion" => {"claimed" => false, "reason" => "Only project work verification records completion evidence."}
       }.freeze
@@ -52,9 +52,13 @@ module Dora
     end
     private_class_method :findings_for
 
-    def self.decision_entries_for(root)
-      path = File.join(root, ".dora/decision-log.yaml")
-      File.file?(path) ? DecisionLog.load!(path).fetch("entries").map { |entry| entry.slice("id", "decision", "status", "evidence_references") } : []
+    def self.decision_entries_for(root, docs_root)
+      [File.join(docs_root.to_s, "decision-log.yaml"), ".dora/decision-log.yaml"].uniq.flat_map do |relative|
+        path = File.join(root, relative)
+        next [] unless File.file?(path)
+
+        DecisionLog.load!(path).fetch("entries").map { |entry| entry.slice("id", "decision", "status", "evidence_references") }
+      end
     end
     private_class_method :decision_entries_for
 

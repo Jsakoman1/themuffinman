@@ -1,0 +1,60 @@
+kind: work
+version: 1
+id: dora-bridge-v1-reconciliation-memory-idle
+title: Represent no current work in project memory
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-execution-inventory.yaml
+tasks:
+- id: support-no-current-work-memory-state
+  title: Allow project memory to truthfully state that no work is current
+  type: core-contract-and-test
+  status: done
+  inventory_item: memory-idle
+  observable_outcome: Valid project memory can declare state none without a fabricated
+    plan or task, while planned, active, and blocked declarations retain their existing
+    navigation contract.
+  dependencies:
+  - harden-bridge-v1-reconciliation
+  evidence_boundary:
+  - Dora project-memory validation and focused tests only; no MCP transport, project
+    registry, consumer state, or workflow command behavior changes.
+  paths:
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_test.rb
+  - dora/test/project_memory_drift_test.rb
+  required_paths:
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_test.rb
+  - dora/test/project_memory_drift_test.rb
+  validation: ruby dora/test/project_memory_test.rb && ruby dora/test/project_memory_drift_test.rb
+  started_at: '2026-08-09T20:36:22Z'
+  start_fingerprints:
+    dora/lib/dora/project_memory.rb: 1f654289c822b4990aadb74004c6112fcfec3ba2ba626d5ae94d78c9938010ca
+    dora/test/project_memory_test.rb: 702dd499be1f3fabaf505759bae86f56ecfe936400cdccbd36db0f7e4876c9db
+    dora/test/project_memory_drift_test.rb: 9a8e3ffc95a99e2c48e1c6ca711623ae7ee51de387de7c6a4f879461bb2b1c3f
+evidence:
+- task: support-no-current-work-memory-state
+  command: ruby dora/test/project_memory_test.rb && ruby dora/test/project_memory_drift_test.rb
+  ranAt: '2026-08-09T20:36:45Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_drift_test.rb
+  - dora/test/project_memory_test.rb
+  output: |+
+    Dora project memory test passed (declared intent, active work, and idle state remain navigable without completion claims).
+    Dora project memory drift test passed (stale and idle memory are reported without overwrite or invented work).
+
+  requiredPaths: &1
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_test.rb
+  - dora/test/project_memory_drift_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:36:22Z'
+  changedAfterStart: *1

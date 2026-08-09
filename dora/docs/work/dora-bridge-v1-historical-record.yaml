@@ -1,0 +1,33 @@
+kind: work
+version: 1
+id: dora-bridge-v1-historical-record
+title: Preserve Dora Bridge V1 parent-control verification provenance
+status: verified
+baseline: 08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-historical-record-inventory.yaml
+tasks:
+- id: record-verified-private-read-only-bridge
+  title: Record the integrated Bridge V1 verification boundary
+  type: provenance-record
+  status: done
+  inventory_item: bridge-v1-provenance
+  observable_outcome: Dora's self-project records that the parent-controlled Bridge V1 delivery was verified and integrated as a private read-only capability.
+  dependencies: []
+  evidence_boundary:
+  - Historical provenance only; no replayed raw output, consumer change, tunnel credential, registry, or bridge write capability.
+  paths:
+  - docs/work/dora-bridge-v1-historical-record-master.yaml
+  - docs/work/dora-bridge-v1-historical-record.yaml
+  - docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  required_paths:
+  - docs/work/dora-bridge-v1-historical-record-master.yaml
+  validation: Parent-controlled Bridge V1 work verification is cited as provenance and is not rerun by this historical record.
+evidence:
+- task: record-verified-private-read-only-bridge
+  result: passed
+  ranAt: '2026-08-09T20:22:17Z'
+  revision: 08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5
+  exitCode: 0
+  provenance: docs/work/dora-bridge-v1-master.yaml

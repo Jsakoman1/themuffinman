@@ -1,0 +1,8 @@
+kind: dora_context_search
+version: 1
+roots:
+- docs
+- lib
+- bridge
+exclusions:
+- docs/audit-output

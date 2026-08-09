@@ -127,11 +127,15 @@ module Dora
         fail!("execution inventory item is invalid: #{path}") unless item.is_a?(Hash) && identifier?(item["id"]) && safe_relative_path?(item["plan"]) && identifier?(item["task"]) && statement?(item["status"])
         item.slice("id", "order", "plan", "task", "status", "started_at", "verified_at", "evidence")
       end
-      {"id" => document["id"], "path" => path, "master_plan" => safe_relative_path?(document["master_plan"]) ? document["master_plan"] : nil, "items" => normalized}.freeze
+      state = document["state"]
+      fail!("execution inventory state is invalid: #{path}") unless state.nil? || statement?(state)
+
+      {"id" => document["id"], "path" => path, "master_plan" => safe_relative_path?(document["master_plan"]) ? document["master_plan"] : nil, "state" => state, "items" => normalized}.compact.freeze
     end
 
     def resolve_deliveries(inventories, inconsistencies)
-      active = inventories.select { |inventory| inventory.fetch("items").any? { |item| item["status"] == "in_progress" } }
+      eligible_inventories = inventories.reject { |inventory| non_delivery_inventory?(inventory) }
+      active = eligible_inventories.select { |inventory| inventory.fetch("items").any? { |item| item["status"] == "in_progress" } }
       active_delivery = if active.length == 1
                           delivery_summary(active.first, "active", inconsistencies)
                         elsif active.length > 1
@@ -139,7 +143,7 @@ module Dora
                           {"status" => "ambiguous", "references" => active.map { |item| item.fetch("path") }}
                         end
 
-      verified = inventories.flat_map do |inventory|
+      verified = eligible_inventories.flat_map do |inventory|
         inventory.fetch("items").each_with_object([]) do |item, entries|
           next unless item["status"] == "verified" && parse_time(item["verified_at"])
 
@@ -170,9 +174,10 @@ module Dora
     end
 
     def resolve_next_task(inventories, inconsistencies)
-      active = inventories.select { |inventory| inventory.fetch("items").any? { |item| item["status"] == "in_progress" } }
+      eligible_inventories = inventories.reject { |inventory| non_delivery_inventory?(inventory) }
+      active = eligible_inventories.select { |inventory| inventory.fetch("items").any? { |item| item["status"] == "in_progress" } }
       return nil if active.length > 1
-      candidate = active.first || inventories.find { |inventory| inventory.fetch("items").any? { |item| item["status"] == "pending" } }
+      candidate = active.first || eligible_inventories.find { |inventory| inventory.fetch("items").any? { |item| item["status"] == "pending" } }
       return nil unless candidate
 
       AgentNext.next!(project_root: @root, inventory_path: candidate.fetch("path"))
@@ -191,13 +196,13 @@ module Dora
       if memory && canonical != remembered
         inconsistencies << issue("WARNING", "open_decisions", "project memory and product brief declare different open decisions", ["docs/product-brief.yaml", "docs/project-memory.yaml"])
       end
-      records.concat(memory_records.map { |record| record.slice("id", "statement", "source").merge("source" => "project_memory", "reference" => record.fetch("source")) })
+      records.concat(memory_records.reject { |record| canonical.include?(record.fetch("statement")) }.map { |record| record.slice("id", "statement", "source").merge("source" => "project_memory", "reference" => record.fetch("source")) })
       decision_log_entries(inconsistencies).each do |entry|
         next unless entry["status"] == "proposed"
 
         records << {"id" => entry.fetch("id"), "source" => "decision_log", "statement" => entry.fetch("decision"), "reference" => entry.fetch("reference")}
       end
-      records.uniq { |record| [record["statement"], record["reference"]] }.freeze
+      records.uniq { |record| record["statement"] }.freeze
     end
 
     def decision_log_entries(inconsistencies)
@@ -263,6 +268,10 @@ module Dora
 
         path == @runtime_evidence_root || path.start_with?("#{@runtime_evidence_root}/")
       end
+    end
+
+    def non_delivery_inventory?(inventory)
+      %w[superseded control_reconciled].include?(inventory["state"])
     end
 
     def resolve_under_root!(path, label)

@@ -1,0 +1,43 @@
+kind: master
+version: 1
+id: dora-bridge-v1-reconciliation
+title: Reconcile Bridge V1 project state and establish Dora self-readability
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-bridge-v1-reconciliation-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-master.yaml
+  baseline_only_surfaces:
+  - The verified Bridge V1 MCP transport, Secure MCP Tunnel connection, and read-only
+    tool set.
+  - Existing Codex CLI/files workflow and all consumer application behavior.
+  residual_scope:
+  - Represent the absence of active work without a terminal-state memory misuse.
+  - Exclude explicitly superseded inventories from read-only active/latest resolution.
+  - Resolve status decision logs from declared project documentation paths.
+  - Create Dora's minimal, self-contained project-control boundary and historical
+    Bridge V1 provenance record.
+  retest_triggers:
+  - Any change to project memory or read-model state resolution requires focused Dora
+    tests.
+  - Any change to Dora self-project controls requires doctor and read-model validation.
+  non_duplication_rule: The prior real ChatGPT proof remains authoritative Bridge
+    V1 evidence; this program does not repeat or broaden its transport.
+children:
+- docs/work/dora-bridge-v1-reconciliation-atomic-hardening.yaml
+- docs/work/dora-bridge-v1-reconciliation-memory-idle.yaml
+- docs/work/dora-bridge-v1-reconciliation-state-readers.yaml
+- docs/work/dora-bridge-v1-reconciliation-dora-self-project.yaml
+evidence:
+- verifiedAt: '2026-08-09T20:40:48Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  children:
+  - docs/work/dora-bridge-v1-reconciliation-atomic-hardening.yaml
+  - docs/work/dora-bridge-v1-reconciliation-memory-idle.yaml
+  - docs/work/dora-bridge-v1-reconciliation-state-readers.yaml
+  - docs/work/dora-bridge-v1-reconciliation-dora-self-project.yaml

@@ -1,0 +1,40 @@
+kind: dora_domain_library
+version: 1
+vocabulary:
+- id: project-read-model
+  description: A transport-independent, sanitized aggregation of declared project artifacts.
+- id: bridge-registry
+  description: A private allow-list that maps a public project identifier to one trusted adapter path.
+entities:
+- id: project-adapter
+  description: A project-owned declaration of bounded roots and workflow commands.
+- id: execution-inventory
+  description: A serial record of declared work items and their verified, pending, or superseded state.
+invariants:
+- id: read-only-projection
+  description: External bridge output is sanitized server-side and never grants write, shell, filesystem, or source retrieval authority.
+- id: explicit-supersession
+  description: Superseded work remains auditable but cannot resolve as active or latest delivery.
+permission_rules:
+- id: bridge-read
+  actor: authorized external client
+  action: read safe project projection
+  boundary: Only explicitly allow-listed projects and sanitized projection fields are available.
+workflows:
+- id: declared-work-lifecycle
+  initial_state: planned
+  transitions:
+  - from: planned
+    to: active
+    action: start one declared work item
+  - from: active
+    to: verified
+    action: record passing leaf validation
+  - from: planned
+    to: superseded
+    action: explicitly replace obsolete work without claiming completion
+acceptance_scenarios:
+- id: safe-external-summary
+  given: An authorized client selects an allow-listed project.
+  when: It requests the project summary.
+  then: It receives current safe state or explicit inconsistency metadata without raw local data.

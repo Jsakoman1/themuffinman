@@ -1,0 +1,11 @@
+kind: dora_project_control
+version: 1
+controls:
+  tool_catalog: .dora/controls/tool-catalog.yaml
+  change_routing: .dora/controls/change-routing.yaml
+  context_search: .dora/controls/context-search.yaml
+  workspace_inventory: .dora/controls/workspace-inventory.yaml
+  documentation_evidence: .dora/controls/documentation-evidence.yaml
+  system_map: .dora/controls/system-map.yaml
+  artifact_policy: .dora/controls/artifact-policy.yaml
+  backlog: .dora/controls/backlog.yaml

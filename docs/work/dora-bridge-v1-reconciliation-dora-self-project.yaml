@@ -1,0 +1,143 @@
+kind: work
+version: 1
+id: dora-bridge-v1-reconciliation-dora-self-project
+title: Establish Dora's dedicated readable project boundary
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-execution-inventory.yaml
+tasks:
+- id: establish-dora-self-project-boundary
+  title: Add Dora-owned knowledge, controls, and Bridge V1 provenance
+  type: project-control-foundation
+  status: done
+  inventory_item: dora-self-project
+  observable_outcome: The Dora source directory has a valid dedicated adapter and
+    control bundle, truthful idle project memory, an explicitly deferred future write-bridge
+    decision, and a cited historical record of the verified Bridge V1 delivery.
+  dependencies:
+  - resolve-superseded-state-and-declared-decisions
+  evidence_boundary:
+  - Dora self-project documentation and control artifacts only; no parent-product
+    control data, MCP transport/registry/tunnel configuration, consumer project files,
+    or write capability changes.
+  paths:
+  - dora/AGENTS.md
+  - dora/.dora/project.yaml
+  - dora/.dora/project-control.yaml
+  - dora/.dora/agent-project-profile.yaml
+  - dora/.dora/controls
+  - dora/docs/product-brief.yaml
+  - dora/docs/domain-library.yaml
+  - dora/docs/project-memory.yaml
+  - dora/docs/decision-log.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-master.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  required_paths:
+  - dora/AGENTS.md
+  - dora/.dora/project.yaml
+  - dora/.dora/project-control.yaml
+  - dora/.dora/agent-project-profile.yaml
+  - dora/.dora/controls/tool-catalog.yaml
+  - dora/.dora/controls/change-routing.yaml
+  - dora/.dora/controls/context-search.yaml
+  - dora/.dora/controls/workspace-inventory.yaml
+  - dora/.dora/controls/documentation-evidence.yaml
+  - dora/.dora/controls/system-map.yaml
+  - dora/.dora/controls/artifact-policy.yaml
+  - dora/.dora/controls/backlog.yaml
+  - dora/docs/product-brief.yaml
+  - dora/docs/domain-library.yaml
+  - dora/docs/project-memory.yaml
+  - dora/docs/decision-log.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-master.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  validation: dora/bin/dora doctor dora/.dora/project.yaml && ruby dora/test/project_read_model_test.rb
+  started_at: '2026-08-09T20:38:25Z'
+  start_fingerprints:
+    dora/AGENTS.md: __missing__
+    dora/.dora/project.yaml: __missing__
+    dora/.dora/project-control.yaml: __missing__
+    dora/.dora/agent-project-profile.yaml: __missing__
+    dora/.dora/controls/tool-catalog.yaml: __missing__
+    dora/.dora/controls/change-routing.yaml: __missing__
+    dora/.dora/controls/context-search.yaml: __missing__
+    dora/.dora/controls/workspace-inventory.yaml: __missing__
+    dora/.dora/controls/documentation-evidence.yaml: __missing__
+    dora/.dora/controls/system-map.yaml: __missing__
+    dora/.dora/controls/artifact-policy.yaml: __missing__
+    dora/.dora/controls/backlog.yaml: __missing__
+    dora/docs/product-brief.yaml: __missing__
+    dora/docs/domain-library.yaml: __missing__
+    dora/docs/project-memory.yaml: __missing__
+    dora/docs/decision-log.yaml: __missing__
+    dora/docs/work/dora-bridge-v1-historical-record-master.yaml: __missing__
+    dora/docs/work/dora-bridge-v1-historical-record.yaml: __missing__
+    dora/docs/work/dora-bridge-v1-historical-record-inventory.yaml: __missing__
+evidence:
+- task: establish-dora-self-project-boundary
+  command: dora/bin/dora doctor dora/.dora/project.yaml && ruby dora/test/project_read_model_test.rb
+  ranAt: '2026-08-09T20:40:41Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/.dora/agent-project-profile.yaml
+  - dora/.dora/project-control.yaml
+  - dora/.dora/project.yaml
+  - dora/AGENTS.md
+  - dora/docs/decision-log.yaml
+  - dora/docs/domain-library.yaml
+  - dora/docs/product-brief.yaml
+  - dora/docs/project-memory.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-master.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record.yaml
+  output: |+
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+    Dora project read model test passed (safe summary, evidence projection, invalid memory, supersession, ambiguity, and path containment).
+
+  requiredPaths: &1
+  - dora/AGENTS.md
+  - dora/.dora/project.yaml
+  - dora/.dora/project-control.yaml
+  - dora/.dora/agent-project-profile.yaml
+  - dora/.dora/controls/tool-catalog.yaml
+  - dora/.dora/controls/change-routing.yaml
+  - dora/.dora/controls/context-search.yaml
+  - dora/.dora/controls/workspace-inventory.yaml
+  - dora/.dora/controls/documentation-evidence.yaml
+  - dora/.dora/controls/system-map.yaml
+  - dora/.dora/controls/artifact-policy.yaml
+  - dora/.dora/controls/backlog.yaml
+  - dora/docs/product-brief.yaml
+  - dora/docs/domain-library.yaml
+  - dora/docs/project-memory.yaml
+  - dora/docs/decision-log.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-master.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record.yaml
+  - dora/docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:38:25Z'
+  changedAfterStart: *1

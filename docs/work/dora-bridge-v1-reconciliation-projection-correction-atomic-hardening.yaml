@@ -1,0 +1,54 @@
+kind: work
+version: 1
+id: dora-bridge-v1-reconciliation-projection-correction-atomic-hardening
+title: Harden the projection correction
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-projection-correction-inventory.yaml
+tasks:
+- id: harden-projection-correction
+  title: Verify the control-only projection correction boundary
+  type: planning-control
+  status: done
+  inventory_item: atomic-hardening
+  observable_outcome: The corrective work has one read-model outcome, exact source
+    and test paths, and an explicit preservation boundary for all Bridge V1 transport
+    and consumer state.
+  dependencies: []
+  evidence_boundary:
+  - Planning-control artifacts only; no MCP transport, allow-list, tunnel, consumer
+    project, or product behavior changes.
+  paths:
+  - docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml
+  required_paths:
+  - docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml
+  validation: ruby -ryaml -e 'master=YAML.load_file("docs/work/dora-bridge-v1-reconciliation-projection-correction-master.yaml");
+    inventory=YAML.load_file(master.fetch("execution_inventory")); abort "inventory"
+    unless inventory.fetch("items").map { |item| item.fetch("order") } == [1, 2];
+    abort "review" unless YAML.load_file("docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml").fetch("status")
+    == "verified"'
+  started_at: '2026-08-09T20:44:59Z'
+  start_fingerprints:
+    docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml: __missing__
+evidence:
+- task: harden-projection-correction
+  command: ruby -ryaml -e 'master=YAML.load_file("docs/work/dora-bridge-v1-reconciliation-projection-correction-master.yaml");
+    inventory=YAML.load_file(master.fetch("execution_inventory")); abort "inventory"
+    unless inventory.fetch("items").map { |item| item.fetch("order") } == [1, 2];
+    abort "review" unless YAML.load_file("docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml").fetch("status")
+    == "verified"'
+  ranAt: '2026-08-09T20:45:16Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml
+  output: "\n"
+  requiredPaths: &1
+  - docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:44:59Z'
+  changedAfterStart: *1

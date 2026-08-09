@@ -1,0 +1,21 @@
+kind: dora_atomic_task_hardening_review
+version: 1
+id: dora-bridge-v1-reconciliation-atomic-hardening-review
+status: verified
+master_plan: docs/work/dora-bridge-v1-reconciliation-master.yaml
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-execution-inventory.yaml
+review:
+  serial_order:
+  - Establish the program boundary before changing durable project state.
+  - Add the no-current-work memory contract before consumer memory uses it.
+  - Make read-only state readers honor explicit supersession and declared documentation paths.
+  - Create the dedicated Dora project only after its control primitives are validated.
+  atomicity:
+  - Each task has one observable outcome, exact required paths, predecessor dependencies, and a leaf validation.
+  preservation:
+  - Bridge V1 remains a read-only MCP projection with no registry, tunnel, tool, or authentication change.
+  - DoomsDayStorage remains a separate consumer-state reconciliation and cannot be changed by these Dora-source tasks.
+  - Historical delivery evidence is cited rather than rewritten or replayed as raw terminal output.
+  decision:
+    result: approved
+    rationale: The program separates reusable core semantics, read-only aggregation, and Dora-owned project identity without creating a second memory system or a write path.

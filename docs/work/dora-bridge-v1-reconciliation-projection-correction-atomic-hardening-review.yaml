@@ -1,0 +1,16 @@
+kind: dora_atomic_task_hardening_review
+version: 1
+id: dora-bridge-v1-reconciliation-projection-correction-atomic-hardening-review
+status: verified
+master_plan: docs/work/dora-bridge-v1-reconciliation-projection-correction-master.yaml
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-projection-correction-inventory.yaml
+review:
+  atomicity:
+  - The one corrective task changes only read-model delivery and decision aggregation plus its focused test.
+  preservation:
+  - Control reconciliation stays auditable; it is only excluded from product-delivery selection.
+  - Canonical product decisions remain present; only an identical project-memory mirror is removed from duplicate external output.
+  - No bridge transport, registration, authentication, write capability, or consumer artifact is changed.
+  decision:
+    result: approved
+    rationale: Delivery selection must distinguish a verified product delivery from a verified documentation/control repair.

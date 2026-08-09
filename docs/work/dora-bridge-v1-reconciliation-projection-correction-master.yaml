@@ -1,0 +1,33 @@
+kind: master
+version: 1
+id: dora-bridge-v1-reconciliation-projection-correction
+title: Correct read-model delivery and decision projection after reconciliation
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-projection-correction-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-reconciliation-master.yaml
+  baseline_only_surfaces:
+  - Bridge V1 MCP operations, allow-list, transport, tunnel, and read-only capability
+    boundary.
+  residual_scope:
+  - Exclude explicit control-reconciliation inventories from latest delivery resolution.
+  - Deduplicate project-memory mirrors of canonical unanswered decisions.
+  retest_triggers:
+  - Any delivery or decision-resolution change requires project-read-model tests.
+  non_duplication_rule: DoomsDayStorage remains an input fixture; no consumer application
+    behavior or historical evidence is changed by this core correction.
+children:
+- docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening.yaml
+- docs/work/dora-bridge-v1-reconciliation-projection-correction.yaml
+evidence:
+- verifiedAt: '2026-08-09T20:45:43Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  children:
+  - docs/work/dora-bridge-v1-reconciliation-projection-correction-atomic-hardening.yaml
+  - docs/work/dora-bridge-v1-reconciliation-projection-correction.yaml

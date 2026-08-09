@@ -1,0 +1,17 @@
+kind: dora_product_brief
+version: 1
+product: Dora
+user_problem: Product teams and implementation agents need one auditable project workflow source of truth for plans, decisions, memory, validation, and safe evidence.
+primary_users:
+- Product owners and implementation agents coordinating a software project.
+intended_outcomes:
+- A project can declare its knowledge, work, verification evidence, and current state without a second memory database.
+- An authorized external read-only client can query a safe structured project projection without filesystem access or manual terminal copy/paste.
+non_goals:
+- Dora Bridge V1 does not modify projects, execute shell commands, expose source code, or invoke Codex.
+assumptions:
+- Consumer projects retain ownership of their product knowledge, plans, evidence, and private configuration.
+risks:
+- A misleading aggregate could hide inconsistent consumer state or expose private implementation details.
+unanswered_decisions:
+- Any future product-to-implementation handoff or write capability requires a separately approved security and product program.

@@ -43,6 +43,7 @@ Dir.mktmpdir("dora-project-read-model") do |root|
   abort "summary lost project" unless summary.dig("project", "id") == FIXTURE.fetch("id") && summary.dig("project", "name") == FIXTURE.fetch("name")
   abort "summary lost verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
   abort "summary lost proposed decision" unless summary.fetch("open_decisions").any? { |item| item["source"] == "decision_log" }
+  abort "summary duplicated a canonical open decision through project memory" unless summary.fetch("open_decisions").count { |item| item["statement"] == FIXTURE.fetch("open_decision") } == 1
   abort "summary leaked raw output" if summary.to_s.include?(FIXTURE.fetch("raw_output"))
   evidence = model.task_evidence("docs/work/delivery.yaml", FIXTURE.fetch("latest_task"))
   abort "evidence leaked output or unsafe path" if evidence.to_s.include?(FIXTURE.fetch("raw_output")) || evidence.to_s.include?(".env")
@@ -75,4 +76,30 @@ Dir.mktmpdir("dora-project-read-model-ambiguous") do |root|
   abort "ambiguous active work was guessed" unless summary.dig("delivery", "active", "status") == "ambiguous"
 end
 
-puts "Dora project read model test passed (safe summary, evidence projection, invalid memory, ambiguity, and path containment)."
+Dir.mktmpdir("dora-project-read-model-superseded") do |root|
+  write_project(root)
+  inventory = YAML.load_file(File.join(root, FIXTURE.fetch("latest_inventory")))
+  inventory["id"] = "superseded-delivery"
+  inventory["state"] = "superseded"
+  inventory["items"] = [
+    inventory.fetch("items").first.merge("id" => "stale-active", "status" => "in_progress"),
+    inventory.fetch("items").first.merge("id" => "stale-verified", "status" => "verified", "verified_at" => "2099-01-01T00:00:00Z")
+  ]
+  write_yaml(root, "docs/work/superseded-inventory.yaml", inventory)
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "superseded inventory resolved as active work" if summary.dig("delivery", "active")
+  abort "superseded inventory replaced latest verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
+end
+
+Dir.mktmpdir("dora-project-read-model-control-reconciled") do |root|
+  write_project(root)
+  inventory = YAML.load_file(File.join(root, FIXTURE.fetch("latest_inventory")))
+  inventory["id"] = "control-reconciliation"
+  inventory["state"] = "control_reconciled"
+  inventory["items"] = [inventory.fetch("items").first.merge("id" => "reconciliation", "verified_at" => "2099-01-01T00:00:00Z")]
+  write_yaml(root, "docs/work/control-reconciliation-inventory.yaml", inventory)
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "control reconciliation replaced latest verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
+end
+
+puts "Dora project read model test passed (safe summary, evidence projection, invalid memory, supersession, ambiguity, and path containment)."

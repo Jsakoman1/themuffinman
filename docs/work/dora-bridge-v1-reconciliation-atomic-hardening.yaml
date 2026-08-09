@@ -1,0 +1,62 @@
+kind: work
+version: 1
+id: dora-bridge-v1-reconciliation-atomic-hardening
+title: Harden the Bridge V1 reconciliation program
+status: verified
+baseline: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v1-reconciliation-execution-inventory.yaml
+tasks:
+- id: harden-bridge-v1-reconciliation
+  title: Verify bounded reconciliation tasks and preservation boundaries
+  type: planning-control
+  status: done
+  inventory_item: atomic-hardening
+  observable_outcome: The serial program has one bounded outcome per task, exact changed
+    paths, predecessor dependencies, and explicit protection for Bridge V1's read-only
+    transport and historical consumer evidence.
+  dependencies: []
+  evidence_boundary:
+  - Planning-control artifacts only; no MCP transport, registry, tunnel, consumer
+    project, or application behavior changes.
+  paths:
+  - docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml
+  required_paths:
+  - docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml
+  validation: ruby -ryaml -e 'master=YAML.load_file("docs/work/dora-bridge-v1-reconciliation-master.yaml");
+    inventory=YAML.load_file(master.fetch("execution_inventory")); children=master.fetch("children").map
+    { |path| YAML.load_file(path) }; abort "inventory order" unless inventory.fetch("items").map
+    { |item| item.fetch("order") } == [1, 2, 3, 4]; abort "task mapping" unless inventory.fetch("items").map
+    { |item| [item.fetch("plan"), item.fetch("task")] }.sort == children.flat_map
+    { |plan| plan.fetch("tasks").map { |task| [plan.fetch("id"), task.fetch("id")]
+    } }.map { |id, task| [master.fetch("children").find { |path| YAML.load_file(path).fetch("id")
+    == id }, task] }.sort; abort "review" unless YAML.load_file("docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml").fetch("status")
+    == "verified"'
+  started_at: '2026-08-09T20:35:58Z'
+  start_fingerprints:
+    docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml: __missing__
+evidence:
+- task: harden-bridge-v1-reconciliation
+  command: ruby -ryaml -e 'master=YAML.load_file("docs/work/dora-bridge-v1-reconciliation-master.yaml");
+    inventory=YAML.load_file(master.fetch("execution_inventory")); children=master.fetch("children").map
+    { |path| YAML.load_file(path) }; abort "inventory order" unless inventory.fetch("items").map
+    { |item| item.fetch("order") } == [1, 2, 3, 4]; abort "task mapping" unless inventory.fetch("items").map
+    { |item| [item.fetch("plan"), item.fetch("task")] }.sort == children.flat_map
+    { |plan| plan.fetch("tasks").map { |task| [plan.fetch("id"), task.fetch("id")]
+    } }.map { |id, task| [master.fetch("children").find { |path| YAML.load_file(path).fetch("id")
+    == id }, task] }.sort; abort "review" unless YAML.load_file("docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml").fetch("status")
+    == "verified"'
+  ranAt: '2026-08-09T20:36:11Z'
+  revision: '08dfbe74192340f71f6ee2889fcba0fa4d8d9ad5'
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml
+  output: "\n"
+  requiredPaths: &1
+  - docs/work/dora-bridge-v1-reconciliation-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T20:35:58Z'
+  changedAfterStart: *1
