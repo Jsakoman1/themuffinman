@@ -1,0 +1,203 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-task-scoped-contract
+title: Declare cross-layer implementation obligations per task
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-task-scoped-contract-execution-inventory.yaml
+planning_item:
+  priority: P1
+  current_evidence:
+  - AgentContext exposes broad product/domain rules plus task required_paths and validation.
+  - Existing vertical-slice and proof-packet routes describe potential migration,
+    API, frontend, test, runtime, and documentation work before implementation.
+  problem: A normal implementation task has no standard scoped map of owning read/write
+    paths, permission owner, schema/API/UI contract, documentation, and runtime proof
+    obligations.
+  intended_outcome: An optional explicit implementation_contract on a task lets consumer
+    projects declare these obligations; Dora validates and cites it but never fills
+    missing business semantics by inference.
+  candidate_surfaces:
+  - work-plan.template.yaml
+  - lib/dora/agent_context.rb
+  - lib/dora/work_verifier.rb
+  - lib/dora/atomic_plan_contract.rb
+  - agent-context.schema.yaml
+  - test/agent_context_test.rb
+  invariants:
+  - Consumer product rules remain product-owned; docs-only and small technical tasks
+    do not need artificial API/UI fields.
+  open_questions:
+  - Which contract sections are required by task type?
+  - Is the contract embedded or a cited project-relative file?
+  future_atomic_slices:
+  - Define a minimal optional schema with explicit omission semantics.
+  - Render it in implementation session and closeout without duplicating task status.
+  - Add backend, API, UI, data, and docs-only fixture examples.
+  readiness: selected_for_goal_pursuit
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-reliability-foundation-master.yaml
+  baseline_only_surfaces:
+  - Existing product brief
+  - domain library
+  - vertical-slice
+  - and proof-packet contracts.
+  residual_scope:
+  - A declarative task-level bridge between existing knowledge and implementation
+    controls.
+  retest_triggers:
+  - Work-plan schema
+  - task context
+  - verification
+  - or capability-proof changes.
+  non_duplication_rule: The contract cites product authority; it does not create a
+    second domain model.
+tasks:
+- id: validate-optional-task-implementation-contract
+  title: Validate an explicit optional implementation contract on a work task
+  type: implementation
+  status: done
+  inventory_item: task-contract-schema
+  observable_outcome: WorkArtifactSchema validates an optional task implementation_contract
+    with explicit read/write, permission, schema/API/UI/test/docs, and runtime obligation
+    fields while accepting contract-free docs-only tasks.
+  dependencies: []
+  evidence_boundary:
+  - Schema and synthetic work-artifact fixtures only; no product rule inference
+  - task status mutation
+  - decision write
+  - GitHub access
+  - consumer mutation
+  - or runner invocation.
+  paths:
+  - templates/work-artifact-schema.yaml
+  - lib/dora/work_artifact_schema.rb
+  - test/work_artifact_schema_test.rb
+  required_paths:
+  - templates/work-artifact-schema.yaml
+  - lib/dora/work_artifact_schema.rb
+  - test/work_artifact_schema_test.rb
+  validation: ruby test/work_artifact_schema_test.rb
+  started_at: '2026-08-10T11:11:58Z'
+  start_fingerprints:
+    templates/work-artifact-schema.yaml: 044f70a99324d636437e193224351be9ced13c29570be6bbdc96b346ea7ee616
+    lib/dora/work_artifact_schema.rb: c4d90bb5f2ba566c242bcd41952c418216f876c781e189127794fe9e3e181504
+    test/work_artifact_schema_test.rb: 54e8f80463fb0311a6f33b94a0bd96120ed4143d0f59f5ecac064a92fd3e377e
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_execution.rb
+  - test/agent_closeout_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_routing_test.rb
+  - test/project_doctor_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_execution_test.rb
+- id: render-task-implementation-contract
+  title: Render the declared task implementation contract in cited agent context
+  type: implementation
+  status: done
+  inventory_item: task-contract-context
+  observable_outcome: AgentContext exposes the declared implementation contract as
+    task-owned data and omits it when not declared, without deriving business semantics
+    or changing work state.
+  dependencies:
+  - task-contract-schema
+  evidence_boundary:
+  - Synthetic AgentContext fixtures only; no product rule inference
+  - task status mutation
+  - decision write
+  - GitHub access
+  - consumer mutation
+  - or runner invocation.
+  paths:
+  - lib/dora/agent_context.rb
+  - test/agent_context_test.rb
+  required_paths:
+  - lib/dora/agent_context.rb
+  - test/agent_context_test.rb
+  validation: ruby test/agent_context_test.rb && ruby test/work_artifact_schema_test.rb
+  started_at: '2026-08-10T11:13:36Z'
+  start_fingerprints:
+    lib/dora/agent_context.rb: d9bb42c7366428c410b24e44f3027dd74d0cec2ccda04ddea907926f185b161e
+    test/agent_context_test.rb: 2230714846b6c974941e23ab04461ff328cf9dde7886162221da19394c230fe8
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_routing_test.rb
+  - test/project_doctor_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+evidence:
+- task: validate-optional-task-implementation-contract
+  command: ruby test/work_artifact_schema_test.rb
+  ranAt: '2026-08-10T11:13:28Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - lib/dora/work_artifact_schema.rb
+  - templates/work-artifact-schema.yaml
+  - test/work_artifact_schema_test.rb
+  output: "Dora work-artifact schema test passed (portable master, work, and inventory
+    fixtures).\n\n"
+  requiredPaths: &1
+  - templates/work-artifact-schema.yaml
+  - lib/dora/work_artifact_schema.rb
+  - test/work_artifact_schema_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:11:58Z'
+  changedAfterStart: *1
+- task: render-task-implementation-contract
+  command: ruby test/agent_context_test.rb && ruby test/work_artifact_schema_test.rb
+  ranAt: '2026-08-10T11:14:05Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - lib/dora/agent_context.rb
+  - test/agent_context_test.rb
+  output: |+
+    Dora agent context test passed (bounded selected task and declared cited knowledge only).
+    Dora work-artifact schema test passed (portable master, work, and inventory fixtures).
+
+  requiredPaths: &2
+  - lib/dora/agent_context.rb
+  - test/agent_context_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:13:36Z'
+  changedAfterStart: *2

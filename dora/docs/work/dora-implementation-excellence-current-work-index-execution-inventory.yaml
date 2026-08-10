@@ -1,0 +1,28 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-current-work-index
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: current-work-index-projection
+  order: 1
+  plan: docs/work/dora-implementation-excellence-14-current-work-index.yaml
+  task: project-current-work-index-from-summary
+  status: verified
+  started_at: '2026-08-10T11:38:10Z'
+  verified_at: '2026-08-10T11:39:10Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-14-current-work-index.yaml
+    task: project-current-work-index-from-summary
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+- id: current-work-index-docs
+  order: 2
+  plan: docs/work/dora-implementation-excellence-14-current-work-index.yaml
+  task: document-current-work-index-authority-boundary
+  status: verified
+  started_at: '2026-08-10T11:39:14Z'
+  verified_at: '2026-08-10T11:39:31Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-14-current-work-index.yaml
+    task: document-current-work-index-authority-boundary
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

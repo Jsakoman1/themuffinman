@@ -26,7 +26,11 @@ dora impact <adapter-path> <node-id>...
 dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-path> <changed-path>...
 ```
 
-`dora create-app` creates `AGENTS.md`, `docs/product-brief.yaml`, `docs/domain-library.yaml`, `docs/project-memory.yaml`, `docs/capability-package.yaml`, and `.dora/agent-project-profile.yaml`. Run `dora doctor <adapter-path>` before work; it fails closed if that context is missing or inconsistent.
+`dora create-app` creates `AGENTS.md`, `docs/product-brief.yaml`, `docs/domain-library.yaml`, `docs/project-memory.yaml`, `docs/capability-package.yaml`, and `.dora/agent-project-profile.yaml`. Run `dora diagnose <adapter-path>` for a read-only summary of declared blockers, then `dora doctor <adapter-path>` before work; the latter fails closed if that context is missing or inconsistent.
+
+For a large greenfield idea, a cited discovery skeleton may first summarize owner-confirmed users, problem, intended first delivery, explicit product areas, exclusions, open questions, and foundation-choice coverage. It is advisory and regenerable: it does not create a project, amend canonical product/domain/decision records, or generate product code. Select a normal `create-app` or atomic work plan only after the owner accepts the relevant framing.
+
+An owner-selected discovery delivery handoff may then summarize one first capability, its declared backend/API/UI/test/docs obligations, journey scenario states, and one candidate next atomic task. It remains a review artifact, not a work item: it cannot activate or verify work, generate code, or replace the normal `create-app` and verifier workflow.
 
 Before `work-start`, run `dora readiness <project-root>`. Its default response is
 read-only and tells Codex whether a Git baseline exists. Only the explicit

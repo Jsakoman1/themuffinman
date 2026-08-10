@@ -28,6 +28,13 @@ def complete_controls(root)
   File.write(File.join(controls, "backlog.yaml"), YAML.dump({"kind" => "dora_backlog", "version" => 1, "sources" => ["docs/backlog.md"]}))
 end
 
+def enable_work_artifact_audit(root)
+  policy_path = File.join(root, ".dora/controls/artifact-policy.yaml")
+  policy = YAML.load_file(policy_path)
+  policy["work_artifact_audit"] = {"paths" => ["docs/work"]}
+  File.write(policy_path, YAML.dump(policy))
+end
+
 Dir.mktmpdir("dora-doctor") do |sandbox|
   healthy_root = File.join(sandbox, "healthy")
   Dora::ProjectInitializer.initialize!(healthy_root, project_id: "healthy-project", manifest_path: INIT_MANIFEST)
@@ -55,6 +62,38 @@ Dir.mktmpdir("dora-doctor") do |sandbox|
 
   _output, unhealthy_status = Open3.capture2e(CLI, "doctor", unhealthy_adapter, chdir: ROOT)
   abort "doctor CLI accepted an unhealthy project" if unhealthy_status.success?
+
+  audited_root = File.join(sandbox, "audited")
+  Dora::ProjectInitializer.initialize!(audited_root, project_id: "audited-project", manifest_path: INIT_MANIFEST)
+  complete_controls(audited_root)
+  enable_work_artifact_audit(audited_root)
+  work_root = File.join(audited_root, "docs/work")
+  FileUtils.mkdir_p(work_root)
+  work_path = File.join(work_root, "verified-work.yaml")
+  inventory_path = File.join(work_root, "inventory.yaml")
+  master_path = File.join(work_root, "master.yaml")
+  work = {"kind" => "work", "version" => 1, "id" => "verified-work", "title" => "Verified work", "status" => "verified", "baseline" => "abcdef0", "execution_inventory" => "docs/work/inventory.yaml", "tasks" => [{"id" => "task", "title" => "Task", "observable_outcome" => "Visible output", "dependencies" => [], "evidence_boundary" => ["test"], "paths" => ["lib/output.rb"], "required_paths" => ["lib/output.rb"], "validation" => "ruby test.rb"}]}
+  master = {"kind" => "master", "version" => 1, "id" => "master", "title" => "Master", "status" => "verified", "children" => ["docs/work/verified-work.yaml"]}
+  inventory = {"kind" => "execution_inventory", "version" => 1, "id" => "items", "master_plan" => "docs/work/master.yaml", "state" => "active", "items" => [{"id" => "task", "order" => 1, "plan" => "docs/work/verified-work.yaml", "task" => "task", "status" => "verified"}]}
+  File.write(work_path, YAML.dump(work))
+  File.write(master_path, YAML.dump(master))
+  File.write(inventory_path, YAML.dump(inventory))
+  before = {work_path => File.binread(work_path), master_path => File.binread(master_path), inventory_path => File.binread(inventory_path)}
+
+  audited = report_for(File.join(audited_root, ".dora/project.yaml"))
+  advisory = audited.fetch("checks").find { |check| check.fetch("id") == "work-artifact:verified-work-active-inventory:docs/work/verified-work.yaml" }
+  abort "doctor did not report the declared work-artifact contradiction" unless advisory
+  abort "advisory provenance is incomplete" unless advisory.fetch("read_only") && advisory.fetch("disposition") == "advisory" && advisory.fetch("source_references") == ["docs/work/verified-work.yaml", "docs/work/inventory.yaml", "docs/work/master.yaml"] && !advisory.fetch("observed_at").empty?
+  abort "advisory changed artifact state" unless before.all? { |path, content| File.binread(path) == content }
+  abort "advisory made the project unhealthy" unless audited.fetch("healthy")
+
+  master["status"] = "active"
+  File.write(master_path, YAML.dump(master))
+  active_before = {work_path => File.binread(work_path), master_path => File.binread(master_path), inventory_path => File.binread(inventory_path)}
+  active_master = report_for(File.join(audited_root, ".dora/project.yaml"))
+  active_advisory = active_master.fetch("checks").find { |check| check.fetch("id") == "work-artifact:verified-work-active-inventory:docs/work/verified-work.yaml" }
+  abort "doctor treated an active master inventory as contradictory" if active_advisory
+  abort "active-master diagnostic changed artifact state" unless active_before.all? { |path, content| File.binread(path) == content }
 end
 
 puts "Dora project doctor test passed (healthy and unhealthy projects)."

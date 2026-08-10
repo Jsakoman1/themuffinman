@@ -1,0 +1,37 @@
+kind: work
+version: 1
+id: dora-greenfield-discovery-delivery-role-context-preflight
+title: Require evidence before creating role-specific context packs
+status: intentionally_deferred
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-greenfield-discovery-delivery-role-context-preflight-execution-inventory.yaml
+planning_item:
+  phase: later_optimization
+  gate: later-optimization-need
+  reason: Parameterize existing AgentSession/AssistantContextView before adding a second context product.
+tasks:
+- id: record-role-context-pack-need-preflight
+  title: Evaluate existing context primitives before proposing role-specific packs
+  type: planning
+  status: intentionally_deferred
+  inventory_item: role-context-pack-preflight
+  observable_outcome: A planning record names a concrete role/context selection failure and determines
+    whether existing AgentSession and AssistantContextView can solve it without a new persistent pack.
+  dependencies:
+  - derived-context-index-preflight
+  evidence_boundary:
+  - Existing local context contracts and synthetic fixtures only.
+  - No context store, session write, consumer mutation, GitHub action, connector, runner invocation,
+    or remote-agent start.
+  paths:
+  - docs/work/dora-greenfield-discovery-delivery-11-role-context-preflight.yaml
+  - test/agent_context_test.rb
+  required_paths:
+  - docs/work/dora-greenfield-discovery-delivery-11-role-context-preflight.yaml
+  - test/agent_context_test.rb
+  validation: ruby test/agent_context_test.rb
+  negative_authority_proof: Evidence proves this preflight cannot alter AgentSession, work status,
+    DecisionLog, code, consumers, GitHub, runners, or remote agents.
+evidence: []

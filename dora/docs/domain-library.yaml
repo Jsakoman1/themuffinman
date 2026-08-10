@@ -9,6 +9,16 @@ vocabulary:
   description: A private local ingress record that carries immutable owner-requested implementation intent from ChatGPT to an owner-run Codex workflow.
 - id: chatgpt-intent-plan
   description: A bounded owner-authored, non-canonical proposal evaluated transiently against Dora state; it never becomes a Dora plan, task, decision, lifecycle record, or evidence source.
+- id: consumer-upgrade-compatibility-report
+  description: A regenerable read-only classification of an existing local ProjectUpgrade preview into schema, command, plugin, template, core, and unknown dimensions; it never proves a consumer compatible or approves an upgrade.
+- id: plugin-capability-contract
+  description: Static manifest v3 metadata declaring a plugin capability API version, cache identity, report schema version, and supported/deprecated posture; it does not execute a plugin, create cache evidence, or represent capability completion.
+- id: current-work-index
+  description: A timestamped read-only projection of ProjectReadModel summary facts for current work, latest verified delivery, open decisions, and next action; it exposes none or ambiguous states instead of inferring a lifecycle.
+- id: bounded-failure-diagnosis
+  description: A read-only advisory classification of a bounded WorkExecution failure envelope into leaf timeout, command unavailable, or unknown; it excludes raw output and cannot retry or repair work.
+- id: implementation-quality-profile
+  description: An opt-in static declaration that composes existing permission, schema, API, UI, test, documentation, and runtime obligation classes with explicit exclusions; it never creates task, evidence, acceptance, or release state.
 entities:
 - id: project-adapter
   description: A project-owned declaration of bounded roots and workflow commands.
@@ -57,6 +67,16 @@ invariants:
   description: Assistant-facing context and completion awareness are derived from cited Dora artifacts and existing sanitized handoff readback; scheduled checking does not imply real-time push.
 - id: intent-plan-canonical-precedence
   description: Dora's declared project health, accepted decisions, unresolved owner decisions, active delivery, latest verification, and task evidence are authoritative over any ChatGPT Intent Plan. Evaluation is transient and cannot reinterpret or overwrite them.
+- id: upgrade-compatibility-advisory-boundary
+  description: A consumer upgrade compatibility report derives only from a read-only ProjectUpgrade preview. Removed paths are breaking, changed or unknown paths require conservative review, and no classification can apply, roll back, pin, approve, or verify a consumer upgrade.
+- id: plugin-contract-canonical-separation
+  description: PluginContract validates static manifest compatibility. AnalysisCache alone owns computed cache entries, and CapabilityTrace alone links capability-use evidence; plugin metadata cannot replace either record or mark work verified.
+- id: current-work-index-authority-boundary
+  description: CurrentWorkIndex reads only ProjectReadModel summary output. It is regenerable navigation, never a durable current-work store, and cannot mutate work status, decisions, GitHub, a consumer project, runner state, or a remote agent.
+- id: bounded-failure-diagnosis-non-repair
+  description: BoundedFailureDiagnosis reads allow-listed WorkExecution evidence fields only. It never returns raw output, infers a root cause, retries a command, runs a shell, repairs a project, or mutates evidence, work status, decisions, GitHub, consumer, runner, or remote-agent state.
+- id: implementation-quality-profile-static-boundary
+  description: ImplementationQualityProfile is an opt-in static composition input. Task implementation contracts remain the only task-surface declaration, capability traces remain evidence-owned, and a profile cannot execute tests, select tasks, approve runtime/security/release readiness, or mutate any state.
 - id: intent-plan-first-slice-gate
   description: Only a dependency-free first candidate with the no-owner-decision gate may be identified after accepted or reconciled alignment. Later candidates remain blocked until their declared predecessor has Dora verification evidence and no owner decision is pending.
 permission_rules:

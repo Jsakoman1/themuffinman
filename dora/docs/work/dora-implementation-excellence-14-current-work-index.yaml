@@ -1,0 +1,237 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-current-work-index
+title: Derive a compact current-work index without replacing canonical state
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-current-work-index-execution-inventory.yaml
+planning_item:
+  priority: P3
+  current_evidence:
+  - ProjectMemory validates navigation against inventories and fails on stale or ambiguous
+    active work.
+  - ProjectReadModel.summary already projects active delivery, latest verified delivery,
+    next task, open decisions, and safe source references.
+  problem: An agent needs a compact view of those canonical facts without navigating
+    full historical plans or creating its own lifecycle.
+  intended_outcome: A timestamped, read-only current-work index transforms an already
+    built ProjectReadModel summary into current/last-verified/decision/next-action
+    navigation and surfaces ambiguity rather than guessing.
+  source_of_truth_mapping:
+    project_memory_and_inventory: Canonical declaration and validated navigation of
+      current work.
+    project_read_model_summary: Sole aggregation source for the index.
+    current_work_index: Regenerable advisory projection only; no manual persistence.
+  invariants:
+  - No second status store, history deletion, active-work inference, or completion
+    inference from prose/timestamps.
+  - Result carries source references, observed_at, and read-only/advisory labels.
+  - It cannot change work, decision, GitHub, consumer, runner, or remote-agent state.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-project-memory-closeout-gate-master.yaml
+  baseline_only_surfaces:
+  - ProjectMemory, ProjectStatus, AgentNext, and bridge delivery projections.
+  residual_scope: A derived local navigation view only.
+  retest_triggers:
+  - Project memory
+  - inventory
+  - project read model
+  - agent next
+  - or delivery evidence changes.
+  non_duplication_rule: The index is a read-time projection and never persists current-work
+    status.
+tasks:
+- id: project-current-work-index-from-summary
+  title: Project an explicit current-work index from safe read-model summary facts
+  type: implementation
+  status: done
+  inventory_item: current-work-index-projection
+  observable_outcome: ProjectReadModel creates an advisory index with active/planned/none/ambiguous
+    current state, latest verified delivery, open decisions, and one safe next action
+    from a supplied summary without changing it.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic ProjectReadModel summaries only; no filesystem adapter read or consumer
+    project
+  - work/decision/status mutation
+  - GitHub access
+  - consumer mutation
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - lib/dora/project_read_model.rb
+  - test/current_work_index_test.rb
+  required_paths:
+  - lib/dora/project_read_model.rb
+  - test/current_work_index_test.rb
+  validation: ruby test/current_work_index_test.rb
+  started_at: '2026-08-10T11:38:10Z'
+  start_fingerprints:
+    lib/dora/project_read_model.rb: 451a047a368ebcca7fbdb957bf2a1dcc122b2a3cfda8278c0eabec904186bf55
+    test/current_work_index_test.rb: __missing__
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+- id: document-current-work-index-authority-boundary
+  title: Document current-work index authority and freshness boundary
+  type: documentation
+  status: done
+  inventory_item: current-work-index-docs
+  observable_outcome: Dora's control vocabulary identifies ProjectReadModel summary
+    as the index source and forbids status or decision mutation by the index.
+  dependencies:
+  - project-current-work-index-from-summary
+  evidence_boundary:
+  - Documentation consistency only; no filesystem adapter read or consumer project
+  - work/decision/status mutation
+  - GitHub access
+  - consumer mutation
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - docs/domain-library.yaml
+  - test/current_work_index_test.rb
+  required_paths:
+  - docs/domain-library.yaml
+  - test/current_work_index_test.rb
+  validation: ruby test/current_work_index_test.rb
+  started_at: '2026-08-10T11:39:14Z'
+  start_fingerprints:
+    docs/domain-library.yaml: 7776b768f80fe9353a3de00ba1b35ac8f53a0f542e3ea57b756ee5bb34616ee3
+    test/current_work_index_test.rb: 9f3c2318e707af361bf42e84e2f7c8919f182cb04849530bd7c9c50341e613e4
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: project-current-work-index-from-summary
+  command: ruby test/current_work_index_test.rb
+  ranAt: '2026-08-10T11:39:10Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/project_read_model.rb
+  - test/current_work_index_test.rb
+  output: "Dora current work index test passed (active, planned, idle, ambiguous,
+    provenance, and no mutation).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/project_read_model.rb: 6788473e0d4f35b3ee5a8c39094c52a24c6212df6f2fb454ecd12a0f9abae902
+    test/current_work_index_test.rb: 9f3c2318e707af361bf42e84e2f7c8919f182cb04849530bd7c9c50341e613e4
+  requiredPaths: &1
+  - lib/dora/project_read_model.rb
+  - test/current_work_index_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:38:10Z'
+  changedAfterStart: *1
+- task: document-current-work-index-authority-boundary
+  command: ruby test/current_work_index_test.rb
+  ranAt: '2026-08-10T11:39:31Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/domain-library.yaml
+  - test/current_work_index_test.rb
+  output: "Dora current work index test passed (active, planned, idle, ambiguous,
+    provenance, and no mutation).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/domain-library.yaml: 0e86e22735f935cdd96e30c68e78a900507f5bee0edd6cd2a177884110e7585f
+    test/current_work_index_test.rb: 5cdd9ec41aa1e3b70f0049568f1fb885ae58b5b2905b2730295f5c5d7963536b
+  requiredPaths: &2
+  - docs/domain-library.yaml
+  - test/current_work_index_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:39:14Z'
+  changedAfterStart: *2

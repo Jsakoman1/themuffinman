@@ -2,6 +2,7 @@
 
 require "yaml"
 require_relative "idea_interview"
+require_relative "discovery_provenance"
 
 module Dora
   class IdeaInterviewSession
@@ -36,6 +37,7 @@ module Dora
       fail!("idea interview session project_id is invalid") unless identifier?(document.fetch("project_id"))
       answers = validate_answers!(document.fetch("answers"), schema)
       decisions = validate_open_decisions!(document.fetch("open_decisions"), schema)
+      validate_direction_schema!(schema)
       {"kind" => "dora_idea_interview_session", "version" => 1, "project_id" => document.fetch("project_id"), "answers" => answers, "open_decisions" => decisions, "completion_boundary" => document.fetch("completion_boundary")}.freeze
     rescue Psych::Exception => error
       fail!("idea interview session schema is invalid: #{error.message}")
@@ -48,6 +50,31 @@ module Dora
       return nil unless id
 
       {"id" => id, "question" => QUESTIONS.fetch(id), "answer_policy" => "Record only a user-confirmed answer. Keep a separate unresolved concern in open_decisions instead of inventing a value."}.freeze
+    end
+
+    def self.direction_projection!(session, schema_path: SCHEMA_PATH)
+      validated = validate!(session, schema_path: schema_path)
+      schema = YAML.load_file(schema_path)
+      validate_direction_schema!(schema)
+      answered = validated.fetch("answers").map { |answer| answer.fetch("id") }
+      core = schema.fetch("direction_core_answer_ids")
+      conditional = schema.fetch("direction_conditional_rules").select { |rule| direction_rule_triggered?(rule, validated) }
+      question_ids = core + conditional.map { |rule| rule.fetch("answer_id") }
+      next_id = question_ids.find { |id| !answered.include?(id) }
+      payload = {
+        "core_answer_ids" => core,
+        "triggered_conditional_answer_ids" => conditional.map { |rule| rule.fetch("answer_id") },
+        "next_question" => next_id && direction_question(next_id),
+        "complete" => next_id.nil?,
+        "completion_boundary" => schema.fetch("direction_completion_boundary")
+      }
+      DiscoveryProvenance.advisory!(
+        kind: "dora_discovery_direction",
+        source_references: ["idea-interview-session.schema.yaml#direction", "idea_interview_session#confirmed_answers"],
+        payload: payload
+      )
+    rescue Psych::Exception => error
+      fail!("idea interview session schema is invalid: #{error.message}")
     end
 
     def self.record_answer!(session, id:, value:, source: "user_confirmed")
@@ -88,6 +115,36 @@ module Dora
       rows
     end
     private_class_method :validate_open_decisions!
+
+    def self.validate_direction_schema!(schema)
+      core = schema["direction_core_answer_ids"]
+      fail!("idea interview direction core answer ids are invalid") unless core.is_a?(Array) && !core.empty? && core.uniq.length == core.length && core.all? { |id| schema.fetch("required_answer_ids").include?(id) }
+      rules = schema["direction_conditional_rules"]
+      fail!("idea interview direction conditional rules are invalid") unless rules.is_a?(Array)
+      rule_ids = rules.map do |rule|
+        fail!("idea interview direction conditional rule is invalid") unless rule.is_a?(Hash) && identifier?(rule["id"]) && schema.fetch("required_answer_ids").include?(rule["answer_id"]) && rule["source_answer_ids"].is_a?(Array) && !rule["source_answer_ids"].empty? && rule["source_answer_ids"].all? { |id| schema.fetch("required_answer_ids").include?(id) } && rule["trigger_terms"].is_a?(Array) && !rule["trigger_terms"].empty? && rule["trigger_terms"].all? { |term| term.is_a?(String) && !term.empty? }
+
+        rule.fetch("id")
+      end
+      fail!("idea interview direction conditional rule ids must be unique") unless rule_ids.uniq.length == rule_ids.length
+      conditional_answer_ids = rules.map { |rule| rule.fetch("answer_id") }
+      fail!("idea interview direction questions must not duplicate core answers") unless (conditional_answer_ids & core).empty?
+      fail!("idea interview direction conditional answers must be unique") unless conditional_answer_ids.uniq.length == conditional_answer_ids.length
+      fail!("idea interview direction completion boundary is invalid") unless schema["direction_completion_boundary"].is_a?(String) && !schema["direction_completion_boundary"].strip.empty?
+    end
+    private_class_method :validate_direction_schema!
+
+    def self.direction_rule_triggered?(rule, session)
+      answers = session.fetch("answers").to_h { |answer| [answer.fetch("id"), answer.fetch("value").to_s.downcase] }
+      source_text = rule.fetch("source_answer_ids").map { |id| answers.fetch(id, "") }.join(" ")
+      rule.fetch("trigger_terms").any? { |term| source_text.include?(term.downcase) }
+    end
+    private_class_method :direction_rule_triggered?
+
+    def self.direction_question(id)
+      {"id" => id, "question" => QUESTIONS.fetch(id), "answer_policy" => "Record only a user-confirmed answer. Keep an unresolved concern in open_decisions; this direction question cannot create an owner decision or start delivery.", "scope" => "direction"}.freeze
+    end
+    private_class_method :direction_question
 
     def self.empty_list_field?(field, value)
       %w[answers open_decisions].include?(field) && value.is_a?(Array)

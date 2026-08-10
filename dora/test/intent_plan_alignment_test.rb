@@ -25,6 +25,12 @@ end
 accepted = Dora::IntentPlanAlignment.evaluate(proposal: proposal, canonical_state: state)
 abort "no-active-work proposal was not accepted" unless accepted.fetch("alignment_result") == "ACCEPTED" && accepted.fetch("first_eligible_slice") == {"id" => "first-slice", "status" => "ELIGIBLE"}
 abort "later slice was released early" unless accepted.fetch("later_slices") == [{"id" => "later-slice", "status" => "BLOCKED_PENDING_DORA_VERIFICATION"}]
+accepted_before_packet = Marshal.load(Marshal.dump(accepted))
+packet = Dora::IntentPlanAlignment.option_packet!(alignment: accepted, owner_question: "Which bounded option should the owner choose?")
+abort "option packet is not explicitly owner-mediated" unless packet.fetch("read_only") && packet.fetch("non_canonical") && packet.dig("alignment_facts", "alignment_result") == "ACCEPTED" && packet.dig("copyable_response_template", "required_sections") == %w[alternatives benefits risks assumptions recommendation]
+abort "option packet provenance is incomplete" unless packet.fetch("observed_at").match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/) && packet.fetch("source_references") == ["intent_plan_alignment"]
+abort "option packet mutated alignment facts" unless accepted == accepted_before_packet
+abort "option packet granted authority" unless packet.fetch("authority_boundary").include?("does not contact ChatGPT") && packet.fetch("authority_boundary").include?("does not contact")
 
 reconciled = Dora::IntentPlanAlignment.evaluate(proposal: proposal, canonical_state: state("latest_verified_delivery" => {"id" => "prior-delivery"}))
 abort "verified baseline was not reconciled" unless reconciled.fetch("alignment_result") == "RECONCILED"

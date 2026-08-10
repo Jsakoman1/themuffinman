@@ -1,0 +1,28 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-evidence-hardening
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: evidence-safe-envelope
+  order: 1
+  plan: docs/work/dora-implementation-excellence-06-evidence-hardening.yaml
+  task: record-safe-evidence-envelope
+  status: verified
+  started_at: '2026-08-10T11:16:06Z'
+  verified_at: '2026-08-10T11:17:14Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-06-evidence-hardening.yaml
+    task: record-safe-evidence-envelope
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+- id: evidence-leaf-timeout
+  order: 2
+  plan: docs/work/dora-implementation-excellence-06-evidence-hardening.yaml
+  task: enforce-leaf-command-timeout
+  status: verified
+  started_at: '2026-08-10T11:17:19Z'
+  verified_at: '2026-08-10T11:19:11Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-06-evidence-hardening.yaml
+    task: enforce-leaf-command-timeout
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

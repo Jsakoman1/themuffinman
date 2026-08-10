@@ -15,3 +15,5 @@ artifacts:
 rules:
   - Artifact ids and paths are project-owned declarations.
   - The schema records structure only; it makes no product, runtime, or release claim.
+  - A task implementation_contract is optional; when present, its empty path lists explicitly mean no obligation for that surface.
+  - The contract names declared implementation boundaries only and never supplies product behavior, permissions, or verification state.

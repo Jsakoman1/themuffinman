@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-implementation-session
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: implementation-session-contract
+  order: 1
+  plan: docs/work/dora-implementation-excellence-02-implementation-session.yaml
+  task: expose-declared-implementation-contract
+  status: verified
+  started_at: '2026-08-10T11:01:26Z'
+  verified_at: '2026-08-10T11:02:19Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-02-implementation-session.yaml
+    task: expose-declared-implementation-contract
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

@@ -1,0 +1,232 @@
+kind: work
+version: 1
+id: dora-chatgpt-handoff-monitoring-preflight
+title: Record ChatGPT–Dora handoff monitoring feasibility and next slice
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml
+planning_closeout: findings recorded; independent Dora verification pending
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-1-lifecycle-readback.yaml
+  - docs/work/dora-bridge-v3-2-friendly-progress.yaml
+  - docs/work/dora-bridge-v3-local-runner-master.yaml
+  baseline_only_surfaces:
+  - Existing status and lifecycle-only handoff readbacks.
+  - Existing owner-local runner cadence and ChatGPT Scheduled Tasks availability.
+  residual_scope:
+  - One planning recommendation for a future safe monitoring projection.
+  retest_triggers:
+  - Any change to the cited status projection, ChatGPT Tasks policy, or owner-local
+    runner boundary.
+  non_duplication_rule: The preflight stores only planning evidence and a future proposal;
+    it does not implement polling, create a scheduled task, or alter any runtime surface.
+current_state_readback:
+  existing_structured_readbacks:
+  - name: get_handoff_status
+    current_behavior: Returns the handoff ID and title, lifecycle status, collaboration
+      state, delivery/completion or blocker information, lifecycle events, and derived
+      V3.2 progress.
+    evidence:
+    - bridge/lib/dora_bridge/server.rb
+    - lib/dora/handoff.rb
+    - docs/dora-bridge-v2-structured-handoff.md
+  - name: get_handoff_lifecycle_readback
+    current_behavior: 'Returns the narrower safe lifecycle projection: handoff ID,
+      lifecycle status and outcome category, verification state/evidence references,
+      derived phase/summary/token, and a fixed summary.'
+    evidence:
+    - bridge/lib/dora_bridge/server.rb
+    - lib/dora/handoff.rb
+    - bridge/test/mcp_server_test.rb
+    - bridge/test/structured_handoff_e2e_test.rb
+  owner_local_runner:
+    current_behavior: Processes at most one eligible READY handoff at a time and polls
+      the existing lifecycle/progress readback locally while the fixed child runs;
+      it prints only deduplicated fixed transitions and is neither remotely controlled
+      nor a ChatGPT push channel.
+    evidence:
+    - lib/dora/handoff_runner.rb
+    - docs/dora-bridge-v2-structured-handoff.md
+  exact_gap: No current readback is limited exactly to title/ID, lifecycle phase/status,
+    safe summary, next action, and closeout reference. The narrow lifecycle readback
+    intentionally omits title and next action, while the existing status readback
+    includes richer collaboration and lifecycle content than a monitoring task needs.
+platform_feasibility:
+  finding: A same-thread one-minute ChatGPT follow-up loop is not supportable in this
+    environment.
+  supported_activation_path: A user may create or request a ChatGPT Scheduled Task
+    from ChatGPT's Scheduled page and enable notifications. The task must have access
+    to the Dora Bridge as an available approved app before it can invoke a readback;
+    that availability is an account/workspace precondition, not an assumed capability
+    of this Codex session.
+  documented_limit: Official OpenAI documentation says ChatGPT Scheduled Tasks cannot
+    run more than once per hour. They can monitor for meaningful changes and stop
+    when a terminal condition is reached, but they are not webhooks or real-time push.
+  same_thread_limitation: The official activation path creates and manages a Scheduled
+    Task. It does not establish that an arbitrary active Codex conversation can receive
+    one-minute, same-thread tool follow-ups, retain the handoff tool context, or be
+    externally pushed a response.
+  source:
+    title: Scheduled Tasks in ChatGPT
+    url: https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+    accessed_at: '2026-08-10'
+recommendation:
+  decision: Do not add a minute timer, polling workaround, webhook, tunnel, runner
+    control, or platform configuration. Use the existing status readbacks for manual
+    checks now. If a future user-facing monitor is still wanted, first add one additive
+    read-only monitor projection, then let a user configure an hourly-or-slower ChatGPT
+    Scheduled Task only when the authorized Dora Bridge app is available to that task.
+future_implementation_slice:
+  id: dora-bridge-handoff-monitor-readback
+  title: Add one bounded read-only handoff monitor readback
+  selection_reason: This is the smallest useful slice because it closes the exact
+    shaping gap without changing the runner, lifecycle writes, handoff selection,
+    platform scheduling, or ChatGPT authority.
+  ownership_boundary:
+    dora_bridge: Derives and validates the read-only response from the current authoritative
+      handoff lifecycle and existing verifier evidence.
+    chatgpt: At most reads one explicit handoff ID through an already authorized app;
+      it does not select work, write lifecycle feedback, start/stop the runner, or
+      schedule itself.
+    owner: Chooses whether to create/manage an hourly-or-slower Scheduled Task and
+      retains all runner, installation, and app-permission decisions.
+  bounded_scope:
+  - Add one MCP read-only tool that accepts exactly one allow-listed project and one
+    explicit handoff ID.
+  - Derive a fixed monitoring envelope from existing status/lifecycle state without
+    storing monitor state or accepting a cadence argument.
+  - Document the manual activation prerequisite and terminal stop condition; do not
+    create or configure a ChatGPT Task.
+  data_contract:
+    handoff:
+      fields:
+      - id
+      - title
+    lifecycle:
+      fields:
+      - status
+      - phase
+    summary: Fixed owner-safe summary derived from the existing lifecycle projection.
+    next_action: 'Fixed allowlisted value: CONTINUE_MONITORING, STOP_MONITORING, or
+      STOP_MONITORING_AND_REVIEW.'
+    closeout_reference: Existing project-relative verification reference for COMPLETED
+      only; null otherwise.
+  terminal_behavior:
+  - Return CONTINUE_MONITORING only for a claimed handoff without verification failure.
+  - Return STOP_MONITORING for COMPLETED and include the evidence-owned closeout reference.
+  - Return STOP_MONITORING_AND_REVIEW for BLOCKED or VERIFICATION_FAILED; a monitor
+    must stop immediately and never retry, resume, or create a follow-up.
+  acceptance_criteria:
+  - The tool accepts only one explicit authorized project/handoff pair and has no
+    list, selection, cadence, write, runner, shell, filesystem, or process-control
+    argument.
+  - Its successful response contains only the declared six monitoring elements and
+    never exposes feedback prose, lifecycle events, raw evidence, paths other than
+    the allowed closeout reference, terminal output, environment values, or secrets.
+  - Derived values are deterministic from existing lifecycle/evidence state; no new
+    store, timer, status cache, or runner state exists.
+  - Claimed, completed, blocked, verification-failed, malformed, unknown, and unauthorized
+    scenarios are fail-closed and terminal scenarios direct the client to stop monitoring.
+  - Existing V1/V2/V2.2/V3 handoff, lifecycle, runner, and bridge regressions remain
+    passing.
+  focused_test_strategy:
+    target: bridge/test/mcp_server_test.rb
+    approach: Add focused synthetic MCP assertions for the new tool's exact schema,
+      deterministic action mapping, completion closeout reference, terminal stop behavior,
+      malformed/unknown/cross-project unavailable envelope, and absence of forbidden
+      data. Run the existing handoff and bridge regressions as the leaf suite.
+    validation: ruby bridge/test/mcp_server_test.rb && ruby test/handoff_test.rb &&
+      ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/handoff_runner_test.rb
+  restart_required: true
+  restart_rationale: If the local Dora Bridge MCP process is already running, the
+    owner must restart or relaunch that process after the additive tool is installed
+    so it loads the new tool registry. The owner-local handoff runner does not need
+    a restart, and this slice installs no scheduler or service.
+  non_goals:
+  - No minute-scale or automatic ChatGPT follow-up loop.
+  - No real-time push, webhook, cloud relay, tunnel, polling-limit workaround, or
+    raw terminal-log streaming.
+  - No remote Codex or runner start, stop, steering, attachment, inspection, or retry.
+  - No handoff lifecycle mutation, status-store duplication, automatic push/release,
+    or ChatGPT Task creation.
+tasks:
+- id: record-handoff-monitoring-feasibility-and-next-slice
+  title: Verify the ChatGPT–Dora handoff monitoring feasibility preflight
+  type: docs-only
+  status: done
+  inventory_item: handoff-monitoring-preflight
+  observable_outcome: A verified canonical master, inventory, and preflight record
+    the current safe handoff readbacks, the documented ChatGPT cadence limitation,
+    and exactly one bounded future monitor-readback slice.
+  dependencies: []
+  evidence_boundary:
+  - Existing Dora project documentation, source contracts, local validation, and one
+    official OpenAI Scheduled Tasks documentation page.
+  - No private handoff-store content, runner invocation, scheduled task, installation,
+    release, GitHub, remote repository, or source-code behavior change.
+  paths:
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+  required_paths:
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+  validation: 'ruby bin/dora validate-work-plan .dora/project.yaml docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+    && ruby -Ilib -e ''require "dora/serial_plan_integrity"; Dora::SerialPlanIntegrity.validate!("docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml",
+    "docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml",
+    project_root: "."); puts "Dora handoff monitoring plan/inventory relationships
+    valid."'' && ruby test/atomic_plan_contract_test.rb && bin/dora doctor .dora/project.yaml'
+  started_at: '2026-08-10T09:49:17Z'
+  start_fingerprints:
+    docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml: 3a6f519d11ee2c77c6a83adc364afed2e175739e6cbe31a4eaffa50422f83ceb
+    docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml: af4edb68a0e05554cab2230c8654c5794fb2744e6fa23c4e8df28986f4c0fa77
+    docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml: f97790ebf65df80584f1d4581b1c7ed5b32f01824904a0f03fcc500ae164b9fb
+evidence:
+- task: record-handoff-monitoring-feasibility-and-next-slice
+  command: 'ruby bin/dora validate-work-plan .dora/project.yaml docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+    && ruby -Ilib -e ''require "dora/serial_plan_integrity"; Dora::SerialPlanIntegrity.validate!("docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml",
+    "docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml",
+    project_root: "."); puts "Dora handoff monitoring plan/inventory relationships
+    valid."'' && ruby test/atomic_plan_contract_test.rb && bin/dora doctor .dora/project.yaml'
+  ranAt: '2026-08-10T09:49:38Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+  output: |+
+    PASSED project-root: declared project root exists
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  requiredPaths: &1
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T09:49:17Z'
+  changedAfterStart: *1

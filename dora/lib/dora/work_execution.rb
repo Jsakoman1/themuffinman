@@ -5,14 +5,17 @@ require "fileutils"
 require "open3"
 require "shellwords"
 require "time"
+require "timeout"
 require "yaml"
 
 require_relative "adapter"
 require_relative "project_memory"
+require_relative "task_change_set"
 
 module Dora
   class WorkExecution
     class Error < StandardError; end
+    SECRET_ASSIGNMENT = /\b(password|passwd|token|secret|authorization|api[_-]?key)\s*(=|:)\s*([^\s]+)/i.freeze
 
     def self.run(adapter_path:, schema_path:, arguments:)
       new(adapter_path: adapter_path, schema_path: schema_path, arguments: arguments).run
@@ -50,6 +53,9 @@ module Dora
                       end
       File.write(absolute_plan, YAML.dump(verified_plan).sub(/\A---\n/, ""))
       "Work verified: #{plan_path}"
+    rescue Error
+      File.write(absolute_plan, YAML.dump(plan).sub(/\A---\n/, "")) if defined?(plan) && plan.is_a?(Hash) && plan["kind"] == "work" && plan["evidence"]
+      raise
     end
 
     private
@@ -166,6 +172,7 @@ module Dora
       task["status"] = "in_progress"
       task["started_at"] = started_at
       task["start_fingerprints"] = task_fingerprints(paths)
+      task["start_workspace_paths"] = TaskChangeSet.workspace_paths!(project_root: @context.root, baseline: plan.fetch("baseline"))
       item["status"] = "in_progress"
       item["started_at"] = started_at
       plan["status"] = "active"
@@ -206,15 +213,16 @@ module Dora
           fail!("task #{id} has no implementation change after start: #{unchanged.join(", ")}") unless unchanged.empty?
         end
         started = Time.now
-        stdout, stderr, status = Open3.capture3("/bin/zsh", "-lc", command, chdir: @context.root)
-        evidence = {"task" => id, "command" => command, "ranAt" => started.utc.iso8601, "revision" => revision, "exitCode" => status.exitstatus, "result" => status.success? ? "passed" : "failed", "changedFiles" => files.select { |item| paths.include?(item) }, "output" => [stdout, stderr].join("\n").lines.last(20).join[0, 4000]}
+        timeout_seconds = command_timeout_seconds(task)
+        stdout, stderr, status, timed_out = capture_leaf_command(command, timeout_seconds)
+        evidence = {"task" => id, "command" => redact(command), "ranAt" => started.utc.iso8601, "revision" => revision, "exitCode" => status.exitstatus, "result" => status.success? && !timed_out ? "passed" : "failed", "timedOut" => timed_out, "timeoutSeconds" => timeout_seconds, "changedFiles" => files.select { |item| paths.include?(item) }, "output" => bounded_redacted_output(stdout, stderr), "executionEnvironment" => {"shell" => "/bin/zsh", "rubyVersion" => RUBY_VERSION, "environmentExported" => false}, "requiredPathDigests" => task_fingerprints(Array(task["verification_required_paths"] || task["required_paths"]))}
         evidence.merge!(strict_evidence)
         evidence["startedAt"] = task["started_at"] if serial_task_execution?(plan)
         evidence["changedAfterStart"] = strict_evidence.fetch("requiredPaths") if serial_task_execution?(plan)
         plan["evidence"].reject! { |item| item.is_a?(Hash) && item["task"] == id }
         plan["evidence"] << evidence
-        task["status"] = status.success? ? "done" : "blocked"
-        if serial_task_execution?(plan) && status.success?
+        task["status"] = status.success? && !timed_out ? "done" : "blocked"
+        if serial_task_execution?(plan) && status.success? && !timed_out
           _inventory_path, absolute_inventory, inventory = execution_inventory!(plan)
           item = inventory_item!(inventory, path, task)
           item["status"] = "verified"
@@ -222,7 +230,7 @@ module Dora
           item["evidence"] = {"plan" => path, "task" => id, "revision" => revision}
           File.write(absolute_inventory, YAML.dump(inventory).sub(/\A---\n/, ""))
         end
-        fail!("task #{id} validation failed") unless status.success?
+        fail!("task #{id} validation failed") unless status.success? && !timed_out
       end
       plan["status"] = Array(plan["tasks"]).all? { |task| task["status"] == "done" } ? "verified" : "active"
       plan
@@ -257,6 +265,54 @@ module Dora
       File.write(absolute_inventory, YAML.dump(inventory).sub(/\A---\n/, ""))
     rescue ArgumentError => error
       fail!("project memory closeout gate failed: #{error.message}")
+    end
+
+    def bounded_redacted_output(stdout, stderr)
+      redact([stdout, stderr].join("\n")).lines.last(20).join[0, 4000]
+    end
+
+    def command_timeout_seconds(task)
+      policy = task["evidence_policy"] || {}
+      fail!("task evidence_policy must be a mapping") unless policy.is_a?(Hash)
+      seconds = policy.fetch("timeout_seconds", 300)
+      fail!("task evidence_policy timeout_seconds must be an integer from 1 to 300") unless seconds.is_a?(Integer) && seconds.between?(1, 300)
+
+      seconds
+    end
+
+    def capture_leaf_command(command, timeout_seconds)
+      stdin, stdout, stderr, waiter = Open3.popen3("/bin/zsh", "-lc", command, chdir: @context.root, pgroup: true)
+      stdin.close
+      output_reader = Thread.new { stdout.read }
+      error_reader = Thread.new { stderr.read }
+      timed_out = false
+      begin
+        status = Timeout.timeout(timeout_seconds) { waiter.value }
+      rescue Timeout::Error
+        timed_out = true
+        status = terminate_leaf_process(waiter)
+      end
+      [output_reader.value.to_s, error_reader.value.to_s, status, timed_out]
+    ensure
+      stdout&.close unless stdout&.closed?
+      stderr&.close unless stderr&.closed?
+    end
+
+    def terminate_leaf_process(waiter)
+      Process.kill("TERM", -waiter.pid)
+    rescue Errno::ESRCH
+      nil
+    ensure
+      begin
+        return Timeout.timeout(1) { waiter.value }
+      rescue Timeout::Error
+        Process.kill("KILL", -waiter.pid) rescue nil
+        return waiter.value
+      end
+    end
+
+    def redact(value)
+      value.to_s.gsub(SECRET_ASSIGNMENT) { "#{Regexp.last_match(1)}#{Regexp.last_match(2)}[REDACTED]" }
     end
 
     def resolve_under!(root, path, label)

@@ -1,0 +1,123 @@
+kind: work
+version: 1
+id: dora-greenfield-discovery-delivery-delivery-handoff
+title: Derive a first-delivery and scenario handoff without activating work
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-greenfield-discovery-delivery-delivery-handoff-execution-inventory.yaml
+planning_item:
+  phase: delivery_handoff
+  gate: first-delivery-selection
+  reason: Turn accepted framing into a compact next delivery package, not an implementation
+    command.
+  integration: References existing capability, scenario, task-contract, and work-plan
+    primitives only.
+tasks:
+- id: project-greenfield-delivery-and-scenario-handoff
+  title: Render a read-only first capability delivery handoff
+  type: implementation
+  status: done
+  inventory_item: delivery-scenario-handoff
+  observable_outcome: A handoff projects one owner-selected first capability, cross-layer
+    obligations, scenario classes, cited paths, and one candidate next atomic task
+    without becoming work state.
+  dependencies:
+  - simple-discovery-synthesis
+  evidence_boundary:
+  - Synthetic accepted canonical references and advisory source projections only.
+  - No task activation/verification, create-app apply, code generation, consumer mutation,
+    GitHub action, release, runner invocation, or remote-agent start.
+  paths:
+  - lib/dora/discovery_delivery_handoff.rb
+  - test/discovery_delivery_handoff_test.rb
+  - docs/agent-first-application-guide.md
+  required_paths:
+  - lib/dora/discovery_delivery_handoff.rb
+  - test/discovery_delivery_handoff_test.rb
+  - docs/agent-first-application-guide.md
+  validation: ruby test/discovery_delivery_handoff_test.rb
+  negative_authority_proof: Test proves a handoff cannot become a work artifact, mark
+    scenarios verified, write DecisionLog, create a project, alter a consumer, invoke
+    GitHub, or start any agent.
+  started_at: '2026-08-10T12:40:08Z'
+  start_fingerprints:
+    lib/dora/discovery_delivery_handoff.rb: __missing__
+    test/discovery_delivery_handoff_test.rb: __missing__
+    docs/agent-first-application-guide.md: 71cf2e541a36f87e53118f4d05bc7693e058e75c844cbfce86be2e0ccb0ac4e4
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/agent-first-application-guide.md
+  - docs/codex-idea-interview.md
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - idea-interview-session.schema.yaml
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/idea_interview_session.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: project-greenfield-delivery-and-scenario-handoff
+  command: ruby test/discovery_delivery_handoff_test.rb
+  ranAt: '2026-08-10T12:41:01Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/agent-first-application-guide.md
+  - lib/dora/discovery_delivery_handoff.rb
+  - test/discovery_delivery_handoff_test.rb
+  output: "Dora discovery delivery handoff test passed (owner-selected advisory handoff
+    and no activation authority).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/discovery_delivery_handoff.rb: 8e09947afbd5b0933d598cd00ecbd309615da96219cfbb514684368f2e6be944
+    test/discovery_delivery_handoff_test.rb: 765f29ab2839a33b02a9e8ae74f2c9ad8cee3deebf600d7a209bf6246cdacadd
+    docs/agent-first-application-guide.md: abea12cac6509c1c39f0a99c348e71d89f2b6d3de73e91e53cbbfa90f04250f1
+  requiredPaths: &1
+  - lib/dora/discovery_delivery_handoff.rb
+  - test/discovery_delivery_handoff_test.rb
+  - docs/agent-first-application-guide.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T12:40:08Z'
+  changedAfterStart: *1

@@ -3,3 +3,6 @@ version: 1
 generated_roots:
 - docs/audit-output
 deletion_authority: project_authorized_command
+work_artifact_audit:
+  paths:
+  - docs/work

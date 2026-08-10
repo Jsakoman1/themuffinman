@@ -1,0 +1,11 @@
+kind: execution_inventory
+version: 1
+id: dora-greenfield-discovery-delivery-coordinator-preflight
+master_plan: docs/work/dora-greenfield-discovery-delivery-12-coordinator-preflight.yaml
+state: intentionally_deferred
+items:
+- id: discovery-coordinator-preflight
+  order: 1
+  plan: docs/work/dora-greenfield-discovery-delivery-12-coordinator-preflight.yaml
+  task: record-discovery-coordinator-need-preflight
+  status: intentionally_deferred

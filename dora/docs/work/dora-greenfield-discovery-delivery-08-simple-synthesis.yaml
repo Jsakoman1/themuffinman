@@ -1,0 +1,117 @@
+kind: work
+version: 1
+id: dora-greenfield-discovery-delivery-simple-synthesis
+title: Synthesize discovery inputs deterministically before considering coordination
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-greenfield-discovery-delivery-simple-synthesis-execution-inventory.yaml
+planning_item:
+  phase: discovery
+  reason: Prove a simple no-worker synthesis workflow before adding parallel coordination
+    state.
+  integration: Read-only composition of existing/advisory inputs; conflicts remain
+    owner questions.
+tasks:
+- id: synthesize-greenfield-discovery-inputs
+  title: Render agreement, conflict, uncertainty, and owner questions deterministically
+  type: implementation
+  status: done
+  inventory_item: simple-discovery-synthesis
+  observable_outcome: A deterministic advisory synthesis joins interview, assumptions,
+    optional research, skeleton, and journeys while preserving citations and reporting
+    contradictions without resolving them.
+  dependencies:
+  - journey-foundation-coverage
+  evidence_boundary:
+  - In-memory advisory input fixtures only.
+  - No queue, worker, coordinator, persistence, DecisionLog write, code edit, consumer
+    mutation, GitHub action, external request, runner invocation, or remote-agent
+    start.
+  paths:
+  - lib/dora/discovery_synthesis.rb
+  - test/discovery_synthesis_test.rb
+  required_paths:
+  - lib/dora/discovery_synthesis.rb
+  - test/discovery_synthesis_test.rb
+  validation: ruby test/discovery_synthesis_test.rb
+  negative_authority_proof: Test proves conflicts are surfaced rather than resolved
+    and synthesis cannot set a decision/status or invoke external, repository, consumer,
+    GitHub, runner, or agent operations.
+  started_at: '2026-08-10T12:38:51Z'
+  start_fingerprints:
+    lib/dora/discovery_synthesis.rb: __missing__
+    test/discovery_synthesis_test.rb: __missing__
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/agent-first-application-guide.md
+  - docs/codex-idea-interview.md
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - idea-interview-session.schema.yaml
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/idea_interview_session.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: synthesize-greenfield-discovery-inputs
+  command: ruby test/discovery_synthesis_test.rb
+  ranAt: '2026-08-10T12:39:57Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/discovery_synthesis.rb
+  - test/discovery_synthesis_test.rb
+  output: "Dora discovery synthesis test passed (deterministic conflicts, owner questions,
+    and no authority mutation).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/discovery_synthesis.rb: 61c5842f4aba8b27304d527856412a0deea07bfffb956dc2026bf9f61bbef524
+    test/discovery_synthesis_test.rb: 2f3a3d22a74f13a691117da2d00369df31c38851193b6600d47d91ea7506e6ec
+  requiredPaths: &1
+  - lib/dora/discovery_synthesis.rb
+  - test/discovery_synthesis_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T12:38:51Z'
+  changedAfterStart: *1

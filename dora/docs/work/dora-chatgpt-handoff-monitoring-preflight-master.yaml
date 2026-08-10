@@ -1,0 +1,38 @@
+kind: master
+version: 1
+id: dora-chatgpt-handoff-monitoring-preflight
+title: ChatGPT–Dora handoff monitoring feasibility preflight
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-chatgpt-handoff-monitoring-preflight-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-1-lifecycle-readback-master.yaml
+  - docs/work/dora-bridge-v3-2-friendly-progress-master.yaml
+  - docs/work/dora-bridge-v3-local-runner-master.yaml
+  baseline_only_surfaces:
+  - Existing immutable handoff content, append-only lifecycle, V2.2 feedback, V3.1
+    lifecycle-only readback, and V3.2 progress projection.
+  - The owner-started local runner, fixed launcher, and all existing ChatGPT-to-Dora
+    authorization boundaries.
+  residual_scope:
+  - Record a feasibility decision and authorize exactly one future additive read-only
+    monitoring projection; do not implement it.
+  retest_triggers:
+  - Any change to handoff status/lifecycle projections, bridge tool exposure, owner-local
+    runner authority, or ChatGPT Tasks platform limits.
+  non_duplication_rule: This preflight creates no timer, runner state, platform automation,
+    or second status store; the proposed readback derives from existing authoritative
+    lifecycle and verification state.
+children:
+- docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+preflight_progress: Feasibility findings and the bounded next slice are independently
+  Dora-verified.
+evidence:
+- verifiedAt: '2026-08-10T09:50:17Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  children:
+  - docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml

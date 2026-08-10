@@ -1,0 +1,28 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-capability-scenario-catalog
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: capability-scenario-validator
+  order: 1
+  plan: docs/work/dora-implementation-excellence-11-capability-scenario-catalog.yaml
+  task: validate-advisory-capability-scenario-catalog
+  status: verified
+  started_at: '2026-08-10T11:29:59Z'
+  verified_at: '2026-08-10T11:31:40Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-11-capability-scenario-catalog.yaml
+    task: validate-advisory-capability-scenario-catalog
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+- id: capability-scenario-template
+  order: 2
+  plan: docs/work/dora-implementation-excellence-11-capability-scenario-catalog.yaml
+  task: publish-capability-scenario-catalog-template
+  status: verified
+  started_at: '2026-08-10T11:31:45Z'
+  verified_at: '2026-08-10T11:32:07Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-11-capability-scenario-catalog.yaml
+    task: publish-capability-scenario-catalog-template
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

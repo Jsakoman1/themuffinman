@@ -18,12 +18,13 @@ def registry(root)
   path
 end
 
-def launcher(root, exit_code: 0, output: nil, complete: false, state_root: nil, stdin_probe: nil, environment_probe: nil, feedback_phases: [], feedback_pause: 0, delivery: nil)
+def launcher(root, exit_code: 0, output: nil, complete: false, state_root: nil, stdin_probe: nil, environment_probe: nil, launch_record: nil, feedback_phases: [], feedback_pause: 0, delivery: nil)
   path = File.join(root, "fixed-launcher-#{exit_code}-#{complete ? "complete" : "terminal"}-#{SecureRandom.hex(4)}")
   body = [
     "abort unless ARGV.length == 2 && ARGV.first == '--dora-preclaimed-handoff' && ARGV[1] =~ /\\Ahandoff-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\z/",
     "stdin = STDIN.read",
     ("File.write(#{stdin_probe.inspect}, stdin.empty? ? 'closed' : 'open')" if stdin_probe),
+    ("File.open(#{launch_record.inspect}, 'a') { |file| file.puts ARGV.fetch(1) }" if launch_record),
     ("puts #{output.inspect}" if output),
     ("puts ENV.fetch(#{environment_probe.inspect})" if environment_probe)
   ].compact
@@ -199,6 +200,32 @@ Dir.mktmpdir("dora-handoff-runner") do |root|
 
   runner.request_stop!
   abort "narrow local stop operation failed" unless File.file?(File.join(state_root, "handoff-runner-stop")) && (File.stat(File.join(state_root, "handoff-runner-stop")).mode & 0o077).zero?
+end
+
+Dir.mktmpdir("dora-handoff-runner-restart") do |root|
+  registry_path = registry(root)
+  state_root = File.join(root, "private")
+  clock = Time.utc(2026, 8, 10, 14, 0, 0)
+  store = Dora::Handoff.new(state_root: state_root, now: -> { clock })
+  previously_claimed = store.create!(project: "dora", title: "Interrupted claimed work", objective: "must not replay", acceptance_criteria: [], constraints: [], references: [], created_by: "chatgpt", client_request_id: "restart-claimed")
+  clock += 1
+  previously_claimed = store.claim!(id: previously_claimed.fetch("id"), project: "dora", claimed_by: "codex")
+  claimed_snapshot = previously_claimed.slice("status", "lifecycle", "feedback_history", "delivery", "completion")
+  clock += 1
+  ready = store.create!(project: "dora", title: "Ready after restart", objective: "runs normally", acceptance_criteria: [], constraints: [], references: [], created_by: "chatgpt", client_request_id: "restart-ready")
+  launch_record = File.join(root, "launched-handoffs")
+  restart_output = StringIO.new
+
+  restarted_runner = Dora::HandoffRunner.new(registry_path: registry_path, state_root: state_root, projects: ["dora"], launcher: launcher(root, complete: true, state_root: state_root, launch_record: launch_record), now: -> { clock }, output: restart_output)
+  restart_result = restarted_runner.run_once
+
+  restarted_claimed = store.get!(id: previously_claimed.fetch("id"), project: "dora")
+  completed_ready = store.get!(id: ready.fetch("id"), project: "dora")
+  abort "fresh runner replayed a previously claimed handoff" unless restarted_claimed.slice("status", "lifecycle", "feedback_history", "delivery", "completion") == claimed_snapshot
+  abort "fresh runner added a second claim or terminal lifecycle event" unless restarted_claimed.fetch("lifecycle").map { |event| event.fetch("action") } == %w[created claim]
+  abort "fresh runner launched a previously claimed handoff" unless File.readlines(launch_record, chomp: true) == [ready.fetch("id")]
+  abort "fresh runner did not run the READY handoff normally" unless restart_result.fetch("status") == "COMPLETED" && completed_ready.fetch("status") == "COMPLETED" && completed_ready.fetch("lifecycle").map { |event| event.fetch("action") } == %w[created claim feedback link_delivery complete]
+  abort "fresh runner emitted terminal output for the previously claimed handoff" if restart_output.string.include?(previously_claimed.fetch("id"))
 end
 
 puts "Dora handoff runner test passed (fixed UUID launch, closed stdin/discarded child streams, sanitized failure classes, singleton, and V3 safety boundaries)."

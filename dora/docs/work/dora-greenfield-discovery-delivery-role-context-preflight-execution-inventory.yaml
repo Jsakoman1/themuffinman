@@ -1,0 +1,11 @@
+kind: execution_inventory
+version: 1
+id: dora-greenfield-discovery-delivery-role-context-preflight
+master_plan: docs/work/dora-greenfield-discovery-delivery-11-role-context-preflight.yaml
+state: intentionally_deferred
+items:
+- id: role-context-pack-preflight
+  order: 1
+  plan: docs/work/dora-greenfield-discovery-delivery-11-role-context-preflight.yaml
+  task: record-role-context-pack-need-preflight
+  status: intentionally_deferred

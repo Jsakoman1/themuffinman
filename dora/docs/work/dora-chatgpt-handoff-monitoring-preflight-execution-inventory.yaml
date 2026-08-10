@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: dora-chatgpt-handoff-monitoring-preflight-execution
+master_plan: docs/work/dora-chatgpt-handoff-monitoring-preflight-master.yaml
+state: verified
+items:
+- id: handoff-monitoring-preflight
+  order: 1
+  plan: docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+  task: record-handoff-monitoring-feasibility-and-next-slice
+  status: verified
+  started_at: '2026-08-10T09:49:17Z'
+  verified_at: '2026-08-10T09:49:38Z'
+  evidence:
+    plan: docs/work/dora-chatgpt-handoff-monitoring-preflight.yaml
+    task: record-handoff-monitoring-feasibility-and-next-slice
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

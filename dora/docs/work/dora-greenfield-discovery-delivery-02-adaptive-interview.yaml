@@ -1,0 +1,120 @@
+kind: work
+version: 1
+id: dora-greenfield-discovery-delivery-adaptive-interview
+title: Add a short adaptive direction interview without inferred requirements
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-greenfield-discovery-delivery-adaptive-interview-execution-inventory.yaml
+planning_item:
+  phase: discovery
+  reason: Greenfield framing needs a few high-leverage choices before optional depth.
+  integration: Extend IdeaInterviewSession; preserve the existing confirmed-answer
+    boundary.
+tasks:
+- id: extend-adaptive-direction-interview
+  title: Select short conditional direction questions from confirmed answers
+  type: implementation
+  status: done
+  inventory_item: adaptive-direction-interview
+  observable_outcome: IdeaInterviewSession returns a bounded core direction sequence
+    and conditional follow-up questions while recording only user_confirmed answers
+    and explicit open decisions.
+  dependencies:
+  - discovery-provenance-guard
+  evidence_boundary:
+  - Synthetic interview-session fixtures only.
+  - No external research, DecisionLog write, create-app mutation, task activation,
+    consumer change, GitHub action, source generation, runner invocation, or remote-agent
+    start.
+  paths:
+  - lib/dora/idea_interview_session.rb
+  - idea-interview-session.schema.yaml
+  - test/adaptive_direction_interview_test.rb
+  required_paths:
+  - lib/dora/idea_interview_session.rb
+  - idea-interview-session.schema.yaml
+  - test/adaptive_direction_interview_test.rb
+  validation: ruby test/adaptive_direction_interview_test.rb
+  negative_authority_proof: Test proves no question or answer is automatically accepted
+    as a decision, cannot create work or status, and cannot invoke an external/repository/agent
+    operation.
+  started_at: '2026-08-10T12:30:52Z'
+  start_fingerprints:
+    lib/dora/idea_interview_session.rb: 4e0ad424e4d92689f96ab648f1fcbb86762e5c33d8a5c8789ebb77b5f71314e7
+    idea-interview-session.schema.yaml: a5091b5fbe47ccc9ab3576eff9c9d60d711065bd0e98cc06c0d919636d081c5e
+    test/adaptive_direction_interview_test.rb: 77b815643c1d052637a1d6e41cacb6e3d800e69d0c80250704081128280dafe9
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - idea-interview-session.schema.yaml
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/idea_interview_session.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: extend-adaptive-direction-interview
+  command: ruby test/adaptive_direction_interview_test.rb
+  ranAt: '2026-08-10T12:31:17Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - idea-interview-session.schema.yaml
+  - lib/dora/idea_interview_session.rb
+  - test/adaptive_direction_interview_test.rb
+  output: "Dora adaptive direction interview test passed (short core, conditional
+    questions, provenance, and no authority mutation).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/idea_interview_session.rb: c91e7907123f85d53037f42c38184bb7deab5ec3cd51b86dc0d43ada52ff4278
+    idea-interview-session.schema.yaml: c77daa1a4fef53464e476e06b4e32a9ccb9706c2a599df0a090e49c7141c6a48
+    test/adaptive_direction_interview_test.rb: 6fba195a7e270b3ce6af15fc7041bcdf6eae66c151393a3b4c0c2e218aff9ed4
+  requiredPaths: &1
+  - lib/dora/idea_interview_session.rb
+  - idea-interview-session.schema.yaml
+  - test/adaptive_direction_interview_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T12:30:52Z'
+  changedAfterStart: *1

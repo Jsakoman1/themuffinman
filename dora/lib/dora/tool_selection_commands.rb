@@ -14,7 +14,7 @@ module Dora
 
     def self.route(adapter_path, changed_paths, adapter_schema_path:, control_schema_path:)
       controls = controls_for(adapter_path, adapter_schema_path, control_schema_path)
-      ChangeRouting.route!(controls.fetch("change_routing"), changed_paths)
+      ChangeRouting.route!(controls.fetch("change_routing"), changed_paths, catalog_path: controls.fetch("tool_catalog"))
     end
 
     def self.controls_for(adapter_path, adapter_schema_path, control_schema_path)

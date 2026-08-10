@@ -18,9 +18,9 @@ def plugin(id:, kind:, policy:)
   )
 end
 
-def write_manifest(root, plugins)
+def write_manifest(root, plugins, version: 2)
   path = File.join(root, "plugins.yaml")
-  File.write(path, YAML.dump({"kind" => "dora_plugin_manifest", "version" => 2, "plugins" => plugins}))
+  File.write(path, YAML.dump({"kind" => "dora_plugin_manifest", "version" => version, "plugins" => plugins}))
   path
 end
 
@@ -48,6 +48,23 @@ Dir.mktmpdir("dora-plugin-policy-contract") do |root|
 
   wrong_trust = write_manifest(root, [plugin(id: "wrong-trust", kind: :builtin, policy: trusted_policy)])
   assert_rejected!(wrong_trust, "trust must be dora_builtin")
+
+  v3_contract = {"capability_id" => "http-contract-link", "api_version" => "1.0.0", "cache_identity" => "http-contract-v1", "output_schema_version" => 1, "deprecation" => "supported"}
+  v3 = write_manifest(root, [plugin(id: "v3", kind: :builtin, policy: builtin_policy).merge("capability_contract" => v3_contract)], version: 3)
+  abort "version three manifest did not validate" unless Dora::PluginContract.validate!(v3).fetch("plugins") == ["v3"]
+
+  missing_contract = write_manifest(root, [plugin(id: "missing-contract", kind: :builtin, policy: builtin_policy)], version: 3)
+  assert_rejected!(missing_contract, "missing capability_contract")
+
+  invalid_version = write_manifest(root, [plugin(id: "bad-contract", kind: :builtin, policy: builtin_policy).merge("capability_contract" => v3_contract.merge("api_version" => "one"))], version: 3)
+  assert_rejected!(invalid_version, "api_version is invalid")
+
+  deprecated = write_manifest(root, [plugin(id: "deprecated-contract", kind: :builtin, policy: builtin_policy).merge("capability_contract" => v3_contract.merge("deprecation" => "deprecated"))], version: 3)
+  abort "declared deprecated contract did not validate" unless Dora::PluginContract.validate!(deprecated).fetch("plugins") == ["deprecated-contract"]
 end
 
-puts "Dora plugin policy contract test passed (versioned trust, timeout, and no-sandbox limits are explicit)."
+domain_library = YAML.load_file(File.expand_path("../docs/domain-library.yaml", __dir__))
+abort "domain library omits plugin v3 contract" unless domain_library.fetch("vocabulary").any? { |item| item.fetch("id") == "plugin-capability-contract" && item.fetch("description").include?("Static manifest v3") }
+abort "domain library duplicates plugin canonical state" unless domain_library.fetch("invariants").any? { |item| item.fetch("id") == "plugin-contract-canonical-separation" && item.fetch("description").include?("AnalysisCache alone") }
+
+puts "Dora plugin policy contract test passed (legacy support plus versioned trust, capability API, cache identity, and no-sandbox limits)."

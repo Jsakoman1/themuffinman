@@ -21,6 +21,19 @@ approval:
   approved_by: user
   approved_at: 2026-08-10
   scope: Publish Dora v1.8.0, create its immutable tag, and then pin MuffinMan to the reviewed release commit.
+owner_acceptance:
+  status: accepted
+  accepted_by: owner
+  accepted_at: 2026-08-10
+  release:
+    status: accepted
+    evidence: Dora main and the peeled v1.8.0 tag resolve to immutable commit a2b8220257d716a74cdd4da795bf3aca094762c0.
+  pin:
+    status: accepted
+    evidence: The MuffinMan Dora pin resolves to immutable commit a2b8220257d716a74cdd4da795bf3aca094762c0.
+  release_handoff:
+    status: closed
+    closure_reason: Owner accepted the verified release and matching MuffinMan pin; no new release is authorized or required.
 preservation:
   - MuffinMan retains product code, product documentation, work plans, runtime evidence, adapters, and product authority.
   - Dora v1.8.0 exports only Dora-owned package paths and retains no MuffinMan business rules, credentials, real data, runtime evidence, or product mutation adapters.

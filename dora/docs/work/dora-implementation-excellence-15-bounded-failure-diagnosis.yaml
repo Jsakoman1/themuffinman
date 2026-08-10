@@ -1,0 +1,240 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-bounded-failure-diagnosis
+title: Explain known validation failures without attempting repair
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-bounded-failure-diagnosis-execution-inventory.yaml
+planning_item:
+  priority: P3
+  current_evidence:
+  - WorkExecution already records bounded, redacted leaf evidence and explicit timeout
+    fields.
+  - HandoffRunner has an independent fixed runner failure-code/recovery-hint taxonomy.
+  problem: Leaf validation failures lack a safe local advisory classification, while
+    raw output must not become a diagnostic API.
+  intended_outcome: A standalone diagnosis read model accepts only a bounded evidence
+    envelope and returns known `leaf_timeout` or `command_unavailable` classes; every
+    other failure is explicitly unknown. It returns fixed safe next steps and never
+    output text.
+  source_of_truth_mapping:
+    work_execution_evidence: Sole evidence fact source, including failure result and
+      timeout/exit-code fields.
+    bounded_failure_diagnosis: Regenerable advisory classification only; it does not
+      alter evidence or work lifecycle.
+    handoff_runner: Separate runner-specific taxonomy; no shared lifecycle or failure
+      state.
+  invariants:
+  - No execution retry, output pattern matching, raw-output return, secret retention,
+    automatic patch, or root-cause claim.
+  - Unknown failures remain unknown.
+  - Result carries source references, observed_at, and read-only/advisory labels.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-runner-recovery-master.yaml
+  baseline_only_surfaces:
+  - Existing runner failure recovery hints and work verifier evidence.
+  residual_scope: Read-only explanation of selected known failures.
+  retest_triggers:
+  - Verifier output
+  - command catalog
+  - doctor checks
+  - finding schema
+  - or evidence redaction changes.
+  non_duplication_rule: Diagnosis is not repair state and does not override command
+    exit status.
+tasks:
+- id: classify-bounded-leaf-validation-failure
+  title: Classify only allow-listed leaf evidence failures without retaining output
+  type: implementation
+  status: done
+  inventory_item: bounded-failure-classifier
+  observable_outcome: BoundedFailureDiagnosis returns fixed advisory timeout, command-unavailable,
+    or unknown classes from a synthetic failed evidence envelope, omits raw output,
+    and cannot mutate the input or retry work.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic redacted work evidence only; no command execution or work-plan file
+  - raw output retention
+  - retry, repair, patch, or shell invocation
+  - work/decision/status mutation
+  - GitHub or consumer mutation
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - lib/dora/bounded_failure_diagnosis.rb
+  - test/bounded_failure_diagnosis_test.rb
+  required_paths:
+  - lib/dora/bounded_failure_diagnosis.rb
+  - test/bounded_failure_diagnosis_test.rb
+  validation: ruby test/bounded_failure_diagnosis_test.rb
+  started_at: '2026-08-10T11:40:17Z'
+  start_fingerprints:
+    lib/dora/bounded_failure_diagnosis.rb: __missing__
+    test/bounded_failure_diagnosis_test.rb: __missing__
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+- id: document-bounded-failure-diagnosis-boundary
+  title: Document diagnosis as an evidence-read-only advisory
+  type: documentation
+  status: done
+  inventory_item: bounded-failure-docs
+  observable_outcome: Dora's control vocabulary names WorkExecution evidence as diagnosis
+    input and forbids retry, repair, status mutation, and raw-output retention.
+  dependencies:
+  - classify-bounded-leaf-validation-failure
+  evidence_boundary:
+  - Documentation consistency only; no command execution or work-plan file
+  - raw output retention
+  - retry, repair, patch, or shell invocation
+  - work/decision/status mutation
+  - GitHub or consumer mutation
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - docs/domain-library.yaml
+  - test/bounded_failure_diagnosis_test.rb
+  required_paths:
+  - docs/domain-library.yaml
+  - test/bounded_failure_diagnosis_test.rb
+  validation: ruby test/bounded_failure_diagnosis_test.rb
+  started_at: '2026-08-10T11:41:28Z'
+  start_fingerprints:
+    docs/domain-library.yaml: 0e86e22735f935cdd96e30c68e78a900507f5bee0edd6cd2a177884110e7585f
+    test/bounded_failure_diagnosis_test.rb: 9b36ece949e72e2ef9bb398c7aa87c773fe3dbf38b50d1c49b142861f2de4f43
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: classify-bounded-leaf-validation-failure
+  command: ruby test/bounded_failure_diagnosis_test.rb
+  ranAt: '2026-08-10T11:41:23Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/bounded_failure_diagnosis.rb
+  - test/bounded_failure_diagnosis_test.rb
+  output: "Dora bounded failure diagnosis test passed (allow-listed signatures, unknown
+    fallback, redaction, and no repair).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/bounded_failure_diagnosis.rb: f82a6c7a6fdbcba9280db2bad6a8234aa14585c0b356af1c86bfce06e5ae295f
+    test/bounded_failure_diagnosis_test.rb: 9b36ece949e72e2ef9bb398c7aa87c773fe3dbf38b50d1c49b142861f2de4f43
+  requiredPaths: &1
+  - lib/dora/bounded_failure_diagnosis.rb
+  - test/bounded_failure_diagnosis_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:40:17Z'
+  changedAfterStart: *1
+- task: document-bounded-failure-diagnosis-boundary
+  command: ruby test/bounded_failure_diagnosis_test.rb
+  ranAt: '2026-08-10T11:41:46Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/domain-library.yaml
+  - test/bounded_failure_diagnosis_test.rb
+  output: "Dora bounded failure diagnosis test passed (allow-listed signatures, unknown
+    fallback, redaction, and no repair).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/domain-library.yaml: e281d431789e78ae198a6fe8f3f662b6f54aeb252596ea5b5c7c1841aaae668a
+    test/bounded_failure_diagnosis_test.rb: 02dd826920f9fe66000e082bf2e6f47037a9b1987dda8b1c5e877b83f0ea90c4
+  requiredPaths: &2
+  - docs/domain-library.yaml
+  - test/bounded_failure_diagnosis_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:41:28Z'
+  changedAfterStart: *2

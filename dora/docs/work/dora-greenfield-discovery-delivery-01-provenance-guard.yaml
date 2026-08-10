@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: dora-greenfield-discovery-delivery-provenance-guard
+title: Guard advisory greenfield discovery output against authority creep
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-greenfield-discovery-delivery-provenance-guard-execution-inventory.yaml
+planning_item:
+  phase: discovery
+  reason: Every later discovery view must prove provenance and no mutation before
+    it exists.
+  integration: Reuse existing advisory metadata conventions; do not introduce a discovery
+    store.
+tasks:
+- id: establish-discovery-provenance-guard
+  title: Validate a generic read-only advisory discovery envelope
+  type: implementation
+  status: done
+  inventory_item: discovery-provenance-guard
+  observable_outcome: A synthetic discovery result validates required source references,
+    observed_at, read_only/advisory labels, and an explicit non-authority completion
+    boundary.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic in-memory discovery facts only.
+  - No external request, persistent discovery store, DecisionLog write, task/status
+    mutation, code generation, consumer mutation, GitHub action, runner invocation,
+    or remote-agent start.
+  paths:
+  - lib/dora/discovery_provenance.rb
+  - test/discovery_provenance_test.rb
+  required_paths:
+  - lib/dora/discovery_provenance.rb
+  - test/discovery_provenance_test.rb
+  validation: ruby test/discovery_provenance_test.rb
+  negative_authority_proof: Test proves the result cannot set work/inventory status,
+    create/amend/close a DecisionLog entry, write code, invoke GitHub, mutate a consumer
+    project, or start/wake an agent.
+  started_at: '2026-08-10T12:27:26Z'
+  start_fingerprints:
+    lib/dora/discovery_provenance.rb: __missing__
+    test/discovery_provenance_test.rb: __missing__
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: establish-discovery-provenance-guard
+  command: ruby test/discovery_provenance_test.rb
+  ranAt: '2026-08-10T12:28:52Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/discovery_provenance.rb
+  - test/discovery_provenance_test.rb
+  output: "Dora discovery provenance test passed (cited advisory envelope, immutable
+    payload, and no authority surface).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/discovery_provenance.rb: 1c8770a58b823c6f05aabd7c32c22ecfc793fa759c4b669e0ebdd18d5b05b5fe
+    test/discovery_provenance_test.rb: d8e72613c958fc906085ffcace57a1478fa2734629c3e13ce48dba560995955d
+  requiredPaths: &1
+  - lib/dora/discovery_provenance.rb
+  - test/discovery_provenance_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T12:27:26Z'
+  changedAfterStart: *1

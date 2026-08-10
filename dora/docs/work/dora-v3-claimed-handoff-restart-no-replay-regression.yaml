@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: dora-v3-claimed-handoff-restart-no-replay-regression
+title: Prove a claimed handoff is not replayed after runner restart
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v3-claimed-handoff-restart-no-replay-execution-inventory.yaml
+scope_control:
+  baseline_only_surfaces:
+  - Existing READY-only runner selection and fail-closed claimed-handoff recovery
+    behavior.
+  residual_scope:
+  - One isolated synthetic regression proving a fresh runner does not replay a claimed
+    handoff.
+  non_duplication_rule: The regression records no new runner, lifecycle, bridge, or
+    recovery behavior.
+tasks:
+- id: verify-claimed-handoff-restart-no-replay
+  title: Add the claimed-handoff restart no-replay regression
+  type: implementation
+  inventory_item: claimed-handoff-restart-no-replay
+  observable_outcome: An isolated synthetic fixture keeps an already claimed handoff
+    unchanged while a fresh runner launches and completes only the READY handoff.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic private handoff state and fixed-launcher invocation records only.
+  - No installed runner, real handoff state, lifecycle behavior, or remote control
+    boundary.
+  paths:
+  - bridge/test/handoff_runner_test.rb
+  required_paths:
+  - bridge/test/handoff_runner_test.rb
+  validation: ruby bridge/test/handoff_runner_test.rb && ruby test/handoff_test.rb
+    && ruby bridge/test/structured_handoff_e2e_test.rb
+  status: done
+  started_at: '2026-08-10T09:39:54Z'
+  start_fingerprints:
+    bridge/test/handoff_runner_test.rb: d8261fb7a0d05c839c841c25e1d65a9177c2266c13dbaa5404c78b7708897d42
+evidence:
+- task: verify-claimed-handoff-restart-no-replay
+  command: ruby bridge/test/handoff_runner_test.rb && ruby test/handoff_test.rb &&
+    ruby bridge/test/structured_handoff_e2e_test.rb
+  ranAt: '2026-08-10T09:40:05Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bridge/test/handoff_runner_test.rb
+  output: |+
+    Dora handoff runner test passed (fixed UUID launch, closed stdin/discarded child streams, sanitized failure classes, singleton, and V3 safety boundaries).
+    handoff-ad6e784a-49f3-451d-86a1-9fa7f9199e10
+    handoff-ad6e784a-49f3-451d-86a1-9fa7f9199e10
+    Dora handoff test passed (immutable records, idempotency, lifecycle feedback, owner decisions, structured runner failures, completion evidence, containment, permissions, and concurrency).
+    Dora handoff runner ready; checking for eligible handoffs.
+    Eligible handoff detected and claimed.
+    Handoff phase: Start.
+    Handoff phase: Complete.
+    Handoff completed.
+    Dora structured handoff end-to-end test passed (synthetic MCP create, claim, fixed local runner completion, milestone feedback, owner-decision readback, V1 regression, and no execution tool).
+
+  requiredPaths: &1
+  - bridge/test/handoff_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T09:39:54Z'
+  changedAfterStart: *1

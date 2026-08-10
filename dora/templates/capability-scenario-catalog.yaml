@@ -1,0 +1,26 @@
+kind: dora_capability_scenario_catalog
+version: 1
+capability: replace-with-capability
+source_references:
+  - docs/product-brief.yaml#replace-with-capability
+scenarios:
+  - id: replace-with-happy-path
+    class: happy_path
+    evidence_class: unit
+    expected: A valid actor can complete the declared capability outcome.
+    source_references: [docs/domain-library.yaml#replace-with-happy-path]
+  - id: replace-with-permission-boundary
+    class: permission
+    evidence_class: api
+    expected: A forbidden actor is denied the declared capability action.
+    source_references: [docs/domain-library.yaml#replace-with-permission-boundary]
+  - id: replace-with-recovery
+    class: recovery
+    evidence_class: acceptance
+    expected: The declared recovery path preserves the capability boundary.
+    source_references: [docs/domain-library.yaml#replace-with-recovery]
+  - id: replace-with-regression
+    class: regression
+    evidence_class: browser_runtime
+    expected: A project-owned regression scenario demonstrates the declared outcome.
+    source_references: [docs/domain-library.yaml#replace-with-regression]

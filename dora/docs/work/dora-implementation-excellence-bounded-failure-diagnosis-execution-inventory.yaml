@@ -1,0 +1,28 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-bounded-failure-diagnosis
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: bounded-failure-classifier
+  order: 1
+  plan: docs/work/dora-implementation-excellence-15-bounded-failure-diagnosis.yaml
+  task: classify-bounded-leaf-validation-failure
+  status: verified
+  started_at: '2026-08-10T11:40:17Z'
+  verified_at: '2026-08-10T11:41:23Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-15-bounded-failure-diagnosis.yaml
+    task: classify-bounded-leaf-validation-failure
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+- id: bounded-failure-docs
+  order: 2
+  plan: docs/work/dora-implementation-excellence-15-bounded-failure-diagnosis.yaml
+  task: document-bounded-failure-diagnosis-boundary
+  status: verified
+  started_at: '2026-08-10T11:41:28Z'
+  verified_at: '2026-08-10T11:41:46Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-15-bounded-failure-diagnosis.yaml
+    task: document-bounded-failure-diagnosis-boundary
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

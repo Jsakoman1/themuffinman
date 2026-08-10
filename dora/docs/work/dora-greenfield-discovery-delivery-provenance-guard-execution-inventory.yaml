@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: dora-greenfield-discovery-delivery-provenance-guard
+master_plan: docs/work/dora-greenfield-discovery-delivery-01-provenance-guard.yaml
+state: verified
+items:
+- id: discovery-provenance-guard
+  order: 1
+  plan: docs/work/dora-greenfield-discovery-delivery-01-provenance-guard.yaml
+  task: establish-discovery-provenance-guard
+  status: verified
+  started_at: '2026-08-10T12:27:26Z'
+  verified_at: '2026-08-10T12:28:52Z'
+  evidence:
+    plan: docs/work/dora-greenfield-discovery-delivery-01-provenance-guard.yaml
+    task: establish-discovery-provenance-guard
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

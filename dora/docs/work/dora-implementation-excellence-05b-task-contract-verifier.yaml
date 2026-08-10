@@ -1,0 +1,98 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-task-contract-verifier
+title: Enforce declared task implementation contracts through work-plan validation
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-task-contract-verifier-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-implementation-excellence-05-task-scoped-contract.yaml
+  baseline_only_surfaces:
+  - Optional task contract schema and cited AgentContext projection.
+  residual_scope:
+  - Reject malformed declared contracts through the normal work-plan validator without
+    changing contract-free plan compatibility.
+  retest_triggers:
+  - WorkVerifier
+  - WorkArtifactSchema
+  - or task contract changes.
+  non_duplication_rule: Work-plan validation enforces declared structure only; it
+    does not establish implementation, evidence, or verified state.
+tasks:
+- id: enforce-declared-task-contracts
+  title: Apply task contract schema validation from the normal work-plan validator
+  type: implementation
+  status: done
+  inventory_item: task-contract-verifier
+  observable_outcome: A work plan containing implementation_contract is rejected when
+    malformed, while a contract-free plan retains existing validation behavior.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic WorkVerifier plans only; no product rule inference
+  - status mutation
+  - decision write
+  - GitHub access
+  - consumer mutation
+  - or runner invocation.
+  paths:
+  - lib/dora/work_verifier.rb
+  - test/work_verifier_test.rb
+  required_paths:
+  - lib/dora/work_verifier.rb
+  - test/work_verifier_test.rb
+  validation: ruby test/work_verifier_test.rb && ruby test/work_artifact_schema_test.rb
+  started_at: '2026-08-10T11:14:40Z'
+  start_fingerprints:
+    lib/dora/work_verifier.rb: d9b84eab8ec35e32376820fe8c6b3c4d845501d9172847541d282da2b1932a6c
+    test/work_verifier_test.rb: 6aa7e83273787eb8c2aa86d556e729d1bc680aed94b68727976b2f81496fe7cb
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_routing_test.rb
+  - test/project_doctor_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+evidence:
+- task: enforce-declared-task-contracts
+  command: ruby test/work_verifier_test.rb && ruby test/work_artifact_schema_test.rb
+  ranAt: '2026-08-10T11:15:07Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - lib/dora/work_verifier.rb
+  - test/work_verifier_test.rb
+  output: |+
+    Dora work verifier test passed (two independent adapter roots).
+    Dora work-artifact schema test passed (portable master, work, and inventory fixtures).
+
+  requiredPaths: &1
+  - lib/dora/work_verifier.rb
+  - test/work_verifier_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:14:40Z'
+  changedAfterStart: *1

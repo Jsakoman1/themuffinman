@@ -1,0 +1,28 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-consumer-upgrade-compatibility
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: compatibility-report-classifier
+  order: 1
+  plan: docs/work/dora-implementation-excellence-12-consumer-upgrade-compatibility.yaml
+  task: classify-reviewed-upgrade-preview
+  status: verified
+  started_at: '2026-08-10T11:33:06Z'
+  verified_at: '2026-08-10T11:34:42Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-12-consumer-upgrade-compatibility.yaml
+    task: classify-reviewed-upgrade-preview
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+- id: compatibility-report-docs
+  order: 2
+  plan: docs/work/dora-implementation-excellence-12-consumer-upgrade-compatibility.yaml
+  task: document-compatibility-classification-boundary
+  status: verified
+  started_at: '2026-08-10T11:34:47Z'
+  verified_at: '2026-08-10T11:35:05Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-12-consumer-upgrade-compatibility.yaml
+    task: document-compatibility-classification-boundary
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

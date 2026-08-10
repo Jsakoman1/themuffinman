@@ -1,0 +1,29 @@
+kind: work
+version: 1
+id: dora-greenfield-discovery-delivery-atomic-task-hardening
+title: Harden one selected greenfield discovery slice before goal pursuit
+status: planned
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+planning_only: true
+tasks:
+- id: harden-selected-greenfield-discovery-slice
+  title: Reconfirm one selected candidate as an executable atomic Dora task
+  type: planning
+  status: planned
+  observable_outcome: One owner-selected candidate has a fresh baseline, exact paths,
+    one leaf test, explicit owner gate, and a negative-authority assertion before it enters goal pursuit.
+  dependencies: []
+  evidence_boundary:
+  - Plan, current source, and focused test inspection only.
+  - No Dora implementation, consumer mutation, DecisionLog write, GitHub action, release,
+    external research request, bridge change, runner invocation, or remote-agent start.
+  paths:
+  - docs/work/dora-greenfield-discovery-delivery-00-atomic-task-hardening.yaml
+  required_paths:
+  - docs/work/dora-greenfield-discovery-delivery-00-atomic-task-hardening.yaml
+  validation: ruby test/atomic_plan_contract_test.rb
+  negative_authority_proof: The hardening check cannot select work, set status, write a decision,
+    edit a consumer, invoke GitHub, or launch a local or remote agent.
+  selection_gate: Owner selects exactly one candidate from the prepared serial inventory.
+evidence: []

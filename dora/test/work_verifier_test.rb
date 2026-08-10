@@ -41,6 +41,21 @@ Dir.mktmpdir("dora-work-verifier") do |sandbox|
   abort "alpha project was not validated" unless alpha == {"project" => "alpha", "kind" => "work", "id" => "alpha-work"}
   abort "beta project was not validated" unless beta == {"project" => "beta", "kind" => "work", "id" => "beta-work"}
 
+  contract_path = File.join(File.dirname(alpha_adapter), "..", "docs/work/example.yaml")
+  contract_plan = YAML.load_file(contract_path)
+  contract_plan["title"] = "Contract work"
+  contract_plan.fetch("tasks").first["implementation_contract"] = {"read_paths" => [], "write_paths" => ["src/item"], "permission_owner" => "service", "schema_paths" => [], "api_paths" => [], "ui_paths" => [], "test_paths" => [], "documentation_paths" => [], "runtime_evidence" => {"required" => false, "paths" => []}}
+  File.write(contract_path, YAML.dump(contract_plan))
+  Dora::WorkVerifier.validate_plan!(alpha_adapter, "docs/work/example.yaml", SCHEMA_PATH)
+  contract_plan.fetch("tasks").first.fetch("implementation_contract").delete("permission_owner")
+  File.write(contract_path, YAML.dump(contract_plan))
+  begin
+    Dora::WorkVerifier.validate_plan!(alpha_adapter, "docs/work/example.yaml", SCHEMA_PATH)
+    abort "work verifier accepted a malformed declared implementation contract"
+  rescue ArgumentError
+    nil
+  end
+
   begin
     Dora::WorkVerifier.validate_plan!(alpha_adapter, "../beta/docs/work/example.yaml", SCHEMA_PATH)
     abort "work verifier accepted a plan outside the adapter root"

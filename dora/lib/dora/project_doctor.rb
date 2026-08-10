@@ -3,9 +3,11 @@
 require "shellwords"
 require "yaml"
 require_relative "adapter"
+require_relative "artifact_policy"
 require_relative "control_contracts"
 require_relative "project_control"
 require_relative "project_knowledge"
+require_relative "work_artifact_audit"
 
 module Dora
   class ProjectDoctor
@@ -18,7 +20,8 @@ module Dora
       check_declared_commands(adapter, project_root, checks)
       check_control_bundle(adapter_path, project_root, control_schema_path, checks)
       check_project_knowledge(project_root, checks)
-      {"healthy" => checks.all? { |check| check.fetch("status") == "passed" }, "checks" => checks}
+      check_work_artifacts(adapter_path, project_root, checks)
+      {"healthy" => checks.none? { |check| check.fetch("status") == "failed" }, "checks" => checks}
     rescue Psych::Exception => error
       {"healthy" => false, "checks" => [failed("adapter-file", "cannot read adapter: #{error.message}")]}
     end
@@ -107,6 +110,65 @@ module Dora
     end
     private_class_method :check_project_knowledge
 
+    def self.check_work_artifacts(adapter_path, project_root, checks)
+      policy_path = File.join(File.dirname(File.expand_path(adapter_path)), "controls", "artifact-policy.yaml")
+      paths = ArtifactPolicy.work_artifact_audit_paths!(policy_path)
+      return if paths.empty?
+
+      schema_path = File.expand_path("../../templates/work-artifact-schema.yaml", __dir__)
+      report = WorkArtifactAudit.inspect!(project_root: project_root, paths: paths, schema_path: schema_path)
+      report.fetch("findings").reject { |finding| finding.fetch("classification") == "valid" }.each do |finding|
+        checks << advisory("work-artifact:#{finding.fetch("classification")}:#{finding.fetch("source_reference")}", "work artifact is #{finding.fetch("classification")}", references: [finding.fetch("source_reference")], observed_at: finding.fetch("observed_at"))
+      end
+      checks.concat(verified_work_inventory_contradictions(report, project_root))
+    rescue ArgumentError, Psych::Exception => error
+      checks << failed("work-artifact-audit", error.message)
+    end
+    private_class_method :check_work_artifacts
+
+    def self.verified_work_inventory_contradictions(report, project_root)
+      report.fetch("findings").each_with_object([]) do |finding, contradictions|
+        next unless finding.fetch("classification") == "valid"
+
+        work_path = File.join(project_root, finding.fetch("source_reference"))
+        work = YAML.load_file(work_path)
+        next unless work["kind"] == "work" && work["status"] == "verified"
+
+        inventory_reference = work["execution_inventory"]
+        next unless safe_project_path?(inventory_reference)
+
+        inventory_path = File.expand_path(inventory_reference, project_root)
+        next unless inventory_path.start_with?("#{project_root}/") && File.file?(inventory_path)
+
+        inventory = YAML.load_file(inventory_path)
+        next unless inventory.is_a?(Hash) && inventory["kind"] == "execution_inventory" && inventory["state"] != "verified"
+
+        master_reference = inventory["master_plan"]
+        unless safe_project_path?(master_reference)
+          contradictions << advisory("work-artifact:invalid-inventory-master-reference:#{finding.fetch("source_reference")}", "execution inventory has no valid canonical master reference", references: [finding.fetch("source_reference"), inventory_reference], observed_at: finding.fetch("observed_at"))
+          next
+        end
+        master_path = File.expand_path(master_reference, project_root)
+        unless master_path.start_with?("#{project_root}/") && File.file?(master_path)
+          contradictions << advisory("work-artifact:missing-inventory-master:#{finding.fetch("source_reference")}", "execution inventory canonical master is missing", references: [finding.fetch("source_reference"), inventory_reference, master_reference], observed_at: finding.fetch("observed_at"))
+          next
+        end
+
+        master = YAML.load_file(master_path)
+        next unless master.is_a?(Hash) && %w[master work].include?(master["kind"]) && master["status"] == "verified"
+
+        contradictions << advisory("work-artifact:verified-work-active-inventory:#{finding.fetch("source_reference")}", "verified work references an execution inventory whose terminal canonical master is verified but whose state is not verified", references: [finding.fetch("source_reference"), inventory_reference, master_reference], observed_at: finding.fetch("observed_at"))
+      end
+    rescue Psych::Exception
+      []
+    end
+    private_class_method :verified_work_inventory_contradictions
+
+    def self.safe_project_path?(path)
+      path.is_a?(String) && !path.empty? && !path.start_with?("/") && !path.split("/").include?("..")
+    end
+    private_class_method :safe_project_path?
+
     def self.executable_for(command)
       return nil unless command.is_a?(String) && !command.empty?
 
@@ -133,5 +195,10 @@ module Dora
       {"id" => id, "status" => "failed", "detail" => detail}
     end
     private_class_method :failed
+
+    def self.advisory(id, detail, references:, observed_at:)
+      {"id" => id, "status" => "advisory", "detail" => detail, "source_references" => references, "observed_at" => observed_at, "read_only" => true, "disposition" => "advisory"}
+    end
+    private_class_method :advisory
   end
 end

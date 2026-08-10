@@ -2,9 +2,15 @@
 
 require_relative "agent_context"
 require_relative "change_check"
+require_relative "task_change_set"
 
 module Dora
   class AgentCloseout
+    def self.review_started_task!(project_root:, work_plan:, task_id:, impact_path:)
+      change_set = TaskChangeSet.build!(project_root: project_root, work_plan: work_plan, task_id: task_id)
+      review!(project_root: project_root, work_plan: work_plan, task_id: task_id, impact_path: impact_path, changed_paths: change_set.fetch("changed_since_start")).merge("change_set" => change_set).freeze
+    end
+
     def self.review!(project_root:, work_plan:, task_id:, impact_path:, changed_paths:)
       root = File.expand_path(project_root)
       fail!("change impact path must be project-relative") unless safe_relative_path?(impact_path)
@@ -17,10 +23,10 @@ module Dora
       missing_paths = required_paths - changed_paths
 
       {
-        "kind" => "dora_agent_closeout", "version" => 1,
+        "kind" => "dora_agent_closeout", "version" => 1, "read_only" => true,
         "task" => context.fetch("task").slice("id", "title", "validation", "evidence_boundary"),
         "required_paths" => {"declared" => required_paths, "missing_from_change_set" => missing_paths},
-        "impact_obligations" => impact.slice("validations", "documentation", "runtime_evidence", "decisions", "unmatched_paths"),
+        "impact_obligations" => impact.slice("validations", "documentation", "runtime_evidence", "decisions", "companion_findings", "unmatched_paths"),
         "completion" => {"status_mutation" => false, "verified" => false, "reason" => "Dora reports declared gaps; the project verifier records completion evidence."},
         "next_steps" => next_steps(missing_paths, impact)
       }.freeze
@@ -33,6 +39,7 @@ module Dora
       steps << "Update declared documentation: #{impact.fetch("documentation").join(", ")}" unless impact.fetch("documentation").empty?
       steps << "Capture declared runtime evidence: #{impact.fetch("runtime_evidence").join(", ")}" unless impact.fetch("runtime_evidence").empty?
       steps << "Review declared decisions: #{impact.fetch("decisions").join(", ")}" unless impact.fetch("decisions").empty?
+      steps << "Classify declared companion findings before expanding scope." unless impact.fetch("companion_findings").empty?
       steps << "Classify unmatched changed paths: #{impact.fetch("unmatched_paths").join(", ")}" unless impact.fetch("unmatched_paths").empty?
       steps << "Use the project verifier to record evidence after these gaps are resolved."
       steps

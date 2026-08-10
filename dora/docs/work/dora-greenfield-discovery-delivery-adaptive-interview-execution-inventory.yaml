@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: dora-greenfield-discovery-delivery-adaptive-interview
+master_plan: docs/work/dora-greenfield-discovery-delivery-02-adaptive-interview.yaml
+state: verified
+items:
+- id: adaptive-direction-interview
+  order: 1
+  plan: docs/work/dora-greenfield-discovery-delivery-02-adaptive-interview.yaml
+  task: extend-adaptive-direction-interview
+  status: verified
+  started_at: '2026-08-10T12:30:52Z'
+  verified_at: '2026-08-10T12:31:18Z'
+  evidence:
+    plan: docs/work/dora-greenfield-discovery-delivery-02-adaptive-interview.yaml
+    task: extend-adaptive-direction-interview
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

@@ -1,0 +1,121 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-implementation-session
+title: Assemble one cited implementation session for Codex
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-implementation-session-execution-inventory.yaml
+planning_item:
+  priority: P0
+  current_evidence:
+  - lib/dora/agent_session.rb combines AgentContext, ProjectStatus, and AgentNext
+    into a read-only envelope.
+  - The self-project tool catalog currently exposes only doctor, so the session cannot
+    offer task-specific validation guidance.
+  problem: Codex must manually compose context, next action, routing, start, validation,
+    and closeout commands, increasing omission risk and context size.
+  intended_outcome: A read-only implementation-session envelope emits only cited task-relevant
+    rules, exact declared paths, preflight state, start guidance, selected leaf validations,
+    evidence obligations, and closeout inputs.
+  candidate_surfaces:
+  - lib/dora/agent_session.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_next.rb
+  - lib/dora/tool_selection_commands.rb
+  - bin/dora
+  - agent-session.schema.yaml
+  - test/agent_session_test.rb
+  invariants:
+  - No task start
+  - source mutation
+  - product inference
+  - undeclared tool selection
+  - or completion claim.
+  open_questions:
+  - Use one new command or extend agent-session?
+  - Which fields are mandatory for an implementation task versus docs-only work?
+  future_atomic_slices:
+  - Define the stable envelope and omission contract.
+  - Derive selected commands from declared routing/catalog data.
+  - Add valid, blocked, missing-context, and unsafe-path fixtures.
+  readiness: selected_for_goal_pursuit
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-reliability-foundation-master.yaml
+  baseline_only_surfaces:
+  - Current AgentContext
+  - AgentNext
+  - ProjectStatus
+  - and AgentCloseout semantics.
+  residual_scope:
+  - Read-only orchestration of existing declared information.
+  retest_triggers:
+  - Agent command schema
+  - routing catalog
+  - task context
+  - or project-status changes.
+  non_duplication_rule: The session is navigation context, never a second task or
+    evidence record.
+tasks:
+- id: expose-declared-implementation-contract
+  title: Expose cited start, validation, and closeout inputs in the read-only session
+  type: implementation
+  status: done
+  inventory_item: implementation-session-contract
+  observable_outcome: AgentSession exposes one cited implementation contract containing
+    declared start guidance, task validation, evidence boundary, and closeout input
+    boundary without starting, verifying, or changing work.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic session and CLI fixtures only; no task start
+  - work verification
+  - project mutation
+  - decision write
+  - GitHub access
+  - consumer mutation
+  - or runner invocation.
+  paths:
+  - agent-session.schema.yaml
+  - lib/dora/agent_session.rb
+  - test/agent_session_test.rb
+  - test/agent_session_command_test.rb
+  required_paths:
+  - agent-session.schema.yaml
+  - lib/dora/agent_session.rb
+  - test/agent_session_test.rb
+  - test/agent_session_command_test.rb
+  validation: ruby test/agent_session_test.rb && ruby test/agent_session_command_test.rb
+  started_at: '2026-08-10T11:01:26Z'
+  start_fingerprints:
+    agent-session.schema.yaml: b1d95599bc1f55a10ae025450a65e90e810ef073ca9bff374e8615efab5c908d
+    lib/dora/agent_session.rb: 3c4d34f603029551e6d67a501e5415505987d341e2602c22230f51d465754b12
+    test/agent_session_test.rb: f56b625d8ce7eb62987223e809c42ab059022020685c27412b4873ae55ae3660
+    test/agent_session_command_test.rb: a370625cf8511227264cb9d8f6cbfdc47dcb7555be35d74dcf47cfcf7e8c154e
+evidence:
+- task: expose-declared-implementation-contract
+  command: ruby test/agent_session_test.rb && ruby test/agent_session_command_test.rb
+  ranAt: '2026-08-10T11:02:19Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - agent-session.schema.yaml
+  - lib/dora/agent_session.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  output: |+
+    Dora agent session test passed (bounded work, health, tools, gaps, decisions, and approval boundary).
+    Dora agent session command test passed (one read-only cited Codex session).
+
+  requiredPaths: &1
+  - agent-session.schema.yaml
+  - lib/dora/agent_session.rb
+  - test/agent_session_test.rb
+  - test/agent_session_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:01:26Z'
+  changedAfterStart: *1

@@ -2,9 +2,11 @@
 
 require "yaml"
 require_relative "adapter"
+require_relative "work_artifact_schema"
 
 module Dora
   class WorkVerifier
+    WORK_ARTIFACT_SCHEMA_PATH = File.expand_path("../../templates/work-artifact-schema.yaml", __dir__)
     WORK_TASK_FIELDS = %w[id title observable_outcome dependencies evidence_boundary paths required_paths validation].freeze
     COMMON_FIELDS = %w[kind version id status baseline].freeze
 
@@ -22,6 +24,7 @@ module Dora
       case plan.fetch("kind")
       when "work"
         validate_work_tasks!(plan)
+        WorkArtifactSchema.validate!(plan_absolute_path, schema_path: WORK_ARTIFACT_SCHEMA_PATH) if Array(plan["tasks"]).any? { |task| task.is_a?(Hash) && task.key?("implementation_contract") }
       when "master"
         children = Array(plan["children"])
         fail!("master work plan must declare children") if children.empty?
@@ -65,4 +68,3 @@ module Dora
     private_class_method :fail!
   end
 end
-

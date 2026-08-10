@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "time"
+
 module Dora
   # Evaluates one owner-authored proposal without making it Dora state. The caller
   # supplies only a sanitized canonical-state snapshot; the result intentionally
@@ -15,6 +17,24 @@ module Dora
     def self.evaluate(proposal:, canonical_state:)
       new(canonical_state).evaluate(proposal)
     end
+
+    def self.option_packet!(alignment:, owner_question:)
+      fail!("option packet owner question is invalid") unless safe_text?(owner_question)
+      fail!("option packet alignment is invalid") unless alignment.is_a?(Hash) && alignment["phase"] == "ALIGNMENT" && %w[ACCEPTED RECONCILED OWNER_DECISION_NEEDED].include?(alignment["alignment_result"])
+
+      facts = alignment.slice("phase", "alignment_result", "first_safe_next_action", "first_eligible_slice", "later_slices", "actionable_blocker_or_decision")
+      {"kind" => "dora_owner_option_packet", "version" => 1, "observed_at" => Time.now.utc.iso8601, "source_references" => ["intent_plan_alignment"], "read_only" => true, "non_canonical" => true, "alignment_facts" => facts, "owner_question" => owner_question, "copyable_response_template" => {"required_sections" => %w[alternatives benefits risks assumptions recommendation], "decision_instruction" => "An owner must explicitly record any selected decision through the existing DecisionLog workflow."}, "authority_boundary" => "This packet does not contact ChatGPT, persist a transcript, accept an inbound response, create a decision, change work status, invoke GitHub, or start a remote agent."}.freeze
+    end
+
+    def self.safe_text?(value)
+      value.is_a?(String) && !value.strip.empty? && value.length <= MAX_TEXT && !value.match?(/[\r\n]/)
+    end
+    private_class_method :safe_text?
+
+    def self.fail!(message)
+      raise ArgumentError, message
+    end
+    private_class_method :fail!
 
     def initialize(canonical_state)
       @canonical_state = canonical_state.is_a?(Hash) ? canonical_state : {}

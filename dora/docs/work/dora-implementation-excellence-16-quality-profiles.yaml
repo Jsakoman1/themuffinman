@@ -1,0 +1,239 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-quality-profiles
+title: Let consumer projects declare implementation-quality profiles
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-quality-profiles-execution-inventory.yaml
+planning_item:
+  priority: P3
+  current_evidence:
+  - Task implementation contracts already declare read/write/schema/API/UI/test/docs/runtime
+    surfaces.
+  - CapabilityScenarioCatalog declares reusable scenario classes without evidence
+    status.
+  - RuntimeProofProfile and project convention profiles are separate project-owned
+    static inputs.
+  problem: Consumers repeat cross-layer obligation selections and exceptions without
+    one small composition model.
+  intended_outcome: An opt-in read-only profile declares existing obligation classes
+    and explicit exclusions. It does not execute a command, prove evidence, or apply
+    product policy; later selected tasks may cite it through the existing implementation-contract
+    schema.
+  source_of_truth_mapping:
+    implementation_contract: Sole task-level declaration of affected surfaces.
+    capability_scenario_catalog: Sole scenario-obligation declaration.
+    implementation_quality_profile: Static opt-in composition input only; no capability,
+      evidence, or work lifecycle.
+  invariants:
+  - Profiles are opt-in, additive, project-owned, and explicit about exclusions.
+  - No runtime acceptance, security approval, release readiness, test execution, or
+    status inference.
+  - Result carries source references, observed_at, and read-only/advisory labels.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-reliability-foundation-master.yaml
+  baseline_only_surfaces:
+  - Existing stack packs, proof packets, and consumer-owned validation commands.
+  residual_scope: Opt-in profile declaration and validation only.
+  retest_triggers:
+  - Stack catalog
+  - pack
+  - task contract
+  - proof packet
+  - or consumer adapter changes.
+  non_duplication_rule: A selected profile references obligations but does not create
+    a second capability/evidence status.
+tasks:
+- id: validate-opt-in-implementation-quality-profile
+  title: Validate a static profile of existing implementation obligations
+  type: implementation
+  status: done
+  inventory_item: quality-profile-validator
+  observable_outcome: ImplementationQualityProfile validates an opt-in profile with
+    unique existing obligation classes, explicit exclusions, and source references,
+    returning only an advisory timestamped projection.
+  dependencies: []
+  evidence_boundary:
+  - Synthetic profile declaration only; no project profile file, consumer test, or
+    runtime
+  - evidence/status/decision mutation
+  - GitHub or consumer mutation
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - lib/dora/implementation_quality_profile.rb
+  - test/implementation_quality_profile_test.rb
+  required_paths:
+  - lib/dora/implementation_quality_profile.rb
+  - test/implementation_quality_profile_test.rb
+  validation: ruby test/implementation_quality_profile_test.rb
+  started_at: '2026-08-10T11:42:34Z'
+  start_fingerprints:
+    lib/dora/implementation_quality_profile.rb: __missing__
+    test/implementation_quality_profile_test.rb: __missing__
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+- id: document-implementation-quality-profile-boundary
+  title: Document quality profiles as opt-in static composition
+  type: documentation
+  status: done
+  inventory_item: quality-profile-docs
+  observable_outcome: Dora's control vocabulary identifies the profile as static opt-in
+    composition and separates it from task contracts, evidence, runtime, and release
+    state.
+  dependencies:
+  - validate-opt-in-implementation-quality-profile
+  evidence_boundary:
+  - Documentation consistency only; no project profile file, consumer test, or runtime
+  - evidence/status/decision mutation
+  - GitHub or consumer mutation
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - docs/domain-library.yaml
+  - test/implementation_quality_profile_test.rb
+  required_paths:
+  - docs/domain-library.yaml
+  - test/implementation_quality_profile_test.rb
+  validation: ruby test/implementation_quality_profile_test.rb
+  started_at: '2026-08-10T11:44:21Z'
+  start_fingerprints:
+    docs/domain-library.yaml: e281d431789e78ae198a6fe8f3f662b6f54aeb252596ea5b5c7c1841aaae668a
+    test/implementation_quality_profile_test.rb: 2f8bef9b2807d4688fef4ff2c2ca411e65b558e4b683ef9875bccba4ab100f3f
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: validate-opt-in-implementation-quality-profile
+  command: ruby test/implementation_quality_profile_test.rb
+  ranAt: '2026-08-10T11:44:16Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/implementation_quality_profile.rb
+  - test/implementation_quality_profile_test.rb
+  output: "Dora implementation quality profile test passed (opt-in obligations, explicit
+    exclusions, provenance, and no evidence state).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/implementation_quality_profile.rb: a84e542906dbd2d8965b9efd4c2c3aca5170afe7a73e0a01057ea084631e73ee
+    test/implementation_quality_profile_test.rb: 2f8bef9b2807d4688fef4ff2c2ca411e65b558e4b683ef9875bccba4ab100f3f
+  requiredPaths: &1
+  - lib/dora/implementation_quality_profile.rb
+  - test/implementation_quality_profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:42:34Z'
+  changedAfterStart: *1
+- task: document-implementation-quality-profile-boundary
+  command: ruby test/implementation_quality_profile_test.rb
+  ranAt: '2026-08-10T11:44:40Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/domain-library.yaml
+  - test/implementation_quality_profile_test.rb
+  output: "Dora implementation quality profile test passed (opt-in obligations, explicit
+    exclusions, provenance, and no evidence state).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/domain-library.yaml: 37c446e67527f0d617b97affcb7b14205abb7b4b9c96f1825ab96ed0157692ba
+    test/implementation_quality_profile_test.rb: 6457751faea8841e56a080fbc8c45f69a0cd4a7ee1a2079ab58e27ec941a5988
+  requiredPaths: &2
+  - docs/domain-library.yaml
+  - test/implementation_quality_profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:44:21Z'
+  changedAfterStart: *2

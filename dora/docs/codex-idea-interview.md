@@ -19,3 +19,7 @@ forbidden_outcomes
 Each answer must retain `source: user` or `source: user_confirmed`. An unanswered decision needs its own id, question, and the same source provenance. Do not convert an assumption, suggestion, or inferred product rule into an answer.
 
 The interview is declared starting context only. It does not approve implementation, choose data retention or authentication, create application code, validate runtime behavior, or grant release authority.
+
+## Optional owner-mediated research
+
+After a short direction interview, use a research packet only when the owner explicitly confirms its topic, a redacted disclosure level, and allowed sources. Dora may format a copy/paste packet and validate an owner-pasted response with citations, dates, and separate fact/inference/speculation sections. It does not contact ChatGPT or the web, retain a transcript, convert research into a decision, or start an implementation. Only an owner-confirmed decision may later enter the existing DecisionLog workflow.

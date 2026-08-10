@@ -34,6 +34,14 @@ Dir.mktmpdir("dora-tool-selection") do |sandbox|
   abort "beta tool catalog leaked alpha" unless capture!(CLI, "tools", beta_adapter).include?("beta-audit")
   abort "alpha route failed" unless YAML.load(capture!(CLI, "route", alpha_adapter, "src/app.rb")).fetch("commands") == ["alpha-test"]
   abort "beta route failed" unless YAML.load(capture!(CLI, "route", beta_adapter, "guide/readme.md")).fetch("commands") == ["beta-lint"]
+
+  catalog_root = File.join(sandbox, "catalog")
+  Dora::ProjectInitializer.initialize!(catalog_root, project_id: "catalog", manifest_path: MANIFEST)
+  File.write(File.join(catalog_root, ".dora/controls/tool-catalog.yaml"), YAML.dump({"kind" => "dora_tool_catalog", "version" => 1, "commands" => [{"id" => "source-tool", "target" => "source-test", "purpose" => "Run source test.", "preconditions" => ["ready"], "expected_cost" => "short"}]}))
+  File.write(File.join(catalog_root, ".dora/controls/change-routing.yaml"), YAML.dump({"kind" => "dora_change_routing", "version" => 1, "rules" => [{"id" => "source", "path_prefixes" => ["src/"], "tool_ids" => ["source-tool"]}]}))
+  catalog_adapter = File.join(catalog_root, ".dora/project.yaml")
+  catalog_route = YAML.load(capture!(CLI, "route", catalog_adapter, "src/app.rb"))
+  abort "catalog route did not resolve the declared tool" unless catalog_route.fetch("tool_ids") == ["source-tool"] && catalog_route.fetch("commands") == ["source-test"] && catalog_route.fetch("read_only")
 end
 
 puts "Dora tool-selection command test passed (two isolated projects)."

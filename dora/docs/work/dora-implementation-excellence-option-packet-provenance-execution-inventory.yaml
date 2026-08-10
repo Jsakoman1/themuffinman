@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: dora-implementation-excellence-option-packet-provenance
+master_plan: docs/work/dora-implementation-excellence-master.yaml
+state: verified
+items:
+- id: option-packet-provenance
+  order: 1
+  plan: docs/work/dora-implementation-excellence-10b-option-packet-provenance.yaml
+  task: timestamp-advisory-option-packet
+  status: verified
+  started_at: '2026-08-10T11:28:26Z'
+  verified_at: '2026-08-10T11:28:55Z'
+  evidence:
+    plan: docs/work/dora-implementation-excellence-10b-option-packet-provenance.yaml
+    task: timestamp-advisory-option-packet
+    revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff

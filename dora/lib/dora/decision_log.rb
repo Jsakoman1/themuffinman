@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "time"
 
 module Dora
   class DecisionLog
@@ -19,6 +20,20 @@ module Dora
       fail!("decision log YAML is invalid: #{error.message}")
     end
 
+    def self.freshness_review!(path, changed_paths)
+      log = load!(path)
+      paths = Array(changed_paths).uniq.sort
+      fail!("decision freshness changed paths must be a non-empty project-relative list") if paths.empty? || paths.any? { |item| !safe_relative_path?(item) }
+      candidates = log.fetch("entries").each_with_object([]) do |entry, results|
+        next if entry["status"] == "superseded"
+
+        references = Array(entry["impact_references"])
+        matches = references.select { |reference| paths.any? { |path| matches_reference?(path, reference) } }
+        results << entry.slice("id", "decision", "status").merge("matched_references" => matches, "classification_required" => true) unless matches.empty?
+      end
+      {"kind" => "dora_decision_freshness_review", "version" => 1, "observed_at" => Time.now.utc.iso8601, "read_only" => true, "disposition" => "advisory", "changed_paths" => paths, "review_candidates" => candidates, "completion_boundary" => "Freshness candidates require owner review; this diagnostic never reopens, changes, or invalidates a decision."}.freeze
+    end
+
     def self.validate_entry!(entry)
       fail!("decision log entry must be a mapping") unless entry.is_a?(Hash)
       REQUIRED_FIELDS.each do |field|
@@ -27,8 +42,21 @@ module Dora
         fail!("decision log entry is missing #{field}") unless valid
       end
       fail!("decision log entry has invalid status") unless STATUSES.include?(entry.fetch("status"))
+      if entry.key?("impact_references")
+        references = entry.fetch("impact_references")
+        fail!("decision log impact_references must be a non-empty list of project-relative paths") unless references.is_a?(Array) && !references.empty? && references.all? { |reference| safe_relative_path?(reference) }
+      end
     end
-    private_class_method :validate_entry!
+
+    def self.matches_reference?(path, reference)
+      path == reference || reference.end_with?("/") && path.start_with?(reference)
+    end
+    private_class_method :matches_reference?
+
+    def self.safe_relative_path?(value)
+      string?(value) && !value.start_with?("/") && !value.split("/").include?("..")
+    end
+    private_class_method :safe_relative_path?
 
     def self.string?(value)
       value.is_a?(String) && !value.strip.empty?

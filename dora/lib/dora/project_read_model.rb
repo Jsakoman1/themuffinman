@@ -61,6 +61,47 @@ module Dora
       }.freeze
     end
 
+    # A compact, regenerable navigation view over the same sanitized facts used by
+    # summary. It deliberately accepts a supplied summary for testability and does
+    # not write or reinterpret canonical work/decision state.
+    def self.current_work_index(summary:)
+      fail!("current work index summary is invalid") unless summary.is_a?(Hash) && summary["kind"] == "dora_project_read_model" && summary["version"].to_i == 1
+
+      delivery = summary["delivery"].is_a?(Hash) ? summary.fetch("delivery") : {}
+      active = delivery["active"]
+      current = if active.is_a?(Hash) && active["status"] == "ambiguous"
+                  {"state" => "ambiguous", "references" => Array(active["references"]).select { |reference| safe_index_reference?(reference) }.sort}
+                elsif active.is_a?(Hash)
+                  {"state" => "active", "delivery" => safe_index_delivery(active)}
+                elsif summary["next_task"].is_a?(Hash)
+                  {"state" => "planned", "next_task" => safe_index_task(summary.fetch("next_task"))}
+                else
+                  {"state" => "none"}
+                end
+      latest = delivery["latest_verified"]
+      references = Array(summary["references"]).select { |reference| safe_index_reference?(reference) }
+      references.concat(Array(current["references"]))
+      references << latest["master_plan"] if latest.is_a?(Hash) && safe_index_reference?(latest["master_plan"])
+
+      {
+        "kind" => "dora_current_work_index",
+        "version" => 1,
+        "observed_at" => Time.now.utc.iso8601,
+        "source_references" => references.uniq.sort,
+        "read_only" => true,
+        "disposition" => "advisory",
+        "current_work" => current,
+        "latest_verified_delivery" => latest.is_a?(Hash) ? safe_index_delivery(latest) : nil,
+        "open_decisions" => Array(summary["open_decisions"]).select { |entry| entry.is_a?(Hash) }.map { |entry| entry.slice("id", "statement", "source", "reference") },
+        "next_action" => summary["next_task"].is_a?(Hash) ? safe_index_task(summary.fetch("next_task")) : nil,
+        "completion_boundary" => "This index projects an existing ProjectReadModel summary only; it cannot persist or change work status, create or amend a decision, invoke GitHub, mutate a consumer project, run a repair, or start a runner or remote agent."
+      }.compact.freeze
+    end
+
+    def current_work_index
+      self.class.current_work_index(summary: summary)
+    end
+
     def plan(plan_path)
       plan = load_plan!(plan_path)
       safe_plan(plan, plan_path)
@@ -81,6 +122,36 @@ module Dora
       return {"task" => task_id, "status" => "not_recorded", "reference" => plan_path}.freeze unless evidence
 
       safe_evidence(evidence, task_id: task_id, plan_path: plan_path)
+    end
+
+    # Owner-readable, regenerable closeout for one verifier-recorded work plan.
+    # It deliberately reads plan evidence and decision records without assigning a
+    # delivery status or writing a new summary artifact.
+    def owner_delivery_closeout(plan_path)
+      plan = load_plan!(plan_path)
+      fail!("owner delivery closeout requires a verified work plan") unless plan["kind"] == "work" && plan["status"] == "verified"
+      tasks = Array(plan["tasks"])
+      fail!("verified work plan has no tasks") if tasks.empty?
+      completed = tasks.map do |task|
+        safe = safe_task(task, plan_path)
+        evidence = task_evidence(plan_path, safe.fetch("id"))
+        fail!("verified work task lacks passing evidence") unless safe.fetch("status") == "done" && evidence.fetch("status") == "passed"
+
+        safe.slice("id", "title", "observable_outcome", "reference").merge("evidence" => evidence)
+      end
+      decisions = decision_log_entries([]).select { |entry| Array(decision_entry_references(entry)).include?(plan_path) }.map { |entry| entry.slice("id", "decision", "status", "reference") }
+      {
+        "kind" => "dora_owner_delivery_closeout",
+        "version" => 1,
+        "observed_at" => Time.now.utc.iso8601,
+        "read_only" => true,
+        "work" => {"id" => plan["id"], "title" => plan["title"], "reference" => plan_path},
+        "completed_tasks" => completed,
+        "decisions" => decisions,
+        "follow_up" => decisions.any? { |decision| decision["status"] == "proposed" } ? "owner_decision_required" : "none_declared",
+        "verification_boundary" => "Completion is reported only from passing task evidence recorded by the project work verifier.",
+        "references" => ([plan_path] + decisions.map { |decision| decision["reference"] }).compact.uniq
+      }.freeze
     end
 
     # A small, terminal-safe view of one declared Master Plan. It is intentionally
@@ -129,6 +200,26 @@ module Dora
     end
 
     private
+
+    def self.safe_index_reference?(value)
+      value.is_a?(String) && !value.empty? && !value.start_with?("/") && !value.split("/").include?("..")
+    end
+    private_class_method :safe_index_reference?
+
+    def self.safe_index_delivery(delivery)
+      delivery.slice("id", "title", "status", "master_plan", "inventory", "task")
+    end
+    private_class_method :safe_index_delivery
+
+    def self.safe_index_task(task)
+      task.slice("id", "title", "plan", "task", "status", "observable_outcome", "reference")
+    end
+    private_class_method :safe_index_task
+
+    def self.fail!(message)
+      raise ArgumentError, message
+    end
+    private_class_method :fail!
 
     def resolve_declared_root!(key)
       relative = @adapter.fetch("paths").fetch(key)
@@ -266,10 +357,14 @@ module Dora
         next unless File.file?(File.join(@root, path))
 
         log = DecisionLog.load!(resolve_under_root!(path, "decision log"))
-        entries.concat(log.fetch("entries").map { |entry| entry.slice("id", "decision", "status").merge("reference" => path) })
+        entries.concat(log.fetch("entries").map { |entry| entry.slice("id", "decision", "status", "plan_references").merge("reference" => path) })
       rescue ArgumentError => error
         inconsistencies << issue("INVALID", "decision_log", "decision log is invalid", [path])
       end
+    end
+
+    def decision_entry_references(entry)
+      Array(entry["plan_references"])
     end
 
     def accepted_decisions

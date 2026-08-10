@@ -1,0 +1,237 @@
+kind: work
+version: 1
+id: dora-implementation-excellence-plugin-capability-contract
+title: Stabilize declared plugin capability and compatibility contracts
+status: verified
+baseline: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-implementation-excellence-plugin-capability-contract-execution-inventory.yaml
+planning_item:
+  priority: P3
+  current_evidence:
+  - PluginContract versions 1 and 2 validate local plugin identity, source inputs,
+    report output, and v2 execution policy.
+  - PluginRunner cache input already binds plugin configuration, entrypoint identity,
+    implementation identity, and source snapshot.
+  problem: A plugin's compatibility-facing capability/API version, declared cache
+    identity, output schema version, and deprecation posture are not explicit to a
+    consumer before invocation.
+  intended_outcome: Manifest v3 adds only static compatibility metadata. It remains
+    local configuration, preserves v1/v2 readability, and does not create a second
+    capability, cache, or evidence registry.
+  source_of_truth_mapping:
+    plugin_contract: Sole validator of static plugin metadata and version compatibility.
+    analysis_cache: Sole runtime cache-key implementation.
+    capability_trace: Sole capability-use evidence record.
+  invariants:
+  - Plugins remain local project-owned diagnostics and cannot set capability completion.
+  - Contract validation invokes no plugin, cache, consumer source, GitHub, or remote
+    agent.
+  - v1/v2 backward compatibility remains explicit; v3 fails closed when its new fields
+    are incomplete.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-reliability-foundation-master.yaml
+  baseline_only_surfaces:
+  - Existing plugin containment, report writer, and cache behavior.
+  residual_scope: Declarative compatibility metadata and validation only.
+  retest_triggers:
+  - Plugin manifest
+  - runner
+  - cache
+  - report schema
+  - or pack changes.
+  non_duplication_rule: Plugin compatibility never duplicates consumer feature evidence.
+tasks:
+- id: validate-version-three-plugin-capability-contract
+  title: Validate v3 plugin compatibility metadata while retaining legacy manifests
+  type: implementation
+  status: done
+  inventory_item: plugin-v3-contract-validator
+  observable_outcome: PluginContract accepts legacy v1/v2 manifests unchanged and
+    requires every v3 plugin to declare a capability id, semantic API version, cache
+    identity, output schema version, and supported/deprecated policy.
+  dependencies: []
+  evidence_boundary:
+  - Temporary static manifest fixtures only; no plugin invocation or source scan
+  - cache read/write
+  - consumer mutation
+  - capability/work/decision status mutation
+  - GitHub access
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - lib/dora/plugin_contract.rb
+  - test/plugin_policy_contract_test.rb
+  required_paths:
+  - lib/dora/plugin_contract.rb
+  - test/plugin_policy_contract_test.rb
+  validation: ruby test/plugin_policy_contract_test.rb
+  started_at: '2026-08-10T11:36:18Z'
+  start_fingerprints:
+    lib/dora/plugin_contract.rb: 43f9c43ce979a1d5cd2fb5eae8857afbb842a404b334d96d7c7549abdb36e490
+    test/plugin_policy_contract_test.rb: 9ccdd2a9ee809022d54a530fe675eb58d819fb9128248d5d3a904f57fb5a3870
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+- id: document-plugin-v3-static-boundary
+  title: Document the static plugin compatibility boundary
+  type: documentation
+  status: done
+  inventory_item: plugin-v3-contract-docs
+  observable_outcome: Dora's control vocabulary identifies plugin v3 metadata as static
+    compatibility input and names AnalysisCache and CapabilityTrace as separate canonical
+    concerns.
+  dependencies:
+  - validate-version-three-plugin-capability-contract
+  evidence_boundary:
+  - Documentation consistency only; no plugin invocation or consumer inspection
+  - cache read/write
+  - consumer mutation
+  - capability/work/decision status mutation
+  - GitHub access
+  - runner invocation
+  - or remote-agent start.
+  paths:
+  - docs/domain-library.yaml
+  - test/plugin_policy_contract_test.rb
+  required_paths:
+  - docs/domain-library.yaml
+  - test/plugin_policy_contract_test.rb
+  validation: ruby test/plugin_policy_contract_test.rb
+  started_at: '2026-08-10T11:37:03Z'
+  start_fingerprints:
+    docs/domain-library.yaml: cf561d84d964e1671c2a57e1134d643ef9979b7b41e4d9a2487dac7e884f4e15
+    test/plugin_policy_contract_test.rb: 7f0a2b2770cfc5f4f73cfece1f8c01aba22a55b2e5678ef2424cb13b601b7ebc
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - ".dora/controls/change-routing.yaml"
+  - ".dora/controls/tool-catalog.yaml"
+  - agent-session.schema.yaml
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - lib/dora/agent_closeout.rb
+  - lib/dora/agent_context.rb
+  - lib/dora/agent_session.rb
+  - lib/dora/artifact_policy.rb
+  - lib/dora/change_check.rb
+  - lib/dora/change_impact.rb
+  - lib/dora/change_routing.rb
+  - lib/dora/decision_log.rb
+  - lib/dora/intent_plan_alignment.rb
+  - lib/dora/plugin_contract.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/tool_selection_commands.rb
+  - lib/dora/work_artifact_schema.rb
+  - lib/dora/work_execution.rb
+  - lib/dora/work_verifier.rb
+  - templates/work-artifact-schema.yaml
+  - test/agent_closeout_test.rb
+  - test/agent_context_test.rb
+  - test/agent_session_command_test.rb
+  - test/agent_session_test.rb
+  - test/change_impact_test.rb
+  - test/change_routing_test.rb
+  - test/decision_log_test.rb
+  - test/intent_plan_alignment_test.rb
+  - test/plugin_policy_contract_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/tool_selection_commands_test.rb
+  - test/work_artifact_schema_test.rb
+  - test/work_execution_test.rb
+  - test/work_verifier_test.rb
+evidence:
+- task: validate-version-three-plugin-capability-contract
+  command: ruby test/plugin_policy_contract_test.rb
+  ranAt: '2026-08-10T11:36:58Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/plugin_contract.rb
+  - test/plugin_policy_contract_test.rb
+  output: "Dora plugin policy contract test passed (legacy support plus versioned
+    trust, capability API, cache identity, and no-sandbox limits).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/plugin_contract.rb: 3b2486cacf551e8816a2f4dd524aacabc3b70a891f8d5bbc2377af9bf7e7192c
+    test/plugin_policy_contract_test.rb: 7f0a2b2770cfc5f4f73cfece1f8c01aba22a55b2e5678ef2424cb13b601b7ebc
+  requiredPaths: &1
+  - lib/dora/plugin_contract.rb
+  - test/plugin_policy_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:36:18Z'
+  changedAfterStart: *1
+- task: document-plugin-v3-static-boundary
+  command: ruby test/plugin_policy_contract_test.rb
+  ranAt: '2026-08-10T11:37:22Z'
+  revision: 4b07fbd00c5d59d2788346cddbe4c44606f8fdff
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/domain-library.yaml
+  - test/plugin_policy_contract_test.rb
+  output: "Dora plugin policy contract test passed (legacy support plus versioned
+    trust, capability API, cache identity, and no-sandbox limits).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/domain-library.yaml: 7776b768f80fe9353a3de00ba1b35ac8f53a0f542e3ea57b756ee5bb34616ee3
+    test/plugin_policy_contract_test.rb: f0a9e43d6a2304ffba0957a52df7648a6df05e50edfbbc2859bb45256e763862
+  requiredPaths: &2
+  - docs/domain-library.yaml
+  - test/plugin_policy_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T11:37:03Z'
+  changedAfterStart: *2
