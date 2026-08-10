@@ -1,0 +1,65 @@
+kind: work
+version: 1
+id: dora-bridge-v3-local-runner-preflight
+title: Record Dora Bridge V3 discovery and atomic security design
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-local-runner-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-2-collaboration-master.yaml
+  baseline_only_surfaces:
+  - Existing V2.2 lifecycle and bridge readback behavior.
+  residual_scope:
+  - V3 runtime discovery and atomic task hardening only.
+  retest_triggers:
+  - Any V3 task boundary, runtime assumption, or security rule change.
+  non_duplication_rule: This task records design and control only; it does not add
+    runtime behavior.
+tasks:
+- id: record-v3-discovery-and-atomic-security-design
+  title: Record V3 runtime discovery and bounded local-runner security design
+  type: security-preflight
+  status: done
+  inventory_item: v3-preflight
+  observable_outcome: The V3 discovery record names the authoritative V2.2 lifecycle,
+    actual owner-local codex-both launcher, safe runner boundaries and recovery rule,
+    and every later task has one bounded outcome, exact paths, dependencies, leaf
+    validation, and evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - V3 discovery record
+  - atomic-task hardening review
+  - atomic plan contract validation
+  paths:
+  - docs/work/dora-bridge-v3-local-runner-preflight.md
+  - docs/work/dora-bridge-v3-local-runner-atomic-hardening-review.yaml
+  required_paths:
+  - docs/work/dora-bridge-v3-local-runner-preflight.md
+  - docs/work/dora-bridge-v3-local-runner-atomic-hardening-review.yaml
+  validation: ruby test/atomic_plan_contract_test.rb
+  started_at: '2026-08-10T06:30:49Z'
+  start_fingerprints:
+    docs/work/dora-bridge-v3-local-runner-preflight.md: d2204f631b64658840d9a5317077f5c7df677797c268966b44eb5824f90846ef
+    docs/work/dora-bridge-v3-local-runner-atomic-hardening-review.yaml: 3990bdba17058e4dc5212f6163e83f0b7f749fbc7aaf1a3637a649ef91c97d78
+evidence:
+- task: record-v3-discovery-and-atomic-security-design
+  command: ruby test/atomic_plan_contract_test.rb
+  ranAt: '2026-08-10T06:31:16Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-bridge-v3-local-runner-atomic-hardening-review.yaml
+  - docs/work/dora-bridge-v3-local-runner-preflight.md
+  output: "Dora atomic plan contract test passed (portable CLI and invalid-plan rejection).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-bridge-v3-local-runner-preflight.md
+  - docs/work/dora-bridge-v3-local-runner-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:30:49Z'
+  changedAfterStart: *1

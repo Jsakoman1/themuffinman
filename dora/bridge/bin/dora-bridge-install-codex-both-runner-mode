@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+
+mode = ARGV.first
+abort "usage: dora-bridge-install-codex-both-runner-mode <--install|--update>" unless %w[--install --update].include?(mode) && ARGV.length == 1
+
+root = File.expand_path("../..", __dir__)
+template = File.join(root, "bridge/templates/codex-both-v3")
+target = File.expand_path("~/.local/bin/codex-both")
+abort "V3 launcher template is unavailable" unless File.file?(template)
+abort "existing owner-local codex-both launcher is unavailable" unless File.file?(target) && !File.symlink?(target) && File.stat(target).uid == Process.uid
+
+content = File.read(template).gsub("__DORA_WORKSPACE_ROOT__", File.dirname(root)).gsub("__DOOMSDAY_ROOT__", File.expand_path("~/Desktop/DoomsDayStorage"))
+backup = "#{target}.v2-backup"
+if mode == "--install"
+  abort "existing V2 backup already exists; use --update only for an installed V3 launcher" if File.exist?(backup)
+  FileUtils.cp(target, backup, preserve: true)
+else
+  abort "V3 launcher backup is unavailable; use --install for first-time setup" unless File.file?(backup) && !File.symlink?(backup) && File.stat(backup).uid == Process.uid
+  abort "existing launcher is not the installed V3 handoff mode" unless File.read(target).include?("--dora-preclaimed-handoff") && File.read(target).include?("Owner-local Dora Bridge launcher")
+end
+File.open(target, File::WRONLY | File::TRUNC) { |file| file.write(content) }
+File.chmod(0o700, target)
+puts "#{mode == "--install" ? "Installed" : "Updated"} V3 local runner mode at #{target}; no service or autostart was configured."

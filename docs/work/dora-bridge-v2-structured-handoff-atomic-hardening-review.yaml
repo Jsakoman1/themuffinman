@@ -1,0 +1,11 @@
+kind: dora_atomic_task_hardening_review
+version: 1
+id: dora-bridge-v2-structured-handoff-atomic-hardening-review
+master_plan: docs/work/dora-bridge-v2-structured-handoff-master.yaml
+execution_inventory: docs/work/dora-bridge-v2-structured-handoff-execution-inventory.yaml
+status: approved
+findings:
+  - Every inventory item maps to one child-plan task with bounded repository paths, ordered dependencies, a non-recursive leaf command, and a stated evidence boundary.
+  - The owner-local launcher is isolated from MCP mutation: no task permits a ChatGPT request to launch, steer, or control Codex.
+  - Private runtime state and owner-local helper changes are validated externally but only contract/evidence sources are tracked in the repository.
+  - The closeout task cannot claim external ChatGPT discovery without a fresh tool-list observation.

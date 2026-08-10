@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: dora-bridge-v2-structured-handoff-owner-gate
+title: Integrate the owner-gated local codex-both startup
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-structured-handoff-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-chatgpt-proof.yaml
+  baseline_only_surfaces:
+  - Tunnel Keychain isolation and current codex-both readiness gate
+  residual_scope:
+  - Deterministic pending-handoff detection and safe local Codex startup instruction
+  retest_triggers:
+  - Any owner-local launcher or runtime command construction change
+  non_duplication_rule: V1 tunnel readiness is preserved rather than reclassified
+    as V2 proof.
+tasks:
+- id: preserve-owner-gated-codex-both-startup
+  title: Start Codex only from the local owner gate when a handoff is pending
+  type: local-runtime-integration
+  status: done
+  inventory_item: v2-owner-gate
+  observable_outcome: The owner-run local launcher retains tunnel readiness and injects
+    only a fixed instruction to retrieve one deterministic pending handoff through
+    Dora.
+  dependencies:
+  - v2-cli
+  evidence_boundary:
+  - Launcher contract test and owner-local readiness/no-ready/one-ready/ambiguous-ready
+    proof
+  paths:
+  - dora/bridge/bin/dora-bridge-codex-both-contract
+  - dora/bridge/test/codex_both_contract_test.rb
+  - dora/docs/dora-bridge-v2-structured-handoff.md
+  required_paths:
+  - dora/bridge/bin/dora-bridge-codex-both-contract
+  - dora/bridge/test/codex_both_contract_test.rb
+  - dora/docs/dora-bridge-v2-structured-handoff.md
+  validation: ruby dora/bridge/test/codex_both_contract_test.rb
+  started_at: '2026-08-09T22:36:43Z'
+  start_fingerprints:
+    dora/bridge/bin/dora-bridge-codex-both-contract: __missing__
+    dora/bridge/test/codex_both_contract_test.rb: __missing__
+    dora/docs/dora-bridge-v2-structured-handoff.md: __missing__
+evidence:
+- task: preserve-owner-gated-codex-both-startup
+  command: ruby dora/bridge/test/codex_both_contract_test.rb
+  ranAt: '2026-08-09T22:38:44Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bridge/bin/dora-bridge-codex-both-contract
+  - dora/bridge/test/codex_both_contract_test.rb
+  - dora/docs/dora-bridge-v2-structured-handoff.md
+  output: "Dora codex-both contract test passed (no-ready normal path, deterministic
+    pending selection, and project capability gate).\n\n"
+  requiredPaths: &1
+  - dora/bridge/bin/dora-bridge-codex-both-contract
+  - dora/bridge/test/codex_both_contract_test.rb
+  - dora/docs/dora-bridge-v2-structured-handoff.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T22:36:43Z'
+  changedAfterStart: *1

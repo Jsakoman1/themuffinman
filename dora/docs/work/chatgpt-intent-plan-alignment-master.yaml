@@ -1,0 +1,33 @@
+kind: master
+version: 1
+id: chatgpt-intent-plan-alignment-master
+title: Align non-canonical ChatGPT Intent Plans with Dora Master Plans
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+execution_inventory: docs/work/chatgpt-intent-plan-alignment-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-2-friendly-progress-master.yaml
+  baseline_only_surfaces:
+  - Existing V1, V2.x, and V3.x bridge, runner, handoff, lifecycle, and verification
+    contracts.
+  - Immutable historical handoffs and their append-only private event history.
+  residual_scope:
+  - A transient, bounded ChatGPT Intent Plan evaluation and a sanitized owner readback.
+  retest_triggers:
+  - Any bridge tool, proposal validation, project read-model, decision, task eligibility,
+    or handoff lifecycle change.
+  non_duplication_rule: Intent Plans are evaluated in memory only. Dora Master Plans,
+    decisions, task lifecycle, and verification evidence remain their existing canonical
+    sources.
+children:
+- docs/work/chatgpt-intent-plan-alignment-preflight.yaml
+- docs/work/chatgpt-intent-plan-alignment.yaml
+evidence:
+- verifiedAt: '2026-08-10T08:28:41Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  children:
+  - docs/work/chatgpt-intent-plan-alignment-preflight.yaml
+  - docs/work/chatgpt-intent-plan-alignment.yaml

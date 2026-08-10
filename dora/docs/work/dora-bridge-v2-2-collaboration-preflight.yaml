@@ -1,0 +1,65 @@
+kind: work
+version: 1
+id: dora-bridge-v2-2-collaboration-preflight
+title: Record Dora Bridge V2.2 discovery and atomic design
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-2-collaboration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-1-collaboration-master.yaml
+  baseline_only_surfaces:
+  - V2.1 handoff implementation and verification records.
+  residual_scope:
+  - V2.2 discovery record and atomic execution hardening.
+  retest_triggers:
+  - Any change to V2.2 task boundaries or current feedback contract.
+  non_duplication_rule: This task records design and control only; it proves no V2.2
+    product behavior.
+tasks:
+- id: record-v2-2-discovery-and-atomic-design
+  title: Record the V2.2 reuse decision and bounded atomic delivery design
+  type: security-preflight
+  status: done
+  inventory_item: v2-2-preflight
+  observable_outcome: The V2.2 record identifies authoritative V2.1 lifecycle and
+    evidence concepts, defines one minimal append-only collaboration projection, preserves
+    the V3 boundary, and hardens every later task to a bounded observable outcome.
+  dependencies: []
+  evidence_boundary:
+  - discovery record
+  - atomic-task hardening review
+  - plan contract
+  - and serial execution inventory validation.
+  paths:
+  - docs/work/dora-bridge-v2-2-collaboration-preflight.md
+  - docs/work/dora-bridge-v2-2-collaboration-atomic-hardening-review.yaml
+  required_paths:
+  - docs/work/dora-bridge-v2-2-collaboration-preflight.md
+  - docs/work/dora-bridge-v2-2-collaboration-atomic-hardening-review.yaml
+  validation: ruby test/atomic_plan_contract_test.rb
+  started_at: '2026-08-10T06:06:11Z'
+  start_fingerprints:
+    docs/work/dora-bridge-v2-2-collaboration-preflight.md: 200752e0d5567168de5cb7cedb4a3609964f00b685a5d0fbb3c4c7eea9aaf23c
+    docs/work/dora-bridge-v2-2-collaboration-atomic-hardening-review.yaml: 5f00b8e9b3e26838dc54c71d7f57ead0f869c1c71a22b2adf05a63bce378346c
+evidence:
+- task: record-v2-2-discovery-and-atomic-design
+  command: ruby test/atomic_plan_contract_test.rb
+  ranAt: '2026-08-10T06:06:30Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-bridge-v2-2-collaboration-atomic-hardening-review.yaml
+  - docs/work/dora-bridge-v2-2-collaboration-preflight.md
+  output: "Dora atomic plan contract test passed (portable CLI and invalid-plan rejection).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-bridge-v2-2-collaboration-preflight.md
+  - docs/work/dora-bridge-v2-2-collaboration-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:06:11Z'
+  changedAfterStart: *1

@@ -10,9 +10,15 @@ canonical_knowledge:
 - id: domain-library
   path: docs/domain-library.yaml
   purpose: Dora control vocabulary, invariants, permissions, and workflow intent.
+- id: structured-handoff-contract
+  path: docs/dora-bridge-v2-structured-handoff.md
+  purpose: Owner-gated bridge handoff, V2.2 collaboration feedback/readback, and the V3 owner-local runner boundary and operations.
+- id: intent-plan-alignment
+  path: docs/dora-bridge-v2-structured-handoff.md
+  purpose: MP-01 transient alignment boundary between a ChatGPT Intent Plan proposal and canonical Dora planning state.
 open_decisions:
-- id: future-write-handoff-program
-  statement: Any future product-to-implementation handoff or write capability requires a separately approved security and product program.
+- id: remote-codex-control
+  statement: Automatic remote Codex process start, steering, or control remains out of scope; V3 is limited to an owner-started local runner.
   source: docs/product-brief.yaml
 capability_intent: []
 current_work:

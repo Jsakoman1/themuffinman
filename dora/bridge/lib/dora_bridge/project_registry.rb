@@ -17,8 +17,10 @@ module DoraBridge
       entries = document.fetch("projects").each_with_object({}) do |entry, registered|
         fail!("bridge project registry entry is invalid") unless entry.is_a?(Hash) && entry["id"].is_a?(String) && entry["id"].match?(PROJECT_ID) && entry["adapter_path"].is_a?(String) && !entry["adapter_path"].empty?
         fail!("bridge project registry has duplicate project ID") if registered.key?(entry.fetch("id"))
+        capabilities = entry["capabilities"] || {}
+        fail!("bridge project registry capabilities are invalid") unless capabilities.is_a?(Hash) && capabilities.keys.all? { |key| key == "handoff_write" } && (!capabilities.key?("handoff_write") || [true, false].include?(capabilities["handoff_write"]))
 
-        registered[entry.fetch("id")] = entry.slice("id", "name", "adapter_path")
+        registered[entry.fetch("id")] = entry.slice("id", "name", "adapter_path").merge("capabilities" => {"handoff_write" => capabilities.fetch("handoff_write", false)}.freeze)
       end
       new(entries, File.dirname(File.expand_path(config_path)))
     rescue Psych::Exception
@@ -39,6 +41,16 @@ module DoraBridge
       fail!("unknown or unallowed bridge project") unless entry
 
       Dora::ProjectReadModel.load!(adapter_path: File.expand_path(entry.fetch("adapter_path"), @config_root))
+    end
+
+    # This is intentionally independent from read_model!: a readable project is
+    # not a writable handoff target unless its owner has opted in explicitly.
+    def handoff_authorized!(project_id)
+      entry = @entries[project_id]
+      fail!("unknown or unallowed bridge project") unless entry
+      fail!("bridge handoff write is disabled for this project") unless entry.dig("capabilities", "handoff_write") == true
+
+      entry.slice("id", "name").compact.freeze
     end
 
     def self.fail!(message)

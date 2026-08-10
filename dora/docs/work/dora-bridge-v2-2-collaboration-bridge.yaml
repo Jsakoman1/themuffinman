@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: dora-bridge-v2-2-collaboration-bridge
+title: Project Dora Bridge V2.2 feedback readback
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-2-collaboration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-1-collaboration-master.yaml
+  baseline_only_surfaces:
+  - Existing V1 MCP tools and V2.1 object-shaped handoff readbacks.
+  residual_scope:
+  - Safe structured current feedback projection through existing handoff reads.
+  retest_triggers:
+  - Any MCP tool definition, output schema, project authorization, or sanitized projection
+    change.
+  non_duplication_rule: Existing get_handoff and get_handoff_status are extended;
+    no parallel MCP tool or status API is introduced.
+tasks:
+- id: project-safe-feedback-readback-through-bridge
+  title: Extend existing handoff readbacks with the safe V2.2 collaboration projection
+  type: implementation
+  status: done
+  inventory_item: v2-2-bridge
+  observable_outcome: Authorized ChatGPT reads show the current milestone, latest
+    significant finding, structured owner-decision block, verification state, and
+    compact completion result while V1 behavior and all existing access boundaries
+    remain unchanged.
+  dependencies:
+  - v2-2-lifecycle
+  evidence_boundary:
+  - MCP output-schema and authorization regression
+  - V1 compatibility regression
+  - sanitized readback assertions.
+  paths:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  required_paths:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  validation: ruby bridge/test/mcp_server_test.rb
+  started_at: '2026-08-10T06:08:53Z'
+  start_fingerprints:
+    bridge/lib/dora_bridge/server.rb: ad302a0f38ab3e149e011dfd6849d7b9fd04a917925cd55822347587a8b0db46
+    bridge/test/mcp_server_test.rb: 4a301458471011f47e7e7056ceded51d54f1fd241c76b23fd10d8d8b97cdadf4
+evidence:
+- task: project-safe-feedback-readback-through-bridge
+  command: ruby bridge/test/mcp_server_test.rb
+  ranAt: '2026-08-10T06:09:32Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  output: "Dora Bridge MCP test passed (V1 read compatibility, V2 gating, structured
+    creation, containment, idempotency, and sanitized output).\n\n"
+  requiredPaths: &1
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:08:53Z'
+  changedAfterStart: *1

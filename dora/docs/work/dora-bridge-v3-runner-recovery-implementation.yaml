@@ -1,0 +1,126 @@
+kind: work
+version: 1
+id: dora-bridge-v3-runner-recovery-implementation
+title: Implement observable non-interactive Dora Bridge V3 runner recovery
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-runner-recovery-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-local-runner-master.yaml
+  baseline_only_surfaces:
+  - V2.2 lifecycle, bridge MCP authority, and fixed owner-local launcher model.
+  residual_scope:
+  - Closed child stdin, deterministic owner-local executable resolution, sanitized
+    runner output, and structured launch-failure readback.
+  retest_triggers:
+  - Any runner output, child exit handling, feedback payload, blocked readback, or
+    launcher template change.
+  non_duplication_rule: Only semantic fixed diagnostics enter lifecycle/readback;
+    no child output or arbitrary process data is stored or streamed.
+tasks:
+- id: implement-observable-noninteractive-launch-recovery
+  title: Make fixed local Codex launches non-interactive and observable
+  type: implementation
+  status: done
+  inventory_item: v3-recovery-implementation
+  observable_outcome: The local runner closes child stdin, reports safe lifecycle
+    milestones, records a bounded structured failure code and exit code, and the fixed
+    launcher resolves the owner-local Codex executable without inherited PATH ambiguity.
+  dependencies:
+  - v3-recovery-preflight
+  evidence_boundary:
+  - successful closed-stdin fixed invocation and normal V3 completion
+  - immediate non-zero child failure with sanitized code, exit code, and recovery
+    hint
+  - terminal observability without child transcript or secret leakage
+  - V2/V2.2 lifecycle and bridge regressions
+  paths:
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - lib/dora/handoff_runner.rb
+  - handoff.schema.yaml
+  - bridge/templates/codex-both-v3
+  - bridge/test/handoff_runner_test.rb
+  - test/handoff_test.rb
+  - test/handoff_cli_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  required_paths:
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - lib/dora/handoff_runner.rb
+  - handoff.schema.yaml
+  - bridge/templates/codex-both-v3
+  - bridge/test/handoff_runner_test.rb
+  - test/handoff_test.rb
+  - test/handoff_cli_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  validation: ruby bridge/test/handoff_runner_test.rb && ruby test/handoff_test.rb
+    && ruby test/handoff_cli_test.rb && ruby bridge/test/codex_both_preclaimed_contract_test.rb
+    && ruby bridge/test/mcp_server_test.rb
+  started_at: '2026-08-10T06:57:25Z'
+  start_fingerprints:
+    lib/dora/handoff.rb: 684d9ba843ab0d201f3216f3be56d51637397d27995075db7cab40749a1f0df6
+    lib/dora/handoff_cli.rb: e10ee982d6128ad4d17483dbee4f4b20e19fabc78054b9b3e1fb49f64d4fa59f
+    lib/dora/handoff_runner.rb: ee2b18a8037a7b3ab4d81b91efbd93b7d93d7d1399f1a4bb18a9bfe6386d6a4a
+    handoff.schema.yaml: 88a293e5054a3b4ab4a3fd4f1fa2622375c6cb025b8200aec2336b7284354c9f
+    bridge/templates/codex-both-v3: 163e1c379c328f51b77005e5e716460a2368fd1cd1c3a8f4d3646a4403603dac
+    bridge/test/handoff_runner_test.rb: 6490a2fbd7812c99c323840373d829598229b64d40c8010c49accf6fcc9f4fdc
+    test/handoff_test.rb: c6aceab66980df82814f136e203dc76a89473776de15d79b72ea69f5631445e3
+    test/handoff_cli_test.rb: 82eb3b0d8984118d77d496476b244920a8297c967220a10359ba7e86ed9b31bc
+    docs/dora-bridge-v2-structured-handoff.md: a78e6a586c40db7435929eb5729f1053ba45bcedb9c05486dbd6b54597508662
+    docs/product-brief.yaml: 0aae9589df5dec9b479ee5d562acd5a71c42a14f32ad3737f3d7f86db9a75673
+    docs/domain-library.yaml: bf34e5386f9555c611912d7d957b89a75d26fac075df0026f3862ddb219855e3
+evidence:
+- task: implement-observable-noninteractive-launch-recovery
+  command: ruby bridge/test/handoff_runner_test.rb && ruby test/handoff_test.rb &&
+    ruby test/handoff_cli_test.rb && ruby bridge/test/codex_both_preclaimed_contract_test.rb
+    && ruby bridge/test/mcp_server_test.rb
+  ranAt: '2026-08-10T07:02:20Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-library.yaml
+  - docs/product-brief.yaml
+  - bridge/templates/codex-both-v3
+  - bridge/test/handoff_runner_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - handoff.schema.yaml
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - lib/dora/handoff_runner.rb
+  - test/handoff_cli_test.rb
+  - test/handoff_test.rb
+  output: |+
+    Dora handoff runner test passed (non-interactive fixed launch, sanitized failure/readback, terminal observability, singleton, and V3 safety boundaries).
+    handoff-87b2818c-fa49-4761-ba44-98591b00360b
+    handoff-87b2818c-fa49-4761-ba44-98591b00360b
+    Dora handoff test passed (immutable records, idempotency, lifecycle feedback, owner decisions, structured runner failures, completion evidence, containment, permissions, and concurrency).
+    Dora handoff CLI test passed (next, exclusive claim, bounded feedback, structured runner failure, evidence-gated completion, structured owner decision block, and sanitized output).
+    Dora preclaimed codex-both contract test passed (claimed-only identifiers, forged/cross-project rejection, fixed prompt, and explicit no-autostart installation).
+    Dora Bridge MCP test passed (V1 read compatibility, V2 gating, structured creation, containment, idempotency, and sanitized output).
+
+  requiredPaths: &1
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - lib/dora/handoff_runner.rb
+  - handoff.schema.yaml
+  - bridge/templates/codex-both-v3
+  - bridge/test/handoff_runner_test.rb
+  - test/handoff_test.rb
+  - test/handoff_cli_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:57:25Z'
+  changedAfterStart: *1

@@ -1,0 +1,39 @@
+kind: execution_inventory
+version: 1
+id: dora-bridge-v3-runner-recovery-execution
+master_plan: docs/work/dora-bridge-v3-runner-recovery-master.yaml
+state: verified
+items:
+- id: v3-recovery-preflight
+  order: 1
+  plan: docs/work/dora-bridge-v3-runner-recovery-preflight.yaml
+  task: record-recovery-diagnosis-and-atomic-boundary
+  status: verified
+  started_at: '2026-08-10T06:56:36Z'
+  verified_at: '2026-08-10T06:56:52Z'
+  evidence:
+    plan: docs/work/dora-bridge-v3-runner-recovery-preflight.yaml
+    task: record-recovery-diagnosis-and-atomic-boundary
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v3-recovery-implementation
+  order: 2
+  plan: docs/work/dora-bridge-v3-runner-recovery-implementation.yaml
+  task: implement-observable-noninteractive-launch-recovery
+  status: verified
+  started_at: '2026-08-10T06:57:25Z'
+  verified_at: '2026-08-10T07:02:23Z'
+  evidence:
+    plan: docs/work/dora-bridge-v3-runner-recovery-implementation.yaml
+    task: implement-observable-noninteractive-launch-recovery
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v3-recovery-closeout
+  order: 3
+  plan: docs/work/dora-bridge-v3-runner-recovery-closeout.yaml
+  task: verify-recovery-and-record-owner-operation
+  status: verified
+  started_at: '2026-08-10T07:02:29Z'
+  verified_at: '2026-08-10T07:04:48Z'
+  evidence:
+    plan: docs/work/dora-bridge-v3-runner-recovery-closeout.yaml
+    task: verify-recovery-and-record-owner-operation
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d

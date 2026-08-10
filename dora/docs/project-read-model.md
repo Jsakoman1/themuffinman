@@ -12,8 +12,19 @@ resolvable, open decisions, and relative citations. It does not require project
 memory to be valid before reporting independent health, plan, inventory, or
 verified-delivery data.
 
-Current work is an inventory with an `in_progress` item. More than one such
-inventory is reported as an ambiguity. Latest verified work is the inventory
+Project memory is schema-validated navigation, not a completion claim. Its
+`current_work` must exactly match declared execution state: one `in_progress` or
+`blocked` inventory item, or the uniquely ordered next `pending` item. When no
+such item remains it must use the explicit terminal representation
+`{ state: none }`. Missing, stale, contradictory, or ambiguous navigation is an
+explicit `project_memory` `INVALID` inconsistency; the model never picks a task
+from raw history merely to fill a current-work field.
+
+Strict master closeout runs this same validation before it records the master as
+verified. A successful closeout then marks its execution inventory `verified`;
+the task-level evidence and prior verified-delivery record remain unchanged.
+Current work is otherwise an inventory with an `in_progress` item. More than one
+such inventory is reported as an ambiguity. Latest verified work is the inventory
 item with the latest valid `verified_at` timestamp; inventories with no verified
 items, including historical superseded inventories, are ignored.
 

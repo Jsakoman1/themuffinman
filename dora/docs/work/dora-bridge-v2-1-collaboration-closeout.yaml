@@ -1,0 +1,80 @@
+kind: work
+version: 1
+id: dora-bridge-v2-1-collaboration-closeout
+title: Prove and document Dora Bridge V2.1 collaboration handoff
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-1-collaboration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - V1 read-only contract and owner-local process gate.
+  residual_scope:
+  - End-to-end V2.1 readback
+  - documentation
+  - and current product/domain records.
+  retest_triggers:
+  - Any V2.1 contract or documentation change.
+  non_duplication_rule: Documentation and end-to-end evidence describe only the V2.1
+    change and preserve the V3 boundary.
+tasks:
+- id: prove-v2-1-handoff-workflow-and-document-boundaries
+  title: Prove V2.1 collaboration readback and record the owner/Codex contract
+  type: security-closeout
+  status: done
+  inventory_item: v2-1-closeout
+  observable_outcome: Synthetic end-to-end evidence and Dora product/domain documentation
+    accurately describe the V2.1 implementation brief, decision stop, verification
+    readback, correction lineage, and no-remote-execution boundary.
+  dependencies:
+  - v2-1-contract
+  evidence_boundary:
+  - End-to-end MCP and local lifecycle test
+  - V1 tool compatibility check
+  - and documentation consistency evidence.
+  paths:
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/decision-log.yaml
+  - docs/project-memory.yaml
+  required_paths:
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/domain-library.yaml
+  validation: ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/mcp_server_test.rb
+  started_at: '2026-08-09T23:21:36Z'
+  start_fingerprints:
+    bridge/test/structured_handoff_e2e_test.rb: c474728785228d9518d6a3ea8f7d7a7e37ae4f29be9a598f4b3cf8137629a676
+    docs/dora-bridge-v2-structured-handoff.md: e7d97616ba507716185c16912b4dda2592a960d620c096fe385ab1e686b2eb26
+    docs/domain-library.yaml: 72bca82736e17a0533a17fad92a3e83f396fafd89e701293dd222266a3c3a0c8
+evidence:
+- task: prove-v2-1-handoff-workflow-and-document-boundaries
+  command: ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/mcp_server_test.rb
+  ranAt: '2026-08-09T23:22:17Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/decision-log.yaml
+  - docs/domain-library.yaml
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  output: |+
+    Dora structured handoff end-to-end test passed (synthetic MCP create, private persistence, exclusive claim, Dora evidence completion, readback, V1 regression, and no execution tool).
+    Dora Bridge MCP test passed (V1 read compatibility, V2 gating, structured creation, containment, idempotency, and sanitized output).
+
+  requiredPaths: &1
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/domain-library.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T23:21:36Z'
+  changedAfterStart: *1

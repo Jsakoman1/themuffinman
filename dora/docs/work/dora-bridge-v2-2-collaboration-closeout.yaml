@@ -1,0 +1,98 @@
+kind: work
+version: 1
+id: dora-bridge-v2-2-collaboration-closeout
+title: Prove and document Dora Bridge V2.2 collaboration feedback
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-2-collaboration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-1-collaboration-master.yaml
+  baseline_only_surfaces:
+  - V2.1 synthetic and local acceptance evidence.
+  residual_scope:
+  - V2.2 end-to-end safe proofs and canonical Dora product/domain documentation.
+  retest_triggers:
+  - Any V2.2 contract, completion result, owner-decision block, or security boundary
+    change.
+  non_duplication_rule: Closeout records only V2.2 behavior and preserves V1/V2.1
+    and the V3 remote-control boundary.
+tasks:
+- id: prove-v2-2-feedback-and-owner-decision-workflows
+  title: Prove V2.2 feedback and owner-decision workflows and record the contract
+  type: security-closeout
+  status: done
+  inventory_item: v2-2-closeout
+  observable_outcome: Synthetic end-to-end proofs demonstrate milestone feedback through
+    verified completion and a separate owner-decision stop/readback, with canonical
+    documentation defining current-state precedence and the V3 boundary.
+  dependencies:
+  - v2-2-bridge
+  evidence_boundary:
+  - end-to-end safe feedback and completion proof
+  - end-to-end owner-decision block/readback proof
+  - V1 and V2 regression coverage
+  - canonical product and domain documentation consistency.
+  paths:
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/decision-log.yaml
+  - docs/project-memory.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/decision-log.yaml
+  - docs/project-memory.yaml
+  validation: ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb
+  started_at: '2026-08-10T06:09:38Z'
+  start_fingerprints:
+    bridge/test/structured_handoff_e2e_test.rb: b3c4dcf171dbb490c1324312c3f5b2d374593060744ee7fe985ef9577f50b3f7
+    docs/dora-bridge-v2-structured-handoff.md: 44034964746e56ff2f575045b6f224538ffd4b0c9420fc65d8d1f50421f49e15
+    docs/product-brief.yaml: 05b603b54b5ff538c8d59bd2f377de3366e50a16e06874c67d79c01f02e57b29
+    docs/domain-library.yaml: 223152c84ce35e8e5992a7228e674ef1c80b2090c2e37b43a3bcd1d5be90f595
+    docs/decision-log.yaml: 8fdd9e9474465d8229ddc6119ce8f0ac00606b64352134d9df3aca5596b971da
+    docs/project-memory.yaml: 6be17927b494dd54d9ed2c55beede96aab814eafd0c25ab10f65efd9970483c5
+evidence:
+- task: prove-v2-2-feedback-and-owner-decision-workflows
+  command: ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb
+  ranAt: '2026-08-10T06:11:09Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/decision-log.yaml
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  output: |+
+    Dora structured handoff end-to-end test passed (synthetic MCP create, claim, milestone feedback, Dora evidence completion, owner-decision readback, V1 regression, and no execution tool).
+    Dora Bridge MCP test passed (V1 read compatibility, V2 gating, structured creation, containment, idempotency, and sanitized output).
+    handoff-22b14a16-a046-4aed-be05-92e281b0a8f9
+    handoff-22b14a16-a046-4aed-be05-92e281b0a8f9
+    Dora handoff test passed (immutable records, idempotency, lifecycle feedback, owner decisions, completion evidence, containment, permissions, and concurrency).
+    Dora handoff CLI test passed (next, exclusive claim, bounded feedback, evidence-gated completion, structured owner decision block, and sanitized output).
+
+  requiredPaths: &1
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/decision-log.yaml
+  - docs/project-memory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:09:38Z'
+  changedAfterStart: *1

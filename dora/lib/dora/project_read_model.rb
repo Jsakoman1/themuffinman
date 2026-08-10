@@ -9,6 +9,7 @@ require_relative "decision_log"
 require_relative "project_doctor"
 require_relative "project_knowledge"
 require_relative "project_memory"
+require_relative "intent_plan_alignment"
 
 module Dora
   # Read-only, sanitized aggregation of declared Dora project artifacts.
@@ -41,6 +42,7 @@ module Dora
       knowledge = load_knowledge(inconsistencies)
       memory = load_memory(inconsistencies)
       inventories = load_inventories(inconsistencies)
+      validate_memory_navigation(memory, inventories, inconsistencies)
       deliveries = resolve_deliveries(inventories, inconsistencies)
       decisions = resolve_open_decisions(knowledge, memory, inconsistencies)
 
@@ -78,6 +80,22 @@ module Dora
       return {"task" => task_id, "status" => "not_recorded", "reference" => plan_path}.freeze unless evidence
 
       safe_evidence(evidence, task_id: task_id, plan_path: plan_path)
+    end
+
+    # This is deliberately derived at request time. An Intent Plan proposal is
+    # neither persisted nor treated as a Dora work or decision artifact.
+    def align_intent_plan(proposal)
+      project = summary
+      IntentPlanAlignment.evaluate(
+        proposal: proposal,
+        canonical_state: {
+          "state" => project.fetch("state"),
+          "active_delivery" => project.dig("delivery", "active"),
+          "latest_verified_delivery" => project.dig("delivery", "latest_verified"),
+          "open_decisions" => project.fetch("open_decisions"),
+          "accepted_decisions" => accepted_decisions
+        }
+      )
     end
 
     private
@@ -118,6 +136,14 @@ module Dora
       rescue Psych::Exception, ArgumentError => error
         inconsistencies << issue("INVALID", "execution_inventory", "execution inventory is invalid", [relative_to_root(absolute)])
       end
+    end
+
+    def validate_memory_navigation(memory, inventories, inconsistencies)
+      return unless memory
+
+      ProjectMemory.validate_work_navigation!(memory: memory, inventories: inventories)
+    rescue ArgumentError
+      inconsistencies << issue("INVALID", "project_memory", "project memory current-work navigation is invalid", ["docs/project-memory.yaml"])
     end
 
     def safe_inventory(document, path)
@@ -213,6 +239,17 @@ module Dora
         entries.concat(log.fetch("entries").map { |entry| entry.slice("id", "decision", "status").merge("reference" => path) })
       rescue ArgumentError => error
         inconsistencies << issue("INVALID", "decision_log", "decision log is invalid", [path])
+      end
+    end
+
+    def accepted_decisions
+      decision_log_paths.each_with_object([]) do |path, decisions|
+        next unless File.file?(File.join(@root, path))
+
+        log = DecisionLog.load!(resolve_under_root!(path, "decision log"))
+        decisions.concat(log.fetch("entries").select { |entry| entry["status"] == "accepted" }.map { |entry| {"id" => entry.fetch("id"), "statement" => entry.fetch("decision")} })
+      rescue ArgumentError
+        []
       end
     end
 

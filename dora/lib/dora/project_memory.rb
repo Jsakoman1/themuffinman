@@ -7,6 +7,7 @@ module Dora
   class ProjectMemory
     REQUIRED_FIELDS = %w[project_intent canonical_knowledge open_decisions capability_intent current_work].freeze
     CURRENT_WORK_STATES = %w[planned active blocked none].freeze
+    NAVIGABLE_INVENTORY_STATES = %w[pending in_progress blocked].freeze
 
     def self.load!(path)
       fail!("project memory file is missing") unless File.file?(path)
@@ -55,6 +56,68 @@ module Dora
       end
       {"kind" => "dora_project_memory_drift", "version" => 1, "drifted" => !differences.empty?, "differences" => differences, "memory_path" => memory_path, "mutation" => "none", "completion_boundary" => "Drift is diagnostic only; Dora does not overwrite product-owned memory or infer completion."}.freeze
     end
+
+    # Project memory is navigation, while execution inventories are the authoritative
+    # declaration of work state. Keep the two aligned without creating another status
+    # store or inferring a current task from historical verification records.
+    def self.validate_work_navigation!(memory:, inventories:)
+      current_work = validate_current_work!(memory.fetch("current_work"))
+      expected = expected_current_work!(inventories)
+      return expected if current_work == expected
+
+      if expected.fetch("state") == "none"
+        fail!("project memory current_work is stale: no authoritative planned, active, or blocked task remains")
+      end
+      if current_work.fetch("state") == "none"
+        fail!("project memory current_work is missing: authoritative #{expected.fetch("state")} work is declared")
+      end
+
+      fail!("project memory current_work is contradictory: it does not match authoritative #{expected.fetch("state")} work")
+    end
+
+    def self.expected_current_work!(inventories)
+      candidates = Array(inventories).flat_map do |inventory|
+        next [] unless inventory.is_a?(Hash)
+
+        Array(inventory["items"]).each_with_object([]) do |item, navigable|
+          next unless item.is_a?(Hash) && NAVIGABLE_INVENTORY_STATES.include?(item["status"])
+
+          navigable << navigation_candidate!(item)
+        end
+      end
+      active_or_blocked = candidates.reject { |candidate| candidate.fetch("state") == "planned" }
+      return unambiguous_current_work!(active_or_blocked, "active or blocked") unless active_or_blocked.empty?
+      return {"state" => "none"} if candidates.empty?
+
+      planned_current_work!(candidates)
+    end
+
+    def self.navigation_candidate!(item)
+      state = {"pending" => "planned", "in_progress" => "active", "blocked" => "blocked"}.fetch(item.fetch("status"))
+      fail!("execution inventory navigation plan is invalid") unless safe_relative_path?(item["plan"])
+      fail!("execution inventory navigation task is invalid") unless identifier?(item["task"])
+
+      {"plan" => item.fetch("plan"), "task" => item.fetch("task"), "state" => state, "order" => item["order"]}
+    end
+    private_class_method :navigation_candidate!
+
+    def self.unambiguous_current_work!(candidates, label)
+      fail!("project memory current_work is ambiguous: multiple authoritative #{label} tasks are declared") unless candidates.length == 1
+
+      candidates.first.slice("plan", "task", "state")
+    end
+    private_class_method :unambiguous_current_work!
+
+    def self.planned_current_work!(candidates)
+      return candidates.first.slice("plan", "task", "state") if candidates.length == 1
+
+      fail!("project memory current_work is ambiguous: planned tasks require unique numeric inventory order") unless candidates.all? { |candidate| candidate["order"].is_a?(Integer) }
+      ordered = candidates.sort_by { |candidate| candidate.fetch("order") }
+      fail!("project memory current_work is ambiguous: planned tasks have duplicate inventory order") if ordered.each_cons(2).any? { |left, right| left.fetch("order") == right.fetch("order") }
+
+      ordered.first.slice("plan", "task", "state")
+    end
+    private_class_method :planned_current_work!
 
     def self.validate_project_intent!(intent)
       fail!("project memory project_intent must be a mapping") unless intent.is_a?(Hash)

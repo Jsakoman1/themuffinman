@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: dora-bridge-v3-1-lifecycle-readback
+title: Add a canonical read-only handoff lifecycle readback
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-runner-recovery-master.yaml
+  baseline_only_surfaces:
+  - V1/V2/V2.2/V3 bridge contracts, immutable handoff storage, and owner-local runner
+    operation.
+  - Historical BLOCKED handoffs, which remain append-only audit evidence and are never
+    retried or changed.
+  residual_scope:
+  - Align the one canonical remote-Codex-control decision record.
+  - Add an allowlisted lifecycle-only readback for one authorized handoff without
+    exposing raw handoff content or lifecycle events.
+  retest_triggers:
+  - Any handoff lifecycle projection, bridge tool schema, handoff validation, or decision-record
+    change.
+  non_duplication_rule: The projection derives only from the existing handoff lifecycle
+    and Dora evidence links; it adds no lifecycle mutation, runner control, or parallel
+    status store.
+tasks:
+- id: add-sanitized-lifecycle-readback
+  title: Expose a deterministic lifecycle-only handoff readback
+  type: security-feature
+  status: done
+  observable_outcome: An explicitly handoff-enabled project can read one validated
+    handoff through a new additive MCP tool that returns only its ID, lifecycle status,
+    outcome category, verification state/evidence links, and a fixed owner-safe summary;
+    invalid, unknown, and unauthorized requests return the same safe unavailable envelope.
+  dependencies: []
+  paths:
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff.rb
+  - bridge/lib/dora_bridge/server.rb
+  - test/handoff_test.rb
+  - bridge/test/mcp_server_test.rb
+  - bridge/test/structured_handoff_e2e_test.rb
+  required_paths:
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff.rb
+  - bridge/lib/dora_bridge/server.rb
+  - test/handoff_test.rb
+  - bridge/test/mcp_server_test.rb
+  - bridge/test/structured_handoff_e2e_test.rb
+  validation: ruby test/project_memory_test.rb && ruby test/project_read_model_test.rb
+    && ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/handoff_runner_test.rb
+  evidence_boundary:
+  - Decision-record alignment produces no project-memory open-decision inconsistency.
+  - COMPLETED, BLOCKED, and claimed verification-failure lifecycle readbacks are distinct
+    and deterministic.
+  - Readbacks expose no handoff objective, terminal output, private path, secret,
+    environment value, or raw lifecycle event.
+  - Malformed, unknown, and unauthorized requests share one safe unavailable readback.
+  - Existing V1/V2/V2.2/V3 handoff, CLI, bridge, and runner regressions remain passing.
+evidence:
+- task: add-sanitized-lifecycle-readback
+  command: ruby test/project_memory_test.rb && ruby test/project_read_model_test.rb
+    && ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/handoff_runner_test.rb
+  ranAt: '2026-08-10T07:32:55Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  - docs/domain-library.yaml
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - bridge/test/structured_handoff_e2e_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff.rb
+  - test/handoff_test.rb
+  output: |+
+    Dora project memory test passed (declared intent, active work, and idle state remain navigable without completion claims).
+    Dora project read model test passed (safe summary, evidence projection, invalid memory, supersession, ambiguity, and path containment).
+    handoff-6c2ea6ba-97ab-4000-be2b-3a7ca5967757
+    handoff-6c2ea6ba-97ab-4000-be2b-3a7ca5967757
+    Dora handoff test passed (immutable records, idempotency, lifecycle feedback, owner decisions, structured runner failures, completion evidence, containment, permissions, and concurrency).
+    Dora handoff CLI test passed (next, exclusive claim, bounded feedback, structured runner failure, evidence-gated completion, structured owner decision block, and sanitized output).
+    Dora Bridge MCP test passed (V1 read compatibility, V2 gating, lifecycle-only readback, containment, idempotency, and sanitized output).
+    Polling for READY handoffs.
+    READY handoff detected: handoff-ffc60a82-c8f1-418f-8523-0c5faac1d7b0.
+    Claimed handoff: handoff-ffc60a82-c8f1-418f-8523-0c5faac1d7b0.
+    Codex launch started for claimed handoff: handoff-ffc60a82-c8f1-418f-8523-0c5faac1d7b0.
+    Codex launch exited with code 0; handoff status COMPLETED.
+    Dora structured handoff end-to-end test passed (synthetic MCP create, claim, fixed local runner completion, milestone feedback, owner-decision readback, V1 regression, and no execution tool).
+    Dora handoff runner test passed (fixed UUID launch, closed stdin/discarded child streams, sanitized failure classes, singleton, and V3 safety boundaries).
+
+  requiredPaths:
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff.rb
+  - bridge/lib/dora_bridge/server.rb
+  - test/handoff_test.rb
+  - bridge/test/mcp_server_test.rb
+  - bridge/test/structured_handoff_e2e_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

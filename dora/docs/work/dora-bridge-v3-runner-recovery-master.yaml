@@ -1,0 +1,38 @@
+kind: master
+version: 1
+id: dora-bridge-v3-runner-recovery
+title: Recover observable non-interactive Dora Bridge V3 runner launches
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-runner-recovery-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-bridge-v3-runner-recovery-preflight.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-local-runner-master.yaml
+  baseline_only_surfaces:
+  - V2/V2.1/V2.2 immutable handoff storage, lifecycle, evidence-gated completion,
+    and sanitized readback.
+  - The historical BLOCKED handoffs, which remain audit evidence and are never retried
+    or mutated.
+  residual_scope:
+  - Owner-visible local runner diagnostics, a closed-stdin fixed launcher invocation,
+    pinned local Codex resolution, and a bounded structured launch failure readback.
+  retest_triggers:
+  - Any local runner child invocation, launcher preflight, handoff failure readback,
+    or owner terminal output change.
+  non_duplication_rule: The recovery retains V2.2 lifecycle/evidence authority and
+    adds neither remote process control nor terminal transcript storage.
+children:
+- docs/work/dora-bridge-v3-runner-recovery-preflight.yaml
+- docs/work/dora-bridge-v3-runner-recovery-implementation.yaml
+- docs/work/dora-bridge-v3-runner-recovery-closeout.yaml
+evidence:
+- verifiedAt: '2026-08-10T07:04:49Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  children:
+  - docs/work/dora-bridge-v3-runner-recovery-preflight.yaml
+  - docs/work/dora-bridge-v3-runner-recovery-implementation.yaml
+  - docs/work/dora-bridge-v3-runner-recovery-closeout.yaml

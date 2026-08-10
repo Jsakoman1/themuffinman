@@ -1,0 +1,71 @@
+kind: work
+version: 1
+id: dora-bridge-v2-structured-handoff-closeout
+title: Prove and record Dora Bridge V2 Structured Handoff
+status: active
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-structured-handoff-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-master.yaml
+  baseline_only_surfaces:
+  - V1 read tools and Secure MCP Tunnel private transport
+  residual_scope:
+  - Synthetic end-to-end handoff proof
+  - V1 regression
+  - owner decision resolution
+  - V3 deferral
+  - and ChatGPT discovery evidence
+  retest_triggers:
+  - Any V2 implementation
+  - capability configuration
+  - or tunnel process change
+  non_duplication_rule: V1 completion and external tunnel proof are not counted as
+    V2 completion.
+tasks:
+- id: prove-structured-handoff-end-to-end-and-record-v3-boundary
+  title: Prove V2 end to end and preserve the V3 boundary
+  type: security-closeout
+  status: in_progress
+  inventory_item: v2-closeout
+  observable_outcome: Synthetic MCP-to-Codex handoff evidence, governance records,
+    V1 regression, and the explicit no-remote-execution V3 boundary are recorded without
+    persisting runtime handoffs in a repository.
+  dependencies:
+  - v2-owner-gate
+  evidence_boundary:
+  - End-to-end test
+  - V1 regression
+  - Dora decision/domain/product records
+  - local runtime proof
+  - and ChatGPT tool-discovery evidence
+  paths:
+  - dora/bridge/test/structured_handoff_e2e_test.rb
+  - dora/docs/dora-bridge-v2-structured-handoff.md
+  - dora/docs/product-brief.yaml
+  - dora/docs/domain-library.yaml
+  - dora/docs/project-memory.yaml
+  - dora/docs/decision-log.yaml
+  - dora/docs/implementation-backlog.md
+  required_paths:
+  - dora/bridge/test/structured_handoff_e2e_test.rb
+  - dora/docs/dora-bridge-v2-structured-handoff.md
+  - dora/docs/product-brief.yaml
+  - dora/docs/domain-library.yaml
+  - dora/docs/project-memory.yaml
+  - dora/docs/decision-log.yaml
+  - dora/docs/implementation-backlog.md
+  validation: ruby dora/bridge/test/structured_handoff_e2e_test.rb
+  started_at: '2026-08-09T22:39:43Z'
+  start_fingerprints:
+    dora/bridge/test/structured_handoff_e2e_test.rb: __missing__
+    dora/docs/dora-bridge-v2-structured-handoff.md: b294643c55c5507706c41cdbc77fbcea83764fb821541ce5392036b66e92b325
+    dora/docs/product-brief.yaml: b679b3d28b7785fc9268c6fb56f71563045362a99ed85bebb245b90d4e8957a5
+    dora/docs/domain-library.yaml: 73b0d3dd81bc4420ab2a8d8d8cc3a2292d8536f0fe25c7a41b7d21dbae7d4da2
+    dora/docs/project-memory.yaml: 35eeea3e22098ae223c792c4d936477bca3f07759f39d1284f7530c24d35d97a
+    dora/docs/decision-log.yaml: 68e6ae9de2058af9af66840e8e7bf37892c2754e815b5e21452f4c79771fd3da
+    dora/docs/implementation-backlog.md: 9b9a25dc60d842da5478cd71122c353d61ee173ad8ffb04aa3f8dba87f433ca5
+evidence: []

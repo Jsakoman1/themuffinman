@@ -60,6 +60,7 @@ require File.join(ROOT, "lib/dora/vertical_slice_generator")
 require File.join(ROOT, "lib/dora/vertical_slice_readiness")
 require File.join(ROOT, "lib/dora/decision_record")
 require File.join(ROOT, "lib/dora/runtime_proof_profile_apply")
+require File.join(ROOT, "lib/dora/handoff_cli")
 
 format_index = ARGV.index("--format")
 OUTPUT_FORMAT = if format_index
@@ -573,6 +574,34 @@ rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
 
+def handoff_option(arguments, name, required: true)
+  index = arguments.index("--#{name}")
+  value = index && arguments[index + 1]
+  fail!("handoff option --#{name} is required") if required && (!value || value.start_with?("--"))
+  value
+end
+
+def handoff_json_option(arguments, name)
+  value = handoff_option(arguments, name, required: false)
+  return nil unless value
+
+  JSON.parse(value)
+rescue JSON::ParserError
+  fail!("handoff option --#{name} must contain a JSON object")
+end
+
+def execute_handoff(command, arguments)
+  registry_path = arguments.shift
+  fail!("handoff registry path is required") unless registry_path
+  allowed = %w[state-root project id master-plan work-plan reason verification-plan verification-task feedback-json owner-decision-json completion-json]
+  flags = arguments.each_slice(2).to_a
+  fail!("handoff options are invalid") unless arguments.length.even? && flags.all? { |pair| pair.length == 2 && pair.first.start_with?("--") && allowed.include?(pair.first.delete_prefix("--")) }
+  result = Dora::HandoffCLI.run!(command: command, registry_path: registry_path, state_root: handoff_option(arguments, "state-root"), project: handoff_option(arguments, "project"), id: handoff_option(arguments, "id", required: false), master_plan: handoff_option(arguments, "master-plan", required: false), work_plan: handoff_option(arguments, "work-plan", required: false), reason: handoff_option(arguments, "reason", required: false), verification_plan: handoff_option(arguments, "verification-plan", required: false), verification_task: handoff_option(arguments, "verification-task", required: false), feedback: handoff_json_option(arguments, "feedback-json"), owner_decision: handoff_json_option(arguments, "owner-decision-json"), completion_result: handoff_json_option(arguments, "completion-json"))
+  puts YAML.dump(result || {"status" => "NO_READY_HANDOFF"}).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
 def acquire_task_lease(path, work_plan, task, holder, expires_at)
   report = Dora::TaskLease.acquire!(path: path, work_plan: work_plan, task: task, holder: holder, expires_at: expires_at)
   return if emit_envelope(report, citations: lease_citation(path), side_effect: "local_mutation")
@@ -742,6 +771,22 @@ when "work-start"
 when "work-verify"
   fail!("usage: dora work-verify <adapter-path> plan=<path> [task=<id>]") if ARGV.length < 2
   execute_work(ARGV.shift, ARGV)
+when "handoff-next"
+  execute_handoff("next", ARGV)
+when "handoff-get"
+  execute_handoff("get", ARGV)
+when "handoff-claim"
+  execute_handoff("claim", ARGV)
+when "handoff-link"
+  execute_handoff("link", ARGV)
+when "handoff-block"
+  execute_handoff("block", ARGV)
+when "handoff-feedback"
+  execute_handoff("feedback", ARGV)
+when "handoff-block-owner-decision"
+  execute_handoff("block_owner_decision", ARGV)
+when "handoff-complete"
+  execute_handoff("complete", ARGV)
 when "init"
   destination = ARGV.shift
   project_option = ARGV.index("--project")

@@ -12,6 +12,10 @@ Dir.mktmpdir("dora-product-brief") do |root|
   loaded = Dora::ProductBrief.load!(path)
   abort "product brief lost its product intent" unless loaded.fetch("product") == "Circle desk"
 
+  brief["unanswered_decisions"] = []
+  File.write(path, YAML.dump(brief))
+  abort "product brief rejected a resolved decision list" unless Dora::ProductBrief.load!(path).fetch("unanswered_decisions") == []
+
   brief["risks"] = []
   File.write(path, YAML.dump(brief))
   begin

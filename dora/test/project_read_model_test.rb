@@ -15,15 +15,16 @@ def write_yaml(root, relative, document)
   File.write(path, YAML.dump(document))
 end
 
-def write_project(root, invalid_memory: false, ambiguous: false)
+def write_project(root, invalid_memory: false, stale_memory: false, ambiguous: false)
   Dora::ProjectInitializer.initialize!(root, project_id: FIXTURE.fetch("id"), manifest_path: File.join(ROOT, "templates/init-manifest.yaml"))
   brief_path = File.join(root, "docs/product-brief.yaml")
   brief = YAML.load_file(brief_path)
   brief["product"] = FIXTURE.fetch("name")
   brief["unanswered_decisions"] = [FIXTURE.fetch("open_decision")]
   File.write(brief_path, YAML.dump(brief))
-  memory = {"kind" => "dora_project_memory", "version" => 1, "project_intent" => {"product_brief" => "docs/product-brief.yaml", "domain_library" => "docs/domain-library.yaml"}, "canonical_knowledge" => [{"id" => "product", "path" => "docs/product-brief.yaml", "purpose" => "Product intent."}], "open_decisions" => [{"id" => "retention", "statement" => FIXTURE.fetch("open_decision"), "source" => "docs/product-brief.yaml"}], "capability_intent" => [], "current_work" => {"plan" => "docs/work/delivery-master.yaml", "task" => "verify-delivery", "state" => "active"}}
+  memory = {"kind" => "dora_project_memory", "version" => 1, "project_intent" => {"product_brief" => "docs/product-brief.yaml", "domain_library" => "docs/domain-library.yaml"}, "canonical_knowledge" => [{"id" => "product", "path" => "docs/product-brief.yaml", "purpose" => "Product intent."}], "open_decisions" => [{"id" => "retention", "statement" => FIXTURE.fetch("open_decision"), "source" => "docs/product-brief.yaml"}], "capability_intent" => [], "current_work" => {"state" => "none"}}
   memory["current_work"] = {"plan" => "docs/work/delivery-master.yaml", "task" => nil, "state" => "verified"} if invalid_memory
+  memory["current_work"] = {"plan" => "docs/work/delivery-master.yaml", "task" => "verify-delivery", "state" => "active"} if stale_memory
   write_yaml(root, "docs/project-memory.yaml", memory)
   write_yaml(root, "docs/decision-log.yaml", {"kind" => "dora_decision_log", "version" => 1, "entries" => [{"id" => "retention-choice", "decision" => "Choose a retention policy.", "status" => "proposed", "domain_references" => ["docs/domain-library.yaml"], "plan_references" => [FIXTURE.fetch("latest_master")], "evidence_references" => ["docs/product-brief.yaml"]}]})
   master = {"kind" => "master", "version" => 1, "id" => "delivery", "title" => "Verified delivery", "status" => "verified", "children" => ["docs/work/delivery.yaml"]}
@@ -68,6 +69,13 @@ Dir.mktmpdir("dora-project-read-model-invalid") do |root|
   summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
   abort "invalid memory was hidden" unless summary.fetch("inconsistencies").any? { |item| item["code"] == "project_memory" && item["severity"] == "INVALID" }
   abort "invalid memory hid verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
+end
+
+Dir.mktmpdir("dora-project-read-model-stale-memory") do |root|
+  write_project(root, stale_memory: true)
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "stale valid-shaped memory was hidden" unless summary.fetch("inconsistencies").any? { |item| item["code"] == "project_memory" && item["severity"] == "INVALID" }
+  abort "stale memory hid verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
 end
 
 Dir.mktmpdir("dora-project-read-model-ambiguous") do |root|

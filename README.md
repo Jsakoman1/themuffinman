@@ -87,6 +87,17 @@ Useful root scripts:
 - `npm run themuffinman:build:frontend`
 - `npm run themuffinman:type-check`
 
+## Codex across both product repositories
+
+Use `scripts/codex-both` to start one Codex session with this repository as its
+main workspace and `../DoomsDayStorage` as an additional writable directory:
+
+```bash
+./scripts/codex-both
+```
+
+Any arguments are passed through to `codex`.
+
 Compatibility aliases remain available for now:
 - `npm run sidequest:dev`
 - `npm run sidequest:backend`

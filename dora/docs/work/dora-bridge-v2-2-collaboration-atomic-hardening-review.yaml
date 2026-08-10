@@ -1,0 +1,13 @@
+kind: dora_atomic_task_hardening_review
+version: 1
+id: dora-bridge-v2-2-collaboration-atomic-hardening-review
+master_plan: docs/work/dora-bridge-v2-2-collaboration-master.yaml
+execution_inventory: docs/work/dora-bridge-v2-2-collaboration-execution-inventory.yaml
+status: approved
+findings:
+- The serial inventory declares one observable outcome per item: discovery and hardening, local lifecycle mutation, existing MCP read projection, then end-to-end proof and documentation.
+- Each implementation item has exact bounded paths, a dependency, a repository-root-safe leaf command, and an explicit evidence boundary.
+- V2.2 reuses the private append-only handoff event stream, normal Dora delivery link, verifier evidence, existing get_handoff and get_handoff_status reads, and immutable handoff lineage; it does not introduce a second task, status, or evidence system.
+- Feedback is limited to bounded semantic milestones and a compact result; raw terminal output, arbitrary command/file input, remote Codex start, steering, and general execution remain out of scope.
+- Structured owner-decision blocking is terminal and auditably readable; any later correction or follow-up uses the existing immutable lineage references.
+- The preflight confirmed no existing owner decision needs reopening. The only open product boundary is the already-authoritative V3 remote-control program, which is excluded from every V2.2 required path and validation.

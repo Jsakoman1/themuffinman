@@ -36,6 +36,23 @@ end
 idle = Dora::ProjectMemory.validate!(memory.merge("current_work" => {"state" => "none"}))
 abort "project memory lost an explicit idle state" unless idle.fetch("current_work") == {"state" => "none"}
 
+active_navigation = Dora::ProjectMemory.validate_work_navigation!(memory: memory.merge("current_work" => {"plan" => "docs/work/first-work.yaml", "task" => "record-note", "state" => "active"}), inventories: [{"items" => [{"plan" => "docs/work/first-work.yaml", "task" => "record-note", "status" => "in_progress"}]}])
+abort "project memory did not preserve active authoritative navigation" unless active_navigation == {"plan" => "docs/work/first-work.yaml", "task" => "record-note", "state" => "active"}
+
+begin
+  Dora::ProjectMemory.validate_work_navigation!(memory: idle, inventories: [{"items" => [{"plan" => "docs/work/first-work.yaml", "task" => "record-note", "status" => "in_progress"}]}])
+  abort "project memory accepted missing active navigation"
+rescue ArgumentError => error
+  abort "missing navigation failure was unclear" unless error.message.include?("missing")
+end
+
+begin
+  Dora::ProjectMemory.validate_work_navigation!(memory: memory.merge("current_work" => {"plan" => "docs/work/first-work.yaml", "task" => "record-note", "state" => "active"}), inventories: [{"items" => [{"plan" => "docs/work/first-work.yaml", "task" => "record-note", "status" => "verified"}]}])
+  abort "project memory accepted stale active navigation"
+rescue ArgumentError => error
+  abort "stale navigation failure was unclear" unless error.message.include?("stale")
+end
+
 begin
   Dora::ProjectMemory.validate!(memory.merge("current_work" => {"state" => "none", "plan" => "docs/work/first-work.yaml"}))
   abort "project memory accepted an idle work declaration with a plan"

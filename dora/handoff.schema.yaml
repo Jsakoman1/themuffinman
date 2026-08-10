@@ -1,0 +1,19 @@
+kind: dora_handoff_schema
+version: 1
+purpose: Define the local, transport-neutral structured handoff ingress record.
+required_fields: [schema_version, id, project, title, objective, acceptance_criteria, constraints, references, created_at, created_by, client_request_id, status]
+lifecycle: [READY, CLAIMED, COMPLETED, BLOCKED, CANCELLED, SUPERSEDED]
+invariants:
+  - Initial handoff content is represented by one immutable created event.
+  - Lifecycle changes append events and never alter the created event.
+  - Handoff state is private local transport state and is never written to a registered project repository.
+  - A successful completion requires a linked Dora delivery and at least one verification reference.
+  - Handoff references are project-relative identifiers, never absolute caller-selected filesystem paths.
+  - A V2.1 brief records request mode, expected result, locked decisions, non-goals, context, stop conditions, verification duties, and explicit unresolved owner decisions.
+  - New follow-up and correction lineage must refer to an existing handoff in the same project; it never rewrites the earlier handoff.
+  - V2.2 feedback is a bounded append-only semantic milestone, never a terminal transcript, and current lifecycle/evidence state overrides stale handoff text.
+  - V3.2 derives one safe progress projection from the existing lifecycle: START, ANALYSIS, IMPLEMENTATION, VERIFICATION, BLOCKED, COMPLETED, or INCOMPLETE. It contains only fixed labels, fixed summaries, and a material-change token; it never exposes feedback prose, raw child output, source content, paths, command lines, environment values, or secrets.
+  - Claimed feedback accepts only the finite local phase model START → DISCOVERY/PLANNING → IMPLEMENTING → VERIFYING and non-regressing allowlisted verification states. VERIFIED is set only by evidence-gated completion. Terminal lifecycle state always overrides active progress, and terminal handoffs cannot receive feedback.
+  - An owner-decision block includes the decision question, reason, known options, optional recommendation, blocked work, and work that may continue.
+  - A compact completion result may supplement but never replace linked Dora delivery and passing verifier evidence.
+  - A runner launch failure may retain only a fixed failure code, an optional process exit code, and a fixed recovery hint. Fixed codes distinguish launcher preflight from Codex execution; no child output, credentials, environment values, or filesystem paths are retained.

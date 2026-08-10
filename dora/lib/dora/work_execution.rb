@@ -8,6 +8,7 @@ require "time"
 require "yaml"
 
 require_relative "adapter"
+require_relative "project_memory"
 
 module Dora
   class WorkExecution
@@ -75,14 +76,29 @@ module Dora
       porcelain, porcelain_status = Open3.capture2e("git", "-C", @context.root, "status", "--porcelain=v1", "--untracked-files=all")
       fail!(porcelain) unless porcelain_status.success?
 
-      files = diff.lines.map(&:strip).reject(&:empty?)
+      files = diff.lines.map(&:strip).reject(&:empty?).map { |path| project_relative_path(path) }.compact
       porcelain.lines.each do |line|
         next unless line.start_with?("?? ")
 
         path = line[3..].strip
-        files << (path.start_with?("\"") ? Shellwords.shellsplit(path).first : path)
+        path = Shellwords.shellsplit(path).first if path.start_with?("\"")
+        relative = project_relative_path(path)
+        files << relative if relative
       end
       files.uniq
+    end
+
+    def project_relative_path(path)
+      git_root, status = Open3.capture2("git", "-C", @context.root, "rev-parse", "--show-toplevel")
+      fail!("cannot read Git worktree root") unless status.success?
+
+      project_root = File.realpath(@context.root)
+      git_root = File.realpath(git_root.strip)
+      absolute = File.expand_path(path, git_root)
+      absolute = File.expand_path(path, project_root) unless absolute.start_with?("#{project_root}/")
+      return nil unless absolute.start_with?("#{project_root}/")
+
+      absolute.delete_prefix("#{project_root}/")
     end
 
     def load_plan(path)
@@ -214,8 +230,10 @@ module Dora
 
     def verify_master!(path, plan, revision)
       fail!("superseded master cannot be verified: #{path}") if plan["superseded_by"]
+      inventory = nil
+      absolute_inventory = nil
       if strict_plan?(plan)
-        _inventory_path, _absolute_inventory, inventory = execution_inventory!(plan)
+        _inventory_path, absolute_inventory, inventory = execution_inventory!(plan)
         fail!("execution inventory belongs to a different master") unless inventory["master_plan"] == path
         unverified = inventory.fetch("items").select { |item| item["status"] != "verified" }
         fail!("strict master has unverified execution inventory items: #{unverified.map { |item| item["id"] }.join(", ")}") unless unverified.empty?
@@ -226,9 +244,19 @@ module Dora
         child_plan = load_plan(resolve_under!(@context.root, child, "child plan"))
         fail!("child is not verified: #{child}") unless child_plan["kind"] == "work" && child_plan["status"] == "verified"
       end
+      reconcile_project_memory_for_closeout!(inventory, absolute_inventory) if inventory
       plan["status"] = "verified"
       plan["evidence"] = [{"verifiedAt" => Time.now.utc.iso8601, "revision" => revision, "children" => children}]
       plan
+    end
+
+    def reconcile_project_memory_for_closeout!(inventory, absolute_inventory)
+      memory = ProjectMemory.load!(File.join(@context.docs_root, "project-memory.yaml"))
+      ProjectMemory.validate_work_navigation!(memory: memory, inventories: [inventory])
+      inventory["state"] = "verified"
+      File.write(absolute_inventory, YAML.dump(inventory).sub(/\A---\n/, ""))
+    rescue ArgumentError => error
+      fail!("project memory closeout gate failed: #{error.message}")
     end
 
     def resolve_under!(root, path, label)

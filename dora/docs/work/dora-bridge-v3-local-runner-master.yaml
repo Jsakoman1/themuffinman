@@ -1,0 +1,39 @@
+kind: master
+version: 1
+id: dora-bridge-v3-local-runner
+title: Deliver Dora Bridge V3 local autonomous handoff runner
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-local-runner-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-bridge-v3-local-runner-preflight.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-2-collaboration-master.yaml
+  baseline_only_surfaces:
+  - Existing private handoff event store, V2.2 milestone feedback, evidence-gated completion,
+    and sanitized MCP handoff readback.
+  residual_scope:
+  - A local owner-started, single-process runner with a fixed approved Codex launcher contract.
+  - Safe runner recovery and health operations, a compact assistant operating contract, and
+    synthetic end-to-end proofs.
+  retest_triggers:
+  - Any runner command, local launcher contract, handoff lifecycle, registry authorization,
+    completion readback, or owner-facing operation change.
+  non_duplication_rule: The runner adds no MCP process-control tool, transcript store, or
+    parallel status system; V2.2 handoff state and evidence remain authoritative.
+children:
+- docs/work/dora-bridge-v3-local-runner-preflight.yaml
+- docs/work/dora-bridge-v3-local-runner-runner.yaml
+- docs/work/dora-bridge-v3-local-runner-contract.yaml
+- docs/work/dora-bridge-v3-local-runner-closeout.yaml
+evidence:
+- verifiedAt: '2026-08-10T06:38:16Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  children:
+  - docs/work/dora-bridge-v3-local-runner-preflight.yaml
+  - docs/work/dora-bridge-v3-local-runner-runner.yaml
+  - docs/work/dora-bridge-v3-local-runner-contract.yaml
+  - docs/work/dora-bridge-v3-local-runner-closeout.yaml

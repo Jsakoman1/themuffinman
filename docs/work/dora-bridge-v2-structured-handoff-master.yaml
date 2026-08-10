@@ -1,0 +1,31 @@
+kind: master
+version: 1
+id: dora-bridge-v2-structured-handoff
+title: Deliver Dora Bridge V2 Structured Handoff
+status: draft
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-structured-handoff-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-bridge-v2-structured-handoff-preflight.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/dora-bridge-v1-master.yaml
+    - dora/docs/work/dora-bridge-v1-historical-record-master.yaml
+  baseline_only_surfaces:
+    - Dora Bridge V1 read-only project projections and private Secure MCP Tunnel transport.
+  residual_scope:
+    - Resolve the separately approved future-write-handoff-program with a local-only, per-project-gated structured ingress queue and no remote Codex execution.
+  retest_triggers:
+    - Any bridge registry, MCP server, private state store, Dora CLI, or owner-local codex-both change requires the V2 adversarial suite and V1 MCP regression.
+  non_duplication_rule: Bridge V1 evidence is a baseline only and is not counted as V2 completion.
+children:
+  - docs/work/dora-bridge-v2-structured-handoff-preflight.yaml
+  - docs/work/dora-bridge-v2-structured-handoff-store.yaml
+  - docs/work/dora-bridge-v2-structured-handoff-registry.yaml
+  - docs/work/dora-bridge-v2-structured-handoff-mcp.yaml
+  - docs/work/dora-bridge-v2-structured-handoff-cli.yaml
+  - docs/work/dora-bridge-v2-structured-handoff-owner-gate.yaml
+  - docs/work/dora-bridge-v2-structured-handoff-closeout.yaml
+evidence: []

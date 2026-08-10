@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: dora-bridge-v3-local-runner-contract
+title: Add the fixed preclaimed local Codex launcher contract
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-local-runner-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-2-collaboration-master.yaml
+  baseline_only_surfaces:
+  - Existing no-ready and READY owner-started codex-both launch behavior.
+  residual_scope:
+  - One fixed runner-to-codex-both preclaimed handoff mode and owner-run update adapter.
+  retest_triggers:
+  - Any local launcher argument, prompt, credential, runtime-helper, or installation
+    rule.
+  non_duplication_rule: The contract transports identifiers only; it never transports
+    handoff content, terminal output, commands, paths, or remote control.
+tasks:
+- id: implement-preclaimed-local-launcher-contract
+  title: Implement the fixed preclaimed handoff launcher contract and owner update
+    adapter
+  type: implementation
+  status: done
+  inventory_item: v3-contract
+  observable_outcome: The runner can invoke the existing owner-local codex-both workflow
+    with exactly validated preclaimed project/id identifiers, and the owner can explicitly
+    install that narrow mode without autostart or a remote control interface.
+  dependencies:
+  - v3-runner
+  evidence_boundary:
+  - fixed identifier validation and no-custom-prompt behavior
+  - credential isolation and runtime-helper regression
+  - owner-update adapter containment and no-service-install assertion
+  paths:
+  - bridge/bin/dora-bridge-codex-both-preclaimed-contract
+  - bridge/bin/dora-bridge-install-codex-both-runner-mode
+  - lib/dora/handoff_cli.rb
+  - bin/dora
+  - bridge/test/codex_both_preclaimed_contract_test.rb
+  required_paths:
+  - bridge/bin/dora-bridge-codex-both-preclaimed-contract
+  - bridge/bin/dora-bridge-install-codex-both-runner-mode
+  - lib/dora/handoff_cli.rb
+  - bin/dora
+  - bridge/test/codex_both_preclaimed_contract_test.rb
+  validation: ruby bridge/test/codex_both_preclaimed_contract_test.rb
+  started_at: '2026-08-10T06:35:15Z'
+  start_fingerprints:
+    bridge/bin/dora-bridge-codex-both-preclaimed-contract: __missing__
+    bridge/bin/dora-bridge-install-codex-both-runner-mode: __missing__
+    lib/dora/handoff_cli.rb: fbb7c7a1cd37271286c0f97232170113d029b172e172d0049c1019c7909e1428
+    bin/dora: 632a59050578633b50f992028fa86543c803e9c01b3451f78fdb6b04520410d4
+    bridge/test/codex_both_preclaimed_contract_test.rb: __missing__
+evidence:
+- task: implement-preclaimed-local-launcher-contract
+  command: ruby bridge/test/codex_both_preclaimed_contract_test.rb
+  ranAt: '2026-08-10T06:36:31Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bin/dora
+  - bridge/bin/dora-bridge-codex-both-preclaimed-contract
+  - bridge/bin/dora-bridge-install-codex-both-runner-mode
+  - bridge/test/codex_both_preclaimed_contract_test.rb
+  - lib/dora/handoff_cli.rb
+  output: "Dora preclaimed codex-both contract test passed (claimed-only identifiers,
+    forged/cross-project rejection, fixed prompt, and explicit no-autostart installation).\n\n"
+  requiredPaths: &1
+  - bridge/bin/dora-bridge-codex-both-preclaimed-contract
+  - bridge/bin/dora-bridge-install-codex-both-runner-mode
+  - lib/dora/handoff_cli.rb
+  - bin/dora
+  - bridge/test/codex_both_preclaimed_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:35:15Z'
+  changedAfterStart: *1

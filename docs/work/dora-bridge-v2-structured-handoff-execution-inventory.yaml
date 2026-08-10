@@ -1,0 +1,78 @@
+kind: execution_inventory
+version: 1
+id: dora-bridge-v2-structured-handoff-execution
+master_plan: docs/work/dora-bridge-v2-structured-handoff-master.yaml
+state: active
+items:
+- id: v2-preflight
+  order: 1
+  plan: docs/work/dora-bridge-v2-structured-handoff-preflight.yaml
+  task: harden-v2-structured-handoff-program
+  status: verified
+  started_at: '2026-08-09T22:28:37Z'
+  verified_at: '2026-08-09T22:29:04Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-preflight.yaml
+    task: harden-v2-structured-handoff-program
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v2-store
+  order: 2
+  plan: docs/work/dora-bridge-v2-structured-handoff-store.yaml
+  task: implement-private-append-only-handoff-store
+  status: verified
+  started_at: '2026-08-09T22:29:33Z'
+  verified_at: '2026-08-09T22:32:12Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-store.yaml
+    task: implement-private-append-only-handoff-store
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v2-registry
+  order: 3
+  plan: docs/work/dora-bridge-v2-structured-handoff-registry.yaml
+  task: enforce-per-project-handoff-capability
+  status: verified
+  started_at: '2026-08-09T22:32:20Z'
+  verified_at: '2026-08-09T22:32:47Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-registry.yaml
+    task: enforce-per-project-handoff-capability
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v2-mcp
+  order: 4
+  plan: docs/work/dora-bridge-v2-structured-handoff-mcp.yaml
+  task: expose-minimal-structured-handoff-mcp-surface
+  status: verified
+  started_at: '2026-08-09T22:33:11Z'
+  verified_at: '2026-08-09T22:34:23Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-mcp.yaml
+    task: expose-minimal-structured-handoff-mcp-surface
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v2-cli
+  order: 5
+  plan: docs/work/dora-bridge-v2-structured-handoff-cli.yaml
+  task: provide-codex-handoff-lifecycle-cli
+  status: verified
+  started_at: '2026-08-09T22:34:45Z'
+  verified_at: '2026-08-09T22:35:41Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-cli.yaml
+    task: provide-codex-handoff-lifecycle-cli
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v2-owner-gate
+  order: 6
+  plan: docs/work/dora-bridge-v2-structured-handoff-owner-gate.yaml
+  task: preserve-owner-gated-codex-both-startup
+  status: verified
+  started_at: '2026-08-09T22:36:43Z'
+  verified_at: '2026-08-09T22:38:44Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-owner-gate.yaml
+    task: preserve-owner-gated-codex-both-startup
+    revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+- id: v2-closeout
+  order: 7
+  plan: docs/work/dora-bridge-v2-structured-handoff-closeout.yaml
+  task: prove-structured-handoff-end-to-end-and-record-v3-boundary
+  status: in_progress
+  started_at: '2026-08-09T22:39:43Z'

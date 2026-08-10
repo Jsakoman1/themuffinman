@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: dora-bridge-v2-2-collaboration-lifecycle
+title: Add append-only Dora Bridge V2.2 feedback lifecycle
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-2-collaboration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-1-collaboration-master.yaml
+  baseline_only_surfaces:
+  - V2.1 creation, claim, delivery-link, and evidence-gated completion behavior.
+  residual_scope:
+  - Validated local milestone feedback, structured owner decision blocks, and compact
+    completion results.
+  retest_triggers:
+  - Any event payload, lifecycle transition, CLI parser, or read-model field change.
+  non_duplication_rule: Dora delivery and task verification remain authoritative references;
+    V2.2 stores no duplicate plan or evidence status.
+tasks:
+- id: implement-append-only-feedback-and-owner-decision-lifecycle
+  title: Implement validated append-only milestone feedback and decision-stop lifecycle
+    records
+  type: implementation
+  status: done
+  inventory_item: v2-2-lifecycle
+  observable_outcome: A claimed handoff can append bounded milestone feedback, explicitly
+    block on a structured owner decision, and complete with a compact result linked
+    to Dora evidence while invalid payloads and transitions fail safely.
+  dependencies:
+  - v2-2-preflight
+  evidence_boundary:
+  - lifecycle validation and transition tests
+  - local CLI argument and evidence-gate tests
+  - malformed and adversarial input tests.
+  paths:
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - bin/dora
+  - handoff.schema.yaml
+  - test/handoff_test.rb
+  - test/handoff_cli_test.rb
+  required_paths:
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - bin/dora
+  - handoff.schema.yaml
+  - test/handoff_test.rb
+  - test/handoff_cli_test.rb
+  validation: ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb
+  started_at: '2026-08-10T06:06:35Z'
+  start_fingerprints:
+    lib/dora/handoff.rb: 2626345041628c321d074cc75f6a56a1703036dd858f0d7f3a26f68e0ef21301
+    lib/dora/handoff_cli.rb: edad31bd1e2dd7dc55b90276cb446597051175282ffe81ee34200fb2a3e05301
+    bin/dora: bea68350c64a5a8c976cb0c5693412353d3ebc91ad4bcc7d8eb6a44ed028bd2b
+    handoff.schema.yaml: 76beb64ab4a335eaa35dab3ee5195c694723c4beeeb2bbda693be64b6a5bc279
+    test/handoff_test.rb: 995a06de33d441edaf679e747004d05ce8132cab813b578ab06b9bdb7e06bc5d
+    test/handoff_cli_test.rb: a3824cc7ee3a3d44704d244f7b38bcf6605eddb9ce60d53818a4368856e42ed7
+evidence:
+- task: implement-append-only-feedback-and-owner-decision-lifecycle
+  command: ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb
+  ranAt: '2026-08-10T06:08:45Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bin/dora
+  - handoff.schema.yaml
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - test/handoff_cli_test.rb
+  - test/handoff_test.rb
+  output: |+
+    handoff-15e3258d-d886-422e-a351-69d65f109246
+    handoff-15e3258d-d886-422e-a351-69d65f109246
+    Dora handoff test passed (immutable records, idempotency, lifecycle feedback, owner decisions, completion evidence, containment, permissions, and concurrency).
+    Dora handoff CLI test passed (next, exclusive claim, bounded feedback, evidence-gated completion, structured owner decision block, and sanitized output).
+
+  requiredPaths: &1
+  - lib/dora/handoff.rb
+  - lib/dora/handoff_cli.rb
+  - bin/dora
+  - handoff.schema.yaml
+  - test/handoff_test.rb
+  - test/handoff_cli_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:06:35Z'
+  changedAfterStart: *1

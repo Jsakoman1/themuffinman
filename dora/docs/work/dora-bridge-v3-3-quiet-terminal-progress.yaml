@@ -1,0 +1,110 @@
+kind: work
+version: 1
+id: dora-bridge-v3-3-quiet-terminal-progress
+title: Add quiet local terminal progress to the Dora handoff runner
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-2-friendly-progress-master.yaml
+  baseline_only_surfaces:
+  - Existing V2/V2.2 handoff authority and immutable lifecycle behavior.
+  - Existing owner-local runner selection, launcher pinning, keychain handling, and
+    failure classification.
+  residual_scope:
+  - Local terminal presentation of already-sanitized lifecycle/progress state while
+    one claimed handoff runs.
+  retest_triggers:
+  - Any runner polling, lifecycle/progress readback, terminal output, or child-launch
+    handling change.
+  non_duplication_rule: The terminal observer reads the V3.2 projection and does not
+    persist progress, retain child output, or create a second lifecycle system.
+tasks:
+- id: add-quiet-sanitized-terminal-progress
+  title: Show deduplicated safe progress transitions in the local runner
+  type: security-feature
+  status: done
+  observable_outcome: The owner-started runner emits one readiness line, remains quiet
+    while no READY handoff exists, and reports detected/claimed, allowlisted V3.2
+    phase transitions, and a fixed terminal outcome exactly once without child output
+    or arbitrary readback text.
+  dependencies: []
+  paths:
+  - docs/work/dora-bridge-v3-3-quiet-terminal-progress.yaml
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff_runner.rb
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  required_paths:
+  - docs/work/dora-bridge-v3-3-quiet-terminal-progress.yaml
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff_runner.rb
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  validation: ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/codex_both_contract_test.rb
+    && ruby bridge/test/codex_both_preclaimed_contract_test.rb && ruby bridge/test/handoff_runner_test.rb
+    && bin/dora doctor .dora/project.yaml
+  evidence_boundary:
+  - Idle polling produces no repeated terminal line.
+  - Only the fixed Start, Analysis, Implementation, Verification, Blocked, Complete,
+    and unavailable representations can reach the terminal.
+  - Repeated readbacks with the same displayed state produce no extra terminal line.
+  - Invalid or unavailable progress readback cannot expose its values and does not
+    alter lifecycle/launch behavior.
+  - Existing V2, V2.2, V3, and V3.2 handoff and launcher contracts remain passing.
+evidence:
+- task: add-quiet-sanitized-terminal-progress
+  command: ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/codex_both_contract_test.rb
+    && ruby bridge/test/codex_both_preclaimed_contract_test.rb && ruby bridge/test/handoff_runner_test.rb
+    && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-10T08:08:35Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-library.yaml
+  - docs/product-brief.yaml
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/work/dora-bridge-v3-3-quiet-terminal-progress.yaml
+  - lib/dora/handoff_runner.rb
+  output: |+
+    PASSED project-root: declared project root exists
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  requiredPaths:
+  - docs/work/dora-bridge-v3-3-quiet-terminal-progress.yaml
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - lib/dora/handoff_runner.rb
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

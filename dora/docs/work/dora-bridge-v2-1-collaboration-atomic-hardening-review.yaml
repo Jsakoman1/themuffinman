@@ -1,0 +1,12 @@
+kind: dora_atomic_task_hardening_review
+version: 1
+id: dora-bridge-v2-1-collaboration-atomic-hardening-review
+master_plan: docs/work/dora-bridge-v2-1-collaboration-master.yaml
+execution_inventory: docs/work/dora-bridge-v2-1-collaboration-execution-inventory.yaml
+status: approved
+findings:
+  - The V2.1 inventory has one declared observable outcome per serial work item: discovery plus nested-project verifier repair, contract implementation, then proof and documentation.
+  - Every work item names bounded paths, an explicit dependency, a leaf validation command, and a new evidence boundary.
+  - The only behavioral addition is a bounded implementation brief and object-shaped V2 MCP readback; Dora plans, tasks, and evidence remain referenced rather than copied.
+  - No task adds remote execution, repository access, arbitrary paths, commands, or Codex process control.
+  - The V2 records outside Dora’s declared project root are not relied on for V2.1 verification; this master is the verifier authority for the current handoff.

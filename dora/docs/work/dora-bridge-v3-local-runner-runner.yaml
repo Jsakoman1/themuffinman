@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: dora-bridge-v3-local-runner-runner
+title: Implement Dora Bridge V3 local singleton handoff runner
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-local-runner-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-2-collaboration-master.yaml
+  baseline_only_surfaces:
+  - V2.2 private store, lifecycle, feedback, completion, and bridge readback.
+  residual_scope:
+  - Owner-local singleton selection, fixed child invocation, health, stop, and recovery.
+  retest_triggers:
+  - Any runner selection, lock, child invocation, state, feedback, or block behavior.
+  non_duplication_rule: Runner state is local operational metadata only, never evidence
+    or a collaboration/status system.
+tasks:
+- id: implement-local-singleton-handoff-runner
+  title: Implement a fixed-command owner-local singleton runner
+  type: implementation
+  status: done
+  inventory_item: v3-runner
+  observable_outcome: One owner-started local runner accepts only authorized explicitly
+    allowlisted projects, atomically claims the oldest READY handoff once, invokes
+    only the fixed approved local launcher, emits bounded V2.2 feedback, exposes narrow
+    private health/stop operations, and fails closed for duplicates, stale state,
+    and child or storage failures.
+  dependencies:
+  - v3-preflight
+  evidence_boundary:
+  - deterministic selection and atomic exclusive claim
+  - fixed argument-vector / injection and cross-project rejection
+  - singleton, non-zero exit, stale restart, and private state safety
+  paths:
+  - lib/dora/handoff_runner.rb
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  required_paths:
+  - lib/dora/handoff_runner.rb
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  validation: ruby bridge/test/handoff_runner_test.rb
+  started_at: '2026-08-10T06:32:02Z'
+  start_fingerprints:
+    lib/dora/handoff_runner.rb: __missing__
+    bridge/bin/dora-bridge-handoff-runner: __missing__
+    bridge/test/handoff_runner_test.rb: __missing__
+evidence:
+- task: implement-local-singleton-handoff-runner
+  command: ruby bridge/test/handoff_runner_test.rb
+  ranAt: '2026-08-10T06:34:39Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  - lib/dora/handoff_runner.rb
+  output: "Dora handoff runner test passed (authorized deterministic claim, fixed
+    launcher, singleton, stale recovery, injection/cross-project rejection, and private
+    stop state).\n\n"
+  requiredPaths: &1
+  - lib/dora/handoff_runner.rb
+  - bridge/bin/dora-bridge-handoff-runner
+  - bridge/test/handoff_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T06:32:02Z'
+  changedAfterStart: *1

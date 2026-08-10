@@ -1,0 +1,66 @@
+kind: work
+version: 1
+id: dora-bridge-v2-structured-handoff-registry
+title: Gate handoff creation with project capabilities
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v2-structured-handoff-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v1-master.yaml
+  baseline_only_surfaces:
+  - V1 registry read authorization and project containment
+  residual_scope:
+  - Separate disabled-by-default handoff_write capability and state-root configuration
+  retest_triggers:
+  - Any registry parsing or project-root resolution change
+  non_duplication_rule: V1 allow-list evidence is baseline only.
+tasks:
+- id: enforce-per-project-handoff-capability
+  title: Require explicit project handoff authorization
+  type: implementation
+  status: done
+  inventory_item: v2-registry
+  observable_outcome: Only configured known projects with handoff_write enabled can
+    create or access their own handoffs.
+  dependencies:
+  - v2-store
+  evidence_boundary:
+  - Registry capability
+  - unknown-project
+  - traversal
+  - symlink
+  - and cross-project authorization tests
+  paths:
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  required_paths:
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  validation: ruby dora/bridge/test/mcp_server_test.rb
+  started_at: '2026-08-09T22:32:20Z'
+  start_fingerprints:
+    dora/bridge/lib/dora_bridge/project_registry.rb: 4c5cdc7f6a7b8379c0d0e0cbd253ad5fb0826e9b044c5a58a769ee733671885e
+    dora/bridge/test/mcp_server_test.rb: 48fc4b9ed1b1933dece389321cf203dfdefef8f63ec24aad80443482184a43b9
+evidence:
+- task: enforce-per-project-handoff-capability
+  command: ruby dora/bridge/test/mcp_server_test.rb
+  ranAt: '2026-08-09T22:32:47Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  output: "Dora Bridge MCP test passed (allow-list, safe read projection, stdio framing,
+    path containment, and no write tools).\n\n"
+  requiredPaths: &1
+  - dora/bridge/lib/dora_bridge/project_registry.rb
+  - dora/bridge/test/mcp_server_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-09T22:32:20Z'
+  changedAfterStart: *1

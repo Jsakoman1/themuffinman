@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "json"
+require_relative "../lib/dora_bridge/project_registry"
+require_relative "../../lib/dora/handoff"
+
+registry_path, state_root, *projects = ARGV
+abort "usage: dora-bridge-codex-both-contract BRIDGE_PROJECTS.yaml OWNER_LOCAL_STATE_ROOT PROJECT_ID..." unless registry_path && state_root && !projects.empty?
+
+registry = DoraBridge::ProjectRegistry.load!(registry_path)
+projects.each { |project| registry.handoff_authorized!(project) }
+store = Dora::Handoff.new(state_root: state_root)
+candidates = projects.flat_map { |project| store.list(project: project) }.select { |handoff| handoff.fetch("status") == "READY" }.sort_by { |handoff| [handoff.fetch("created_at"), handoff.fetch("id")] }
+result = if candidates.empty?
+           {"status" => "no_ready_handoff"}
+         else
+           selected = candidates.first
+           {"status" => "ready_handoff", "project" => selected.fetch("project"), "handoff_id" => selected.fetch("id")}
+         end
+puts JSON.generate(result)

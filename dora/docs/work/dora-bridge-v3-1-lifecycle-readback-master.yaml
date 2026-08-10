@@ -1,0 +1,25 @@
+kind: master
+version: 1
+id: dora-bridge-v3-1-lifecycle-readback-master
+title: Deliver the canonical read-only handoff lifecycle readback
+status: verified
+baseline: 46daf97c75e9629aa20297e686f582ad04d78f5d
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-runner-recovery-master.yaml
+  baseline_only_surfaces:
+  - Existing V1/V2/V2.2/V3 handoff lifecycle, CLI, runner, and bridge contracts.
+  residual_scope:
+  - One additive read-only lifecycle projection and canonical decision-record alignment.
+  retest_triggers:
+  - Any lifecycle projection, handoff bridge tool, or decision-record change.
+  non_duplication_rule: This delivery derives its readback from existing lifecycle/evidence
+    records and adds no mutable state or remote control surface.
+children:
+- docs/work/dora-bridge-v3-1-lifecycle-readback.yaml
+evidence:
+- verifiedAt: '2026-08-10T07:32:59Z'
+  revision: 46daf97c75e9629aa20297e686f582ad04d78f5d
+  children:
+  - docs/work/dora-bridge-v3-1-lifecycle-readback.yaml

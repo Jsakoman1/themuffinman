@@ -7,11 +7,33 @@ primary_users:
 intended_outcomes:
 - A project can declare its knowledge, work, verification evidence, and current state without a second memory database.
 - An authorized external read-only client can query a safe structured project projection without filesystem access or manual terminal copy/paste.
+- An explicitly handoff-enabled project can receive a narrow, owner-requested structured implementation handoff without giving ChatGPT execution or repository authority.
+- A structured handoff can distinguish locked owner decisions from unresolved decisions so implementation agents stop rather than guess.
+- During an active claimed handoff, an authorized external reader can see concise current milestone feedback, verification state, a structured owner-decision stop, and an evidence-backed compact completion result without terminal-log reconstruction.
+- An authorized external reader can retrieve one deterministic lifecycle-only handoff readback with status, outcome category, verification/evidence linkage, and an owner-safe summary without immutable handoff content or raw lifecycle events.
+- An authorized external reader can identify one claimed handoff's fixed-language current progress and terminal result from the existing status/readback contract, with a stable material-change token and without feedback prose, terminal output, source content, paths, commands, environment values, or secrets.
+- After an explicit owner-local start, a bounded foreground runner can process one eligible
+  READY handoff at a time through a fixed non-interactive Codex execution contract, while
+  ChatGPT learns terminal outcomes through the existing sanitized readback. Owner terminal
+  output is a fixed local lifecycle/recovery summary, not child-process streaming.
+- The owner-local runner can remain quiet while idle and show only deduplicated, fixed
+  lifecycle/progress transitions from the existing sanitized handoff projection while a
+  claimed handoff runs.
+- An authorized external client can submit one bounded, non-canonical ChatGPT Intent
+  Plan for transient comparison with Dora's current state and receive only a safe
+  accepted, reconciled, or owner-decision-needed first-slice readback.
 non_goals:
 - Dora Bridge V1 does not modify projects, execute shell commands, expose source code, or invoke Codex.
+- Dora Bridge V2 does not expose shell, filesystem, patch, git, source-editing, generic Dora mutation, process-execution, or direct Codex-start capability.
+- Dora Bridge V2.2 does not create a terminal transcript, a parallel work/status system, or remote Codex steering; current Dora lifecycle and verification evidence remain authoritative.
+- V3 does not create remote runner start, stop, attachment, inspection, steering, service
+  installation, or real-time ChatGPT push capability.
+- MP-01 does not persist ChatGPT Intent Plans, create Dora Master Plans, release a delivery
+  chain, or grant any additional external write or execution authority.
 assumptions:
 - Consumer projects retain ownership of their product knowledge, plans, evidence, and private configuration.
 risks:
 - A misleading aggregate could hide inconsistent consumer state or expose private implementation details.
 unanswered_decisions:
-- Any future product-to-implementation handoff or write capability requires a separately approved security and product program.
+- Automatic remote Codex process start, steering, or control remains out of scope; V3 is
+  limited to an owner-started local runner.
