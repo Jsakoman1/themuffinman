@@ -1,0 +1,39 @@
+kind: dora_release_handoff
+version: 1
+status: published
+release:
+  repository: https://github.com/Jsakoman1/dora.git
+  visibility: private
+  default_branch: main
+  version: v1.8.0
+  immutable_commit: a2b8220257d716a74cdd4da795bf3aca094762c0
+  source_parent_commit: a7d698b82478251d347dab406a267b03890000c2
+consumption:
+  project: muffinman
+  method: git_subtree
+  status: pinned
+  pinned_ref: v1.8.0
+  pinned_commit: a2b8220257d716a74cdd4da795bf3aca094762c0
+  subtree_prefix: dora
+  local_adapter: .dora/project.yaml
+  update_rule: MuffinMan may pin only the reachable immutable Dora v1.8.0 tag commit after this reviewed release handoff is published.
+approval:
+  approved_by: user
+  approved_at: 2026-08-10
+  scope: Publish Dora v1.8.0, create its immutable tag, and then pin MuffinMan to the reviewed release commit.
+preservation:
+  - MuffinMan retains product code, product documentation, work plans, runtime evidence, adapters, and product authority.
+  - Dora v1.8.0 exports only Dora-owned package paths and retains no MuffinMan business rules, credentials, real data, runtime evidence, or product mutation adapters.
+  - The release adds safe, read-only canonical Master Plan progress to the owner-local handoff runner; it does not add remote execution, write, source, shell, filesystem, or direct Codex authority.
+  - The release tag resolves before the MuffinMan adapter pin changes.
+rollback:
+  - Before the adapter pin, MuffinMan remains on its v1.7.0 pin.
+  - After the adapter pin, revert only the dedicated v1.8.0 pin commit to restore v1.7.0.
+verification:
+  - ruby dora/test/project_read_model_test.rb
+  - ruby dora/bridge/test/handoff_runner_test.rb
+  - ruby dora/test/handoff_cli_test.rb
+  - ruby dora/test/handoff_test.rb
+  - ruby dora/bridge/test/structured_handoff_e2e_test.rb
+  - cd dora && bin/dora doctor .dora/project.yaml
+  - ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release --handoff docs/dora-release-handoff-v18.yaml --expected-version v1.8.0
