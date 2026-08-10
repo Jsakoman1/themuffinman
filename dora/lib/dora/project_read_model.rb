@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "digest"
 require "time"
 require "yaml"
 
@@ -80,6 +81,35 @@ module Dora
       return {"task" => task_id, "status" => "not_recorded", "reference" => plan_path}.freeze unless evidence
 
       safe_evidence(evidence, task_id: task_id, plan_path: plan_path)
+    end
+
+    # A small, terminal-safe view of one declared Master Plan. It is intentionally
+    # read-only and fails closed when the plan, inventory, task, or verification
+    # evidence cannot be reconciled from canonical Dora artifacts.
+    def master_plan_progress(master_plan_path)
+      master = load_plan!(master_plan_path)
+      fail!("master plan is invalid: #{master_plan_path}") unless master["kind"] == "master"
+      master_id = safe_terminal_identifier!(master["id"], "master plan identifier")
+      master_title = safe_terminal_text!(master["title"], "master plan title")
+      inventory_path = master["execution_inventory"]
+      fail!("master plan execution inventory is invalid") unless safe_relative_path?(inventory_path)
+
+      inventory = load_inventory!(inventory_path)
+      fail!("execution inventory belongs to a different master") unless inventory.fetch("master_plan") == master_plan_path
+      fail!("execution inventory is not active") unless %w[active verified].include?(inventory["state"])
+      children = Array(master["children"])
+      fail!("master plan children are invalid") unless children.all? { |path| safe_relative_path?(path) }
+      items = inventory.fetch("items").sort_by { |item| item.fetch("order") }
+      fail!("execution inventory items are not uniquely ordered") unless items.map { |item| item.fetch("order") }.uniq.length == items.length
+      fail!("execution inventory item identifiers are not unique") unless items.map { |item| item.fetch("id") }.uniq.length == items.length
+
+      projected_items = items.map { |item| master_plan_progress_item(item, children) }
+      projection = {
+        "master_plan" => {"id" => master_id, "title" => master_title, "reference" => master_plan_path},
+        "items" => projected_items
+      }
+      projection["material_change_token"] = Digest::SHA256.hexdigest(Marshal.dump(projection))
+      projection.freeze
     end
 
     # This is deliberately derived at request time. An Intent Plan proposal is
@@ -282,6 +312,37 @@ module Dora
       fail!("work plan YAML is invalid: #{error.message}")
     end
 
+    def load_inventory!(path)
+      absolute = resolve_under_root!(path, "execution inventory")
+      fail!("execution inventory is outside the declared work-plans root: #{path}") unless absolute.start_with?("#{@work_root}/")
+      fail!("execution inventory is missing: #{path}") unless File.file?(absolute)
+      document = YAML.load_file(absolute)
+      fail!("execution inventory is invalid: #{path}") unless document.is_a?(Hash) && document["kind"] == "execution_inventory" && document["version"].to_i == 1
+
+      normalized = safe_inventory(document, path)
+      fail!("execution inventory master plan is invalid: #{path}") unless normalized["master_plan"]
+      items = normalized.fetch("items")
+      fail!("execution inventory items are invalid: #{path}") unless items.all? { |item| item["order"].is_a?(Integer) }
+
+      normalized
+    rescue Psych::Exception => error
+      fail!("execution inventory YAML is invalid: #{error.message}")
+    end
+
+    def master_plan_progress_item(item, children)
+      status = item.fetch("status")
+      fail!("execution inventory item status is invalid") unless %w[verified in_progress pending blocked].include?(status)
+      plan_path = item.fetch("plan")
+      fail!("execution inventory item is not a Master Plan child") unless children.include?(plan_path)
+      task = task(plan_path, item.fetch("task"))
+      task_id = safe_terminal_identifier!(task.fetch("id"), "task identifier")
+      task_title = safe_terminal_text!(task.fetch("title"), "task title")
+      evidence = task_evidence(plan_path, task_id)
+      fail!("verified inventory item lacks passing Dora evidence") if status == "verified" && evidence.fetch("status") != "passed"
+
+      {"id" => safe_terminal_identifier!(item.fetch("id"), "inventory item identifier"), "status" => status, "task" => {"id" => task_id, "title" => task_title, "reference" => plan_path}}.freeze
+    end
+
     def safe_plan(plan, path)
       tasks = Array(plan["tasks"]).each_with_object([]) do |task, projected|
         projected << safe_task(task, path) if task.is_a?(Hash)
@@ -369,6 +430,18 @@ module Dora
 
     def sha?(value)
       value.is_a?(String) && value.match?(/\A[0-9a-f]{7,40}\z/i)
+    end
+
+    def safe_terminal_identifier!(value, label)
+      fail!("#{label} is invalid") unless identifier?(value)
+
+      value
+    end
+
+    def safe_terminal_text!(value, label)
+      fail!("#{label} is invalid") unless value.is_a?(String) && value.length.between?(1, 200) && value.match?(/\A[^\r\n\x00-\x1f\x7f]+\z/)
+
+      value
     end
 
     def fail!(message)

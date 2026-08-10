@@ -37,8 +37,26 @@ def write_project(root, invalid_memory: false, stale_memory: false, ambiguous: f
   end
 end
 
+def write_master_progress(root, invalid_verified_evidence: false)
+  master_path = "docs/work/progress-master.yaml"
+  plans = %w[verified current pending blocked].map { |state| "docs/work/progress-#{state}.yaml" }
+  master = {"kind" => "master", "version" => 1, "id" => "progress-master", "title" => "Canonical progress", "status" => "active", "execution_inventory" => "docs/work/progress-inventory.yaml", "children" => plans}
+  write_yaml(root, master_path, master)
+  items = %w[verified in_progress pending blocked].each_with_index.map do |status, index|
+    state = {"verified" => "verified", "in_progress" => "current", "pending" => "pending", "blocked" => "blocked"}.fetch(status)
+    plan_path = "docs/work/progress-#{state}.yaml"
+    task_id = "#{state}-task"
+    plan = {"kind" => "work", "version" => 1, "id" => "progress-#{state}", "title" => "#{state.capitalize} work", "status" => status == "verified" ? "verified" : "active", "tasks" => [{"id" => task_id, "title" => "#{state.capitalize} task", "status" => status == "verified" ? "done" : "in_progress"}]}
+    plan["evidence"] = [{"task" => task_id, "result" => invalid_verified_evidence ? "failed" : "passed", "ranAt" => "2026-08-09T12:00:00Z", "revision" => "abcdef1", "exitCode" => invalid_verified_evidence ? 1 : 0}] if status == "verified"
+    write_yaml(root, plan_path, plan)
+    {"id" => "progress-#{state}", "order" => index + 1, "plan" => plan_path, "task" => task_id, "status" => status, "verified_at" => status == "verified" ? "2026-08-09T12:00:00Z" : nil}.compact
+  end
+  write_yaml(root, "docs/work/progress-inventory.yaml", {"kind" => "execution_inventory", "version" => 1, "id" => "progress", "master_plan" => master_path, "state" => "active", "items" => items})
+end
+
 Dir.mktmpdir("dora-project-read-model") do |root|
   write_project(root)
+  write_master_progress(root)
   model = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml"))
   summary = model.summary
   abort "summary lost project" unless summary.dig("project", "id") == FIXTURE.fetch("id") && summary.dig("project", "name") == FIXTURE.fetch("name")
@@ -49,6 +67,10 @@ Dir.mktmpdir("dora-project-read-model") do |root|
   evidence = model.task_evidence("docs/work/delivery.yaml", FIXTURE.fetch("latest_task"))
   abort "evidence leaked output or unsafe path" if evidence.to_s.include?(FIXTURE.fetch("raw_output")) || evidence.to_s.include?(".env")
   abort "evidence lost safe runtime reference" unless evidence.fetch("runtime_evidence") == ["docs/runtime-evidence/delivery.json"]
+  progress = model.master_plan_progress("docs/work/progress-master.yaml")
+  abort "canonical Master Plan progress lost its safe plan identity" unless progress.dig("master_plan", "id") == "progress-master" && progress.dig("master_plan", "title") == "Canonical progress"
+  abort "canonical Master Plan progress did not preserve ordered canonical states" unless progress.fetch("items").map { |item| item.fetch("status") } == %w[verified in_progress pending blocked]
+  abort "canonical Master Plan progress exposed unsafe plan data" if progress.to_s.include?(FIXTURE.fetch("raw_output")) || progress.to_s.include?("secret-command")
   begin
     model.plan("../../.env")
     abort "escaped plan path passed"
@@ -59,6 +81,18 @@ Dir.mktmpdir("dora-project-read-model") do |root|
   begin
     model.plan("docs/work/escaped-plan.yaml")
     abort "symlinked plan escaped declared project root"
+  rescue ArgumentError
+    nil
+  end
+end
+
+Dir.mktmpdir("dora-project-read-model-invalid-progress") do |root|
+  write_project(root)
+  write_master_progress(root, invalid_verified_evidence: true)
+  model = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml"))
+  begin
+    model.master_plan_progress("docs/work/progress-master.yaml")
+    abort "invalid Master Plan verification evidence produced progress"
   rescue ArgumentError
     nil
   end

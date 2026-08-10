@@ -19,6 +19,9 @@ intended_outcomes:
 - The owner-local runner can remain quiet while idle and show only deduplicated, fixed
   lifecycle/progress transitions from the existing sanitized handoff projection while a
   claimed handoff runs.
+- When a claimed handoff is linked to one resolvable canonical Master Plan, the
+  owner-local runner can show its compact ordered canonical progress without creating
+  runner-owned plan state or exposing private implementation data.
 - An authorized external client can submit one bounded, non-canonical ChatGPT Intent
   Plan for transient comparison with Dora's current state and receive only a safe
   accepted, reconciled, or owner-decision-needed first-slice readback.

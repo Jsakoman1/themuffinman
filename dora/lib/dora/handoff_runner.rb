@@ -37,7 +37,7 @@ module Dora
 
     class Error < StandardError; end
 
-    def initialize(registry_path:, state_root:, projects:, launcher: DEFAULT_LAUNCHER, now: -> { Time.now.utc }, sleeper: ->(seconds) { sleep(seconds) }, output: $stdout, progress_reader: nil)
+    def initialize(registry_path:, state_root:, projects:, launcher: DEFAULT_LAUNCHER, now: -> { Time.now.utc }, sleeper: ->(seconds) { sleep(seconds) }, output: $stdout, progress_reader: nil, master_plan_progress_reader: nil)
       @registry_path = File.expand_path(registry_path)
       @state_root = File.expand_path(state_root)
       @projects = validate_projects!(projects)
@@ -49,7 +49,9 @@ module Dora
       @projects.each { |project| @registry.handoff_authorized!(project) }
       @store = Handoff.new(state_root: @state_root)
       @progress_reader = progress_reader || ->(project, handoff_id) { @store.lifecycle_readback!(project: project, id: handoff_id).fetch("progress") }
+      @master_plan_progress_reader = master_plan_progress_reader || ->(project, _handoff_id, delivery) { @registry.read_model!(project).master_plan_progress(delivery.fetch("master_plan")) }
       @observed_progress = {}
+      @observed_master_plan_progress = {}
     rescue ArgumentError => error
       raise Error, error.message
     end
@@ -176,10 +178,74 @@ module Dora
     def observe_progress!(project, handoff_id)
       phase, label = safe_progress_display(project, handoff_id)
       state = [phase, label]
-      return if @observed_progress[handoff_id] == state
+      unless @observed_progress[handoff_id] == state
+        @observed_progress[handoff_id] = state
+        emit(phase == "UNAVAILABLE" ? "Handoff progress is unavailable." : "Handoff phase: #{label}.")
+      end
+      observe_master_plan_progress!(project, handoff_id)
+    end
 
-      @observed_progress[handoff_id] = state
-      emit(phase == "UNAVAILABLE" ? "Handoff progress is unavailable." : "Handoff phase: #{label}.")
+    def observe_master_plan_progress!(project, handoff_id)
+      progress = safe_master_plan_progress(project, handoff_id)
+      return unless progress
+
+      token = progress.fetch("material_change_token")
+      return if @observed_master_plan_progress[handoff_id] == token
+
+      @observed_master_plan_progress[handoff_id] = token
+      master = progress.fetch("master_plan")
+      lines = ["Master Plan: #{master.fetch("title")} (#{master.fetch("id")})"]
+      progress.fetch("items").each do |item|
+        task = item.fetch("task")
+        marker, label = {"verified" => ["x", "verified"], "in_progress" => [">", "current"], "pending" => [" ", "pending"], "blocked" => ["!", "blocked"]}.fetch(item.fetch("status"))
+        lines << "  [#{marker}] #{task.fetch("title")} (#{task.fetch("id")}) — #{label}"
+      end
+      emit(lines.join("\n"))
+    end
+
+    def safe_master_plan_progress(project, handoff_id)
+      readback = @store.status_readback!(project: project, id: handoff_id)
+      delivery = readback["delivery"]
+      return nil unless delivery.is_a?(Hash) && delivery["master_plan"].is_a?(String)
+
+      progress = @master_plan_progress_reader.call(project, handoff_id, delivery)
+      validate_master_plan_progress!(progress)
+    rescue StandardError
+      nil
+    end
+
+    def validate_master_plan_progress!(progress)
+      return nil unless progress.is_a?(Hash) && progress.keys.sort == %w[items master_plan material_change_token]
+      master = progress["master_plan"]
+      items = progress["items"]
+      return nil unless safe_terminal_entry?(master, require_reference: true) && items.is_a?(Array) && !items.empty? && safe_token?(progress["material_change_token"])
+
+      return nil unless items.all? do |item|
+        item.is_a?(Hash) && item.keys.sort == %w[id status task] && safe_identifier?(item["id"]) && %w[verified in_progress pending blocked].include?(item["status"]) && safe_terminal_entry?(item["task"], require_reference: true)
+      end
+
+      progress
+    end
+
+    def safe_terminal_entry?(entry, require_reference:)
+      expected_keys = require_reference ? %w[id reference title] : %w[id title]
+      entry.is_a?(Hash) && entry.keys.sort == expected_keys && safe_identifier?(entry["id"]) && safe_terminal_text?(entry["title"]) && (!require_reference || safe_relative_path?(entry["reference"]))
+    end
+
+    def safe_identifier?(value)
+      value.is_a?(String) && value.match?(/\A[a-z][a-z0-9-]*\z/)
+    end
+
+    def safe_terminal_text?(value)
+      value.is_a?(String) && value.length.between?(1, 200) && value.match?(/\A[^\r\n\x00-\x1f\x7f]+\z/)
+    end
+
+    def safe_token?(value)
+      value.is_a?(String) && value.match?(/\A[0-9a-f]{64}\z/)
+    end
+
+    def safe_relative_path?(value)
+      value.is_a?(String) && !value.empty? && !value.start_with?("/") && !value.split("/").include?("..")
     end
 
     def safe_progress_display(project, handoff_id)

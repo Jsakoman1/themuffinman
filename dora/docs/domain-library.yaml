@@ -51,6 +51,8 @@ invariants:
   description: Duplicate, stale, interrupted, non-zero, ambiguous, or private-state-failed runner execution never retries or reclaims CLAIMED work; it stops with structured Dora state or owner recovery required. A child launch failure retains only an allowlisted code, optional exit code, and fixed recovery hint; fixed wrapper codes distinguish launcher preflight from Codex execution without retaining child streams.
 - id: local-runner-terminal-observation
   description: The owner-local runner terminal observes only the existing V3.2 fixed lifecycle/progress projection. It emits one readiness message, deduplicates unchanged idle and phase state, maps invalid or unavailable readback to one fixed unavailable message, and never prints child output, feedback prose, tokens, paths, commands, environment values, or secrets.
+- id: local-runner-master-plan-progress
+  description: A linked owner-local handoff may display only a read-time canonical Master Plan projection containing curated plan/task identifiers and titles with verified, current, pending, or blocked markers. A verified marker requires both inventory verification and passing Dora task evidence; missing, malformed, or inconsistent canonical state renders no checklist.
 - id: assistant-readback-provenance
   description: Assistant-facing context and completion awareness are derived from cited Dora artifacts and existing sanitized handoff readback; scheduled checking does not imply real-time push.
 - id: intent-plan-canonical-precedence

@@ -1,0 +1,128 @@
+kind: work
+version: 1
+id: dora-bridge-v3-4-master-plan-progress
+title: Render canonical Master Plan progress in the local runner
+status: verified
+baseline: 93bc55bf291788fc05033764808af042b995ef42
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-4-master-plan-progress-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-3-quiet-terminal-progress.yaml
+  - docs/work/chatgpt-intent-plan-alignment-master.yaml
+  baseline_only_surfaces:
+  - Existing V2/V2.2 handoff lifecycle and evidence-gated completion.
+  - Existing owner-local runner selection, quiet idle behavior, and fixed phase output.
+  residual_scope:
+  - Safe terminal rendering of one linked canonical Master Plan progress projection.
+  retest_triggers:
+  - Any project read model, evidence state, runner progress observation, or terminal
+    rendering change.
+  non_duplication_rule: The projection is derived from canonical Master Plan, inventory,
+    work-task, and evidence files at read time; no runner-side plan status is persisted
+    or inferred.
+tasks:
+- id: render-canonical-master-plan-progress
+  title: Add safe canonical Master Plan progress projection and terminal rendering
+  type: security-feature
+  status: done
+  inventory_item: v3-4-master-plan-progress
+  observable_outcome: A claimed handoff linked to one valid canonical Master Plan
+    renders a compact ordered checklist from its inventory and task evidence, while
+    standalone or invalid links retain the existing concise runner output without
+    exposing arbitrary data.
+  dependencies: []
+  paths:
+  - lib/dora/project_read_model.rb
+  - lib/dora/handoff_runner.rb
+  - test/project_read_model_test.rb
+  - bridge/test/handoff_runner_test.rb
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/project-memory.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  required_paths:
+  - lib/dora/project_read_model.rb
+  - lib/dora/handoff_runner.rb
+  - test/project_read_model_test.rb
+  - bridge/test/handoff_runner_test.rb
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/project-memory.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  validation: ruby test/project_read_model_test.rb && ruby bridge/test/handoff_runner_test.rb
+    && ruby test/handoff_cli_test.rb && ruby test/handoff_test.rb && ruby bridge/test/structured_handoff_e2e_test.rb
+    && bin/dora doctor .dora/project.yaml
+  evidence_boundary:
+  - A canonical multi-item Master Plan exposes only safe title, identifier, ordered
+    task title/identifier, canonical status marker, and allowed relative reference.
+  - Verified rendering requires both canonical inventory verification and passing
+    Dora task evidence; terminal phases and timestamps never establish completion.
+  - A standalone handoff, invalid/missing delivery link, malformed inventory, or unsafe
+    text produces no checklist and leaks no arbitrary value.
+  - Existing quiet idle, fixed lifecycle phase, completion, and failure output stays
+    unchanged outside the additive checklist.
+  started_at: '2026-08-10T08:38:41Z'
+  start_fingerprints:
+    lib/dora/project_read_model.rb: e7777a93d3f4f2e849dd251a15400028cef4cb1ec3d1d3b9b593dce2c5cfba43
+    lib/dora/handoff_runner.rb: e9de316f6981e387c1a842f6149ddc5ea7a65aad28b903535dc3c09d6a54720a
+    test/project_read_model_test.rb: 547675c135f6355c2b71602be0e149294565957a87338fb339c200174b00acf9
+    bridge/test/handoff_runner_test.rb: f83f58d0ed4d9c3bba17f76b7395337ab2ee4c4dbdbadba45c02d4006709d3d4
+    docs/product-brief.yaml: e581ab71b97c920747f40ddd714e56f8bca3655e38245fcb93ba4e5d8ed74b04
+    docs/domain-library.yaml: 8d9a263894533506f0fb1d2441b84e39a439db143a1339f2375a776a4fbbd6dd
+    docs/project-memory.yaml: ca298dda54cf0867e29ed0a8f319fa8495990449cd6130850bc0571cf34ddf00
+    docs/dora-bridge-v2-structured-handoff.md: 3d5f9939be4b694045a347e5c5fe1d2e651ec16be315983903e732cd43db8680
+evidence:
+- task: render-canonical-master-plan-progress
+  command: ruby test/project_read_model_test.rb && ruby bridge/test/handoff_runner_test.rb
+    && ruby test/handoff_cli_test.rb && ruby test/handoff_test.rb && ruby bridge/test/structured_handoff_e2e_test.rb
+    && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-10T08:47:18Z'
+  revision: 93bc55bf291788fc05033764808af042b995ef42
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - bridge/test/handoff_runner_test.rb
+  - docs/domain-library.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  - docs/product-brief.yaml
+  - docs/project-memory.yaml
+  - lib/dora/handoff_runner.rb
+  - lib/dora/project_read_model.rb
+  - test/project_read_model_test.rb
+  output: |+
+    PASSED project-root: declared project root exists
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  requiredPaths: &1
+  - lib/dora/project_read_model.rb
+  - lib/dora/handoff_runner.rb
+  - test/project_read_model_test.rb
+  - bridge/test/handoff_runner_test.rb
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - docs/project-memory.yaml
+  - docs/dora-bridge-v2-structured-handoff.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-10T08:38:41Z'
+  changedAfterStart: *1

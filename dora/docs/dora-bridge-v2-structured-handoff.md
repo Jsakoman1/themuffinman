@@ -159,11 +159,17 @@ launch agent, ChatGPT process control, or terminal-output retention.
 The owner terminal prints one concise readiness message and then remains quiet when no
 eligible READY handoff exists. For claimed work it prints only one detected/claimed
 message, each changed fixed V3.2 phase (`Start`, `Analysis`, `Implementation`,
-`Verification`, `Blocked`, or `Complete`), and a fixed terminal outcome. It polls the
-existing lifecycle/progress readback at the configured local cadence while the child runs,
-deduplicates unchanged state, and maps invalid or unavailable readback to one fixed
-unavailable message. It never relays or retains child output, feedback prose, tokens,
-paths, commands, environment values, or secrets. The runner opens the child with stdin
+`Verification`, `Blocked`, or `Complete`), and a fixed terminal outcome. When the
+handoff has a valid delivery link to one canonical Master Plan, it may additionally
+print a deduplicated ordered checklist of that plan's curated title/identifier and task
+title/identifier with `verified`, `current`, `pending`, or `blocked` markers. The
+checklist is a read-time projection of the canonical Master Plan, execution inventory,
+work task, and passing task evidence: lifecycle phase, timestamp, and terminal text
+never establish verification. A standalone, missing, malformed, or inconsistent link
+prints no checklist. It polls the existing lifecycle/progress readback at the configured
+local cadence while the child runs, deduplicates unchanged state, and maps invalid or
+unavailable readback to one fixed unavailable message. It never relays or retains child
+output, feedback prose, tokens, paths, commands, environment values, or secrets. The runner opens the child with stdin
 and both output streams connected to the null device. When a launched child exits without a Dora terminal outcome, the existing
 handoff `blocked` readback receives a fixed `runner_failure` object containing only an
 allowlisted failure `code`, the wrapper `exit_code` when available, and a fixed

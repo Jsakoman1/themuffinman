@@ -1,0 +1,32 @@
+kind: master
+version: 1
+id: dora-bridge-v3-4-master-plan-progress
+title: Render canonical Master Plan progress in the local runner
+status: verified
+baseline: 93bc55bf291788fc05033764808af042b995ef42
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-bridge-v3-4-master-plan-progress-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-bridge-v3-3-quiet-terminal-progress.yaml
+  - docs/work/chatgpt-intent-plan-alignment-master.yaml
+  baseline_only_surfaces:
+  - Existing V2/V2.2 handoff lifecycle, V3 runner authority, and V3.3 phase output.
+  - Canonical plan, task, inventory, and evidence ownership in Dora work artifacts.
+  residual_scope:
+  - One read-only, fail-closed Master Plan progress projection for the owner-local
+    runner terminal.
+  retest_triggers:
+  - Any runner terminal rendering, handoff delivery link, project read model, work
+    inventory, task evidence, or safe terminal-output contract change.
+  non_duplication_rule: The runner observes a newly derived canonical projection and
+    retains no plan state, completion inference, or terminal transcript.
+children:
+- docs/work/dora-bridge-v3-4-master-plan-progress.yaml
+evidence:
+- verifiedAt: '2026-08-10T08:48:17Z'
+  revision: 93bc55bf291788fc05033764808af042b995ef42
+  children:
+  - docs/work/dora-bridge-v3-4-master-plan-progress.yaml

@@ -18,7 +18,7 @@ def registry(root)
   path
 end
 
-def launcher(root, exit_code: 0, output: nil, complete: false, state_root: nil, stdin_probe: nil, environment_probe: nil, feedback_phases: [], feedback_pause: 0)
+def launcher(root, exit_code: 0, output: nil, complete: false, state_root: nil, stdin_probe: nil, environment_probe: nil, feedback_phases: [], feedback_pause: 0, delivery: nil)
   path = File.join(root, "fixed-launcher-#{exit_code}-#{complete ? "complete" : "terminal"}-#{SecureRandom.hex(4)}")
   body = [
     "abort unless ARGV.length == 2 && ARGV.first == '--dora-preclaimed-handoff' && ARGV[1] =~ /\\Ahandoff-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\z/",
@@ -27,6 +27,14 @@ def launcher(root, exit_code: 0, output: nil, complete: false, state_root: nil, 
     ("puts #{output.inspect}" if output),
     ("puts ENV.fetch(#{environment_probe.inspect})" if environment_probe)
   ].compact
+  if delivery
+    body.concat([
+      "require #{File.join(ROOT, "lib/dora/handoff").inspect}",
+      "store = Dora::Handoff.new(state_root: #{state_root.inspect})",
+      "handoff = store.get!(id: ARGV.fetch(1))",
+      "store.link_delivery!(id: ARGV.fetch(1), project: handoff.fetch('project'), master_plan: #{delivery.fetch("master_plan").inspect}, work_plan: #{delivery["work_plan"].inspect})"
+    ])
+  end
   unless feedback_phases.empty?
     body.concat([
       "require #{File.join(ROOT, "lib/dora/handoff").inspect}",
@@ -46,10 +54,10 @@ def launcher(root, exit_code: 0, output: nil, complete: false, state_root: nil, 
       "require #{File.join(ROOT, "lib/dora/handoff").inspect}",
       "store = Dora::Handoff.new(state_root: #{state_root.inspect})",
       "handoff = store.get!(id: ARGV.fetch(1))",
-      "project = handoff.fetch('project')",
-      "store.link_delivery!(id: ARGV.fetch(1), project: project, master_plan: 'docs/work/synthetic-master.yaml')",
-      "store.complete!(id: ARGV.fetch(1), project: project, verification_references: ['docs/work/synthetic.yaml#verify'])"
+      "project = handoff.fetch('project')"
     ])
+    body << "store.link_delivery!(id: ARGV.fetch(1), project: project, master_plan: 'docs/work/synthetic-master.yaml')" unless delivery
+    body << "store.complete!(id: ARGV.fetch(1), project: project, verification_references: ['docs/work/synthetic.yaml#verify'])"
   end
   body << "exit #{exit_code}"
   File.write(path, "#!/usr/bin/env ruby\n#{body.join("\n")}\n")
@@ -124,6 +132,24 @@ Dir.mktmpdir("dora-handoff-runner") do |root|
   %w[Start Analysis Implementation Complete].each do |label|
     abort "runner did not emit exactly one #{label} phase transition" unless progress_output.string.scan("Handoff phase: #{label}.").length == 1
   end
+
+  canonical = store.create!(project: "dora", title: "Canonical progress", objective: "show Master Plan progress", acceptance_criteria: [], constraints: [], references: [], created_by: "chatgpt", client_request_id: "canonical-master-progress")
+  canonical_output = StringIO.new
+  canonical_reader_calls = 0
+  canonical_projection = {"master_plan" => {"id" => "canonical-master", "title" => "Canonical Master Plan", "reference" => "docs/work/canonical-master.yaml"}, "items" => [{"id" => "verified-step", "status" => "verified", "task" => {"id" => "verified-task", "title" => "Verified task", "reference" => "docs/work/verified.yaml"}}, {"id" => "current-step", "status" => "in_progress", "task" => {"id" => "current-task", "title" => "Current task", "reference" => "docs/work/current.yaml"}}, {"id" => "pending-step", "status" => "pending", "task" => {"id" => "pending-task", "title" => "Pending task", "reference" => "docs/work/pending.yaml"}}, {"id" => "blocked-step", "status" => "blocked", "task" => {"id" => "blocked-task", "title" => "Blocked task", "reference" => "docs/work/blocked.yaml"}}], "material_change_token" => "a" * 64}
+  canonical_runner = Dora::HandoffRunner.new(registry_path: registry_path, state_root: state_root, projects: ["dora"], launcher: launcher(root, complete: true, state_root: state_root, feedback_phases: ["IMPLEMENTING"], feedback_pause: 0.05, delivery: {"master_plan" => "docs/work/canonical-master.yaml", "work_plan" => "docs/work/current.yaml"}), now: -> { clock }, sleeper: ->(_seconds) { sleep(0.02) }, output: canonical_output, master_plan_progress_reader: ->(_project, _handoff_id, _delivery) { canonical_reader_calls += 1; canonical_projection })
+  canonical_result = canonical_runner.run_once
+  abort "canonical Master Plan progress changed runner completion" unless canonical_result.fetch("status") == "COMPLETED" && store.get!(id: canonical.fetch("id"), project: "dora").fetch("status") == "COMPLETED"
+  abort "runner did not render the canonical Master Plan checklist" unless canonical_reader_calls.positive? && canonical_output.string.include?("Master Plan: Canonical Master Plan (canonical-master)") && canonical_output.string.include?("[x] Verified task (verified-task) — verified") && canonical_output.string.include?("[>] Current task (current-task) — current") && canonical_output.string.include?("[ ] Pending task (pending-task) — pending") && canonical_output.string.include?("[!] Blocked task (blocked-task) — blocked")
+  abort "runner printed a canonical progress reference" if canonical_output.string.include?("docs/work/")
+
+  invalid_master = store.create!(project: "dora", title: "Invalid Master Plan progress", objective: "hide invalid Master Plan progress", acceptance_criteria: [], constraints: [], references: [], created_by: "chatgpt", client_request_id: "invalid-master-progress")
+  invalid_master_secret = "DO_NOT_PRINT_INVALID_MASTER_PROGRESS"
+  invalid_master_output = StringIO.new
+  invalid_master_runner = Dora::HandoffRunner.new(registry_path: registry_path, state_root: state_root, projects: ["dora"], launcher: launcher(root, complete: true, state_root: state_root, delivery: {"master_plan" => "docs/work/invalid-master.yaml"}), now: -> { clock }, output: invalid_master_output, master_plan_progress_reader: ->(_project, _handoff_id, _delivery) { {"master_plan" => {"id" => invalid_master_secret}, "items" => [], "material_change_token" => invalid_master_secret} })
+  invalid_master_result = invalid_master_runner.run_once
+  abort "invalid Master Plan progress changed runner completion" unless invalid_master_result.fetch("status") == "COMPLETED" && store.get!(id: invalid_master.fetch("id"), project: "dora").fetch("status") == "COMPLETED"
+  abort "invalid Master Plan progress produced terminal output" if invalid_master_output.string.include?("Master Plan:") || invalid_master_output.string.include?(invalid_master_secret)
 
   invalid = store.create!(project: "dora", title: "Invalid progress", objective: "hide invalid progress", acceptance_criteria: [], constraints: [], references: [], created_by: "chatgpt", client_request_id: "invalid-progress")
   invalid_secret = "DO_NOT_PRINT_INVALID_PROGRESS"
