@@ -11,6 +11,18 @@ ROOT = File.expand_path("..", __dir__)
 RELEASE_DIRECTORIES = %w[.dora bin bridge/lib bridge/templates lib packs starters templates tools].freeze
 RELEASE_FILES = %w[AGENTS.md README.md bridge/bin/dora-bridge-mcp compiled-feature-type-map.yaml stack-catalog.yaml].freeze
 RELEASE_DOCS = %w[docs/product-brief.yaml docs/domain-library.yaml docs/project-memory.yaml docs/decision-log.yaml].freeze
+REPOSITORY_TEST_FILES = %w[
+  test/independent_release_tree_test.rb
+  test/independent_self_contained_consumer_test.rb
+  test/independent_project_read_model_consumer_test.rb
+  test/portable_fixture_test.rb
+  test/project_doctor_test.rb
+  test/project_read_model_test.rb
+].freeze
+REPOSITORY_TEST_FIXTURES = %w[
+  test/fixtures/project-read-model-projects.yaml
+  test/fixtures/self-contained-project-answers.yaml
+].freeze
 FORBIDDEN_PATHS = [
   %r{\A#{%w[apps themuffinman].join("/")}(?:/|\z)},
   %r{(?:\A|/)#{%w[node modules].join("_")}(?:/|\z)},
@@ -55,6 +67,19 @@ def materialize_release_tree!(source, release)
     copy_path(path, File.join(release, path.delete_prefix("#{source}/")))
   end
   %w[docs/audit-output/.gitkeep docs/runtime-evidence/.gitkeep].each { |relative| copy_path(File.join(source, relative), File.join(release, relative)) }
+end
+
+def materialize_independent_repository!(source, target)
+  abort "independent Dora repository target already exists: #{target}" if File.exist?(target)
+
+  materialize_release_tree!(source, target)
+  REPOSITORY_TEST_FILES.each { |relative| copy_path(File.join(source, relative), File.join(target, relative)) }
+  REPOSITORY_TEST_FIXTURES.each { |relative| copy_path(File.join(source, relative), File.join(target, relative)) }
+  copied_tests = Dir.glob(File.join(target, "test", "**", "*"), File::FNM_DOTMATCH).select { |path| File.file?(path) }.map { |path| path.delete_prefix("#{target}/") }.sort
+  expected_tests = (REPOSITORY_TEST_FILES + REPOSITORY_TEST_FIXTURES).sort
+  abort "independent Dora repository test surface is not curated" unless copied_tests == expected_tests
+  run!(target, "git", "init", "--quiet")
+  abort "independent Dora repository is not its own Git repository" unless File.directory?(File.join(target, ".git"))
 end
 
 def assert_release_boundary!(release)
@@ -113,6 +138,11 @@ Dir.mktmpdir("dora-independent-release-tree") do |sandbox|
   ensure
     traps.each { |path| FileUtils.chmod(0o700, path) if File.exist?(path) }
   end
+end
+
+if (target = ENV["DORA_MATERIALIZE_TARGET"])
+  materialize_independent_repository!(ROOT, File.expand_path(target))
+  run!(target, "ruby", "test/independent_release_tree_test.rb", environment: {"DORA_MATERIALIZE_TARGET" => nil})
 end
 
 puts "Dora independent release tree test passed (isolated Git tree, parent traps, Doctor, ProjectReadModel, and read-only MCP)."

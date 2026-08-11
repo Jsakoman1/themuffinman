@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: dora-materialize-independent-repository
+title: Materialize a standalone Dora source repository from the verified release contract
+status: verified
+baseline: ab33e2befd82fed4cea4c8b40293b86f9c0ae46b
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-materialize-independent-repository-execution-inventory.yaml
+tasks:
+- id: materialize-independent-dora-source
+  title: Create and verify a standalone Dora source repository without repointing
+    its consumer
+  type: extraction-readiness
+  inventory_item: materialize-independent-dora-source
+  observable_outcome: The existing independent release-tree contract can materialize
+    a fresh self-contained Dora Git repository with only neutral Dora tests, and that
+    repository reruns the same isolated release proof.
+  dependencies: []
+  evidence_boundary:
+  - The target is a new copy; the existing MuffinMan-local dora/ directory and all
+    MuffinMan consumer invocation/configuration remain unchanged.
+  - No remote repository, commit, push, deployment, server, database, authentication,
+    consumer source pin, or write-back capability is created.
+  - The runtime release allow-list remains canonical; source-only neutral test files
+    are copied only so the new repository can verify that same contract itself.
+  paths:
+  - test/independent_release_tree_test.rb
+  - test/portable_fixture_test.rb
+  required_paths:
+  - test/independent_release_tree_test.rb
+  validation: ruby test/independent_release_tree_test.rb && ruby test/portable_fixture_test.rb
+    && ruby test/project_doctor_test.rb && ruby test/project_read_model_test.rb &&
+    bin/dora doctor .dora/project.yaml
+  status: done
+  started_at: '2026-08-11T11:46:22Z'
+  start_fingerprints:
+    test/independent_release_tree_test.rb: d75ada89b296276f4a35a36a1203de9c92c7674b21d7cd72171346ace401c7ef
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - bridge/test/mcp_server_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - docs/project-read-model.md
+  - docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  - docs/work/dora-bridge-v3-runner-exec-contract-recovery-execution-inventory.yaml
+  - docs/work/dora-implementation-excellence-master.yaml
+  - docs/work/dora-v3-claimed-handoff-restart-no-replay-execution-inventory.yaml
+  - lib/dora/artifact_policy.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/work_artifact_audit.rb
+  - test/artifact_policy_test.rb
+  - test/current_work_index_test.rb
+  - test/independent_project_read_model_consumer_test.rb
+  - test/java_ast_index_test.rb
+  - test/physical_plugin_extraction_test.rb
+  - test/portable_fixture_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/typescript_vue_ast_index_test.rb
+  - test/work_artifact_audit_test.rb
+evidence:
+- task: materialize-independent-dora-source
+  command: ruby test/independent_release_tree_test.rb && ruby test/portable_fixture_test.rb
+    && ruby test/project_doctor_test.rb && ruby test/project_read_model_test.rb &&
+    bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-11T11:46:39Z'
+  revision: ab33e2befd82fed4cea4c8b40293b86f9c0ae46b
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - test/portable_fixture_test.rb
+  - test/independent_release_tree_test.rb
+  output: |+
+    PASSED project-root: declared project root exists
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    test/independent_release_tree_test.rb: cded068f5df488a19b6b2612d54d3cf17a39b0b7c298294b86083d5c32448c6d
+  requiredPaths: &1
+  - test/independent_release_tree_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-11T11:46:22Z'
+  changedAfterStart: *1
