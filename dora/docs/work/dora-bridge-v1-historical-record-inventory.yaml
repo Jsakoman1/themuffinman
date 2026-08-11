@@ -2,7 +2,7 @@ kind: execution_inventory
 version: 1
 id: dora-bridge-v1-historical-record-execution
 master_plan: docs/work/dora-bridge-v1-historical-record-master.yaml
-state: delivery_verified
+state: verified
 items:
 - id: bridge-v1-provenance
   order: 1

@@ -25,7 +25,7 @@ def create_project(root)
   brief["unanswered_decisions"] = []
   File.write(brief_path, YAML.dump(brief))
   master = {"kind" => "master", "version" => 1, "id" => "delivery", "title" => "Verified delivery", "status" => "verified", "children" => ["docs/work/delivery.yaml"]}
-  plan = {"kind" => "work", "version" => 1, "id" => "delivery-work", "title" => "Delivery work", "status" => "verified", "baseline" => "pending", "tasks" => [{"id" => "verify-delivery", "title" => "Verify delivery", "status" => "done", "observable_outcome" => "A delivery is verified.", "dependencies" => [], "required_paths" => ["docs/delivery.md"], "validation" => "safe-command", "evidence_boundary" => ["fixture"]}], "evidence" => [{"task" => "verify-delivery", "result" => "passed", "ranAt" => "2026-08-09T15:00:00Z", "revision" => "abcdef1", "exitCode" => 0, "output" => "/private/secret/raw-command-output"}]}
+  plan = {"kind" => "work", "version" => 1, "id" => "delivery-work", "title" => "Delivery work", "status" => "verified", "baseline" => "pending", "tasks" => [{"id" => "verify-delivery", "title" => "Verify delivery", "status" => "done", "observable_outcome" => "A delivery is verified.", "dependencies" => [], "paths" => ["docs/delivery.md"], "required_paths" => ["docs/delivery.md"], "validation" => "safe-command", "evidence_boundary" => ["fixture"]}], "evidence" => [{"task" => "verify-delivery", "result" => "passed", "ranAt" => "2026-08-09T15:00:00Z", "revision" => "abcdef1", "exitCode" => 0, "output" => "/private/secret/raw-command-output"}]}
   inventory = {"kind" => "execution_inventory", "version" => 1, "id" => "delivery", "master_plan" => "docs/work/delivery-master.yaml", "state" => "verified", "items" => [{"id" => "delivery-proof", "order" => 1, "plan" => "docs/work/delivery.yaml", "task" => "verify-delivery", "status" => "verified", "verified_at" => "2026-08-09T15:00:00Z"}]}
   write_yaml(root, "docs/work/delivery-master.yaml", master)
   write_yaml(root, "docs/work/delivery.yaml", plan)
@@ -40,6 +40,20 @@ def complete_controls(root)
   File.write(File.join(controls, "documentation-evidence.yaml"), YAML.dump({"kind" => "dora_documentation_evidence", "version" => 1, "claims" => [{"id" => "docs", "match" => "Backlog", "evidence" => ["docs/backlog.md"]}]}))
   File.write(File.join(controls, "system-map.yaml"), YAML.dump({"kind" => "dora_system_map", "version" => 1, "nodes" => [{"id" => "source"}], "edges" => []}))
   File.write(File.join(controls, "backlog.yaml"), YAML.dump({"kind" => "dora_backlog", "version" => 1, "sources" => ["docs/backlog.md"]}))
+end
+
+def enable_work_artifact_audit(root)
+  path = File.join(root, ".dora/controls/artifact-policy.yaml")
+  policy = YAML.load_file(path)
+  policy["work_artifact_audit"] = {"paths" => ["docs/work"]}
+  File.write(path, YAML.dump(policy))
+end
+
+def exclude_non_executable_record(root, path)
+  policy_path = File.join(root, ".dora/controls/artifact-policy.yaml")
+  policy = YAML.load_file(policy_path)
+  policy.fetch("work_artifact_audit")["non_executable_records"] = [{"path" => path, "reason" => "Historical narrative record."}]
+  File.write(policy_path, YAML.dump(policy))
 end
 
 def request(server, id, method, params = nil)
@@ -84,6 +98,14 @@ Dir.mktmpdir("dora-bridge-mcp") do |root|
   abort "summary did not delegate to read model" unless output.fetch("kind") == "dora_project_read_model" && output.dig("delivery", "latest_verified", "id") == "delivery"
   abort "summary lost the explicit no-current-goal result" unless output.fetch("current_goal") == {"state" => "none"} && output.dig("integrity", "status") == "HEALTHY"
   abort "summary leaked a root or raw evidence" if output.to_s.include?(root) || output.to_s.include?("raw-command-output")
+  enable_work_artifact_audit(project_root)
+  File.write(File.join(project_root, "docs/work", "narrative-review.yaml"), "kind: [\n")
+  warning_summary = request(server, 50, "tools/call", {"name" => "get_project_summary", "arguments" => {"project" => "doomsday-storage"}}).dig("result", "structuredContent")
+  abort "Bridge hid a local Dora advisory" unless warning_summary.fetch("state") == "WARNING" && !warning_summary.dig("health", "healthy") && warning_summary.dig("integrity", "signals").any? { |signal| signal["code"] == "doctor_advisory" }
+  exclude_non_executable_record(project_root, "docs/work/narrative-review.yaml")
+  classified_summary = request(server, 501, "tools/call", {"name" => "get_project_summary", "arguments" => {"project" => "doomsday-storage"}}).dig("result", "structuredContent")
+  abort "Bridge treated an explicitly non-executable historical record as work" unless classified_summary.fetch("state") == "HEALTHY" && classified_summary.dig("integrity", "signals").empty?
+  abort "Bridge classification changed retained history" unless File.binread(File.join(project_root, "docs/work/narrative-review.yaml")) == "kind: [\n"
   intent_proposal = {"intent_plan_id" => "bridge-intent", "intended_outcome" => "Safely align one proposal.", "in_scope_work" => ["Evaluate one proposal."], "non_goals" => ["Do not persist an Intent Plan."], "fixed_owner_decisions" => [], "candidate_slices" => [{"id" => "first-slice", "outcome" => "Prepare Dora work.", "depends_on" => [], "gates" => ["no_owner_decision_pending"]}, {"id" => "later-slice", "outcome" => "Wait for verification.", "depends_on" => ["first-slice"], "gates" => ["no_owner_decision_pending", "prior_slice_verification"]}], "required_owner_readback" => %w[phase alignment_result first_safe_next_action actionable_blocker_or_decision]}
   intent_alignment = request(server, 51, "tools/call", {"name" => "align_intent_plan", "arguments" => {"project" => "doomsday-storage", "proposal" => intent_proposal}}).dig("result", "structuredContent")
   abort "intent alignment did not reconcile against verified Dora state" unless intent_alignment.fetch("alignment_result") == "RECONCILED" && intent_alignment.fetch("first_eligible_slice") == {"id" => "first-slice", "status" => "ELIGIBLE"} && intent_alignment.fetch("later_slices") == [{"id" => "later-slice", "status" => "BLOCKED_PENDING_DORA_VERIFICATION"}]

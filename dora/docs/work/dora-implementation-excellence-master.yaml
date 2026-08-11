@@ -102,10 +102,11 @@ derived_output_guardrail:
     read model and include its relevant negative-authority test before verifier closeout.
 owner_follow_up:
   historical_artifact_cleanup:
-    state: advisory_owner_review_required
-    source: docs/implementation-backlog.md#DORA-TRUTH-HYGIENE-002
-    boundary: Historical work-artifact findings remain read-only until an owner explicitly
-      selects named records for repair; this master did not normalize or rewrite them.
+    state: resolved_by_control_state_hygiene
+    source: docs/work/dora-control-state-hygiene.yaml
+    boundary: The named narrative records remain at their evidence-referenced paths but
+      are explicitly non-executable; only three objectively terminal inventory state
+      fields were reconciled, without rewriting evidence or inferring verification.
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
   reused_verified_plans:

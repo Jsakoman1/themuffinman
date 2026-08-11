@@ -2,7 +2,7 @@ kind: execution_inventory
 version: 1
 id: dora-v3-claimed-handoff-restart-no-replay-execution
 master_plan: docs/work/dora-v3-claimed-handoff-restart-no-replay-regression.yaml
-state: active
+state: verified
 items:
 - id: claimed-handoff-restart-no-replay
   order: 1

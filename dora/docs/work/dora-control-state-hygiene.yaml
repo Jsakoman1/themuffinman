@@ -1,0 +1,142 @@
+kind: work
+version: 1
+id: dora-control-state-hygiene
+title: Reconcile Dora's retained work-artifact control state
+status: verified
+baseline: ab33e2befd82fed4cea4c8b40293b86f9c0ae46b
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-control-state-hygiene-execution-inventory.yaml
+tasks:
+- id: classify-retained-narratives-and-terminal-inventories
+  title: Preserve historical records while removing their control-state ambiguity
+  type: control-state-hygiene
+  inventory_item: reconcile-control-state
+  observable_outcome: Dora's explicit artifact policy distinguishes the six retained
+    non-executable historical records from executable work artifacts, and the three
+    evidence-backed terminal inventories use canonical verified state without altering
+    historical evidence.
+  dependencies: []
+  evidence_boundary:
+  - Only the named artifact-policy classification and named inventory state fields
+    may change.
+  - Historical narrative content, work-plan evidence, handoff lifecycle, ProjectMemory,
+    DecisionLog, Bridge capability, and consumer state remain unchanged.
+  paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - docs/work/dora-control-state-hygiene-execution-inventory.yaml
+  - lib/dora/artifact_policy.rb
+  - lib/dora/work_artifact_audit.rb
+  - lib/dora/project_doctor.rb
+  - docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  - docs/work/dora-bridge-v3-runner-exec-contract-recovery-execution-inventory.yaml
+  - docs/work/dora-v3-claimed-handoff-restart-no-replay-execution-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/work/dora-implementation-excellence-master.yaml
+  - docs/control-state-hygiene.md
+  - test/artifact_policy_test.rb
+  - test/work_artifact_audit_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - bridge/test/mcp_server_test.rb
+  required_paths:
+  - docs/control-state-hygiene.md
+  validation: ruby test/artifact_policy_test.rb && ruby test/work_artifact_audit_test.rb
+    && ruby test/project_doctor_test.rb && ruby test/project_read_model_test.rb &&
+    ruby bridge/test/mcp_server_test.rb && bin/dora doctor .dora/project.yaml
+  status: done
+  started_at: '2026-08-11T11:07:05Z'
+  start_fingerprints:
+    ".dora/controls/artifact-policy.yaml": 4f2dc33bdb2b068d12bb2ec7341bb47fb548a056d1c1aec03b7d962731dc80a9
+    docs/work/dora-control-state-hygiene-execution-inventory.yaml: 540454e390a50dcc45cd42146ff93d818222f4c23997af9c39b9012fd44bc189
+    lib/dora/artifact_policy.rb: b9cf3311add24556d9a2419360b2b439b66818b7821d060b449723988a92c445
+    lib/dora/work_artifact_audit.rb: ae3ef31d02435ed2ccdfed52ed349459875fdea2ad570eaed3369d3911d3e9bf
+    lib/dora/project_doctor.rb: 4dccc4d2c1e1b1ddf85401885df5cfb0cead78f8fa4e75301157724151af8e51
+    docs/work/dora-bridge-v1-historical-record-inventory.yaml: b95db6b730bd5b036946b351d885381db8e4e249b7b588b901426abd176c47a3
+    docs/work/dora-bridge-v3-runner-exec-contract-recovery-execution-inventory.yaml: 6f638d2693a8d0824f1056104f4ba12b659d81d82005e9649c80647813b683a6
+    docs/work/dora-v3-claimed-handoff-restart-no-replay-execution-inventory.yaml: 463960d4acaeffd11ffb886154550466f37e9cc14f0b84befcbe25bbf5e229b0
+    test/artifact_policy_test.rb: 66357dd0efc1ceb1a432afcfbc17713c6e7cbea7597fc841f2d881ed60995be2
+    test/work_artifact_audit_test.rb: e80bb8dd960a4daf360b0c4eb990be6bee45ee67eb3361801c61ccdf230677c9
+    test/project_doctor_test.rb: ca8979f0407cfee6f194c6d87f99961aca1a267b7be85101ba3021b1935f70b5
+    test/project_read_model_test.rb: 00aaaf60e13a215b7c855c9bc06e71b66d619eb7d9c50150bd4a5dc7cb2cbf78
+    bridge/test/mcp_server_test.rb: fb2ac4f75c6e1a28a938f8630fa6ada752791c7499cc06690eac10e746ec4efb
+  start_workspace_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - bridge/test/mcp_server_test.rb
+  - docs/domain-library.yaml
+  - docs/implementation-backlog.md
+  - docs/project-read-model.md
+  - docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  - docs/work/dora-bridge-v3-runner-exec-contract-recovery-execution-inventory.yaml
+  - docs/work/dora-implementation-excellence-master.yaml
+  - docs/work/dora-v3-claimed-handoff-restart-no-replay-execution-inventory.yaml
+  - lib/dora/artifact_policy.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/project_read_model.rb
+  - lib/dora/work_artifact_audit.rb
+  - test/artifact_policy_test.rb
+  - test/current_work_index_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/work_artifact_audit_test.rb
+evidence:
+- task: classify-retained-narratives-and-terminal-inventories
+  command: ruby test/artifact_policy_test.rb && ruby test/work_artifact_audit_test.rb
+    && ruby test/project_doctor_test.rb && ruby test/project_read_model_test.rb &&
+    ruby bridge/test/mcp_server_test.rb && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-11T11:07:50Z'
+  revision: ab33e2befd82fed4cea4c8b40293b86f9c0ae46b
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - ".dora/controls/artifact-policy.yaml"
+  - bridge/test/mcp_server_test.rb
+  - docs/implementation-backlog.md
+  - docs/work/dora-bridge-v1-historical-record-inventory.yaml
+  - docs/work/dora-bridge-v3-runner-exec-contract-recovery-execution-inventory.yaml
+  - docs/work/dora-implementation-excellence-master.yaml
+  - docs/work/dora-v3-claimed-handoff-restart-no-replay-execution-inventory.yaml
+  - lib/dora/artifact_policy.rb
+  - lib/dora/project_doctor.rb
+  - lib/dora/work_artifact_audit.rb
+  - test/artifact_policy_test.rb
+  - test/project_doctor_test.rb
+  - test/project_read_model_test.rb
+  - test/work_artifact_audit_test.rb
+  - docs/control-state-hygiene.md
+  - docs/work/dora-control-state-hygiene-execution-inventory.yaml
+  output: |+
+    PASSED project-root: declared project root exists
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/control-state-hygiene.md: c4b5828afa5aa7f5505d504529397704616b67653cac72cbece335073ce5cd79
+  requiredPaths: &1
+  - docs/control-state-hygiene.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-11T11:07:05Z'
+  changedAfterStart: *1

@@ -35,6 +35,13 @@ def enable_work_artifact_audit(root)
   File.write(policy_path, YAML.dump(policy))
 end
 
+def exclude_non_executable_record(root, path)
+  policy_path = File.join(root, ".dora/controls/artifact-policy.yaml")
+  policy = YAML.load_file(policy_path)
+  policy.fetch("work_artifact_audit")["non_executable_records"] = [{"path" => path, "reason" => "Historical narrative record."}]
+  File.write(policy_path, YAML.dump(policy))
+end
+
 Dir.mktmpdir("dora-doctor") do |sandbox|
   healthy_root = File.join(sandbox, "healthy")
   Dora::ProjectInitializer.initialize!(healthy_root, project_id: "healthy-project", manifest_path: INIT_MANIFEST)
@@ -86,6 +93,14 @@ Dir.mktmpdir("dora-doctor") do |sandbox|
   abort "advisory provenance is incomplete" unless advisory.fetch("read_only") && advisory.fetch("disposition") == "advisory" && advisory.fetch("source_references") == ["docs/work/verified-work.yaml", "docs/work/inventory.yaml", "docs/work/master.yaml"] && !advisory.fetch("observed_at").empty?
   abort "advisory changed artifact state" unless before.all? { |path, content| File.binread(path) == content }
   abort "advisory made the project unhealthy" unless audited.fetch("healthy")
+
+  historical_path = File.join(work_root, "historical-review.yaml")
+  File.write(historical_path, "kind: [\n")
+  exclude_non_executable_record(audited_root, "docs/work/historical-review.yaml")
+  classified = report_for(File.join(audited_root, ".dora/project.yaml"))
+  historical_advisory = classified.fetch("checks").find { |check| check.fetch("id").include?("historical-review.yaml") }
+  abort "explicit non-executable historical record remained an advisory" if historical_advisory
+  abort "historical record was changed by classification" unless File.binread(historical_path) == "kind: [\n"
 
   master["status"] = "active"
   File.write(master_path, YAML.dump(master))

@@ -260,7 +260,8 @@ module Dora
       Array(health["checks"]).each do |check|
         next unless check.is_a?(Hash) && check["status"] == "advisory" && statement?(check["id"])
 
-        inconsistencies << issue("WARNING", "doctor_advisory", check.fetch("detail").to_s.empty? ? "local Dora advisory requires review" : check.fetch("detail"), Array(check["source_references"]), classification: "warning")
+        code = check.fetch("id").start_with?("work-artifact:verified-work-active-inventory:") ? "control_state_conflict" : "doctor_advisory"
+        inconsistencies << issue("WARNING", code, check.fetch("detail").to_s.empty? ? "local Dora advisory requires review" : check.fetch("detail"), Array(check["source_references"]), classification: code == "control_state_conflict" ? "conflict" : "warning")
       end
     end
 
@@ -569,6 +570,8 @@ module Dora
     def integrity_classification(item)
       return "stale" if item["code"] == "project_memory" && item["message"].to_s.include?("stale")
       return "ambiguous" if %w[active_delivery latest_verified_delivery].include?(item["code"])
+      return "conflict" if item["code"] == "control_state_conflict"
+
       item["severity"] == "INVALID" ? "invalid" : "warning"
     end
 

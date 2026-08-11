@@ -2,7 +2,7 @@ kind: execution_inventory
 version: 1
 id: dora-bridge-v3-runner-exec-contract-recovery-execution
 master_plan: docs/work/dora-bridge-v3-runner-exec-contract-recovery.yaml
-state: active
+state: verified
 items:
 - id: v3-runner-exec-contract-recovery
   order: 1

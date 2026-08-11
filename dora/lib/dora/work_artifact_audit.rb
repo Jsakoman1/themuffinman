@@ -12,10 +12,10 @@ module Dora
     RESULT_KIND = "dora_work_artifact_audit"
     CLASSIFICATIONS = %w[valid invalid_yaml unsupported_kind structurally_invalid].freeze
 
-    def self.inspect!(project_root:, paths:, schema_path:, observed_at: Time.now.utc)
+    def self.inspect!(project_root:, paths:, schema_path:, non_executable_paths: [], observed_at: Time.now.utc)
       root = File.realpath(project_root)
       timestamp = observed_at.utc.iso8601
-      files = artifact_files!(root: root, paths: paths)
+      files = artifact_files!(root: root, paths: paths, non_executable_paths: non_executable_paths)
       findings = files.map { |path| classify(path: path, root: root, schema_path: schema_path, observed_at: timestamp) }
 
       {
@@ -28,9 +28,18 @@ module Dora
       }.freeze
     end
 
-    def self.artifact_files!(root:, paths:)
+    def self.artifact_files!(root:, paths:, non_executable_paths:)
       declared = Array(paths)
       raise ArgumentError, "work artifact audit paths must be a non-empty list" if declared.empty?
+
+      excluded = Array(non_executable_paths).map do |relative|
+        raise ArgumentError, "non-executable work record path must be project-relative" unless relative.is_a?(String) && !relative.empty? && !relative.start_with?("/") && !relative.split("/").include?("..")
+
+        absolute = File.expand_path(relative, root)
+        raise ArgumentError, "non-executable work record path resolves outside project root" unless absolute == root || absolute.start_with?("#{root}/")
+
+        absolute
+      end
 
       declared.flat_map do |relative|
         raise ArgumentError, "work artifact audit path must be project-relative" unless relative.is_a?(String) && !relative.empty? && !relative.start_with?("/") && !relative.split("/").include?("..")
@@ -45,7 +54,7 @@ module Dora
         else
           []
         end
-      end.uniq.sort
+      end.uniq.sort.reject { |path| excluded.include?(path) }
     end
     private_class_method :artifact_files!
 

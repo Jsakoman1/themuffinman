@@ -112,11 +112,11 @@ module Dora
 
     def self.check_work_artifacts(adapter_path, project_root, checks)
       policy_path = File.join(File.dirname(File.expand_path(adapter_path)), "controls", "artifact-policy.yaml")
-      paths = ArtifactPolicy.work_artifact_audit_paths!(policy_path)
-      return if paths.empty?
+      audit_config = ArtifactPolicy.work_artifact_audit_config!(policy_path)
+      return if audit_config.fetch("paths").empty?
 
       schema_path = File.expand_path("../../templates/work-artifact-schema.yaml", __dir__)
-      report = WorkArtifactAudit.inspect!(project_root: project_root, paths: paths, schema_path: schema_path)
+      report = WorkArtifactAudit.inspect!(project_root: project_root, paths: audit_config.fetch("paths"), non_executable_paths: audit_config.fetch("non_executable_paths"), schema_path: schema_path)
       report.fetch("findings").reject { |finding| finding.fetch("classification") == "valid" }.each do |finding|
         checks << advisory("work-artifact:#{finding.fetch("classification")}:#{finding.fetch("source_reference")}", "work artifact is #{finding.fetch("classification")}", references: [finding.fetch("source_reference")], observed_at: finding.fetch("observed_at"))
       end

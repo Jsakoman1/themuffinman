@@ -28,7 +28,7 @@ def write_project(root, invalid_memory: false, stale_memory: false, ambiguous: f
   write_yaml(root, "docs/project-memory.yaml", memory)
   write_yaml(root, "docs/decision-log.yaml", {"kind" => "dora_decision_log", "version" => 1, "entries" => [{"id" => "retention-choice", "decision" => "Choose a retention policy.", "status" => "proposed", "domain_references" => ["docs/domain-library.yaml"], "plan_references" => [FIXTURE.fetch("latest_master"), "docs/work/delivery.yaml"], "evidence_references" => ["docs/product-brief.yaml"]}]})
   master = {"kind" => "master", "version" => 1, "id" => "delivery", "title" => "Verified delivery", "status" => "verified", "children" => ["docs/work/delivery.yaml"]}
-  plan = {"kind" => "work", "version" => 1, "id" => "delivery-work", "title" => "Delivery work", "status" => "verified", "baseline" => "pending", "tasks" => [{"id" => FIXTURE.fetch("latest_task"), "title" => "Verify delivery", "status" => "done", "observable_outcome" => "A safe delivery is verified.", "dependencies" => [], "required_paths" => ["docs/delivery.md"], "validation" => "secret-command --token hidden", "evidence_boundary" => ["fixture"]}], "evidence" => [{"task" => FIXTURE.fetch("latest_task"), "result" => "passed", "ranAt" => FIXTURE.fetch("latest_verified_at"), "revision" => "abcdef1", "exitCode" => 0, "output" => FIXTURE.fetch("raw_output"), "runtimeEvidencePaths" => ["docs/runtime-evidence/delivery.json", "../../.env"], "visualEvidencePaths" => ["docs/runtime-evidence/delivery.png"]}]}
+  plan = {"kind" => "work", "version" => 1, "id" => "delivery-work", "title" => "Delivery work", "status" => "verified", "baseline" => "pending", "tasks" => [{"id" => FIXTURE.fetch("latest_task"), "title" => "Verify delivery", "status" => "done", "observable_outcome" => "A safe delivery is verified.", "dependencies" => [], "paths" => ["docs/delivery.md"], "required_paths" => ["docs/delivery.md"], "validation" => "secret-command --token hidden", "evidence_boundary" => ["fixture"]}], "evidence" => [{"task" => FIXTURE.fetch("latest_task"), "result" => "passed", "ranAt" => FIXTURE.fetch("latest_verified_at"), "revision" => "abcdef1", "exitCode" => 0, "output" => FIXTURE.fetch("raw_output"), "runtimeEvidencePaths" => ["docs/runtime-evidence/delivery.json", "../../.env"], "visualEvidencePaths" => ["docs/runtime-evidence/delivery.png"]}]}
   inventory = {
     "kind" => "execution_inventory", "version" => 1, "id" => "delivery", "master_plan" => FIXTURE.fetch("latest_master"), "state" => "verified",
     "items" => [{"id" => "delivery-proof", "order" => 1, "plan" => "docs/work/delivery.yaml", "task" => FIXTURE.fetch("latest_task"), "status" => "verified", "verified_at" => FIXTURE.fetch("latest_verified_at")}]
@@ -65,6 +65,20 @@ def complete_controls(root)
   File.write(File.join(controls, "documentation-evidence.yaml"), YAML.dump({"kind" => "dora_documentation_evidence", "version" => 1, "claims" => [{"id" => "docs", "match" => "Backlog", "evidence" => ["docs/backlog.md"]}]}))
   File.write(File.join(controls, "system-map.yaml"), YAML.dump({"kind" => "dora_system_map", "version" => 1, "nodes" => [{"id" => "source"}], "edges" => []}))
   File.write(File.join(controls, "backlog.yaml"), YAML.dump({"kind" => "dora_backlog", "version" => 1, "sources" => ["docs/backlog.md"]}))
+end
+
+def enable_work_artifact_audit(root)
+  policy_path = File.join(root, ".dora/controls/artifact-policy.yaml")
+  policy = YAML.load_file(policy_path)
+  policy["work_artifact_audit"] = {"paths" => ["docs/work"]}
+  File.write(policy_path, YAML.dump(policy))
+end
+
+def exclude_non_executable_record(root, path)
+  policy_path = File.join(root, ".dora/controls/artifact-policy.yaml")
+  policy = YAML.load_file(policy_path)
+  policy.fetch("work_artifact_audit")["non_executable_records"] = [{"path" => path, "reason" => "Historical narrative record."}]
+  File.write(policy_path, YAML.dump(policy))
 end
 
 Dir.mktmpdir("dora-project-read-model-clean") do |root|
@@ -169,6 +183,33 @@ Dir.mktmpdir("dora-project-read-model-control-reconciled") do |root|
   write_yaml(root, "docs/work/control-reconciliation-inventory.yaml", inventory)
   summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
   abort "control reconciliation replaced latest verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
+end
+
+Dir.mktmpdir("dora-project-read-model-doctor-warning") do |root|
+  write_project(root)
+  complete_controls(root)
+  enable_work_artifact_audit(root)
+  work = YAML.load_file(File.join(root, "docs/work/delivery.yaml"))
+  work["execution_inventory"] = "docs/work/warning-inventory.yaml"
+  work["tasks"] = work.fetch("tasks").map { |task| task.merge("paths" => task.fetch("required_paths")) }
+  write_yaml(root, "docs/work/warning-work.yaml", work.merge("id" => "warning-work"))
+  write_yaml(root, "docs/work/warning-master.yaml", {"kind" => "master", "version" => 1, "id" => "warning-master", "title" => "Warning master", "status" => "verified", "children" => ["docs/work/warning-work.yaml"]})
+  write_yaml(root, "docs/work/warning-inventory.yaml", {"kind" => "execution_inventory", "version" => 1, "id" => "warning", "master_plan" => "docs/work/warning-master.yaml", "state" => "active", "items" => [{"id" => "warning-task", "order" => 1, "plan" => "docs/work/warning-work.yaml", "task" => FIXTURE.fetch("latest_task"), "status" => "verified"}]})
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "doctor warning remained hidden behind Bridge health" unless summary.fetch("state") == "WARNING" && !summary.dig("health", "healthy") && summary.dig("health", "doctor_healthy")
+  abort "doctor conflict did not reach Bridge integrity" unless summary.dig("integrity", "signals").any? { |item| item["code"] == "control_state_conflict" && item["classification"] == "conflict" }
+end
+
+Dir.mktmpdir("dora-project-read-model-non-executable-record") do |root|
+  write_project(root)
+  complete_controls(root)
+  enable_work_artifact_audit(root)
+  historical_path = File.join(root, "docs/work/historical-review.yaml")
+  File.write(historical_path, "kind: [\n")
+  exclude_non_executable_record(root, "docs/work/historical-review.yaml")
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "explicit non-executable historical record degraded safe context" unless summary.fetch("state") == "HEALTHY" && summary.dig("integrity", "signals").empty?
+  abort "read model classification changed retained history" unless File.binread(historical_path) == "kind: [\n"
 end
 
 Dir.mktmpdir("dora-project-read-model-ambiguous-latest") do |root|
