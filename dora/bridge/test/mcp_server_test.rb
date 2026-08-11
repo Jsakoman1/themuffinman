@@ -26,10 +26,20 @@ def create_project(root)
   File.write(brief_path, YAML.dump(brief))
   master = {"kind" => "master", "version" => 1, "id" => "delivery", "title" => "Verified delivery", "status" => "verified", "children" => ["docs/work/delivery.yaml"]}
   plan = {"kind" => "work", "version" => 1, "id" => "delivery-work", "title" => "Delivery work", "status" => "verified", "baseline" => "pending", "tasks" => [{"id" => "verify-delivery", "title" => "Verify delivery", "status" => "done", "observable_outcome" => "A delivery is verified.", "dependencies" => [], "required_paths" => ["docs/delivery.md"], "validation" => "safe-command", "evidence_boundary" => ["fixture"]}], "evidence" => [{"task" => "verify-delivery", "result" => "passed", "ranAt" => "2026-08-09T15:00:00Z", "revision" => "abcdef1", "exitCode" => 0, "output" => "/private/secret/raw-command-output"}]}
-  inventory = {"kind" => "execution_inventory", "version" => 1, "id" => "delivery", "master_plan" => "docs/work/delivery-master.yaml", "items" => [{"id" => "delivery-proof", "plan" => "docs/work/delivery.yaml", "task" => "verify-delivery", "status" => "verified", "verified_at" => "2026-08-09T15:00:00Z"}]}
+  inventory = {"kind" => "execution_inventory", "version" => 1, "id" => "delivery", "master_plan" => "docs/work/delivery-master.yaml", "state" => "verified", "items" => [{"id" => "delivery-proof", "order" => 1, "plan" => "docs/work/delivery.yaml", "task" => "verify-delivery", "status" => "verified", "verified_at" => "2026-08-09T15:00:00Z"}]}
   write_yaml(root, "docs/work/delivery-master.yaml", master)
   write_yaml(root, "docs/work/delivery.yaml", plan)
   write_yaml(root, "docs/work/delivery-inventory.yaml", inventory)
+end
+
+def complete_controls(root)
+  controls = File.join(root, ".dora/controls")
+  File.write(File.join(root, "docs/backlog.md"), "# Backlog\n")
+  File.write(File.join(controls, "change-routing.yaml"), YAML.dump({"kind" => "dora_change_routing", "version" => 1, "rules" => [{"id" => "source", "path_prefixes" => ["src/"], "commands" => ["test"]}]}))
+  File.write(File.join(controls, "workspace-inventory.yaml"), YAML.dump({"kind" => "dora_workspace_inventory", "version" => 1, "categories" => [{"id" => "source", "path_prefixes" => ["src/"]}]}))
+  File.write(File.join(controls, "documentation-evidence.yaml"), YAML.dump({"kind" => "dora_documentation_evidence", "version" => 1, "claims" => [{"id" => "docs", "match" => "Backlog", "evidence" => ["docs/backlog.md"]}]}))
+  File.write(File.join(controls, "system-map.yaml"), YAML.dump({"kind" => "dora_system_map", "version" => 1, "nodes" => [{"id" => "source"}], "edges" => []}))
+  File.write(File.join(controls, "backlog.yaml"), YAML.dump({"kind" => "dora_backlog", "version" => 1, "sources" => ["docs/backlog.md"]}))
 end
 
 def request(server, id, method, params = nil)
@@ -41,6 +51,7 @@ end
 Dir.mktmpdir("dora-bridge-mcp") do |root|
   project_root = File.join(root, "project")
   create_project(project_root)
+  complete_controls(project_root)
   registry_path = File.join(root, "bridge-projects.yaml")
   write_yaml(root, "bridge-projects.yaml", {"kind" => "dora_bridge_projects", "version" => 1, "projects" => [{"id" => "doomsday-storage", "name" => "DoomsDayStorage", "adapter_path" => "project/.dora/project.yaml", "capabilities" => {"handoff_write" => true}}, {"id" => "unreachable-project", "adapter_path" => "missing/.dora/project.yaml"}]})
   registry = DoraBridge::ProjectRegistry.load!(registry_path)
@@ -71,6 +82,7 @@ Dir.mktmpdir("dora-bridge-mcp") do |root|
   summary = request(server, 5, "tools/call", {"name" => "get_project_summary", "arguments" => {"project" => "doomsday-storage"}})
   output = summary.dig("result", "structuredContent")
   abort "summary did not delegate to read model" unless output.fetch("kind") == "dora_project_read_model" && output.dig("delivery", "latest_verified", "id") == "delivery"
+  abort "summary lost the explicit no-current-goal result" unless output.fetch("current_goal") == {"state" => "none"} && output.dig("integrity", "status") == "HEALTHY"
   abort "summary leaked a root or raw evidence" if output.to_s.include?(root) || output.to_s.include?("raw-command-output")
   intent_proposal = {"intent_plan_id" => "bridge-intent", "intended_outcome" => "Safely align one proposal.", "in_scope_work" => ["Evaluate one proposal."], "non_goals" => ["Do not persist an Intent Plan."], "fixed_owner_decisions" => [], "candidate_slices" => [{"id" => "first-slice", "outcome" => "Prepare Dora work.", "depends_on" => [], "gates" => ["no_owner_decision_pending"]}, {"id" => "later-slice", "outcome" => "Wait for verification.", "depends_on" => ["first-slice"], "gates" => ["no_owner_decision_pending", "prior_slice_verification"]}], "required_owner_readback" => %w[phase alignment_result first_safe_next_action actionable_blocker_or_decision]}
   intent_alignment = request(server, 51, "tools/call", {"name" => "align_intent_plan", "arguments" => {"project" => "doomsday-storage", "proposal" => intent_proposal}}).dig("result", "structuredContent")

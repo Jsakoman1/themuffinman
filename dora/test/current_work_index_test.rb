@@ -24,6 +24,9 @@ abort "current work index mutated summary" unless active_summary == before
 abort "active current work was not retained" unless active.dig("current_work", "state") == "active" && active.dig("current_work", "delivery", "id") == "delivery"
 abort "current work index lost open decisions" unless active.fetch("open_decisions") == before.fetch("open_decisions")
 
+canonical_goal = Dora::ProjectReadModel.current_work_index(summary: summary("current_goal" => {"state" => "blocked", "source" => "execution_inventory", "next_task" => {"id" => "blocked", "plan" => "docs/work/blocked.yaml", "task" => "resolve-blocker", "status" => "blocked"}}))
+abort "current work index did not reuse the canonical blocked goal" unless canonical_goal.dig("current_work", "state") == "blocked" && canonical_goal.dig("current_work", "next_task", "task") == "resolve-blocker"
+
 planned = Dora::ProjectReadModel.current_work_index(summary: summary("next_task" => {"id" => "next", "plan" => "docs/work/next.yaml", "task" => "implement-next", "status" => "pending"}))
 abort "planned current work was not explicit" unless planned.dig("current_work", "state") == "planned" && planned.dig("next_action", "task") == "implement-next"
 
@@ -43,5 +46,7 @@ end
 domain_library = YAML.load_file(File.expand_path("../docs/domain-library.yaml", __dir__))
 abort "domain library omits current-work index" unless domain_library.fetch("vocabulary").any? { |item| item.fetch("id") == "current-work-index" && item.fetch("description").include?("ProjectReadModel summary") }
 abort "domain library omits current-work index authority boundary" unless domain_library.fetch("invariants").any? { |item| item.fetch("id") == "current-work-index-authority-boundary" && item.fetch("description").include?("cannot mutate work status") }
+abort "domain library omits Bridge context integrity" unless domain_library.fetch("vocabulary").any? { |item| item.fetch("id") == "bridge-context-integrity" && item.fetch("description").include?("ProjectReadModel") }
+abort "domain library omits Bridge integrity precedence" unless domain_library.fetch("invariants").any? { |item| item.fetch("id") == "bridge-context-integrity-precedence" && item.fetch("description").include?("passing task evidence") }
 
 puts "Dora current work index test passed (active, planned, idle, ambiguous, provenance, and no mutation)."

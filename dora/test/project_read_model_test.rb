@@ -29,7 +29,10 @@ def write_project(root, invalid_memory: false, stale_memory: false, ambiguous: f
   write_yaml(root, "docs/decision-log.yaml", {"kind" => "dora_decision_log", "version" => 1, "entries" => [{"id" => "retention-choice", "decision" => "Choose a retention policy.", "status" => "proposed", "domain_references" => ["docs/domain-library.yaml"], "plan_references" => [FIXTURE.fetch("latest_master"), "docs/work/delivery.yaml"], "evidence_references" => ["docs/product-brief.yaml"]}]})
   master = {"kind" => "master", "version" => 1, "id" => "delivery", "title" => "Verified delivery", "status" => "verified", "children" => ["docs/work/delivery.yaml"]}
   plan = {"kind" => "work", "version" => 1, "id" => "delivery-work", "title" => "Delivery work", "status" => "verified", "baseline" => "pending", "tasks" => [{"id" => FIXTURE.fetch("latest_task"), "title" => "Verify delivery", "status" => "done", "observable_outcome" => "A safe delivery is verified.", "dependencies" => [], "required_paths" => ["docs/delivery.md"], "validation" => "secret-command --token hidden", "evidence_boundary" => ["fixture"]}], "evidence" => [{"task" => FIXTURE.fetch("latest_task"), "result" => "passed", "ranAt" => FIXTURE.fetch("latest_verified_at"), "revision" => "abcdef1", "exitCode" => 0, "output" => FIXTURE.fetch("raw_output"), "runtimeEvidencePaths" => ["docs/runtime-evidence/delivery.json", "../../.env"], "visualEvidencePaths" => ["docs/runtime-evidence/delivery.png"]}]}
-  inventory = {"kind" => "execution_inventory", "version" => 1, "id" => "delivery", "master_plan" => FIXTURE.fetch("latest_master"), "items" => [{"id" => "delivery-proof", "plan" => "docs/work/delivery.yaml", "task" => FIXTURE.fetch("latest_task"), "status" => "verified", "verified_at" => FIXTURE.fetch("latest_verified_at")}]}
+  inventory = {
+    "kind" => "execution_inventory", "version" => 1, "id" => "delivery", "master_plan" => FIXTURE.fetch("latest_master"), "state" => "verified",
+    "items" => [{"id" => "delivery-proof", "order" => 1, "plan" => "docs/work/delivery.yaml", "task" => FIXTURE.fetch("latest_task"), "status" => "verified", "verified_at" => FIXTURE.fetch("latest_verified_at")}]
+  }
   write_yaml(root, FIXTURE.fetch("latest_master"), master); write_yaml(root, "docs/work/delivery.yaml", plan); write_yaml(root, FIXTURE.fetch("latest_inventory"), inventory)
   if ambiguous
     duplicate = Marshal.load(Marshal.dump(inventory)); duplicate["id"] = "other"; duplicate["items"][0]["status"] = "in_progress"; duplicate["items"][0]["id"] = "other-work"; write_yaml(root, "docs/work/other-inventory.yaml", duplicate)
@@ -52,6 +55,25 @@ def write_master_progress(root, invalid_verified_evidence: false)
     {"id" => "progress-#{state}", "order" => index + 1, "plan" => plan_path, "task" => task_id, "status" => status, "verified_at" => status == "verified" ? "2026-08-09T12:00:00Z" : nil}.compact
   end
   write_yaml(root, "docs/work/progress-inventory.yaml", {"kind" => "execution_inventory", "version" => 1, "id" => "progress", "master_plan" => master_path, "state" => "active", "items" => items})
+end
+
+def complete_controls(root)
+  controls = File.join(root, ".dora/controls")
+  File.write(File.join(root, "docs/backlog.md"), "# Backlog\n")
+  File.write(File.join(controls, "change-routing.yaml"), YAML.dump({"kind" => "dora_change_routing", "version" => 1, "rules" => [{"id" => "source", "path_prefixes" => ["src/"], "commands" => ["test"]}]}))
+  File.write(File.join(controls, "workspace-inventory.yaml"), YAML.dump({"kind" => "dora_workspace_inventory", "version" => 1, "categories" => [{"id" => "source", "path_prefixes" => ["src/"]}]}))
+  File.write(File.join(controls, "documentation-evidence.yaml"), YAML.dump({"kind" => "dora_documentation_evidence", "version" => 1, "claims" => [{"id" => "docs", "match" => "Backlog", "evidence" => ["docs/backlog.md"]}]}))
+  File.write(File.join(controls, "system-map.yaml"), YAML.dump({"kind" => "dora_system_map", "version" => 1, "nodes" => [{"id" => "source"}], "edges" => []}))
+  File.write(File.join(controls, "backlog.yaml"), YAML.dump({"kind" => "dora_backlog", "version" => 1, "sources" => ["docs/backlog.md"]}))
+end
+
+Dir.mktmpdir("dora-project-read-model-clean") do |root|
+  write_project(root)
+  complete_controls(root)
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "clean summary was not healthy" unless summary.fetch("state") == "HEALTHY" && summary.dig("health", "healthy") && summary.dig("integrity", "signals").empty?
+  abort "clean current goal was not explicit" unless summary.fetch("current_goal") == {"state" => "none"}
+  abort "latest delivery did not retain evidence timestamp" unless summary.dig("delivery", "latest_verified", "verified_at") == FIXTURE.fetch("latest_verified_at")
 end
 
 Dir.mktmpdir("dora-project-read-model") do |root|
@@ -114,6 +136,7 @@ Dir.mktmpdir("dora-project-read-model-stale-memory") do |root|
   summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
   abort "stale valid-shaped memory was hidden" unless summary.fetch("inconsistencies").any? { |item| item["code"] == "project_memory" && item["severity"] == "INVALID" }
   abort "stale memory hid verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
+  abort "stale memory was not classified for Bridge readers" unless summary.dig("integrity", "signals").any? { |item| item["classification"] == "stale" }
 end
 
 Dir.mktmpdir("dora-project-read-model-ambiguous") do |root|
@@ -148,4 +171,16 @@ Dir.mktmpdir("dora-project-read-model-control-reconciled") do |root|
   abort "control reconciliation replaced latest verified delivery" unless summary.dig("delivery", "latest_verified", "id") == "delivery"
 end
 
-puts "Dora project read model test passed (safe summary, evidence projection, invalid memory, supersession, ambiguity, and path containment)."
+Dir.mktmpdir("dora-project-read-model-ambiguous-latest") do |root|
+  write_project(root)
+  original = YAML.load_file(File.join(root, "docs/work/delivery.yaml"))
+  alternate_task = original.fetch("tasks").first.merge("id" => "verify-alternate")
+  alternate_evidence = original.fetch("evidence").first.merge("task" => "verify-alternate")
+  write_yaml(root, "docs/work/alternate.yaml", original.merge("id" => "alternate", "tasks" => [alternate_task], "evidence" => [alternate_evidence]))
+  write_yaml(root, "docs/work/alternate-inventory.yaml", {"kind" => "execution_inventory", "version" => 1, "id" => "alternate", "master_plan" => FIXTURE.fetch("latest_master"), "state" => "verified", "items" => [{"id" => "alternate-proof", "order" => 1, "plan" => "docs/work/alternate.yaml", "task" => "verify-alternate", "status" => "verified", "verified_at" => FIXTURE.fetch("latest_verified_at")}]} )
+  summary = Dora::ProjectReadModel.load!(adapter_path: File.join(root, ".dora/project.yaml")).summary
+  abort "ambiguous latest delivery was guessed" unless summary.dig("delivery", "latest_verified", "status") == "ambiguous"
+  abort "ambiguous latest delivery was not signaled" unless summary.dig("integrity", "signals").any? { |item| item["code"] == "latest_verified_delivery" && item["classification"] == "ambiguous" }
+end
+
+puts "Dora project read model test passed (safe summary, evidence-backed delivery, integrity signals, invalid memory, supersession, ambiguity, and path containment)."

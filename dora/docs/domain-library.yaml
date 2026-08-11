@@ -15,6 +15,8 @@ vocabulary:
   description: Static manifest v3 metadata declaring a plugin capability API version, cache identity, report schema version, and supported/deprecated posture; it does not execute a plugin, create cache evidence, or represent capability completion.
 - id: current-work-index
   description: A timestamped read-only projection of ProjectReadModel summary facts for current work, latest verified delivery, open decisions, and next action; it exposes none or ambiguous states instead of inferring a lifecycle.
+- id: bridge-context-integrity
+  description: A sanitized ProjectReadModel projection of local Dora warnings, conflicts, staleness, ambiguity, and invalid state for authorized Bridge readers; it is derived at read time and owns no project state.
 - id: bounded-failure-diagnosis
   description: A read-only advisory classification of a bounded WorkExecution failure envelope into leaf timeout, command unavailable, or unknown; it excludes raw output and cannot retry or repair work.
 - id: implementation-quality-profile
@@ -73,6 +75,8 @@ invariants:
   description: PluginContract validates static manifest compatibility. AnalysisCache alone owns computed cache entries, and CapabilityTrace alone links capability-use evidence; plugin metadata cannot replace either record or mark work verified.
 - id: current-work-index-authority-boundary
   description: CurrentWorkIndex reads only ProjectReadModel summary output. It is regenerable navigation, never a durable current-work store, and cannot mutate work status, decisions, GitHub, a consumer project, runner state, or a remote agent.
+- id: bridge-context-integrity-precedence
+  description: Bridge context preserves ProjectDoctor warnings and ProjectReadModel inconsistencies as explicit safe signals. A qualified latest verified delivery requires a verified inventory, verified work plan, and passing task evidence; tied latest candidates and multiple active inventories remain ambiguous rather than selected.
 - id: bounded-failure-diagnosis-non-repair
   description: BoundedFailureDiagnosis reads allow-listed WorkExecution evidence fields only. It never returns raw output, infers a root cause, retries a command, runs a shell, repairs a project, or mutates evidence, work status, decisions, GitHub, consumer, runner, or remote-agent state.
 - id: implementation-quality-profile-static-boundary

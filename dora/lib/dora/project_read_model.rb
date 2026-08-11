@@ -40,22 +40,27 @@ module Dora
     def summary
       inconsistencies = []
       health = ProjectDoctor.run(@adapter_path, schema_path: SCHEMA_PATH, control_schema_path: @control_schema_path)
+      append_doctor_advisories(health, inconsistencies)
       knowledge = load_knowledge(inconsistencies)
       memory = load_memory(inconsistencies)
       inventories = load_inventories(inconsistencies)
       validate_memory_navigation(memory, inventories, inconsistencies)
       deliveries = resolve_deliveries(inventories, inconsistencies)
+      next_task = resolve_next_task(inventories, inconsistencies)
       decisions = resolve_open_decisions(knowledge, memory, inconsistencies)
+      integrity = integrity_summary(health, inconsistencies)
 
       {
         "kind" => "dora_project_read_model",
         "version" => 1,
         "project" => {"id" => @adapter.fetch("project"), "name" => knowledge.dig("product_brief", "product") || @adapter.fetch("project"), "adapter" => ".dora/project.yaml"},
-        "state" => state_for(health, inconsistencies),
-        "health" => safe_health(health),
+        "state" => integrity.fetch("status"),
+        "health" => safe_health(health, integrity),
+        "integrity" => integrity,
         "inconsistencies" => inconsistencies,
         "delivery" => deliveries,
-        "next_task" => resolve_next_task(inventories, inconsistencies),
+        "current_goal" => current_goal(deliveries, next_task),
+        "next_task" => next_task,
         "open_decisions" => decisions,
         "references" => summary_references(knowledge, memory, deliveries)
       }.freeze
@@ -68,16 +73,7 @@ module Dora
       fail!("current work index summary is invalid") unless summary.is_a?(Hash) && summary["kind"] == "dora_project_read_model" && summary["version"].to_i == 1
 
       delivery = summary["delivery"].is_a?(Hash) ? summary.fetch("delivery") : {}
-      active = delivery["active"]
-      current = if active.is_a?(Hash) && active["status"] == "ambiguous"
-                  {"state" => "ambiguous", "references" => Array(active["references"]).select { |reference| safe_index_reference?(reference) }.sort}
-                elsif active.is_a?(Hash)
-                  {"state" => "active", "delivery" => safe_index_delivery(active)}
-                elsif summary["next_task"].is_a?(Hash)
-                  {"state" => "planned", "next_task" => safe_index_task(summary.fetch("next_task"))}
-                else
-                  {"state" => "none"}
-                end
+      current = summary["current_goal"].is_a?(Hash) ? safe_index_goal(summary.fetch("current_goal")) : legacy_current_work(summary, delivery)
       latest = delivery["latest_verified"]
       references = Array(summary["references"]).select { |reference| safe_index_reference?(reference) }
       references.concat(Array(current["references"]))
@@ -216,6 +212,32 @@ module Dora
     end
     private_class_method :safe_index_task
 
+    def self.safe_index_goal(goal)
+      state = goal["state"]
+      return {"state" => "none"} if state == "none"
+      return {"state" => "ambiguous", "references" => Array(goal["references"]).select { |reference| safe_index_reference?(reference) }.sort} if state == "ambiguous"
+
+      result = {"state" => state}.compact
+      result["delivery"] = safe_index_delivery(goal.fetch("delivery")) if goal["delivery"].is_a?(Hash)
+      result["next_task"] = safe_index_task(goal.fetch("next_task")) if goal["next_task"].is_a?(Hash)
+      result
+    end
+    private_class_method :safe_index_goal
+
+    def self.legacy_current_work(summary, delivery)
+      active = delivery["active"]
+      if active.is_a?(Hash) && active["status"] == "ambiguous"
+        {"state" => "ambiguous", "references" => Array(active["references"]).select { |reference| safe_index_reference?(reference) }.sort}
+      elsif active.is_a?(Hash)
+        {"state" => "active", "delivery" => safe_index_delivery(active)}
+      elsif summary["next_task"].is_a?(Hash)
+        {"state" => "planned", "next_task" => safe_index_task(summary.fetch("next_task"))}
+      else
+        {"state" => "none"}
+      end
+    end
+    private_class_method :legacy_current_work
+
     def self.fail!(message)
       raise ArgumentError, message
     end
@@ -232,6 +254,14 @@ module Dora
     rescue ArgumentError => error
       inconsistencies << issue("INVALID", "project_knowledge", "project knowledge is invalid", ["docs/product-brief.yaml", "docs/domain-library.yaml", ".dora/agent-project-profile.yaml"])
       {}
+    end
+
+    def append_doctor_advisories(health, inconsistencies)
+      Array(health["checks"]).each do |check|
+        next unless check.is_a?(Hash) && check["status"] == "advisory" && statement?(check["id"])
+
+        inconsistencies << issue("WARNING", "doctor_advisory", check.fetch("detail").to_s.empty? ? "local Dora advisory requires review" : check.fetch("detail"), Array(check["source_references"]), classification: "warning")
+      end
     end
 
     def load_memory(inconsistencies)
@@ -263,8 +293,23 @@ module Dora
       return unless memory
 
       ProjectMemory.validate_work_navigation!(memory: memory, inventories: inventories)
-    rescue ArgumentError
-      inconsistencies << issue("INVALID", "project_memory", "project memory current-work navigation is invalid", ["docs/project-memory.yaml"])
+    rescue ArgumentError => error
+      classification = if error.message.include?("stale")
+                         "stale"
+                       elsif error.message.include?("ambiguous")
+                         "ambiguous"
+                       elsif error.message.include?("contradictory")
+                         "conflict"
+                       else
+                         "invalid"
+                       end
+      message = case classification
+                when "stale" then "project memory current-work navigation is stale"
+                when "ambiguous" then "project memory current-work navigation is ambiguous"
+                when "conflict" then "project memory current-work navigation conflicts with declared execution state"
+                else "project memory current-work navigation is invalid"
+                end
+      inconsistencies << issue("INVALID", "project_memory", message, ["docs/project-memory.yaml"], classification: classification)
     end
 
     def safe_inventory(document, path)
@@ -290,19 +335,38 @@ module Dora
                           {"status" => "ambiguous", "references" => active.map { |item| item.fetch("path") }}
                         end
 
-      verified = eligible_inventories.flat_map do |inventory|
-        inventory.fetch("items").each_with_object([]) do |item, entries|
-          next unless item["status"] == "verified" && parse_time(item["verified_at"])
-
-          entries << {"inventory" => inventory, "item" => item, "verified_at" => parse_time(item["verified_at"])}
-        end
-      end
-      latest = verified.max_by { |entry| entry.fetch("verified_at") }
-      latest_delivery = latest ? delivery_summary(latest.fetch("inventory"), "latest_verified", inconsistencies, latest.fetch("item")) : nil
+      verified = verified_delivery_candidates(eligible_inventories, inconsistencies)
+      latest_at = verified.map { |entry| entry.fetch("verified_at") }.max
+      latest = latest_at ? verified.select { |entry| entry.fetch("verified_at") == latest_at } : []
+      latest_delivery = if latest.length == 1
+                          delivery_summary(latest.first.fetch("inventory"), "latest_verified", inconsistencies, latest.first.fetch("item"), verified_at: latest.first.fetch("verified_at").iso8601)
+                        elsif latest.length > 1
+                          references = latest.flat_map { |entry| [entry.fetch("inventory").fetch("path"), entry.fetch("item").fetch("plan")] }.uniq.sort
+                          inconsistencies << issue("WARNING", "latest_verified_delivery", "multiple evidence-backed verified delivery candidates share the latest timestamp", references, classification: "ambiguous")
+                          {"role" => "latest_verified", "status" => "ambiguous", "references" => references}.freeze
+                        end
       {"active" => active_delivery, "latest_verified" => latest_delivery}.compact.freeze
     end
 
-    def delivery_summary(inventory, role, inconsistencies, terminal_item = nil)
+    def verified_delivery_candidates(inventories, inconsistencies)
+      inventories.each_with_object([]) do |inventory, candidates|
+        next unless inventory["state"] == "verified"
+
+        inventory.fetch("items").each do |item|
+          next unless item["status"] == "verified" && parse_time(item["verified_at"])
+
+          plan = load_plan(item.fetch("plan"))
+          evidence = plan && task_evidence(item.fetch("plan"), item.fetch("task"))
+          next unless plan && plan["status"] == "verified" && evidence && evidence["status"] == "passed"
+
+          candidates << {"inventory" => inventory, "item" => item, "verified_at" => parse_time(item.fetch("verified_at"))}
+        rescue ArgumentError
+          inconsistencies << issue("WARNING", "latest_verified_delivery", "verified delivery inventory item cannot be reconciled with passing Dora evidence", [inventory.fetch("path"), item.fetch("plan")], classification: "conflict")
+        end
+      end
+    end
+
+    def delivery_summary(inventory, role, inconsistencies, terminal_item = nil, verified_at: nil)
       master_path = inventory["master_plan"]
       master = master_path ? load_plan(master_path) : nil
       if master_path && !master
@@ -317,7 +381,7 @@ module Dora
         "master_plan" => master_path,
         "inventory" => inventory.fetch("path"),
         "task" => selected && selected.slice("id", "plan", "task", "status", "verified_at")
-      }.compact.freeze
+      }.compact.merge(verified_at ? {"verified_at" => verified_at} : {}).freeze
     end
 
     def resolve_next_task(inventories, inconsistencies)
@@ -331,6 +395,18 @@ module Dora
     rescue ArgumentError => error
       inconsistencies << issue("WARNING", "next_task", "next eligible task cannot be resolved", candidate ? [candidate.fetch("path")] : [])
       nil
+    end
+
+    def current_goal(deliveries, next_task)
+      active = deliveries["active"]
+      return {"state" => "ambiguous", "references" => Array(active["references"]).sort}.freeze if active.is_a?(Hash) && active["status"] == "ambiguous"
+      return {"state" => "active", "source" => "execution_inventory", "delivery" => active}.freeze if active.is_a?(Hash)
+      return {"state" => "none"}.freeze unless next_task.is_a?(Hash)
+
+      state = {"start" => "planned", "continue" => "active", "blocked" => "blocked"}[next_task["action"]]
+      return {"state" => "none"}.freeze unless state
+
+      {"state" => state, "source" => "execution_inventory", "next_task" => next_task}.freeze
     end
 
     def resolve_open_decisions(knowledge, memory, inconsistencies)
@@ -482,6 +558,20 @@ module Dora
       File.expand_path(path).delete_prefix("#{@root}/")
     end
 
+    def integrity_summary(health, inconsistencies)
+      status = state_for(health, inconsistencies)
+      signals = inconsistencies.map do |item|
+        item.slice("severity", "code", "message", "references").merge("classification" => item["classification"] || integrity_classification(item))
+      end
+      {"status" => status, "doctor_healthy" => health.fetch("healthy"), "signals" => signals}.freeze
+    end
+
+    def integrity_classification(item)
+      return "stale" if item["code"] == "project_memory" && item["message"].to_s.include?("stale")
+      return "ambiguous" if %w[active_delivery latest_verified_delivery].include?(item["code"])
+      item["severity"] == "INVALID" ? "invalid" : "warning"
+    end
+
     def state_for(health, inconsistencies)
       return "INVALID" if inconsistencies.any? { |item| item["severity"] == "INVALID" }
       return "WARNING" unless health.fetch("healthy")
@@ -490,19 +580,23 @@ module Dora
       "HEALTHY"
     end
 
-    def safe_health(health)
+    def safe_health(health, integrity)
       {
-        "healthy" => health.fetch("healthy"),
+        "healthy" => integrity.fetch("status") == "HEALTHY",
+        "doctor_healthy" => health.fetch("healthy"),
+        "status" => integrity.fetch("status"),
         "checks" => Array(health["checks"]).each_with_object([]) do |check, projected|
-          projected << check.slice("id", "status") if check.is_a?(Hash) && identifier?(check["id"]) && statement?(check["status"])
+          projected << check.slice("id", "status") if check.is_a?(Hash) && statement?(check["id"]) && statement?(check["status"])
         end
       }.freeze
     end
 
 
-    def issue(severity, code, message, references)
+    def issue(severity, code, message, references, classification: nil)
       fail!("inconsistency severity is invalid") unless STATUS.include?(severity)
-      {"severity" => severity, "code" => code, "message" => message, "references" => references.select { |path| safe_relative_path?(path) }.uniq}.freeze
+      result = {"severity" => severity, "code" => code, "message" => message, "references" => references.select { |path| safe_relative_path?(path) }.uniq}
+      result["classification"] = classification if classification
+      result.freeze
     end
 
     def parse_time(value)
