@@ -1,0 +1,13 @@
+kind: dora_bootstrap_source
+version: 1
+source:
+  path: ../dora
+  ref: 5f5a915ab043060cbe17735e4f2a8c6628e47447
+  checksum: fcad0c003111b80c470f811fb03c4bb4518beaae53a038eb22f7fa678c3270c6
+local_override:
+  environment: DORA_SOURCE_PATH
+  constraint: local path with matching Git commit and source-tree checksum
+review:
+  id: muffinman-independent-dora-product-v1
+  reviewed_by: owner
+  reviewed_at: 2026-08-11
