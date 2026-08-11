@@ -2,8 +2,8 @@ kind: dora_bootstrap_source
 version: 1
 source:
   path: ../dora
-  ref: 5f5a915ab043060cbe17735e4f2a8c6628e47447
-  checksum: fcad0c003111b80c470f811fb03c4bb4518beaae53a038eb22f7fa678c3270c6
+  ref: 9dc2e0836be0f3f1b49b71638a7a9379b645f9df
+  checksum: 79844b037af71ad18881e5e7fee686e247931edfa217821dda31397bb814c9b4
 local_override:
   environment: DORA_SOURCE_PATH
   constraint: local path with matching Git commit and source-tree checksum

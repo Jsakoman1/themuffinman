@@ -26,11 +26,11 @@ abort "verified Dora launcher did not accept a matching local override for Dora 
 
 output, status = run_launcher({"DORA_SOURCE_PATH" => File.join(ROOT, "dora")}, "help")
 abort "verified Dora launcher accepted the legacy embedded Dora tree" if status.success?
-abort "verified Dora launcher did not explain its expected source pin" unless output.include?("Expected a local Dora source") && output.include?("5f5a915ab043060cbe17735e4f2a8c6628e47447")
+abort "verified Dora launcher did not explain its expected source pin" unless output.include?("Expected a local Dora source") && output.include?("9dc2e0836be0f3f1b49b71638a7a9379b645f9df")
 
 output, status = run_launcher({"DORA_SOURCE_PATH" => File.join(ROOT, "missing-dora-source")}, "help")
 abort "verified Dora launcher accepted a missing local override" if status.success?
-abort "verified Dora launcher did not explain its missing source pin" unless output.include?("Expected a local Dora source") && output.include?("5f5a915ab043060cbe17735e4f2a8c6628e47447")
+abort "verified Dora launcher did not explain its missing source pin" unless output.include?("Expected a local Dora source") && output.include?("9dc2e0836be0f3f1b49b71638a7a9379b645f9df")
 
 Dir.mktmpdir("muffinman-verified-dora-launcher") do |sandbox|
   consumer = File.join(sandbox, "consumer")

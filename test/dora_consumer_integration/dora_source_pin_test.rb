@@ -7,8 +7,8 @@ require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
 DESCRIPTOR_PATH = File.join(ROOT, "dora-source.yaml")
-EXPECTED_REF = "5f5a915ab043060cbe17735e4f2a8c6628e47447"
-EXPECTED_CHECKSUM = "fcad0c003111b80c470f811fb03c4bb4518beaae53a038eb22f7fa678c3270c6"
+EXPECTED_REF = "9dc2e0836be0f3f1b49b71638a7a9379b645f9df"
+EXPECTED_CHECKSUM = "79844b037af71ad18881e5e7fee686e247931edfa217821dda31397bb814c9b4"
 
 descriptor = YAML.load_file(DESCRIPTOR_PATH)
 source = descriptor.fetch("source")
