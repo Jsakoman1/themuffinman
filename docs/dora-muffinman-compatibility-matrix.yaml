@@ -8,11 +8,11 @@ product_boundary_audit: scripts/audits/audit-dora-muffinman-product-boundary.rb
 fixture_trace: ruby dora/test/work_execution_test.rb
 entries:
   - target: work-start
-    dora_executor: dora/bin/dora work-start .dora/project.yaml plan="$(plan)" task="$(task)"
+    dora_executor: bin/dora work-start .dora/project.yaml plan="$(plan)" task="$(task)"
     evidence_paths: [docs/work, docs/work/dora-muffinman-separation-execution-inventory.yaml]
     proof: A successful serial start invokes the Dora executor through the MuffinMan adapter and preserves the existing start snapshot and inventory mutation behavior.
   - target: work-verify
-    dora_executor: dora/bin/dora work-verify .dora/project.yaml plan="$(plan)" task="$(task)"
+    dora_executor: bin/dora work-verify .dora/project.yaml plan="$(plan)" task="$(task)"
     evidence_paths: [docs/work]
     proof: A successful verification invokes the Dora executor through the MuffinMan adapter and preserves verifier-generated task evidence in the selected work plan.
 invariants:

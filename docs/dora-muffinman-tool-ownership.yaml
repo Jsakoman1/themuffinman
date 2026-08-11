@@ -13,13 +13,13 @@ groups:
     manifest_required: true
     manifest_path: .dora/plugins.yaml
     wrapper_contract:
-      allowed_statement: exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "<plugin-id>")
+      allowed_statement: exec("bin/dora", "plugin-run", ".dora/plugins.yaml", "<plugin-id>")
       forbidden: [local reusable analysis implementation, DORA_PLUGIN_RUNNER bypass]
     audits: [audit-api-contract-drift.rb, audit-canonical-source-integrity.rb, audit-configuration-environment-drift.rb, audit-endpoint-callsite-linker.rb, audit-frontend-interaction-contract.rb, audit-frontend-route-surfaces.rb, audit-frontend-stale-surfaces.rb, audit-mapper-usage.rb, audit-module-dependency-direction.rb, audit-read-surface-inventory.rb, audit-ui-entrypoints.rb]
   - id: reusable_control_mechanics
     decision: extract
     reason: Plan contracts, serial integrity, package boundaries, templates, tool catalogues, and work artifacts are portable control mechanisms.
-    dora_surfaces: [dora/bin/dora, dora/lib/dora/atomic_plan_contract.rb, dora/lib/dora/plan_coverage.rb, dora/lib/dora/serial_plan_integrity.rb, dora/lib/dora/template_freshness.rb, dora/lib/dora/tool_catalog.rb, dora/lib/dora/work_artifact_schema.rb, dora/lib/dora/work_execution.rb, dora/lib/dora/workspace_snapshot.rb]
+    dora_surfaces: [bin/dora, dora/lib/dora/atomic_plan_contract.rb, dora/lib/dora/plan_coverage.rb, dora/lib/dora/serial_plan_integrity.rb, dora/lib/dora/template_freshness.rb, dora/lib/dora/tool_catalog.rb, dora/lib/dora/work_artifact_schema.rb, dora/lib/dora/work_execution.rb, dora/lib/dora/workspace_snapshot.rb]
     audits: [audit-atomic-task-hardening.rb, audit-dora-control-ownership.rb, audit-dora-package-boundary.rb, audit-plan-coverage.rb, audit-serial-execution-inventory.rb, audit-template-freshness.rb, audit-tool-catalog.rb, audit-work-artifact-schema.rb, audit-work-plan-recursion.rb, audit-workspace-change-inventory.rb]
   - id: release_and_adapter_controls
     decision: delegate

@@ -25,7 +25,7 @@ baseline_counts:
 consumer_adapter_bindings:
   - project: muffinman
     adapter: .dora/project.yaml
-    dora_entrypoint: dora/bin/dora
+    dora_entrypoint: bin/dora
     rule: MuffinMan owns every path and extension declared by its adapter, including Java/Spring and TypeScript/Vue source maps and the browser runtime harness; Dora validates declarations and never promotes their product status.
 rules:
   - id: dora-core-work-protocol

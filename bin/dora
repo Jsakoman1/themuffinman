@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "open3"
+require "yaml"
+
+ROOT = File.expand_path("..", __dir__)
+DESCRIPTOR_PATH = File.join(ROOT, "dora-source.yaml")
+
+def fail_source!(descriptor, error)
+  source = descriptor.fetch("source", {})
+  default_path = source.fetch("path", "<missing>")
+  ref = source.fetch("ref", "<missing>")
+  checksum = source.fetch("checksum", "<missing>")
+  warn <<~MESSAGE
+    Verified Dora source is unavailable: #{error.message}
+    Expected a local Dora source at DORA_SOURCE_PATH or #{default_path.inspect}, pinned to #{ref} with checksum #{checksum}.
+    The embedded MuffinMan dora/ tree is intentionally not used as a fallback.
+  MESSAGE
+  exit 1
+end
+
+begin
+  descriptor = YAML.load_file(DESCRIPTOR_PATH)
+  source = descriptor.fetch("source")
+  candidate_path = ENV.fetch("DORA_SOURCE_PATH", "").strip
+  candidate_path = source.fetch("path") if candidate_path.empty?
+  source_root = File.realpath(File.expand_path(candidate_path, ROOT))
+  output, status = Open3.capture2e("git", "-C", source_root, "rev-parse", "HEAD")
+  raise "Dora source is not a local Git repository: #{output}" unless status.success?
+  raise "Dora source Git commit does not match the pinned ref" unless output.strip == source.fetch("ref")
+
+  bootstrap_path = File.join(source_root, "lib/dora/bootstrap_source.rb")
+  raise "Dora source is missing lib/dora/bootstrap_source.rb" unless File.file?(bootstrap_path)
+
+  require bootstrap_path
+  candidate = descriptor.merge("source" => source.merge("path" => candidate_path))
+  verified = Dora::BootstrapSource.validate!(candidate, base_directory: ROOT)
+
+  exec File.join(verified.fetch("path"), "bin/dora"), *ARGV
+rescue Psych::Exception, Errno::ENOENT, ArgumentError, RuntimeError => error
+  fail_source!(defined?(descriptor) ? descriptor : {}, error)
+end

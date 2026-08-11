@@ -9,10 +9,10 @@ paths:
   audit_output: docs/audit-output
   runtime_evidence: docs/runtime-evidence
 commands:
-  work_start: dora/bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>
-  work_verify: dora/bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
+  work_start: bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>
+  work_verify: bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
   control_check: make control-check
-  work_plan_preflight: dora/bin/dora validate-work-plan .dora/project.yaml <work-plan>
+  work_plan_preflight: bin/dora validate-work-plan .dora/project.yaml <work-plan>
 context:
   generated_output_paths: [audit_output, runtime_evidence]
 distribution:
@@ -27,7 +27,7 @@ extensions:
   - id: muffinman-reusable-plugin-manifest
     category: product_contract
     paths: [.dora/plugins.yaml, scripts/audits]
-    invocation: dora/bin/dora plugin-run .dora/plugins.yaml <plugin-id>
+    invocation: bin/dora plugin-run .dora/plugins.yaml <plugin-id>
   - id: muffinman-domain-audits
     category: audit
     paths: [scripts/audits, docs/capability-inventory.yaml, docs/runtime-acceptance-matrix.yaml]

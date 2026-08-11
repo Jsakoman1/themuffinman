@@ -21,9 +21,9 @@ matrix = YAML.load_file(MATRIX_PATH)
 failures << "compatibility matrix kind is invalid" unless matrix["kind"] == "dora_muffinman_compatibility_matrix" && matrix["version"].to_i == 1
 adapter_path = matrix["adapter"].to_s
 failures << "compatibility matrix adapter is missing" if adapter_path.empty?
-stdout, stderr, status = Open3.capture3("dora/bin/dora", "validate-adapter", adapter_path, chdir: ROOT)
+stdout, stderr, status = Open3.capture3("bin/dora", "validate-adapter", adapter_path, chdir: ROOT)
 failures << "MuffinMan Dora adapter validation failed: #{[stdout, stderr].join("\n").strip}" unless status.success?
-stdout, stderr, status = Open3.capture3("dora/bin/dora", "plugin-contract", ".dora/plugins.yaml", chdir: ROOT)
+stdout, stderr, status = Open3.capture3("bin/dora", "plugin-contract", ".dora/plugins.yaml", chdir: ROOT)
 failures << "MuffinMan Dora plugin manifest validation failed: #{[stdout, stderr].join("\n").strip}" unless status.success?
 {
   "scripts/audits/audit-api-contract-drift.rb" => "http-contract-drift",
@@ -41,7 +41,7 @@ failures << "MuffinMan Dora plugin manifest validation failed: #{[stdout, stderr
   wrapper = File.read(File.join(ROOT, path))
   plugin = Array(YAML.load_file(File.join(ROOT, ".dora/plugins.yaml"))["plugins"]).find { |candidate| candidate["id"] == plugin_id }
   failures << "#{path} does not delegate through its declared Dora built-in plugin" unless wrapper.include?("plugin-run") && wrapper.include?(plugin_id) && plugin && plugin["builtin"].to_s != "" && !wrapper.include?("DORA_PLUGIN_RUNNER")
-  stdout, stderr, status = Open3.capture3("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", plugin_id, chdir: ROOT)
+  stdout, stderr, status = Open3.capture3("bin/dora", "plugin-run", ".dora/plugins.yaml", plugin_id, chdir: ROOT)
   failures << "Dora runner failed for #{plugin_id}: #{[stdout, stderr].join("\n").strip}" unless status.success?
 end
 adapter = YAML.load_file(File.join(ROOT, adapter_path)) if File.file?(File.join(ROOT, adapter_path))

@@ -25,7 +25,7 @@ wrappers.each do |path, plugin_id|
   plugin = plugins[plugin_id]
   abort "#{path} is not backed by a Dora built-in plugin" unless plugin && plugin.fetch("builtin").match?(/\A[a-z][a-z0-9-]*\z/)
   source = File.read(File.join(ROOT, path))
-  expected = "exec(\"dora/bin/dora\", \"plugin-run\", \".dora/plugins.yaml\", \"#{plugin_id}\")"
+  expected = "exec(\"bin/dora\", \"plugin-run\", \".dora/plugins.yaml\", \"#{plugin_id}\")"
   statements = source.lines.grep_v(/^#!|^#|^\s*$/)
   abort "#{path} retains a reusable local analysis algorithm" unless statements == ["#{expected}\n"]
 end

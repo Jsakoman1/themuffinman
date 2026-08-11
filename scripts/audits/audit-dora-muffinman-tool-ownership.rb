@@ -43,7 +43,7 @@ wrapper_plugins.each do |name, plugin_id|
   plugin = plugins_by_id[plugin_id]
   failures << "delegated wrapper #{name} has no Dora built-in manifest plugin" unless plugin && plugin["builtin"].to_s != ""
   wrapper = File.read(File.join(ROOT, "scripts/audits", name))
-  expected = "exec(\"dora/bin/dora\", \"plugin-run\", \".dora/plugins.yaml\", \"#{plugin_id}\")"
+  expected = "exec(\"bin/dora\", \"plugin-run\", \".dora/plugins.yaml\", \"#{plugin_id}\")"
   failures << "delegated wrapper #{name} contains local analysis instead of a Dora execution shell" unless wrapper.include?(expected) && !wrapper.include?("DORA_PLUGIN_RUNNER") && wrapper.lines.grep_v(/^#!|^#|^\s*$/).length == 1
 end
 plugins.each do |plugin|

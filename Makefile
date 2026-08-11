@@ -184,8 +184,8 @@ master-create:
 
 work-verify:
 	@if [ -z "$(plan)" ]; then echo "usage: make work-verify plan=<work-plan>"; exit 1; fi
-	@if [ -n "$(task)" ]; then dora/bin/dora work-verify .dora/project.yaml plan="$(plan)" task="$(task)"; else dora/bin/dora work-verify .dora/project.yaml plan="$(plan)"; fi
+	@if [ -n "$(task)" ]; then bin/dora work-verify .dora/project.yaml plan="$(plan)" task="$(task)"; else bin/dora work-verify .dora/project.yaml plan="$(plan)"; fi
 
 work-start:
 	@if [ -z "$(plan)" ] || [ -z "$(task)" ]; then echo "usage: make work-start plan=<work-plan> task=<task-id>"; exit 1; fi
-	dora/bin/dora work-start .dora/project.yaml plan="$(plan)" task="$(task)"
+	bin/dora work-start .dora/project.yaml plan="$(plan)" task="$(task)"
