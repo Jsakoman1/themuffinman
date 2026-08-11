@@ -1,0 +1,9 @@
+kind: dora_workspace_inventory
+version: 1
+categories:
+  - id: application
+    path_prefixes: [apps/, services/]
+  - id: dora-consumer
+    path_prefixes: [.dora/, dora/, bin/dora]
+  - id: documentation
+    path_prefixes: [docs/, AGENTS.md]

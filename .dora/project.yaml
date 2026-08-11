@@ -11,18 +11,18 @@ paths:
 commands:
   work_start: bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>
   work_verify: bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
-  control_check: make control-check
+  control_check: bin/dora doctor .dora/project.yaml
   work_plan_preflight: bin/dora validate-work-plan .dora/project.yaml <work-plan>
 context:
   generated_output_paths: [audit_output, runtime_evidence]
 distribution:
   method: git_subtree
   source_repository: https://github.com/Jsakoman1/dora.git
-  source_ref: v1.9.0
-  source_commit: a7631603c11ad74fe873df713a04281cebda1ca8
+  source_ref: v1.10.1
+  source_commit: dcff938b9c8f6df47a3a6142008be907195736ca
   subtree_prefix: dora
-  update_command: git subtree pull --prefix=dora dora main --squash
-  rollback_rule: Revert the separate MuffinMan v1.9.0 pin commit to restore the recorded v1.8.0 pin; do not reconstruct product evidence from Dora.
+  update_command: git subtree pull --prefix=dora dora v1.10.1 --squash
+  rollback_rule: Revert the separate MuffinMan v1.10.1 pin commit to restore the recorded v1.9.0 pin; do not reconstruct product evidence from Dora.
 extensions:
   - id: muffinman-reusable-plugin-manifest
     category: product_contract

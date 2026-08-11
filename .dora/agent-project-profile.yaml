@@ -1,0 +1,30 @@
+kind: dora_agent_project_profile
+version: 1
+entrypoints:
+  - id: agent-guide
+    path: AGENTS.md
+    purpose: Read MuffinMan project boundaries before changing the product.
+canonical_knowledge:
+  - id: product-brief
+    path: docs/product-brief.yaml
+    purpose: Describe MuffinMan product intent and scope boundaries.
+  - id: domain-library
+    path: docs/domain-library.yaml
+    purpose: Describe shared product domain language and authority boundaries.
+stack_commands:
+  - id: dora-doctor
+    command: bin/dora doctor .dora/project.yaml
+    purpose: Validate the Dora consumer baseline.
+authority_limits:
+  - id: external-changes
+    rule: Do not publish, deploy, or change external state without explicit approval.
+evidence_requirements:
+  - id: implementation
+    rule: Record passing validation before marking work verified.
+implementation_order:
+  - id: understand
+    rule: Read canonical product and domain knowledge before planning a change.
+  - id: implement
+    rule: Make the smallest change that satisfies the approved scope.
+  - id: verify
+    rule: Run the declared relevant validation before closeout.

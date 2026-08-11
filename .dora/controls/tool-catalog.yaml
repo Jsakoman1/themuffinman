@@ -1,0 +1,8 @@
+kind: dora_tool_catalog
+version: 1
+commands:
+  - id: dora-doctor
+    target: bin/dora doctor .dora/project.yaml
+    purpose: Validate the vendored Dora consumer controls and knowledge declarations.
+    preconditions: [vendored Dora package is present]
+    expected_cost: short

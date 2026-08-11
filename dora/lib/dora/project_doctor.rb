@@ -112,6 +112,11 @@ module Dora
 
     def self.check_work_artifacts(adapter_path, project_root, checks)
       policy_path = File.join(File.dirname(File.expand_path(adapter_path)), "controls", "artifact-policy.yaml")
+      unless File.file?(policy_path)
+        checks << failed("work-artifact-audit", "required artifact policy is missing: .dora/controls/artifact-policy.yaml; add the declared dora_artifact_policy control file before running the work artifact audit")
+        return
+      end
+
       audit_config = ArtifactPolicy.work_artifact_audit_config!(policy_path)
       return if audit_config.fetch("paths").empty?
 

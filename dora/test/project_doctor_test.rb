@@ -70,6 +70,21 @@ Dir.mktmpdir("dora-doctor") do |sandbox|
   _output, unhealthy_status = Open3.capture2e(CLI, "doctor", unhealthy_adapter, chdir: ROOT)
   abort "doctor CLI accepted an unhealthy project" if unhealthy_status.success?
 
+  incomplete_root = File.join(sandbox, "incomplete")
+  Dora::ProjectInitializer.initialize!(incomplete_root, project_id: "incomplete-project", manifest_path: INIT_MANIFEST)
+  incomplete_adapter = File.join(incomplete_root, ".dora/project.yaml")
+  File.delete(File.join(incomplete_root, ".dora/controls/artifact-policy.yaml"))
+
+  incomplete = report_for(incomplete_adapter)
+  missing_policy = incomplete.fetch("checks").find { |check| check.fetch("id") == "work-artifact-audit" }
+  abort "doctor did not diagnose a missing artifact policy" unless missing_policy && missing_policy.fetch("status") == "failed"
+  abort "missing artifact policy diagnosis lacks remediation" unless missing_policy.fetch("detail").include?(".dora/controls/artifact-policy.yaml") && missing_policy.fetch("detail").include?("add")
+
+  incomplete_output, incomplete_status = Open3.capture2e(CLI, "doctor", incomplete_adapter, chdir: ROOT)
+  abort "doctor CLI accepted a project with a missing artifact policy" if incomplete_status.success?
+  abort "doctor CLI emitted a stack trace for a missing artifact policy" if incomplete_output.include?("Errno::ENOENT") || incomplete_output.include?("project_doctor.rb:")
+  abort "doctor CLI did not print the missing artifact policy diagnosis" unless incomplete_output.include?("FAILED work-artifact-audit: required artifact policy is missing: .dora/controls/artifact-policy.yaml")
+
   audited_root = File.join(sandbox, "audited")
   Dora::ProjectInitializer.initialize!(audited_root, project_id: "audited-project", manifest_path: INIT_MANIFEST)
   complete_controls(audited_root)

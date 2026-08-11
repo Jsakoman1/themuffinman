@@ -1,0 +1,6 @@
+kind: dora_documentation_evidence
+version: 1
+claims:
+  - id: dora-consumer-baseline
+    match: MuffinMan Dora consumer baseline
+    evidence: [docs/product-brief.yaml, docs/domain-library.yaml]

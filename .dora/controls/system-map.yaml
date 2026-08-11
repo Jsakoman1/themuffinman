@@ -1,0 +1,11 @@
+kind: dora_system_map
+version: 1
+nodes:
+  - id: muffinman-application
+  - id: vendored-dora
+  - id: product-and-domain-docs
+edges:
+  - from: product-and-domain-docs
+    to: muffinman-application
+  - from: vendored-dora
+    to: product-and-domain-docs

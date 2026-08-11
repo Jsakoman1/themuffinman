@@ -1,0 +1,6 @@
+kind: dora_change_routing
+version: 1
+rules:
+  - id: dora-consumer-controls
+    path_prefixes: [.dora/, dora/, bin/dora]
+    commands: [bin/dora doctor .dora/project.yaml]

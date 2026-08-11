@@ -1,0 +1,15 @@
+kind: dora_product_brief
+version: 1
+product: TheMuffinMan
+user_problem: People need one modular product for work, business appointments, sharing, selected-circle rides, and shared chat.
+primary_users: [Authenticated product users, business owners]
+intended_outcomes:
+  - Shared product modules use one authenticated application shell.
+  - Backend-owned rules can support the Web client and future mobile clients.
+non_goals:
+  - This Dora consumer baseline does not change MuffinMan product behavior or roadmap.
+assumptions:
+  - Backend services remain the authority for business rules, permissions, validations, and workflow transitions.
+risks:
+  - An unpinned or external Dora launcher can make local control results non-reproducible.
+unanswered_decisions: []

@@ -1,0 +1,33 @@
+kind: dora_domain_library
+version: 1
+vocabulary:
+  - id: modular-monolith
+    description: The current product is one Spring Boot and Vue application organized into domain modules.
+  - id: dora-consumer
+    description: MuffinMan uses a vendored Dora package for project control commands.
+entities:
+  - id: product-module
+    description: A product area such as work, business, sharing, rides, or shared chat owned by the MuffinMan application.
+invariants:
+  - id: backend-owned-rules
+    description: Business rules, permissions, validations, and workflow transitions remain in backend services.
+permission_rules:
+  - id: backend-action-authority
+    actor: authenticated product user
+    action: request a permitted product action
+    boundary: Backend services decide permissions and allowed state transitions.
+workflows:
+  - id: implementation-change
+    initial_state: planned
+    transitions:
+      - from: planned
+        to: active
+        action: start approved implementation work
+      - from: active
+        to: verified
+        action: record passing validation
+acceptance_scenarios:
+  - id: backend-governed-client-action
+    given: An authenticated client requests a product action.
+    when: The backend evaluates the request.
+    then: The backend returns the allowed action or validation outcome for the client to present.
