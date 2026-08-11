@@ -20,7 +20,7 @@ classification_contract:
   muffinman_extension: Product-specific logic, contracts, runtime scenarios, or orchestration that remains owned by MuffinMan.
   historical_retention: Preserved legacy artifact that is intentionally not invoked by Dora or MuffinMan control flow.
 baseline_counts:
-  scripts: 80
+  scripts: 85
   make_targets: 53
 consumer_adapter_bindings:
   - project: muffinman
