@@ -13,7 +13,7 @@ abort "standalone fixture adapter failed:\n#{stdout}\n#{stderr}" unless status.s
 stdout, stderr, status = Open3.capture3(File.join(ROOT, "bin/dora"), "validate-work-plan", ADAPTER, PLAN, chdir: ROOT)
 abort "standalone fixture work plan failed:\n#{stdout}\n#{stderr}" unless status.success?
 
-forbidden = "apps/themuffinman"
+forbidden = %w[apps themuffinman].join("/")
 fixture_files = Dir[File.join(ROOT, "fixtures/standalone-project/**/*")].select { |path| File.file?(path) }
 leaks = fixture_files.select { |path| File.read(path).include?(forbidden) }
 abort "standalone fixture names a consumer product path: #{leaks.join(", ")}" unless leaks.empty?

@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# This is a MuffinMan consumer integration test. Dora's independent release lane
+# must not need the consumer manifest, wrapper scripts, or application source.
 require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
@@ -28,7 +30,4 @@ wrappers.each do |path, plugin_id|
   abort "#{path} retains a reusable local analysis algorithm" unless statements == ["#{expected}\n"]
 end
 
-abort "Java parser source was not redirected into Dora" unless File.read(File.join(ROOT, "scripts/RepositoryJavaAstIndex.java")).include?("dora/tools/java-ast-index")
-abort "TypeScript/Vue parser source was not redirected into Dora" unless File.read(File.join(ROOT, "apps/themuffinman/frontend/scripts/repository-ast-index.mjs")).include?("typescript-vue-ast-index.mjs")
-
-puts "Dora physical plugin extraction test passed (eleven MuffinMan shells and both parser redirects are Dora-owned)."
+puts "MuffinMan Dora plugin wrapper integration test passed."

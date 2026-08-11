@@ -31,12 +31,13 @@ def create_project(root, invalid_memory: false, ambiguous: false)
   master = {"kind" => "master", "version" => 1, "id" => "consumer", "title" => "Consumer delivery", "status" => "verified", "children" => ["docs/work/consumer.yaml"]}
   plan = {
     "kind" => "work", "version" => 1, "id" => "consumer-work", "title" => "Consumer task", "status" => "verified", "baseline" => "pending",
-    "tasks" => [{"id" => "consumer-task", "title" => "Produce a verified consumer result", "status" => "done", "observable_outcome" => "Consumer result exists.", "dependencies" => [], "required_paths" => ["docs/result.md"], "validation" => "safe-command", "evidence_boundary" => ["fixture"]}],
+    "tasks" => [{"id" => "consumer-task", "title" => "Produce a verified consumer result", "status" => "done", "observable_outcome" => "Consumer result exists.", "dependencies" => [], "paths" => ["docs/result.md"], "required_paths" => ["docs/result.md"], "validation" => "safe-command", "evidence_boundary" => ["fixture"]}],
     "evidence" => [{"task" => "consumer-task", "result" => "passed", "ranAt" => FIXTURE.fetch("latest_verified_at"), "revision" => "abcdef1", "exitCode" => 0, "output" => FIXTURE.dig("independent_consumer", "raw_output")}]
   }
   inventory = {
     "kind" => "execution_inventory", "version" => 1, "id" => "consumer", "master_plan" => "docs/work/consumer-master.yaml",
-    "items" => [{"id" => "consumer-item", "plan" => "docs/work/consumer.yaml", "task" => "consumer-task", "status" => "verified", "verified_at" => FIXTURE.fetch("latest_verified_at")}]
+    "state" => "verified",
+    "items" => [{"id" => "consumer-item", "order" => 1, "plan" => "docs/work/consumer.yaml", "task" => "consumer-task", "status" => "verified", "verified_at" => FIXTURE.fetch("latest_verified_at")}]
   }
   write_yaml(root, "docs/work/consumer-master.yaml", master)
   write_yaml(root, "docs/work/consumer.yaml", plan)

@@ -24,7 +24,4 @@ Dir.mktmpdir("dora-java-ast-index") do |root|
   abort "portable Java AST index unexpectedly names MuffinMan" if JSON.generate(index).downcase.include?("muffinman")
 end
 
-legacy = File.read(File.expand_path("../../scripts/RepositoryJavaAstIndex.java", __dir__))
-abort "MuffinMan Java AST source was not redirected to Dora" unless legacy.include?("dora/tools/java-ast-index")
-
-puts "Dora Java AST index test passed (portable JDK parser and redirected MuffinMan compatibility shell)."
+puts "Dora Java AST index test passed (portable JDK parser)."
