@@ -1,0 +1,47 @@
+kind: work
+version: 1
+id: dora-idc-operational-v0-04-owner-workflow
+title: Prove the owner-started IDC workflow and Bridge read profile
+status: draft
+baseline: 0052313258a7228f9fecb87ebe9d31ec97c9c515
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+execution_inventory: docs/work/dora-idc-operational-v0-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/dora-idc-operational-v0-01-contract.yaml
+    - docs/work/dora-idc-operational-v0-02-renderer.yaml
+    - docs/work/dora-idc-operational-v0-03-envelope.yaml
+    - docs/work/dora-bridge-v2-2-collaboration-master.yaml
+  baseline_only_surfaces:
+    - Existing Bridge read behavior, structured handoff lifecycle, owner-local runner, Codex execution contract, and consumer-project isolation.
+  residual_scope:
+    - One integration proof that reuses the IDC-02 local idc CLI and one read-only Bridge profile that returns the IDC-03 sanitized envelope shape.
+  retest_triggers:
+    - Any IDC command input/output path rule, Bridge profile field, bridge request validation, envelope selector, or owner-start boundary change.
+  non_duplication_rule: The workflow composes the existing IDC-02 CLI and IDC-03 envelope with safe read surfaces; it creates no second owner command, renderer, filesystem writer, runner, handoff lifecycle, decision, evidence, or consumer state.
+tasks:
+  - id: prove-owner-started-idc-workflow-and-bridge-read-profile
+    title: Prove an existing local IDC command works with a read-only Bridge envelope
+    type: owner-started-advisory-workflow
+    status: pending
+    inventory_item: idc-04-owner-workflow
+    observable_outcome: An integration test reuses the existing IDC-02 local idc CLI over a request and allow-listed manifest, while an authorized Bridge reader retrieves only the fixed IDC-03 sanitized envelope response; neither surface can start Codex or mutate Dora.
+    dependencies:
+      - idc-03-envelope
+    evidence_boundary:
+      - Local synthetic request/manifest fixtures, fixed Bridge request fixtures, and owner-start contract tests only.
+      - No new owner command, renderer, or filesystem writer; the test only exercises the command and declared output behavior already introduced by IDC-02.
+      - No remote execution, Codex invocation, terminal inspection, handoff creation, Dora write, consumer-project read/write, arbitrary filesystem access, external request, Git action, or persisted dossier inside Dora.
+    paths:
+      - idc/test/owner_workflow_integration_test.rb
+      - bridge/lib/dora_bridge/server.rb
+      - bridge/test/mcp_server_test.rb
+    required_paths:
+      - idc/test/owner_workflow_integration_test.rb
+      - bridge/lib/dora_bridge/server.rb
+      - bridge/test/mcp_server_test.rb
+    validation: ruby idc/test/owner_workflow_integration_test.rb && ruby bridge/test/mcp_server_test.rb && ruby test/idc_envelope_test.rb
+evidence: []

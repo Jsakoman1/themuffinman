@@ -1,0 +1,76 @@
+kind: work
+version: 1
+id: idc-pilot-atomic-hardening
+title: Verify IDC pilot atomic boundaries before module implementation
+status: verified
+baseline: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/idc-pilot-master.yaml
+execution_inventory: docs/work/idc-pilot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Dora's existing canonical delivery controls and greenfield discovery primitives.
+  residual_scope:
+  - One review record proving the IDC pilot queue has bounded, serial, advisory-only
+    tasks.
+  retest_triggers:
+  - Any IDC pilot child plan or inventory mapping change.
+  non_duplication_rule: The hardening record proves plan shape only; it is not IDC
+    state or a Dora decision.
+tasks:
+- id: verify-idc-pilot-atomic-boundaries
+  title: Record atomic IDC pilot boundary review
+  type: governance-review
+  status: done
+  inventory_item: harden-idc-pilot
+  observable_outcome: A review record confirms every IDC pilot task has one bounded
+    outcome, exact paths, serial dependency, leaf validation, and no Dora mutation
+    authority.
+  dependencies: []
+  evidence_boundary:
+  - Plan/inventory structure and the review record only.
+  - No IDC module behavior, Dora artifact mutation, Git action, Codex action, or external
+    request.
+  paths:
+  - docs/work/idc-pilot-atomic-hardening-review.yaml
+  required_paths:
+  - docs/work/idc-pilot-atomic-hardening-review.yaml
+  validation: RUBYOPT= ruby scripts/audits/audit-serial-execution-inventory.rb docs/work/idc-pilot-master.yaml
+    docs/work/idc-pilot-execution-inventory.yaml
+  started_at: '2026-08-12T06:50:32Z'
+  start_fingerprints:
+    docs/work/idc-pilot-atomic-hardening-review.yaml: __missing__
+  start_workspace_paths:
+  - docs/work/idc-pilot-atomic-hardening.yaml
+  - docs/work/idc-pilot-execution-inventory.yaml
+  - docs/work/idc-pilot-foundation.yaml
+  - docs/work/idc-pilot-master.yaml
+  - docs/work/idc-pilot-profiles.yaml
+evidence:
+- task: verify-idc-pilot-atomic-boundaries
+  command: RUBYOPT= ruby scripts/audits/audit-serial-execution-inventory.rb docs/work/idc-pilot-master.yaml
+    docs/work/idc-pilot-execution-inventory.yaml
+  ranAt: '2026-08-12T06:50:55Z'
+  revision: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/work/idc-pilot-atomic-hardening-review.yaml
+  output: "Serial execution inventory audit passed through Dora core.\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/work/idc-pilot-atomic-hardening-review.yaml: eba8672f59c9363fd37700f54a14fca098f15749293e6ee7e97cfae1c4d54f37
+  requiredPaths: &1
+  - docs/work/idc-pilot-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T06:50:32Z'
+  changedAfterStart: *1

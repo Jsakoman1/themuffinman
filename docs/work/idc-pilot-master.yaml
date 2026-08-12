@@ -1,0 +1,36 @@
+kind: master
+version: 1
+id: idc-pilot
+title: Prove a local advisory Intent & Delivery Context workspace without Dora authority duplication
+status: draft
+baseline: 0052313258a7228f9fecb87ebe9d31ec97c9c515
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/idc-pilot-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/idc-pilot-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - dora/docs/work/dora-greenfield-discovery-delivery-master.yaml
+  - dora/docs/work/chatgpt-intent-plan-alignment-master.yaml
+  baseline_only_surfaces:
+  - Existing Dora discovery, DecisionLog, ProjectMemory, work lifecycle, verifier, Bridge,
+    IntentPlanAlignment, AgentSession, ProjectReadModel, and ChangeImpact behavior.
+  - Existing DoomsDayStorage historical delivery evidence and source documents.
+  residual_scope:
+  - A local file-backed advisory IDC module with deterministic dossier validation and rendering.
+  - One manually imported sanitized Dora read-envelope fixture and two owner-readable local pilot dossiers.
+  retest_triggers:
+  - Any IDC authority boundary, source/provenance rule, dossier profile, or Dora envelope contract change.
+  - Any change to the selected Dora discovery/read-model behavior used as baseline.
+  non_duplication_rule: IDC dossiers remain advisory. Dora remains the only canonical decision,
+    work, evidence, and verified-status authority.
+non_goals:
+- Hosted service, database, vector index, MCP server, agent runtime, personal-memory store,
+  automatic Dora read, Dora write, Git/code write, Codex invocation, or external research fetch.
+- Migration or modification of Dora canonical artifacts or existing bounded delivery workflow.
+children:
+- docs/work/idc-pilot-atomic-hardening.yaml
+- docs/work/idc-pilot-foundation.yaml
+- docs/work/idc-pilot-profiles.yaml
+evidence: []

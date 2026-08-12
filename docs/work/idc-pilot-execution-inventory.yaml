@@ -1,0 +1,48 @@
+kind: execution_inventory
+version: 1
+id: idc-pilot
+master_plan: docs/work/idc-pilot-master.yaml
+state: draft
+execution_mode: strict_serial
+atomic_hardening:
+  task_count: 3
+  task_shape: One observable outcome, bounded required paths, direct dependency, leaf
+    validation, and an explicit advisory-only evidence boundary.
+  queue_rule: A later item cannot start until its direct predecessor is verifier-marked
+    verified.
+ownership_boundary: IDC owns local advisory dossier fixtures, validation, rendering,
+  and promotion proposals. Dora owns all canonical project state and delivery governance.
+items:
+- id: harden-idc-pilot
+  order: 1
+  plan: docs/work/idc-pilot-atomic-hardening.yaml
+  task: verify-idc-pilot-atomic-boundaries
+  status: verified
+  started_at: '2026-08-12T06:50:32Z'
+  verified_at: '2026-08-12T06:50:55Z'
+  evidence:
+    plan: docs/work/idc-pilot-atomic-hardening.yaml
+    task: verify-idc-pilot-atomic-boundaries
+    revision: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+- id: implement-idc-foundation
+  order: 2
+  plan: docs/work/idc-pilot-foundation.yaml
+  task: implement-local-advisory-dossier-contract
+  status: verified
+  started_at: '2026-08-12T06:51:10Z'
+  verified_at: '2026-08-12T06:53:47Z'
+  evidence:
+    plan: docs/work/idc-pilot-foundation.yaml
+    task: implement-local-advisory-dossier-contract
+    revision: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+- id: prove-idc-profiles
+  order: 3
+  plan: docs/work/idc-pilot-profiles.yaml
+  task: prove-local-greenfield-and-research-dossiers
+  status: verified
+  started_at: '2026-08-12T06:54:07Z'
+  verified_at: '2026-08-12T06:56:55Z'
+  evidence:
+    plan: docs/work/idc-pilot-profiles.yaml
+    task: prove-local-greenfield-and-research-dossiers
+    revision: '0052313258a7228f9fecb87ebe9d31ec97c9c515'

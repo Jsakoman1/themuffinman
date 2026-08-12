@@ -1,0 +1,18 @@
+kind: idc_dora_read_envelope
+version: 1
+id: doomsday-storage-v1-historical-envelope
+project_id: doomsday-storage
+observed_at: "2026-08-12T09:00:00Z"
+source_revision: e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d
+sanitized: true
+accepted_decisions: []
+open_decisions:
+  - id: historical-v1-owner-reconfirmation
+    statement: This is a historical pre-plan snapshot; it does not imply current owner approval of a plan, architecture, or delivery status.
+    reference: DoomsDayStorage@e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d:docs/idea-interview.yaml
+relevant_artifacts:
+  - id: historical-owner-intent
+    reference: DoomsDayStorage@e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d:docs/idea-interview.yaml
+    revision_or_digest: e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d
+    role: manually-imported historical owner intent
+authority_boundary: This envelope is an owner-selected, sanitized, read-only historical summary. IDC must not resolve it automatically, write Dora, or infer canonical approval from it.

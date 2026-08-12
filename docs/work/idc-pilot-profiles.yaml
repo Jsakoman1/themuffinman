@@ -1,0 +1,124 @@
+kind: work
+version: 1
+id: idc-pilot-profiles
+title: Prove IDC research and greenfield dossier profiles from local fixtures
+status: verified
+baseline: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/idc-pilot-master.yaml
+execution_inventory: docs/work/idc-pilot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - dora/docs/work/dora-greenfield-discovery-delivery-master.yaml
+  baseline_only_surfaces:
+  - DoomsDayStorage historical V1 intent and Dora's existing bounded delivery workflow.
+  residual_scope:
+  - Two local advisory dossier fixtures and deterministic profile/authority regression
+    tests.
+  retest_triggers:
+  - Any profile field, source-envelope, renderer, or pilot fixture change.
+  non_duplication_rule: Fixture conclusions remain advisory examples and cannot promote
+    to Dora or alter history.
+tasks:
+- id: prove-local-greenfield-and-research-dossiers
+  title: Render traced greenfield and non-coding advisory dossier examples
+  type: local-advisory-pilot
+  status: done
+  inventory_item: prove-idc-profiles
+  observable_outcome: IDC renders a greenfield DoomsDayStorage historical-snapshot
+    baseline and a synthetic non-coding research dossier with cited sources, visible
+    conflicts/gaps/staleness, and promotion proposals.
+  dependencies:
+  - implement-idc-foundation
+  evidence_boundary:
+  - Manually imported sanitized Dora envelope plus local historical/synthetic fixture
+    inputs only.
+  - No automatic Dora read, Dora write, external/private source access, Git/code mutation,
+    Codex invocation, shell runtime, database, service, or network request.
+  paths:
+  - idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml
+  - idc/dossiers/doomsday-storage-greenfield-baseline.yaml
+  - idc/dossiers/agricultural-land-options-research-dossier.yaml
+  - idc/test/profile_test.rb
+  required_paths:
+  - idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml
+  - idc/dossiers/doomsday-storage-greenfield-baseline.yaml
+  - idc/dossiers/agricultural-land-options-research-dossier.yaml
+  - idc/test/profile_test.rb
+  validation: ruby idc/test/profile_test.rb && ruby dora/test/discovery_synthesis_test.rb
+    && ruby dora/test/intent_plan_alignment_test.rb && ruby dora/test/project_read_model_test.rb
+    && bin/dora doctor .dora/project.yaml
+  started_at: '2026-08-12T06:54:07Z'
+  start_fingerprints:
+    idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml: __missing__
+    idc/dossiers/doomsday-storage-greenfield-baseline.yaml: __missing__
+    idc/dossiers/agricultural-land-options-research-dossier.yaml: __missing__
+    idc/test/profile_test.rb: __missing__
+  start_workspace_paths:
+  - docs/work/idc-pilot-atomic-hardening-review.yaml
+  - docs/work/idc-pilot-atomic-hardening.yaml
+  - docs/work/idc-pilot-execution-inventory.yaml
+  - docs/work/idc-pilot-foundation.yaml
+  - docs/work/idc-pilot-master.yaml
+  - docs/work/idc-pilot-profiles.yaml
+  - idc/README.md
+  - idc/lib/idc/dora_envelope.rb
+  - idc/lib/idc/dossier.rb
+  - idc/test/dossier_test.rb
+evidence:
+- task: prove-local-greenfield-and-research-dossiers
+  command: ruby idc/test/profile_test.rb && ruby dora/test/discovery_synthesis_test.rb
+    && ruby dora/test/intent_plan_alignment_test.rb && ruby dora/test/project_read_model_test.rb
+    && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-12T06:56:54Z'
+  revision: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - idc/dossiers/agricultural-land-options-research-dossier.yaml
+  - idc/dossiers/doomsday-storage-greenfield-baseline.yaml
+  - idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml
+  - idc/test/profile_test.rb
+  output: |+
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED command:work_plan_preflight: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml: 61763c97c7c47b8ead4138e1109924da57b415a2e0e057f7bf1c2107b6c531ff
+    idc/dossiers/doomsday-storage-greenfield-baseline.yaml: 9ebb953524e00f3311507cf34b9ef895757cd085b1f6090429faa507d125fa52
+    idc/dossiers/agricultural-land-options-research-dossier.yaml: 6c67ccb90f48760e5ce60511cd8b3887d6b116aa3448f58d6b83cbad67001b53
+    idc/test/profile_test.rb: 87ef04d0aae39b35579d166d6b56b33efc6547aafac700bda6f87de118f9920a
+  requiredPaths: &1
+  - idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml
+  - idc/dossiers/doomsday-storage-greenfield-baseline.yaml
+  - idc/dossiers/agricultural-land-options-research-dossier.yaml
+  - idc/test/profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T06:54:07Z'
+  changedAfterStart: *1

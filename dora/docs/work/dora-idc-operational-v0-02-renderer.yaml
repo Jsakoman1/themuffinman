@@ -1,0 +1,47 @@
+kind: work
+version: 1
+id: dora-idc-operational-v0-02-renderer
+title: Implement the local IDC validator and deterministic renderer
+status: draft
+baseline: 0052313258a7228f9fecb87ebe9d31ec97c9c515
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+execution_inventory: docs/work/dora-idc-operational-v0-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/dora-idc-operational-v0-01-contract.yaml
+  baseline_only_surfaces:
+    - Existing Dora discovery synthesis, ProjectReadModel, Bridge, and work lifecycle behavior.
+  residual_scope:
+    - The program's only local idc CLI, validating and stably rendering explicitly supplied IDC request, source manifest, and dossier data.
+  retest_triggers:
+    - Any rendering, source/claim linkage, status, freshness, conflict, missing-context, stop-condition, or promotion-proposal behavior change.
+  non_duplication_rule: The renderer presents advisory owner-readable material and does not become a research engine, decision log, or lifecycle store.
+tasks:
+  - id: implement-idc-local-validator-and-renderer
+    title: Validate and render explicit advisory dossier material locally
+    type: local-advisory-renderer
+    status: pending
+    inventory_item: idc-02-renderer
+    observable_outcome: The program's only owner-started local idc CLI deterministically validates and renders one explicitly supplied dossier while keeping source-to-claim traceability, conflicts, evidence-bounded missing_context, open questions, stop conditions, and promotion proposals visible.
+    dependencies:
+      - idc-01-contract
+    evidence_boundary:
+      - Local synthetic fixtures and deterministic command output only.
+      - Code changes are allowed only in this task's explicit target paths; no mutation is permitted outside them.
+      - At runtime the CLI consumes only explicitly supplied request, manifest, and dossier inputs and writes only its declared output destination.
+      - No source discovery, arbitrary filesystem traversal, Dora read/write, network, web request, database, Git or repository behavior, subprocess or shell execution by IDC, or Codex invocation.
+    paths:
+      - idc/lib/idc/dossier.rb
+      - idc/lib/idc/request.rb
+      - idc/bin/idc
+      - idc/test/dossier_renderer_test.rb
+    required_paths:
+      - idc/lib/idc/dossier.rb
+      - idc/lib/idc/request.rb
+      - idc/bin/idc
+      - idc/test/dossier_renderer_test.rb
+    validation: ruby idc/test/dossier_renderer_test.rb && ruby idc/test/idc_v0_contract_test.rb
+evidence: []

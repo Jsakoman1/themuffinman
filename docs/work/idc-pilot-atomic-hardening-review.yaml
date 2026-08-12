@@ -1,0 +1,48 @@
+kind: atomic_task_hardening_review
+version: 1
+id: idc-pilot-atomic-hardening-review
+master_plan: docs/work/idc-pilot-master.yaml
+execution_inventory: docs/work/idc-pilot-execution-inventory.yaml
+reviewed_at: 2026-08-12
+conclusion: ready_for_serial_execution
+authority_boundary:
+  dora: Canonical owner decisions, Master Plans, task lifecycle, evidence, and verified status remain in Dora.
+  idc: Local dossier validation, manually supplied advisory material, deterministic rendering, and owner-readable promotion proposals only.
+  prohibited: IDC has no Dora write path, automatic Dora read, ProjectMemory copy, Git/code write, Codex invocation, shell runtime, network request, database, hosted service, vector index, MCP server, agent runtime, or personal-memory authority.
+tasks:
+  - inventory_item: harden-idc-pilot
+    task: verify-idc-pilot-atomic-boundaries
+    observable_outcome: Review record proves the queued work is atomic and advisory-only.
+    required_paths:
+      - docs/work/idc-pilot-atomic-hardening-review.yaml
+    dependency: none
+    leaf_validation: RUBYOPT= ruby scripts/audits/audit-serial-execution-inventory.rb docs/work/idc-pilot-master.yaml docs/work/idc-pilot-execution-inventory.yaml
+    evidence_boundary: Plan and inventory structure plus this review record; no module behavior or external action.
+  - inventory_item: implement-idc-foundation
+    task: implement-local-advisory-dossier-contract
+    observable_outcome: Deterministic validation and rendering of local advisory dossiers and manually imported sanitized Dora envelopes.
+    required_paths:
+      - idc/README.md
+      - idc/lib/idc/dossier.rb
+      - idc/lib/idc/dora_envelope.rb
+      - idc/test/dossier_test.rb
+    dependency: harden-idc-pilot
+    leaf_validation: ruby idc/test/dossier_test.rb
+    evidence_boundary: Local Ruby value/file validation and deterministic render tests only; no Dora read/write or runtime capability.
+  - inventory_item: prove-idc-profiles
+    task: prove-local-greenfield-and-research-dossiers
+    observable_outcome: Two cited, uncertainty-preserving local dossier profiles render from a historical and a synthetic fixture.
+    required_paths:
+      - idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml
+      - idc/dossiers/doomsday-storage-greenfield-baseline.yaml
+      - idc/dossiers/agricultural-land-options-research-dossier.yaml
+      - idc/test/profile_test.rb
+    dependency: implement-idc-foundation
+    leaf_validation: ruby idc/test/profile_test.rb && ruby dora/test/discovery_synthesis_test.rb && ruby dora/test/intent_plan_alignment_test.rb && ruby dora/test/project_read_model_test.rb && bin/dora doctor .dora/project.yaml
+    evidence_boundary: Manually imported sanitized Dora envelope and local historical/synthetic inputs only; no external/private source access or state mutation.
+review_checks:
+  - Every task has one observable outcome, exact required paths, one direct predecessor or none, a leaf validation command, and an explicit evidence boundary.
+  - The inventory maps every child task exactly once in one serial order.
+  - The first task is verified before any IDC module or pilot fixture implementation can begin.
+  - Existing Dora capabilities are baseline-only unless a listed retest trigger is changed.
+  - No advisory statement can become a Dora decision, plan, evidence record, or verified status without a separate owner-approved Dora workflow.

@@ -1,0 +1,96 @@
+kind: work
+version: 1
+id: idc-pilot-foundation
+title: Implement the local advisory dossier contract
+status: verified
+baseline: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/idc-pilot-master.yaml
+execution_inventory: docs/work/idc-pilot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - dora/docs/work/dora-greenfield-discovery-delivery-master.yaml
+  baseline_only_surfaces:
+  - Dora provenance, discovery, context, and canonical promotion behavior.
+  residual_scope:
+  - Local IDC advisory dossier and sanitized read-envelope validation with deterministic
+    rendering.
+  retest_triggers:
+  - Any dossier status, provenance, staleness, authority-boundary, or envelope validation
+    change.
+  non_duplication_rule: IDC validates advisory material only and cannot become a Dora
+    read/write or lifecycle path.
+tasks:
+- id: implement-local-advisory-dossier-contract
+  title: Build deterministic local IDC dossier and Dora-envelope validation
+  type: local-advisory-module
+  status: done
+  inventory_item: implement-idc-foundation
+  observable_outcome: The local IDC module validates cited advisory dossiers and manually
+    imported sanitized Dora envelopes, preserves uncertainty, and renders stable owner-readable
+    Markdown.
+  dependencies:
+  - harden-idc-pilot
+  evidence_boundary:
+  - Local Ruby value/file validation and deterministic render tests only.
+  - No Dora read/write command, ProjectMemory copy, Git/code mutation, Codex invocation,
+    shell execution, database, network, external research fetch, or persistent service.
+  paths:
+  - idc/README.md
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/dora_envelope.rb
+  - idc/test/dossier_test.rb
+  required_paths:
+  - idc/README.md
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/dora_envelope.rb
+  - idc/test/dossier_test.rb
+  validation: ruby idc/test/dossier_test.rb
+  started_at: '2026-08-12T06:51:10Z'
+  start_fingerprints:
+    idc/README.md: __missing__
+    idc/lib/idc/dossier.rb: __missing__
+    idc/lib/idc/dora_envelope.rb: __missing__
+    idc/test/dossier_test.rb: __missing__
+  start_workspace_paths:
+  - docs/work/idc-pilot-atomic-hardening-review.yaml
+  - docs/work/idc-pilot-atomic-hardening.yaml
+  - docs/work/idc-pilot-execution-inventory.yaml
+  - docs/work/idc-pilot-foundation.yaml
+  - docs/work/idc-pilot-master.yaml
+  - docs/work/idc-pilot-profiles.yaml
+evidence:
+- task: implement-local-advisory-dossier-contract
+  command: ruby idc/test/dossier_test.rb
+  ranAt: '2026-08-12T06:53:47Z'
+  revision: '0052313258a7228f9fecb87ebe9d31ec97c9c515'
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - idc/README.md
+  - idc/lib/idc/dora_envelope.rb
+  - idc/lib/idc/dossier.rb
+  - idc/test/dossier_test.rb
+  output: "IDC dossier contract tests passed\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    idc/README.md: fe81b87a6dc77139970a203fbb697119bb374b062a2b7466e61afed7a02f7916
+    idc/lib/idc/dossier.rb: 56fcac1373c5c398b3c3c29fa6915a6e05b76f849a42d7c62980134a827d57a6
+    idc/lib/idc/dora_envelope.rb: 00c50561af85d445ae8dafce12efb9795d3173e5ff512e6e26729eb07656392e
+    idc/test/dossier_test.rb: b050621e4d1af3a091625f0bfdb3639daae16e45dbeab8bc1df951a79a08e68d
+  requiredPaths: &1
+  - idc/README.md
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/dora_envelope.rb
+  - idc/test/dossier_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T06:51:10Z'
+  changedAfterStart: *1

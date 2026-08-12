@@ -1,0 +1,30 @@
+kind: execution_inventory
+version: 1
+id: dora-idc-operational-v0
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+state: draft
+execution_mode: strict_serial
+atomic_hardening:
+  first_item: idc-01-contract
+  rule: IDC-01 must prove each later task has one observable outcome, exact paths, a direct predecessor, leaf validation, and an explicit no-authority evidence boundary before implementation begins.
+items:
+  - id: idc-01-contract
+    order: 1
+    plan: docs/work/dora-idc-operational-v0-01-contract.yaml
+    task: formalize-idc-v0-contract
+    status: pending
+  - id: idc-02-renderer
+    order: 2
+    plan: docs/work/dora-idc-operational-v0-02-renderer.yaml
+    task: implement-idc-local-validator-and-renderer
+    status: pending
+  - id: idc-03-envelope
+    order: 3
+    plan: docs/work/dora-idc-operational-v0-03-envelope.yaml
+    task: implement-explicit-dora-idc-envelope-export
+    status: pending
+  - id: idc-04-owner-workflow
+    order: 4
+    plan: docs/work/dora-idc-operational-v0-04-owner-workflow.yaml
+    task: prove-owner-started-idc-workflow-and-bridge-read-profile
+    status: pending

@@ -1,0 +1,89 @@
+kind: idc_dossier
+version: 1
+id: doomsday-storage-greenfield-baseline
+profile: greenfield_product_delivery_baseline
+title: DoomsDayStorage historical greenfield product and delivery baseline
+objective: Reconstruct the owner-readable pre-plan questions from an explicitly selected historical snapshot without claiming current Dora authority.
+observed_at: "2026-08-12T09:00:00Z"
+sources:
+  - id: historical-owner-interview
+    kind: owner_record
+    locator: DoomsDayStorage@e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d:docs/idea-interview.yaml
+    revision_or_digest: e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d
+    observed_at: "2026-08-12T09:00:00Z"
+    confidence: high
+    freshness: stale
+  - id: historical-dora-envelope
+    kind: dora_read_envelope
+    locator: idc/envelopes/doomsday-storage-v1-dora-read-envelope.yaml
+    revision_or_digest: e6f323c4f85d4d2d5321dbd90422ea6c74a6ba0d
+    observed_at: "2026-08-12T09:00:00Z"
+    confidence: high
+    freshness: stale
+claims:
+  - id: outcome
+    status: owner_confirmed
+    statement: Historical owner intent was to see household emergency supplies across primary, vehicle, and backpack locations, including expiry, FIFO use, and replenishment awareness.
+    source_ids: [historical-owner-interview]
+    confidence: high
+  - id: v1-boundary
+    status: owner_confirmed
+    statement: The historical first capability was to add a supply item at a selected location with quantity and expiry date.
+    source_ids: [historical-owner-interview]
+    confidence: high
+  - id: expiry-journey
+    status: scenario
+    statement: A household owner adds an item to a chosen location, then later needs the item to remain visible with its expiry and correct use ordering.
+    source_ids: [historical-owner-interview]
+    confidence: medium
+  - id: ownership-gap
+    status: missing_context
+    statement: The historical snapshot names a single owner first and household accounts later, but does not define invitation, visibility, or data-ownership rules.
+    source_ids: [historical-owner-interview]
+    confidence: high
+  - id: local-first-option
+    status: alternative
+    statement: A local-first walking skeleton could prove one owner, selected location, supply item, quantity, and expiry before household synchronization is considered.
+    source_ids: [historical-owner-interview]
+    confidence: medium
+  - id: service-first-option
+    status: alternative
+    statement: A service-first design could model household membership early, but adds authorization and synchronization scope before the first storage journey is proven.
+    source_ids: [historical-owner-interview]
+    confidence: medium
+  - id: quality-gap
+    status: open_question
+    statement: The historical material does not answer privacy, backup, retention, recovery, cost, observability, or deployment expectations.
+    source_ids: [historical-owner-interview]
+    confidence: high
+  - id: operations-boundary
+    status: missing_context
+    statement: No historical source defines an operational owner, support boundary, or recovery expectation for the first release.
+    source_ids: [historical-owner-interview]
+    confidence: high
+  - id: scope-tension
+    status: conflict
+    statement: The historical desired outcome spans several locations and replenishment behavior, while the named first capability is only item entry; owner confirmation is needed before treating broader workflows as V1.
+    source_ids: [historical-owner-interview, historical-dora-envelope]
+    confidence: high
+  - id: first-slice
+    status: advisory_recommendation
+    statement: "Candidate first vertical slice: one owner records one expiring supply item at one selected location and can read it back with an explicit unimplemented boundary for sharing, FIFO automation, and replenishment."
+    source_ids: [historical-owner-interview, historical-dora-envelope]
+    confidence: medium
+sections:
+  problem_and_outcome: [outcome]
+  users_and_journeys: [expiry-journey]
+  v1_scope: [v1-boundary, scope-tension]
+  domain_data_state: [ownership-gap]
+  architecture_options: [local-first-option, service-first-option]
+  quality_operations: [operations-boundary]
+  risks_and_questions: [quality-gap]
+  first_vertical_slice: [first-slice]
+promotion_proposals:
+  - id: promote-current-v1-boundary
+    statement: Owner may explicitly reconfirm or replace the historical V1 boundary before Dora creates a current product brief or Master Plan.
+    target: product_brief
+    source_ids: [historical-owner-interview, historical-dora-envelope]
+    owner_action_required: true
+authority_boundary: This historical baseline is advisory-only. It is not current Dora state, does not verify delivery, and cannot create a Dora decision or plan without explicit owner promotion.

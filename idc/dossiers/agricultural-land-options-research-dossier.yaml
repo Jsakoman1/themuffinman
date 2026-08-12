@@ -1,0 +1,84 @@
+kind: idc_dossier
+version: 1
+id: agricultural-land-options-research-dossier
+profile: research_dossier
+title: Synthetic agricultural land options research dossier
+objective: Demonstrate a non-coding owner-readable comparison while keeping synthetic evidence, uncertainty, and owner choices explicit.
+observed_at: "2026-08-12T09:00:00Z"
+sources:
+  - id: owner-question
+    kind: manual_owner_note
+    locator: "Pilot fixture: owner asks how to compare two agricultural land approaches before any purchase decision."
+    revision_or_digest: owner-question-v1
+    observed_at: "2026-08-12T09:00:00Z"
+    confidence: high
+    freshness: current
+  - id: synthetic-option-sheet
+    kind: synthetic_fixture
+    locator: Pilot-only fictional comparison of Option A and Option B; not an external listing, valuation, rule, or recommendation.
+    revision_or_digest: synthetic-land-options-v1
+    observed_at: "2026-07-01T09:00:00Z"
+    confidence: low
+    freshness: stale
+  - id: synthetic-site-notes
+    kind: synthetic_fixture
+    locator: Pilot-only fictional notes that deliberately disagree about water access; not an inspection or external research.
+    revision_or_digest: synthetic-site-notes-v1
+    observed_at: "2026-07-01T09:00:00Z"
+    confidence: low
+    freshness: conflicting
+claims:
+  - id: comparison-goal
+    status: owner_confirmed
+    statement: The owner wants a reversible comparison before deciding whether any agricultural land option deserves real research.
+    source_ids: [owner-question]
+    confidence: high
+  - id: option-a-cost
+    status: source_fact
+    statement: In the synthetic option sheet, Option A has a higher fictional acquisition cost and closer fictional access.
+    source_ids: [synthetic-option-sheet]
+    confidence: low
+  - id: option-a
+    status: alternative
+    statement: Option A is a synthetic higher-cost, closer-access alternative for comparison only.
+    source_ids: [synthetic-option-sheet]
+    confidence: low
+  - id: option-b
+    status: alternative
+    statement: Option B is a synthetic lower-cost, farther-access alternative for comparison only.
+    source_ids: [synthetic-option-sheet]
+    confidence: low
+  - id: water-conflict
+    status: conflict
+    statement: The synthetic site notes conflict on water access, so neither option can be treated as suitable for cultivation.
+    source_ids: [synthetic-site-notes]
+    confidence: low
+  - id: pilot-limit
+    status: assumption
+    statement: All non-owner material in this dossier is a synthetic fixture and must not be used as market, legal, environmental, or purchase evidence.
+    source_ids: [owner-question, synthetic-option-sheet]
+    confidence: high
+  - id: owner-constraint
+    status: open_question
+    statement: The owner must state whether distance, budget, water certainty, or intended cultivation is the primary constraint.
+    source_ids: [owner-question]
+    confidence: medium
+  - id: next-research-step
+    status: advisory_recommendation
+    statement: Do not choose either option; first ask the owner to rank constraints and authorize any real external or private-source research separately.
+    source_ids: [owner-question, synthetic-site-notes]
+    confidence: high
+sections:
+  facts: [comparison-goal, option-a-cost]
+  alternatives: [option-a, option-b]
+  risks: [water-conflict]
+  assumptions: [pilot-limit]
+  open_questions: [owner-constraint]
+  recommendations: [next-research-step]
+promotion_proposals:
+  - id: promote-research-question
+    statement: Owner may promote an explicitly ranked research question into Dora only if the comparison becomes a serious tracked decision or delivery effort.
+    target: decision_log
+    source_ids: [owner-question]
+    owner_action_required: true
+authority_boundary: This is an advisory-only synthetic pilot. It does not decide, purchase, research externally, write Dora, or imply that a factual claim is current.
