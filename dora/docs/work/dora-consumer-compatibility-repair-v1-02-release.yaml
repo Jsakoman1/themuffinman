@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: dora-consumer-compatibility-repair-v1-02-release
+title: Publish the Doctor compatibility repair for approved consumer adoption
+status: verified
+baseline: b65fcbf6633c5b370c031048f32925aa2fe96f48
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-consumer-compatibility-repair-v1-master.yaml
+execution_inventory: docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  residual_scope:
+  - Record the release manifest and consumer-test migration contract after the Doctor
+    repair is verified.
+tasks:
+- id: record-compatibility-repair-release
+  title: Publish a bounded release record for release-pinned consumers
+  type: documentation
+  status: done
+  inventory_item: compatibility-repair-release
+  observable_outcome: The release manifest states the generated-output Doctor repair
+    and requires release-pinned consumer validation without claiming consumer completion.
+  dependencies:
+  - doctor-generated-output-contract
+  paths:
+  - docs/releases/v1.11.4.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml
+  required_paths:
+  - docs/releases/v1.11.4.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml
+  validation: ruby test/project_doctor_test.rb && ruby test/bootstrap_source_verification_test.rb
+  evidence_boundary:
+  - This task records Dora release metadata only; it does not mutate a consumer, tag,
+    push, or deploy.
+  started_at: '2026-08-12T10:46:33Z'
+  start_fingerprints:
+    docs/releases/v1.11.4.yaml: __missing__
+    docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml: 7168053f64ca2270d00a8764b708dba71d92b43f17f187cdd421531565b5451a
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-master.yaml
+  - lib/dora/adapter.rb
+  - lib/dora/project_doctor.rb
+  - test/project_doctor_test.rb
+evidence:
+- task: record-compatibility-repair-release
+  command: ruby test/project_doctor_test.rb && ruby test/bootstrap_source_verification_test.rb
+  ranAt: '2026-08-12T10:47:36Z'
+  revision: 7e96bf6b27913a7f76a728b7eb4fa5c8503f0094
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml
+  - docs/releases/v1.11.4.yaml
+  output: |+
+    Dora project doctor test passed (healthy and unhealthy projects).
+    Dora bootstrap source verification test passed (reviewed immutable refs and checksums reject tampered local source content).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/releases/v1.11.4.yaml: f073d2a0d15747084b0836afc3fb9eeb2c2b05f3943a1556491c7da510fcda1e
+    docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml: cc6b4cb6ffc559b731acf76990108c017ea72dc81de5b9874d517bc030f29055
+  requiredPaths: &1
+  - docs/releases/v1.11.4.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T10:46:33Z'
+  changedAfterStart: *1

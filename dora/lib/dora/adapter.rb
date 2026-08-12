@@ -22,7 +22,6 @@ module Dora
       paths_schema = schema.fetch("paths")
       paths = adapter.fetch("paths")
       required_fields!(paths, paths_schema.fetch("required_fields"), "paths")
-      paths_schema.fetch("required_fields").each { |field| resolve_inside_root!(project_root, paths.fetch(field), "paths.#{field}") }
 
       commands_schema = schema.fetch("commands")
       commands = adapter.fetch("commands")
@@ -35,6 +34,9 @@ module Dora
       fail!("context.generated_output_paths must be a non-empty list") unless generated_output_paths.is_a?(Array) && !generated_output_paths.empty?
       unknown_output_paths = generated_output_paths.map(&:to_s) - paths.keys
       fail!("context.generated_output_paths has unknown path keys: #{unknown_output_paths.join(", ")}") unless unknown_output_paths.empty?
+      paths_schema.fetch("required_fields").each do |field|
+        resolve_inside_root!(project_root, paths.fetch(field), "paths.#{field}", allow_absent: generated_output_paths.map(&:to_s).include?(field))
+      end
 
       extensions = adapter.fetch("extensions")
       fail!("extensions must be a non-empty list") unless extensions.is_a?(Array) && !extensions.empty?
@@ -77,11 +79,11 @@ module Dora
     end
     private_class_method :relative_path!
 
-    def self.resolve_inside_root!(project_root, value, label)
+    def self.resolve_inside_root!(project_root, value, label, allow_absent: false)
       relative_path!(value, label)
       resolved = File.expand_path(value, project_root)
       fail!("#{label} resolves outside project.root") unless resolved == project_root || resolved.start_with?("#{project_root}/")
-      fail!("#{label} does not exist: #{value}") unless File.exist?(resolved)
+      fail!("#{label} does not exist: #{value}") unless allow_absent || File.exist?(resolved)
     end
     private_class_method :resolve_inside_root!
 

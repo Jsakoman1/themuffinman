@@ -1,0 +1,32 @@
+kind: master
+version: 1
+id: dora-consumer-compatibility-repair-v1
+title: Repair release-pinned consumer compatibility checks
+status: active
+baseline: b65fcbf6633c5b370c031048f32925aa2fe96f48
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+program_state:
+  phase: approved
+  implementation_authorized: true
+  owner_gate_status: confirmed
+  activation_rule: Owner approved repair of the observed Doctor and legacy consumer-test failures on 2026-08-12.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Existing Dora/IDC behavior, Bridge authority, consumer product code, Private Context work,
+    and the active TheMuffinMan IDC pilot.
+  residual_scope:
+  - Treat a declared absent generated-output path as valid without hiding missing canonical paths.
+  - Replace only obsolete TheMuffinMan independent-source tests with release-pinned-package checks.
+  - Release the repair and update explicitly approved clean consumer worktrees.
+  retest_triggers:
+  - Any ProjectDoctor path semantics, adapter context schema, consumer launcher, source pin, or package copy change.
+  non_duplication_rule: Existing Dora and IDC evidence is baseline only; this master proves consumer compatibility repair.
+non_goals:
+- Bridge, IDC, Private Context, web, shell, network, Git runtime authority, or consumer product-code changes.
+- Stashing, rebasing, migrating, deleting, staging, or committing the active TheMuffinMan worktree's uncommitted IDC material.
+children:
+- docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+- docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml

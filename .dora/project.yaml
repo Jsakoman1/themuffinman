@@ -18,9 +18,9 @@ context:
 distribution:
   method: release_pinned_package
   source_repository: https://github.com/Jsakoman1/dora.git
-  source_ref: v1.11.3
-  source_commit: b65fcbf6633c5b370c031048f32925aa2fe96f48
-  source_checksum: 14bc4fc2138bf8b96d408748a61c023fed80d656a2974a23ee66a0a28e06f6ac
+  source_ref: v1.11.4
+  source_commit: 64ddda6e0685eb1b79b401deb80ec5775461b57a
+  source_checksum: 1c6468ad3ee2d0d60d60c636706ebe20f9c4c0b92cce248e6113a772b78e93fa
   package_path: dora
   update_command: Use an owner-approved reviewed local source descriptor with Dora upgrade-preview and upgrade-apply; do not use git subtree.
   rollback_rule: Restore the recorded Dora upgrade backup before commit or revert the isolated Dora pin commit; do not reconstruct product evidence from Dora.

@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: dora-consumer-compatibility-repair-v1-01-doctor
+title: Accept absent declared generated output paths in Dora Doctor
+status: verified
+baseline: b65fcbf6633c5b370c031048f32925aa2fe96f48
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-consumer-compatibility-repair-v1-master.yaml
+execution_inventory: docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  residual_scope:
+  - Change only Doctor classification for an adapter path explicitly declared in context.generated_output_paths.
+tasks:
+- id: allow-lazy-generated-output-paths
+  title: Preserve strict canonical path checks while allowing unmaterialized generated
+    output
+  type: implementation
+  status: done
+  inventory_item: doctor-generated-output-contract
+  observable_outcome: Doctor is healthy when an otherwise valid project lacks only
+    a declared generated output directory, and remains unhealthy for absent non-generated
+    paths.
+  dependencies: []
+  paths:
+  - lib/dora/adapter.rb
+  - lib/dora/project_doctor.rb
+  - test/project_doctor_test.rb
+  - docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+  required_paths:
+  - lib/dora/adapter.rb
+  - lib/dora/project_doctor.rb
+  - test/project_doctor_test.rb
+  - docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+  validation: ruby test/project_doctor_test.rb
+  evidence_boundary:
+  - No consumer worktree is modified by this Dora source task.
+  - A missing path is tolerated only when the adapter explicitly classifies its key
+    as generated output.
+  started_at: '2026-08-12T10:31:00Z'
+  start_fingerprints:
+    lib/dora/project_doctor.rb: 687a57050c51afb0739b9319e6a595da7e777c93c2d0fa561493918899b37d16
+    test/project_doctor_test.rb: 43259c039419904917bde9dce9be454fb89a7233251c3565074635b05fd5de2f
+    docs/work/dora-consumer-compatibility-repair-v1-master.yaml: 6c5be36b219c987c1968990c3a414f241abeb11874d1cc57dee0dfab96b67d71
+    docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml: 200b6db4dce889eba5e9b3bc4e2e1839b3537d8b45e615ad3d5ab637b1bc1408
+    docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml: 7168053f64ca2270d00a8764b708dba71d92b43f17f187cdd421531565b5451a
+    docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml: ab89266c09a53146f54b988d33969b387d1cae66a1e0b66a97b4b0db2fa9ffbc
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-02-release.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-master.yaml
+evidence:
+- task: allow-lazy-generated-output-paths
+  command: ruby test/project_doctor_test.rb
+  ranAt: '2026-08-12T10:33:16Z'
+  revision: b65fcbf6633c5b370c031048f32925aa2fe96f48
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/adapter.rb
+  - lib/dora/project_doctor.rb
+  - test/project_doctor_test.rb
+  - docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+  output: "Dora project doctor test passed (healthy and unhealthy projects).\n\n"
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/adapter.rb: 5fa97a837d5c60c5b0a278263af4bf44d934f6820c64de8905cbd875edc760e0
+    lib/dora/project_doctor.rb: cc46862568f8c8eb9b73fe37730a62dd6f614c891cde0202aa325ebf6eb0d3cc
+    test/project_doctor_test.rb: 707e5d57ea7a6a103d05cd86b5455b29dbcc78453413da6d364bc650865a9f96
+    docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml: 21fc76790214d27c54c48ec90f71b15a45aad739eefa28acd0a542b5e29a2e1f
+    docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml: bd1a682549955ca4d3477da8260d1c4faf27d16d50d9e2b894ddd159bc8abcb9
+  requiredPaths: &1
+  - lib/dora/adapter.rb
+  - lib/dora/project_doctor.rb
+  - test/project_doctor_test.rb
+  - docs/work/dora-consumer-compatibility-repair-v1-01-doctor.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-execution-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T10:31:00Z'
+  changedAfterStart: *1

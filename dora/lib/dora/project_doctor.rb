@@ -15,8 +15,8 @@ module Dora
       checks = []
       adapter = YAML.load_file(adapter_path)
       project_root = project_root(adapter_path, adapter, checks)
-      validate_adapter(adapter_path, schema_path, checks)
-      check_declared_paths(adapter, project_root, checks)
+      validated_adapter = validate_adapter(adapter_path, schema_path, checks)
+      check_declared_paths(adapter, project_root, checks, generated_output_paths: validated_adapter&.dig("context", "generated_output_paths"))
       check_declared_commands(adapter, project_root, checks)
       check_control_bundle(adapter_path, project_root, control_schema_path, checks)
       check_project_knowledge(project_root, checks)
@@ -43,23 +43,28 @@ module Dora
     private_class_method :project_root
 
     def self.validate_adapter(adapter_path, schema_path, checks)
-      Adapter.validate!(adapter_path, schema_path)
+      adapter = Adapter.validate!(adapter_path, schema_path)
       checks << passed("adapter", "adapter satisfies the Dora schema")
+      adapter
     rescue ArgumentError => error
       checks << failed("adapter", error.message)
+      nil
     end
     private_class_method :validate_adapter
 
-    def self.check_declared_paths(adapter, project_root, checks)
+    def self.check_declared_paths(adapter, project_root, checks, generated_output_paths: [])
       paths = adapter["paths"]
       unless paths.is_a?(Hash) && project_root
         checks << failed("declared-paths", "declared paths cannot be checked")
         return
       end
+      generated_output_paths = Array(generated_output_paths).map(&:to_s)
       paths.each do |id, relative|
         absolute = File.expand_path(relative.to_s, project_root)
         if relative.is_a?(String) && !relative.start_with?("/") && (absolute == project_root || absolute.start_with?("#{project_root}/")) && File.exist?(absolute)
           checks << passed("path:#{id}", relative)
+        elsif relative.is_a?(String) && !relative.start_with?("/") && (absolute == project_root || absolute.start_with?("#{project_root}/")) && generated_output_paths.include?(id.to_s)
+          checks << passed("path:#{id}", "declared generated output path is not materialized yet: #{relative}")
         else
           checks << failed("path:#{id}", "missing or invalid declared path: #{relative}")
         end

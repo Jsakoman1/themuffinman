@@ -1,0 +1,22 @@
+kind: dora_release_manifest
+version: 1
+release:
+  version: v1.11.4
+  source_commit: 7e96bf6b27913a7f76a728b7eb4fa5c8503f0094
+  release_type: patch
+  published_at: '2026-08-12T14:00:00Z'
+scope:
+  changed_capabilities:
+  - Dora validates explicitly declared generated output roots without requiring them to be materialized before the producing command runs.
+  - Dora continues to reject absent canonical roots and unsafe adapter paths.
+  idc_impact: IDC runtime behavior and authority are unchanged.
+  compatibility_posture: Release-pinned consumers should update their package and replace obsolete local-source-pin checks with package-pin checks.
+consumer_requirements:
+  package_update: explicit-owner-selection-only
+  adapter_change_required: false
+  required_validations: [dora_doctor, git_diff_check, release_pinned_consumer_checks]
+  rollback: Revert the isolated consumer release commit or restore the recorded local backup before commit.
+boundaries:
+  - The release manifest does not claim that any consumer is updated, compatible, deployed or verified.
+  - IDC remains opt-in; a Dora package update does not start IDC or create a Dora write path.
+  - The release process does not discover consumer repositories or modify one without explicit owner approval.

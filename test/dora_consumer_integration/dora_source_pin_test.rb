@@ -1,80 +1,27 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "open3"
-require "pathname"
 require "yaml"
+require File.expand_path("../../dora/lib/dora/bootstrap_source", __dir__)
 
 ROOT = File.expand_path("../..", __dir__)
-DESCRIPTOR_PATH = File.join(ROOT, "dora-source.yaml")
-EXPECTED_REF = "9dc2e0836be0f3f1b49b71638a7a9379b645f9df"
-EXPECTED_CHECKSUM = "79844b037af71ad18881e5e7fee686e247931edfa217821dda31397bb814c9b4"
+EXPECTED_REF = "64ddda6e0685eb1b79b401deb80ec5775461b57a"
+EXPECTED_CHECKSUM = "1c6468ad3ee2d0d60d60c636706ebe20f9c4c0b92cce248e6113a772b78e93fa"
 
-descriptor = YAML.load_file(DESCRIPTOR_PATH)
-source = descriptor.fetch("source")
+adapter = YAML.load_file(File.join(ROOT, ".dora/project.yaml"))
+record = YAML.load_file(File.join(ROOT, ".dora/bootstrap-source.yaml"))
+distribution = adapter.fetch("distribution")
+source = record.fetch("source")
+package = File.join(ROOT, record.fetch("package_path"))
 
-abort "MuffinMan Dora source descriptor has the wrong immutable ref" unless source.fetch("ref") == EXPECTED_REF
-abort "MuffinMan Dora source descriptor has the wrong source checksum" unless source.fetch("checksum") == EXPECTED_CHECKSUM
-abort "MuffinMan Dora source default path must remain relative" if Pathname.new(source.fetch("path")).absolute?
-abort "MuffinMan Dora source override environment is missing" unless descriptor.dig("local_override", "environment") == "DORA_SOURCE_PATH"
+abort "MuffinMan Dora runtime is not a release-pinned package" unless distribution.fetch("method") == "release_pinned_package"
+abort "MuffinMan Dora adapter has the wrong release tag" unless distribution.fetch("source_ref") == "v1.11.4"
+abort "MuffinMan Dora adapter and bootstrap record disagree" unless distribution.fetch("source_commit") == source.fetch("ref") && distribution.fetch("source_checksum") == source.fetch("checksum")
+abort "MuffinMan Dora release ref changed unexpectedly" unless source.fetch("ref") == EXPECTED_REF
+abort "MuffinMan Dora release checksum changed unexpectedly" unless source.fetch("checksum") == EXPECTED_CHECKSUM
+abort "MuffinMan Dora package root is missing" unless File.file?(File.join(package, "bin/dora")) && File.directory?(File.join(package, "lib/dora"))
+abort "MuffinMan Dora package retained source-control or IDE metadata" if File.exist?(File.join(package, ".git")) || File.exist?(File.join(package, ".idea"))
+abort "MuffinMan retains obsolete local Dora source descriptor" if File.exist?(File.join(ROOT, "dora-source.yaml"))
+abort "MuffinMan Dora package checksum does not match its reviewed release pin" unless Dora::BootstrapSource.checksum_for(package) == EXPECTED_CHECKSUM
 
-default_root = File.expand_path(source.fetch("path"), ROOT)
-require File.join(default_root, "lib/dora/bootstrap_source")
-
-def local_source_path(descriptor, environment)
-  override = environment.fetch("DORA_SOURCE_PATH", "").strip
-  override.empty? ? descriptor.dig("source", "path") : override
-end
-
-def verify_source!(descriptor, candidate_path)
-  candidate = descriptor.merge("source" => descriptor.fetch("source").merge("path" => candidate_path))
-  verified = Dora::BootstrapSource.validate!(candidate, base_directory: ROOT)
-  output, status = Open3.capture2e("git", "-C", verified.fetch("path"), "rev-parse", "HEAD")
-  raise "Dora source is not a local Git repository: #{output}" unless status.success?
-  raise "Dora source Git commit does not match the pinned ref" unless output.strip == descriptor.dig("source", "ref")
-  raise "Dora source checksum does not match the pinned checksum" unless Dora::BootstrapSource.checksum_for(verified.fetch("path")) == descriptor.dig("source", "checksum")
-
-  verified
-end
-
-default = verify_source!(descriptor, local_source_path(descriptor, {}))
-abort "MuffinMan Dora source default did not resolve to the reviewed source" unless default.slice("ref", "checksum", "integrity") == {"ref" => EXPECTED_REF, "checksum" => EXPECTED_CHECKSUM, "integrity" => "verified"}
-
-original_override = ENV["DORA_SOURCE_PATH"]
-begin
-  ENV["DORA_SOURCE_PATH"] = default.fetch("path")
-  override = verify_source!(descriptor, local_source_path(descriptor, ENV))
-  abort "MuffinMan Dora source override did not verify the same reviewed source" unless override == default
-ensure
-  ENV["DORA_SOURCE_PATH"] = original_override
-end
-
-begin
-  verify_source!(descriptor, "https://example.invalid/dora.git")
-  abort "MuffinMan Dora source accepted a remote override"
-rescue ArgumentError => error
-  abort "MuffinMan Dora source gave the wrong remote override error" unless error.message.include?("remote URL")
-end
-
-begin
-  verify_source!(descriptor.merge("source" => source.merge("ref" => "0" * 40)), default.fetch("path"))
-  abort "MuffinMan Dora source accepted an override with a mismatched Git ref"
-rescue RuntimeError => error
-  abort "MuffinMan Dora source gave the wrong Git ref error" unless error.message.include?("Git commit")
-end
-
-begin
-  verify_source!(descriptor.merge("source" => source.merge("checksum" => "0" * 64)), default.fetch("path"))
-  abort "MuffinMan Dora source accepted an override with a mismatched checksum"
-rescue ArgumentError => error
-  abort "MuffinMan Dora source gave the wrong checksum error" unless error.message.include?("checksum does not match")
-end
-
-plugin_manifest = File.read(File.join(ROOT, ".dora/plugins.yaml"))
-java_shell = File.read(File.join(ROOT, "scripts/RepositoryJavaAstIndex.java"))
-frontend_shell = File.read(File.join(ROOT, "apps/themuffinman/frontend/scripts/repository-ast-index.mjs"))
-abort "MuffinMan plugin manifest was redirected through the Dora source pin" if plugin_manifest.include?("dora-source.yaml") || plugin_manifest.include?("DORA_SOURCE_PATH")
-abort "MuffinMan Java wrapper was redirected through the Dora source pin" unless java_shell.include?("dora/tools/java-ast-index")
-abort "MuffinMan frontend wrapper was redirected through the Dora source pin" unless frontend_shell.include?("dora', 'tools', 'typescript-vue-ast-index.mjs")
-
-puts "MuffinMan Dora source pin test passed (local default and override verify immutable Git and checksum identity without redirecting the consumer workflow)."
+puts "MuffinMan Dora release-pinned package test passed (immutable package pin, no local source descriptor, and no copied metadata)."

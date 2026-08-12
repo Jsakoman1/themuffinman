@@ -63,9 +63,17 @@ Dir.mktmpdir("dora-doctor") do |sandbox|
 
   unhealthy = report_for(unhealthy_adapter)
   failed = unhealthy.fetch("checks").select { |check| check.fetch("status") == "failed" }.map { |check| check.fetch("id") }
-  abort "doctor did not report a missing path" unless failed.include?("path:audit_output")
+  abort "doctor rejected an absent declared generated output path" if failed.include?("path:audit_output")
+  generated_output = unhealthy.fetch("checks").find { |check| check.fetch("id") == "path:audit_output" }
+  abort "doctor did not identify the absent generated output path" unless generated_output && generated_output.fetch("status") == "passed" && generated_output.fetch("detail").include?("not materialized yet")
   abort "doctor did not report a missing executable" unless failed.include?("command:control_check")
   abort "doctor did not report incomplete generated controls" unless failed.include?("control:change_routing")
+
+  adapter.fetch("paths")["docs"] = "docs/missing"
+  File.write(unhealthy_adapter, YAML.dump(adapter))
+  missing_canonical = report_for(unhealthy_adapter)
+  missing_canonical_ids = missing_canonical.fetch("checks").select { |check| check.fetch("status") == "failed" }.map { |check| check.fetch("id") }
+  abort "doctor accepted a missing non-generated canonical path" unless missing_canonical_ids.include?("path:docs")
 
   _output, unhealthy_status = Open3.capture2e(CLI, "doctor", unhealthy_adapter, chdir: ROOT)
   abort "doctor CLI accepted an unhealthy project" if unhealthy_status.success?
