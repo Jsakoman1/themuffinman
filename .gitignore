@@ -13,3 +13,4 @@ docs/audit-output/
 
 # Dora analysis cache is a local, reproducible acceleration artifact.
 .dora/cache/
+.dora/backups/

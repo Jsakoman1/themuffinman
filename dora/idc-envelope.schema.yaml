@@ -1,0 +1,19 @@
+kind: dora_idc_envelope_schema
+version: 1
+selection:
+  kind: dora_idc_envelope_selection
+  required_fields: [kind, version, project_fields]
+  project_fields: [project, state, health, integrity, delivery, current_goal, next_task, open_decisions, references]
+  optional_fields: [decision_ids, artifact_references]
+  authority_fields_forbidden: [write, path, command, shell, git, codex]
+output:
+  kind: dora_idc_read_envelope
+  required_fields: [kind, version, observed_at, read_only, disposition, project, selection, project_read_model, selected_decisions, artifact_references, sources, completion_boundary]
+  source_provenance_fields: [id, allowed_kind, locator, revision_or_digest, observed_at]
+  source_kind: dora_read_envelope
+  source_confidence_forbidden: true
+authority_boundary: >-
+  The exporter accepts only a fixed selector, reads only its declared Dora project
+  model and named canonical references, emits only stdout, and cannot retrieve raw
+  source, copy ProjectMemory, search the filesystem, mutate Dora, use Git, start
+  Codex, invoke a shell, or contact the network.

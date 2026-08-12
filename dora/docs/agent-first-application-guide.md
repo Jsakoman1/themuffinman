@@ -1,5 +1,12 @@
 # Agent-first application guide
 
+This guide's reviewed local-source route is for Dora development, testing, and
+pre-release work. A stable consumer runtime instead vendors its own immutable Dora
+release/tag and commit locally; it does not execute a workstation source path or treat
+a bootstrap-source record as its runtime pin. The guided lifecycle below remains the
+same for existing and greenfield projects: owner-confirmed facts and decisions are
+canonical, while research and derived context remain advisory.
+
 This is the one route for a beginner working with Codex and Dora. Dora is the operating system for disciplined delivery; it is not the authority for your product decisions.
 
 1. Conduct the Codex idea interview in [`codex-idea-interview.md`](codex-idea-interview.md). Record only user-confirmed answers and explicit open decisions in `idea-interview.yaml`.

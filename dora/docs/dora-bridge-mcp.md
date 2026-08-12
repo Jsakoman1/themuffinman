@@ -16,12 +16,19 @@ can provide only an `id`; unknown IDs fail before an adapter path is opened.
 The read model canonicalizes every artifact it opens, so a project-relative request
 cannot follow a symlink outside the configured project root.
 
-Bridge V1 exposes only the read-only tools `list_projects`, `get_project_summary`,
-`get_project_health`, `get_current_delivery`, `get_next_task`, `get_open_decisions`,
-`get_plan`, and `get_task_evidence`. Tools are used instead of MCP resources because
-all projections require an allow-listed project ID and some require a declared,
-project-relative plan/task reference. There are no write, shell, source, search, or
-arbitrary-file operations.
+Bridge V1 exposes only read-only project projections plus two bounded IDC advisory
+profiles: `get_idc_envelope` returns a fixed sanitized Dora context envelope, and
+`evaluate_idc_triage` classifies one bounded structured triage request. Triage returns
+only `NO_IDC_NEEDED`, `IDC_OWNER_CONFIRMATION_REQUIRED`, or
+`IDC_OWNER_AUTHORIZED_LOCAL_RENDER`; it never accepts source/output paths, dossier
+content, commands, or arbitrary selectors. Tools are used instead of MCP resources
+because all projections require an allow-listed project ID and some require a declared,
+project-relative plan/task reference.
+
+Neither IDC profile renders a dossier or invokes a local process. A Bridge response
+that says local render is authorized remains advisory: the owner/Codex must separately
+run the fixed local Dora command with explicit inputs. Bridge has no write, shell,
+source, search, arbitrary-file, Git, network, IDC-start, or Codex-start operation.
 
 For private ChatGPT use, Secure MCP Tunnel supplies the remote-capable authenticated
 transport above this unchanged local stdio process. The bridge itself remains

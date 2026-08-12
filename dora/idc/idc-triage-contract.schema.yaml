@@ -1,0 +1,26 @@
+kind: dora_idc_triage_contract_schema
+version: 1
+title: Owner-gated local IDC triage contract
+input:
+  kind: dora_idc_triage_request
+  required_fields: [kind, version, id, request_shape, profile, source_scope, authorization_scope, owner_authorization]
+  request_shapes: [bounded_delivery, wide_research, greenfield_discovery]
+  profiles: [none, research_dossier, greenfield_product_delivery_baseline]
+  source_scopes: [explicit_owner_selected_only]
+  authorization_scopes: [current_request_only]
+  owner_authorizations: [not_granted, authorize_local_idc_render]
+output:
+  kind: dora_idc_triage_readback
+  required_fields: [kind, version, read_only, disposition, outcome, profile, next_action, owner_confirmation_required, authority_boundary]
+  outcomes: [NO_IDC_NEEDED, IDC_OWNER_CONFIRMATION_REQUIRED, IDC_OWNER_AUTHORIZED_LOCAL_RENDER]
+rules:
+  - bounded_delivery requires profile none and owner_authorization not_granted.
+  - wide_research requires profile research_dossier.
+  - greenfield_discovery requires profile greenfield_product_delivery_baseline.
+  - authorize_local_idc_render is valid only for wide_research or greenfield_discovery.
+  - source_scope must remain explicit_owner_selected_only; triage never selects, searches, or imports sources.
+  - authorization_scope must remain current_request_only; this contract creates no standing authorization.
+authority_boundary: >-
+  Triage is transient and advisory. It does not read files, inspect repositories, call
+  an LLM, select sources, render a dossier, write Dora state, invoke a process, run a
+  shell, use Git/network/Bridge/Codex, or promote a conclusion.

@@ -1,0 +1,121 @@
+kind: work
+version: 1
+id: dora-idc-owner-started-orchestration-03-local-render
+title: Implement owner-gated local Dora IDC render wrapper
+status: verified
+baseline: ca0e600
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-owner-started-orchestration-master.yaml
+execution_inventory: docs/work/dora-idc-owner-started-orchestration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-owner-started-orchestration-02-triage.yaml
+  - docs/work/dora-idc-operational-v0-master.yaml
+  baseline_only_surfaces:
+  - Existing `idc render` input validation and deterministic output behavior.
+  - Existing Dora command envelope and local owner-started workflow.
+  residual_scope:
+  - One fixed local Dora command that invokes the existing renderer through a direct
+    Ruby subprocess only after validated explicit authorization.
+  retest_triggers:
+  - Any local command option, authorization rule, input/output path validation, subprocess
+    invocation, renderer behavior, or output containment change.
+  non_duplication_rule: The wrapper delegates to the existing IDC renderer; it creates
+    no second renderer, dossier format, source discovery mechanism, or write path
+    into Dora.
+tasks:
+- id: implement-owner-gated-local-idc-render-wrapper
+  title: Invoke the existing renderer only through an explicit local owner gate
+  type: local-owner-gated-orchestration
+  status: done
+  inventory_item: idc-orchestration-local-render
+  observable_outcome: A local `dora idc-render` command accepts one explicit triage-request
+    path plus request, manifest, dossier, and output paths, validates current owner
+    authorization through the triage contract, invokes only the already-existing IDC
+    renderer without a shell, and returns a bounded success or failure envelope; it
+    rejects missing or non-authorized triage input.
+  dependencies:
+  - idc-orchestration-triage
+  paths:
+  - bin/dora
+  - lib/dora/idc_owner_started_renderer.rb
+  - test/idc_owner_started_renderer_test.rb
+  - idc/test/owner_workflow_integration_test.rb
+  required_paths:
+  - bin/dora
+  - lib/dora/idc_owner_started_renderer.rb
+  - test/idc_owner_started_renderer_test.rb
+  - idc/test/owner_workflow_integration_test.rb
+  validation: ruby test/idc_owner_started_renderer_test.rb && ruby idc/test/owner_workflow_integration_test.rb
+    && ruby idc/test/dossier_renderer_test.rb && ruby test/command_envelope_test.rb
+  evidence_boundary:
+  - The command is owner-started, foreground, local, and receives all five paths explicitly;
+    it cannot browse directories, auto-select sources, or write outside its declared
+    output.
+  - It may launch only the repository's fixed IDC Ruby entrypoint using direct argument
+    passing; no shell, arbitrary command, Codex, terminal inspection, Git, network,
+    Bridge, Dora canonical write, or consumer-project behavior is allowed.
+  - A rendered dossier remains advisory and requires the existing explicit Dora workflow
+    before any decision or plan promotion.
+  started_at: '2026-08-12T09:17:19Z'
+  start_fingerprints:
+    bin/dora: 0fef8507ef470a7cea69cce34b8e9f65edfe5a4bb9cc2f619b119c249918aae4
+    lib/dora/idc_owner_started_renderer.rb: __missing__
+    test/idc_owner_started_renderer_test.rb: __missing__
+    idc/test/owner_workflow_integration_test.rb: f10f94f41a7c908a117ba04c27bddc654e86013f1520815ee041c2cead9c20e0
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/domain-library.yaml
+  - docs/work/dora-idc-owner-started-orchestration-01-preflight.yaml
+  - docs/work/dora-idc-owner-started-orchestration-02-triage.yaml
+  - docs/work/dora-idc-owner-started-orchestration-03-local-render.yaml
+  - docs/work/dora-idc-owner-started-orchestration-04-bridge-readback.yaml
+  - docs/work/dora-idc-owner-started-orchestration-analysis.md
+  - docs/work/dora-idc-owner-started-orchestration-atomic-hardening-review.md
+  - docs/work/dora-idc-owner-started-orchestration-execution-inventory.yaml
+  - docs/work/dora-idc-owner-started-orchestration-master.yaml
+  - docs/work/dora-idc-owner-started-orchestration-preflight.md
+  - idc/idc-triage-contract.schema.yaml
+  - lib/dora/idc_triage.rb
+  - test/idc_triage_test.rb
+evidence:
+- task: implement-owner-gated-local-idc-render-wrapper
+  command: ruby test/idc_owner_started_renderer_test.rb && ruby idc/test/owner_workflow_integration_test.rb
+    && ruby idc/test/dossier_renderer_test.rb && ruby test/command_envelope_test.rb
+  ranAt: '2026-08-12T09:20:37Z'
+  revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - bin/dora
+  - idc/test/owner_workflow_integration_test.rb
+  - lib/dora/idc_owner_started_renderer.rb
+  - test/idc_owner_started_renderer_test.rb
+  output: |+
+    Dora owner-started IDC renderer test passed (explicit authorization, fixed local entrypoint, bounded output, and no shell).
+    IDC owner workflow integration test passed (owner-started local renderer, fixed Bridge envelope, and no Bridge execution).
+    IDC dossier renderer test passed (deterministic explicit inputs, visible uncertainty, and no runtime authority).
+    Dora command envelope test passed (stable success, error, citation, and side-effect contracts).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    bin/dora: 9f8ae7e5e979a58cb15c83cde0ed311c24068d2653f5192676f9ebf07dcaa36d
+    lib/dora/idc_owner_started_renderer.rb: 305b93dc0f20802b41b1e4a7b0f2d44bcfbf43620d068183b28b20266e3f648e
+    test/idc_owner_started_renderer_test.rb: f3132caf7191acd63d93ce3aa12fb8ded932ecc44a28872d094e8ac4cca06282
+    idc/test/owner_workflow_integration_test.rb: c21a942b19bdf3b64c65630dc77ce2b304ec434b33813c4ad063430c2eebf257
+  requiredPaths: &1
+  - bin/dora
+  - lib/dora/idc_owner_started_renderer.rb
+  - test/idc_owner_started_renderer_test.rb
+  - idc/test/owner_workflow_integration_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T09:17:19Z'
+  changedAfterStart: *1

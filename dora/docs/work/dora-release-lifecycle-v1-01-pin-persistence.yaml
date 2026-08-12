@@ -1,0 +1,99 @@
+kind: work
+version: 1
+id: dora-release-lifecycle-v1-01-pin-persistence
+title: Persist reviewed target provenance after a Dora package upgrade
+status: verified
+baseline: 249ea82
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-release-lifecycle-v1-master.yaml
+execution_inventory: docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+  baseline_only_surfaces:
+  - Existing preview diff, backup, rollback, bootstrap, Dora/IDC runtime and consumer
+    code.
+  residual_scope:
+  - Make successful upgrade-apply replace the current consumer bootstrap-source ref
+    and checksum with the reviewed target provenance.
+  retest_triggers:
+  - Any upgrade copy, backup, rollback, source descriptor, approval-record, or pin-record
+    change.
+  non_duplication_rule: Existing upgrade preview/apply evidence is baseline only;
+    this task proves only target-pin persistence after an approved apply.
+tasks:
+- id: persist-reviewed-target-pin-after-package-upgrade
+  title: Update the consumer bootstrap record atomically with approved package replacement
+  type: implementation
+  status: done
+  inventory_item: release-pin-persistence
+  observable_outcome: Dora upgrade-apply leaves the consumer package at the reviewed
+    target and persists only that target's immutable ref and checksum in its bootstrap
+    source record.
+  dependencies:
+  - release-lifecycle-preflight
+  paths:
+  - lib/dora/project_upgrade.rb
+  - test/project_upgrade_apply_test.rb
+  - test/project_upgrade_apply_command_test.rb
+  required_paths:
+  - lib/dora/project_upgrade.rb
+  - test/project_upgrade_apply_test.rb
+  - test/project_upgrade_apply_command_test.rb
+  validation: ruby test/project_upgrade_apply_test.rb && ruby test/project_upgrade_apply_command_test.rb
+  evidence_boundary:
+  - No consumer is upgraded by this Dora-source task.
+  - The persisted record contains no source workstation path and cannot grant runtime
+    filesystem, shell, Git, network, Bridge, IDC, Codex, or Dora write authority.
+  started_at: '2026-08-12T10:00:53Z'
+  start_fingerprints:
+    lib/dora/project_upgrade.rb: 7c018007a2820f42f3f4d059ca04a141a3373a51833d08f577c187051c8448b3
+    test/project_upgrade_apply_test.rb: 14d711e97bc3e2002411d5309786f3b01527caa99541c9d70df9c99a47f53b84
+    test/project_upgrade_apply_command_test.rb: d5f8066ad67de1ee6238b8e1fe2f01710cf94c731e4fa5cc1ebc9a24e931cd12
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+  - docs/work/dora-release-lifecycle-v1-01-pin-persistence.yaml
+  - docs/work/dora-release-lifecycle-v1-02-operations-contract.yaml
+  - docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md
+  - docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+  - docs/work/dora-release-lifecycle-v1-master.yaml
+  - docs/work/dora-release-lifecycle-v1-preflight.md
+  - lib/dora/project_upgrade.rb
+  - test/project_upgrade_apply_command_test.rb
+  - test/project_upgrade_apply_test.rb
+evidence:
+- task: persist-reviewed-target-pin-after-package-upgrade
+  command: ruby test/project_upgrade_apply_test.rb && ruby test/project_upgrade_apply_command_test.rb
+  ranAt: '2026-08-12T10:02:22Z'
+  revision: 249ea82a6b98bd79d63bf08a407e5a9eb188766e
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/project_upgrade.rb
+  - test/project_upgrade_apply_command_test.rb
+  - test/project_upgrade_apply_test.rb
+  output: |+
+    Dora project upgrade apply test passed.
+    Dora project upgrade apply command test passed (actual CLI apply rejects bad scope, records backup, and explicitly rolls back).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/project_upgrade.rb: 664f3553881082f19babf317a46036d6e8870576aa809da244afd9681fbcbdcc
+    test/project_upgrade_apply_test.rb: 4f0a0c355b5ca87869a3db2de121adada5b1ac429cefb98d904ded2802600c32
+    test/project_upgrade_apply_command_test.rb: 2773da10363c9f9b359abaa9cd45b06578b047dc6187d1facd25acd213670413
+  requiredPaths: &1
+  - lib/dora/project_upgrade.rb
+  - test/project_upgrade_apply_test.rb
+  - test/project_upgrade_apply_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T10:00:53Z'
+  changedAfterStart: *1

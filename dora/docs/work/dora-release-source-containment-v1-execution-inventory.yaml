@@ -1,0 +1,22 @@
+kind: execution_inventory
+version: 1
+id: dora-release-source-containment-v1
+master_plan: docs/work/dora-release-source-containment-v1.yaml
+state: verified
+execution_mode: strict_serial
+atomic_hardening:
+  first_item: source-root-containment
+  rule: The sole task has one security outcome, exact source/test paths, and no real
+    consumer mutation.
+items:
+- id: source-root-containment
+  order: 1
+  plan: docs/work/dora-release-source-containment-v1.yaml
+  task: exclude-local-source-metadata-from-vendored-package
+  status: verified
+  started_at: '2026-08-12T10:07:05Z'
+  verified_at: '2026-08-12T10:08:44Z'
+  evidence:
+    plan: docs/work/dora-release-source-containment-v1.yaml
+    task: exclude-local-source-metadata-from-vendored-package
+    revision: d0466199fabdb2bb8405161fba7b77c1ac2c451f

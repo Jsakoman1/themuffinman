@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: dora-idc-owner-started-orchestration-02-triage
+title: Implement deterministic IDC triage contract
+status: verified
+baseline: ca0e600
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-owner-started-orchestration-master.yaml
+execution_inventory: docs/work/dora-idc-owner-started-orchestration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-owner-started-orchestration-01-preflight.yaml
+  - docs/work/dora-idc-operational-v0-master.yaml
+  baseline_only_surfaces:
+  - Existing IDC request/dossier validation, IDC renderer, Dora envelope, Bridge,
+    and canonical Dora authority boundaries.
+  residual_scope:
+  - One pure in-memory triage evaluator and versioned input/output contract.
+  retest_triggers:
+  - Any triage signal, outcome, authorization field, output redaction, or IDC profile
+    rule.
+  non_duplication_rule: Triage is a transient recommendation; it cannot create a request,
+    choose sources, render a dossier, start a process, or change Dora state.
+tasks:
+- id: implement-deterministic-idc-triage-contract
+  title: Classify a bounded owner request without inferring execution authority
+  type: security-feature
+  status: done
+  inventory_item: idc-orchestration-triage
+  observable_outcome: A deterministic evaluator classifies a structured request as
+    NO_IDC_NEEDED, IDC_OWNER_CONFIRMATION_REQUIRED, or IDC_OWNER_AUTHORIZED_LOCAL_RENDER,
+    returns only a fixed advisory profile and next action, and fails closed for malformed,
+    conflicting, unsupported, or authorization-free input.
+  dependencies:
+  - idc-orchestration-preflight
+  paths:
+  - idc/idc-triage-contract.schema.yaml
+  - lib/dora/idc_triage.rb
+  - test/idc_triage_test.rb
+  - docs/domain-library.yaml
+  required_paths:
+  - idc/idc-triage-contract.schema.yaml
+  - lib/dora/idc_triage.rb
+  - test/idc_triage_test.rb
+  - docs/domain-library.yaml
+  validation: ruby test/idc_triage_test.rb && ruby idc/test/idc_v0_contract_test.rb
+  evidence_boundary:
+  - The evaluator receives only one explicitly supplied structured request; it performs
+    no LLM call, source selection, filesystem/repository search, network request,
+    write, shell/process, Git, Codex, Bridge, or Dora mutation.
+  - An IDC candidate without explicit current owner authorization remains a confirmation
+    request, not a local-render permission.
+  - Triage output is advisory and never a DecisionLog, Master Plan, task, evidence,
+    or verified-status assertion.
+  started_at: '2026-08-12T09:15:19Z'
+  start_fingerprints:
+    idc/idc-triage-contract.schema.yaml: __missing__
+    lib/dora/idc_triage.rb: __missing__
+    test/idc_triage_test.rb: __missing__
+    docs/domain-library.yaml: abffc1d7341a239191c7ac4ff1a44ae267f8d9bdb597de87cfa53ffa0082a965
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-idc-owner-started-orchestration-01-preflight.yaml
+  - docs/work/dora-idc-owner-started-orchestration-02-triage.yaml
+  - docs/work/dora-idc-owner-started-orchestration-03-local-render.yaml
+  - docs/work/dora-idc-owner-started-orchestration-04-bridge-readback.yaml
+  - docs/work/dora-idc-owner-started-orchestration-analysis.md
+  - docs/work/dora-idc-owner-started-orchestration-atomic-hardening-review.md
+  - docs/work/dora-idc-owner-started-orchestration-execution-inventory.yaml
+  - docs/work/dora-idc-owner-started-orchestration-master.yaml
+  - docs/work/dora-idc-owner-started-orchestration-preflight.md
+evidence:
+- task: implement-deterministic-idc-triage-contract
+  command: ruby test/idc_triage_test.rb && ruby idc/test/idc_v0_contract_test.rb
+  ranAt: '2026-08-12T09:17:08Z'
+  revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/domain-library.yaml
+  - idc/idc-triage-contract.schema.yaml
+  - lib/dora/idc_triage.rb
+  - test/idc_triage_test.rb
+  output: |+
+    Dora IDC triage test passed (bounded delivery, explicit owner gate, fail-closed inputs, and no runtime authority).
+    IDC v0 contract test passed (provenance/assessment separation, evidenced gaps, and no authority).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    idc/idc-triage-contract.schema.yaml: b0f19f0d5ff0f4e774a097331bd80f84d574c65c87875441594053f7aa3c1a64
+    lib/dora/idc_triage.rb: 804904db13a332f4d542644177be5bf093202256ff4f207bc958aa8935b2c025
+    test/idc_triage_test.rb: 4043283031f4e0111c16efea9ad3a5443b77985465da71526a203537be0314d9
+    docs/domain-library.yaml: fc95f988082b1b55a0e04ec57d5fa2d5fd454f3c08f9d33ed656cc8973a8c106
+  requiredPaths: &1
+  - idc/idc-triage-contract.schema.yaml
+  - lib/dora/idc_triage.rb
+  - test/idc_triage_test.rb
+  - docs/domain-library.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T09:15:19Z'
+  changedAfterStart: *1

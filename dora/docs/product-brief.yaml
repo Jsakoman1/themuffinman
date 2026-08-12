@@ -1,10 +1,14 @@
 kind: dora_product_brief
 version: 1
 product: Dora
-user_problem: Product teams and implementation agents need one auditable project workflow source of truth for plans, decisions, memory, validation, and safe evidence.
+user_problem: Product owners and implementation agents need one local-first, owner-controlled operating layer that keeps idea framing, advisory analysis, owner decisions, bounded delivery, verification evidence, and navigable project context connected without replacing the project's own sources of truth.
 primary_users:
-- Product owners and implementation agents coordinating a software project.
+- Product owners and implementation agents coordinating an existing or greenfield software project.
 intended_outcomes:
+- An existing consumer project can use an immutable release-pinned, vendored Dora runtime without relying on a developer's local Dora checkout.
+- A greenfield product can move from owner-confirmed direction through advisory research and explicit owner framing to one bounded delivery candidate without Dora inventing product facts or starting implementation.
+- Dora can support an explicitly allow-listed local portfolio of projects through read-only, advisory projections; each project retains its own knowledge, plans, evidence, and private configuration.
+- One stack-neutral Dora lifecycle can be paired with project-owned technical profiles for Java/Spring, web/TypeScript, and later owner-approved stacks without creating separate delivery lifecycles.
 - A project can declare its knowledge, work, verification evidence, and current state without a second memory database.
 - An authorized external read-only client can query a safe structured project projection without filesystem access or manual terminal copy/paste.
 - An explicitly handoff-enabled project can receive a narrow, owner-requested structured implementation handoff without giving ChatGPT execution or repository authority.
@@ -26,6 +30,11 @@ intended_outcomes:
   Plan for transient comparison with Dora's current state and receive only a safe
   accepted, reconciled, or owner-decision-needed first-slice readback.
 non_goals:
+- Dora does not become a product owner, autonomous product manager, generic AI memory database, or a replacement for a consumer project's canonical source, plans, decisions, or evidence.
+- Dora does not automatically discover or expose arbitrary repositories; portfolio and Bridge access require explicit local allow-listing.
+- Dora does not turn research, agent inference, or advisory output into an owner decision, delivery state, verification evidence, or product fact.
+- Dora does not perform write, push, deploy, or remote Codex control outside a separately approved, owner-gated, safety-bounded workflow.
+- Bridge is an optional owner-gated integration layer, not the definition or required runtime of Dora.
 - Dora Bridge V1 does not modify projects, execute shell commands, expose source code, or invoke Codex.
 - Dora Bridge V2 does not expose shell, filesystem, patch, git, source-editing, generic Dora mutation, process-execution, or direct Codex-start capability.
 - Dora Bridge V2.2 does not create a terminal transcript, a parallel work/status system, or remote Codex steering; current Dora lifecycle and verification evidence remain authoritative.
@@ -35,6 +44,8 @@ non_goals:
   chain, or grant any additional external write or execution authority.
 assumptions:
 - Consumer projects retain ownership of their product knowledge, plans, evidence, and private configuration.
+- DecisionLog is the sole durable record of owner-confirmed decisions; ProjectMemory and read models are cited, derived navigation only.
+- Stable consumer runtimes vendor a reviewed Dora release/tag and immutable commit locally; reviewed local-source bootstrap is reserved for Dora development, testing, and pre-release work.
 risks:
 - A misleading aggregate could hide inconsistent consumer state or expose private implementation details.
 unanswered_decisions:

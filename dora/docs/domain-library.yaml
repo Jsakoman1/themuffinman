@@ -1,6 +1,14 @@
 kind: dora_domain_library
 version: 1
 vocabulary:
+- id: dora-lifecycle-core
+  description: The stack-neutral, owner-controlled progression from idea and existing context through advisory exploration, confirmed owner decisions, one bounded delivery slice, local implementation or analysis, verification evidence, and derived project-memory navigation.
+- id: local-portfolio-read-model
+  description: A local, explicitly allow-listed, read-only advisory projection across project-owned Dora summaries; it owns no portfolio lifecycle, project facts, decisions, evidence, or repository access outside the allow-list.
+- id: release-pinned-consumer-runtime
+  description: A consumer-owned local Dora package vendored at an immutable reviewed release tag and commit. It is the stable consumer runtime model and never resolves a developer workstation source path at execution time.
+- id: technology-profile
+  description: A project-owned declaration of stack-specific local build, test, runtime, or convention obligations that composes with the Dora lifecycle without creating a stack-specific decision, delivery, or verification lifecycle.
 - id: project-read-model
   description: A transport-independent, sanitized aggregation of declared project artifacts.
 - id: bridge-registry
@@ -21,6 +29,10 @@ vocabulary:
   description: A read-only advisory classification of a bounded WorkExecution failure envelope into leaf timeout, command unavailable, or unknown; it excludes raw output and cannot retry or repair work.
 - id: implementation-quality-profile
   description: An opt-in static declaration that composes existing permission, schema, API, UI, test, documentation, and runtime obligation classes with explicit exclusions; it never creates task, evidence, acceptance, or release state.
+- id: idc-v0-advisory-contract
+  description: A local, file-backed advisory contract for owner-selected requests, source provenance, assessed claims, and owner-review promotion proposals. It owns no Dora decision, plan, lifecycle, evidence, verified status, code, Git, network, shell, or Codex authority.
+- id: idc-owner-started-triage
+  description: A transient deterministic classification of one structured owner request as no IDC needed, owner confirmation required, or current-request local IDC rendering authorized. It is not natural-language reasoning, a retained permission, source selection, or execution authority.
 entities:
 - id: project-adapter
   description: A project-owned declaration of bounded roots and workflow commands.
@@ -37,6 +49,14 @@ entities:
 - id: intent-plan-alignment-readback
   description: A derived owner-safe projection containing phase, alignment result, first safe next action, one eligible first candidate at most, blocked later candidates, and one fixed actionable blocker or decision.
 invariants:
+- id: decision-log-exclusive-owner-authority
+  description: DecisionLog alone records durable owner-confirmed decisions. Research packets, assumptions, option packets, ProjectMemory, portfolio views, and read models can cite a decision but cannot create, amend, supersede, or infer one.
+- id: derived-memory-and-portfolio-boundary
+  description: ProjectMemory, AssistantContextView, ProjectReadModel, CurrentWorkIndex, and any local portfolio projection are cited, regenerable navigation. They never become a second store for product facts, owner decisions, delivery state, evidence, or verification.
+- id: stable-consumer-runtime-boundary
+  description: A stable consumer executes only its own vendored immutable Dora release/tag runtime. Reviewed local source/bootstrap is a Dora development, testing, or pre-release path and is not normal consumer runtime authority.
+- id: stack-neutral-lifecycle
+  description: Stack-specific profiles may select local technical checks, but the same owner-decision, bounded-work, evidence, and verification lifecycle applies to every supported stack.
 - id: read-only-projection
   description: External bridge output is sanitized server-side and never grants write, shell, filesystem, or source retrieval authority.
 - id: explicit-supersession
@@ -81,9 +101,17 @@ invariants:
   description: BoundedFailureDiagnosis reads allow-listed WorkExecution evidence fields only. It never returns raw output, infers a root cause, retries a command, runs a shell, repairs a project, or mutates evidence, work status, decisions, GitHub, consumer, runner, or remote-agent state.
 - id: implementation-quality-profile-static-boundary
   description: ImplementationQualityProfile is an opt-in static composition input. Task implementation contracts remain the only task-surface declaration, capability traces remain evidence-owned, and a profile cannot execute tests, select tasks, approve runtime/security/release readiness, or mutate any state.
+- id: idc-v0-evidence-bounded-uncertainty
+  description: IDC source manifests record identity, allowed kind, locator, revision/digest, and observed_at; claims separately carry status, source references, wording, and relevant confidence/freshness assessment. missing_context requires either an owner-selected expected-but-not-provided manifest entry or a cited source's explicit absence statement. Otherwise the claim is open_question; no filesystem or repository search may infer an absence.
+- id: idc-triage-owner-gate
+  description: IDC triage can recommend local rendering only when the current structured request explicitly authorizes it, uses explicit owner-selected sources, and selects a bounded advisory profile. A broad request, prior conversation, prior dossier, or retained setting never grants a local render; triage cannot invoke it.
 - id: intent-plan-first-slice-gate
   description: Only a dependency-free first candidate with the no-owner-decision gate may be identified after accepted or reconciled alignment. Later candidates remain blocked until their declared predecessor has Dora verification evidence and no owner decision is pending.
 permission_rules:
+- id: local-portfolio-read
+  actor: local owner
+  action: read an advisory portfolio projection
+  boundary: Only explicitly allow-listed local projects may contribute sanitized derived summaries; the projection cannot discover repositories, read arbitrary paths, mutate a project, or establish portfolio-level delivery state.
 - id: bridge-read
   actor: authorized external client
   action: read safe project projection

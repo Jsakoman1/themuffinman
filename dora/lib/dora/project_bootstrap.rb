@@ -3,6 +3,7 @@
 require "fileutils"
 require "yaml"
 require_relative "bootstrap_source"
+require_relative "package_copy"
 require_relative "project_initializer"
 require_relative "starter_pack"
 require_relative "ci_pack"
@@ -20,7 +21,7 @@ module Dora
       FileUtils.mkdir_p(project_root)
       package_root = File.join(project_root, PACKAGE_DIRECTORY)
       FileUtils.mkdir_p(package_root)
-      FileUtils.cp_r(File.join(source.fetch("path"), "."), package_root)
+      PackageCopy.copy!(source_root: source.fetch("path"), destination: package_root)
 
       ProjectInitializer.initialize!(
         project_root,

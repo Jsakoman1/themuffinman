@@ -1,0 +1,90 @@
+kind: work
+version: 1
+id: dora-release-provenance-containment-v1
+title: Align Dora release checksum provenance with vendored package contents
+status: verified
+baseline: '2034755'
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-release-provenance-containment-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-release-source-containment-v1.yaml
+  baseline_only_surfaces:
+  - Existing source containment copy behavior, release lifecycle, Dora/IDC runtime,
+    Bridge and consumer worktrees.
+  residual_scope:
+  - Source checksum still includes local metadata that the package copy excludes;
+    make checksum provenance represent exactly the releasable source tree.
+  retest_triggers:
+  - Any package exclusion, source checksum, bootstrap descriptor or release provenance
+    change.
+  non_duplication_rule: Source-copy containment evidence is baseline only; this plan
+    proves only checksum/package alignment.
+tasks:
+- id: exclude-local-metadata-from-release-source-checksum
+  title: Calculate a stable checksum only over releasable Dora source entries
+  type: security-repair
+  status: done
+  inventory_item: release-provenance-containment
+  observable_outcome: Dora source checksums ignore exactly the local metadata excluded
+    from consumer packages while still rejecting modifications to released source
+    files.
+  dependencies: []
+  paths:
+  - lib/dora/bootstrap_source.rb
+  - bootstrap-source.schema.yaml
+  - test/bootstrap_source_verification_test.rb
+  required_paths:
+  - lib/dora/bootstrap_source.rb
+  - bootstrap-source.schema.yaml
+  - test/bootstrap_source_verification_test.rb
+  validation: ruby test/bootstrap_source_verification_test.rb && ruby test/project_upgrade_apply_test.rb
+  evidence_boundary:
+  - No real consumer source descriptor, package, pin, release tag, remote or project
+    repository is modified.
+  - Checksum computation is local and deterministic; it gains no Git, shell, network,
+    Bridge, IDC, Codex or consumer discovery authority.
+  started_at: '2026-08-12T10:10:58Z'
+  start_fingerprints:
+    lib/dora/bootstrap_source.rb: 2f3df3cf04437e9895d702efbafa5a2063dd4073fc1d5a70f74d959fedba8811
+    bootstrap-source.schema.yaml: 0d08b333aeeef09ef7574b2419b5cfab85d6ae5b8e50216ac35f3fd22e5ae5a4
+    test/bootstrap_source_verification_test.rb: 27305fa213d9e108fe3b76b3be1e4a25b9aea69c67b990b4724d02ff94380082
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-release-provenance-containment-v1-execution-inventory.yaml
+  - docs/work/dora-release-provenance-containment-v1.yaml
+evidence:
+- task: exclude-local-metadata-from-release-source-checksum
+  command: ruby test/bootstrap_source_verification_test.rb && ruby test/project_upgrade_apply_test.rb
+  ranAt: '2026-08-12T10:11:29Z'
+  revision: 20347556b5d0478664e58e7ca0174300499da827
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - bootstrap-source.schema.yaml
+  - lib/dora/bootstrap_source.rb
+  - test/bootstrap_source_verification_test.rb
+  output: |+
+    Dora bootstrap source verification test passed (reviewed immutable refs and checksums reject tampered local source content).
+    Dora project upgrade apply test passed.
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    lib/dora/bootstrap_source.rb: 01ba708136fb2367ee049eb6d0bca3c9ac1b466b7b05e266a5b37c26413922f8
+    bootstrap-source.schema.yaml: 567a4cb914f1ae6cb561c69137bc8f9f006658c46d0e90ec9cb276c7c4264ef1
+    test/bootstrap_source_verification_test.rb: 43e46472f19a83ea23b2762781ce609ea5084f1944d59b5895bea249487adbd0
+  requiredPaths: &1
+  - lib/dora/bootstrap_source.rb
+  - bootstrap-source.schema.yaml
+  - test/bootstrap_source_verification_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T10:10:58Z'
+  changedAfterStart: *1

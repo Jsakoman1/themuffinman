@@ -2,6 +2,7 @@
 
 require "yaml"
 require "digest"
+require_relative "package_copy"
 
 module Dora
   class BootstrapSource
@@ -48,7 +49,10 @@ module Dora
     private_class_method :remote_reference?
 
     def self.checksum_for(root)
-      entries = Dir[File.join(root, "**/*")].select { |path| File.file?(path) && !path.delete_prefix("#{root}/").split("/").include?(".git") }.sort
+      entries = Dir[File.join(root, "**/*")].select do |path|
+        relative_parts = path.delete_prefix("#{root}/").split("/")
+        File.file?(path) && (relative_parts & PackageCopy::EXCLUDED_SOURCE_ENTRIES).empty?
+      end.sort
       Digest::SHA256.hexdigest(entries.map { |path| relative = path.delete_prefix("#{root}/"); "#{relative}\0#{Digest::SHA256.file(path).hexdigest}" }.join("\n"))
     end
 

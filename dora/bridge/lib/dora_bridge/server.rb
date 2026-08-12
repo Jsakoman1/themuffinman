@@ -4,6 +4,7 @@ require "json"
 
 require_relative "project_registry"
 require_relative "../../../lib/dora/handoff"
+require_relative "../../../lib/dora/idc_triage"
 
 module DoraBridge
   # JSON-RPC framing for the small, read-only MCP surface. This contains no Dora
@@ -12,6 +13,15 @@ module DoraBridge
   class Server
     PROTOCOL_VERSION = "2025-06-18"
     INTENT_PLAN_TOOL = "align_intent_plan"
+    IDC_ENVELOPE_TOOL = "get_idc_envelope"
+    IDC_TRIAGE_TOOL = "evaluate_idc_triage"
+    IDC_ENVELOPE_SELECTION = {
+      "kind" => Dora::IdcEnvelope::SELECTION_KIND,
+      "version" => 1,
+      "project_fields" => %w[project state health integrity delivery current_goal next_task open_decisions references],
+      "decision_ids" => [],
+      "artifact_references" => []
+    }.freeze
     TOOL_DEFINITIONS = [
       ["list_projects", "List the bridge's explicitly allowed Dora projects.", {}],
       ["get_project_summary", "Get a compact, sanitized current Dora project summary.", {"project" => {"type" => "string"}}],
@@ -21,6 +31,8 @@ module DoraBridge
       ["get_open_decisions", "Get declared unresolved product decisions.", {"project" => {"type" => "string"}}],
       ["get_plan", "Get a sanitized declared Dora work plan.", {"project" => {"type" => "string"}, "plan" => {"type" => "string"}}],
       ["get_task_evidence", "Get a sanitized verification summary for a declared task.", {"project" => {"type" => "string"}, "plan" => {"type" => "string"}, "task" => {"type" => "string"}}],
+      [IDC_ENVELOPE_TOOL, "Get the fixed, sanitized, read-only Dora envelope approved for an IDC advisory request.", {"project" => {"type" => "string", "maxLength" => 80}}],
+      [IDC_TRIAGE_TOOL, "Evaluate one bounded IDC triage request and return only a transient advisory local-next-action readback. It never renders or starts IDC.", {"project" => {"type" => "string", "maxLength" => 80}, "triage_request" => {"type" => "object"}}],
       [INTENT_PLAN_TOOL, "Evaluate one bounded non-canonical ChatGPT Intent Plan against current Dora state. It never persists a proposal or creates work.", {"project" => {"type" => "string", "maxLength" => 80}, "proposal" => {"type" => "object"}}]
     ].freeze
     HANDOFF_TOOL_DEFINITIONS = [
@@ -110,6 +122,8 @@ module DoraBridge
               when "get_open_decisions" then summary_for(arguments).slice("project", "state", "open_decisions", "inconsistencies")
               when "get_plan" then model_for(arguments).plan(required_argument!(arguments, "plan"))
               when "get_task_evidence" then model_for(arguments).task_evidence(required_argument!(arguments, "plan"), required_argument!(arguments, "task"))
+              when IDC_ENVELOPE_TOOL then idc_envelope_for(arguments)
+              when IDC_TRIAGE_TOOL then idc_triage_for(arguments)
               when INTENT_PLAN_TOOL then align_intent_plan(arguments)
               when "create_handoff" then create_handoff(arguments)
               when "list_handoffs" then {"handoffs" => handoff_store!.list(project: handoff_project!(arguments))}
@@ -149,6 +163,19 @@ module DoraBridge
       fail ProtocolError.new(-32602, "invalid Intent Plan proposal") unless proposal.is_a?(Hash)
 
       model_for(arguments).align_intent_plan(proposal)
+    end
+
+    def idc_envelope_for(arguments)
+      require_exact_arguments!(arguments, %w[project], [])
+      @registry.idc_envelope!(arguments.fetch("project"), selection: IDC_ENVELOPE_SELECTION)
+    end
+
+    def idc_triage_for(arguments)
+      require_exact_arguments!(arguments, %w[project triage_request], [])
+      fail ProtocolError.new(-32602, "invalid IDC triage request") unless arguments.fetch("triage_request").is_a?(Hash)
+
+      model_for(arguments)
+      Dora::IdcTriage.evaluate!(request: arguments.fetch("triage_request"))
     end
 
     def handoff_project!(arguments)

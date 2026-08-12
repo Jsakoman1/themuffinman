@@ -44,6 +44,9 @@ require File.join(ROOT, "lib/dora/plan_coverage")
 require File.join(ROOT, "lib/dora/plugin_contract")
 require File.join(ROOT, "lib/dora/plugin_runner")
 require File.join(ROOT, "lib/dora/command_envelope")
+require File.join(ROOT, "lib/dora/idc_envelope")
+require File.join(ROOT, "lib/dora/idc_triage")
+require File.join(ROOT, "lib/dora/idc_owner_started_renderer")
 require File.join(ROOT, "lib/dora/starter_compatibility")
 require File.join(ROOT, "lib/dora/idea_interview_session")
 require File.join(ROOT, "lib/dora/guided_agent_entrypoint")
@@ -131,6 +134,27 @@ end
 def execute_work(adapter_path, arguments)
   puts Dora::WorkExecution.run(adapter_path: adapter_path, schema_path: SCHEMA_PATH, arguments: arguments)
 rescue Dora::WorkExecution::Error, ArgumentError => error
+  fail!(error.message)
+end
+
+def export_idc_envelope(adapter_path, selector_path)
+  selection = Dora::IdcEnvelope.load_selection!(selector_path)
+  result = Dora::IdcEnvelope.export!(adapter_path: adapter_path, selection: selection)
+  puts OUTPUT_FORMAT == "json" ? JSON.generate(result) : YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def render_idc(arguments)
+  options = %w[triage request manifest dossier out]
+  pairs = arguments.each_slice(2).to_a
+  fail!("usage: dora idc-render --triage <path> --request <path> --manifest <path> --dossier <path> --out <path>") unless arguments.length == 10 && pairs.all? { |pair| pair.length == 2 && pair.first.start_with?("--") && options.include?(pair.first.delete_prefix("--")) } && pairs.map(&:first).uniq.length == options.length
+  values = options.to_h { |name| [name, pairs.find { |pair| pair.first == "--#{name}" }.last] }
+  result = Dora::IdcOwnerStartedRenderer.run!(triage_path: values.fetch("triage"), request_path: values.fetch("request"), manifest_path: values.fetch("manifest"), dossier_path: values.fetch("dossier"), output_path: values.fetch("out"), root: ROOT)
+  return if emit_envelope(result, side_effect: "local_mutation")
+
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
   fail!(error.message)
 end
 
@@ -771,6 +795,11 @@ when "work-start"
 when "work-verify"
   fail!("usage: dora work-verify <adapter-path> plan=<path> [task=<id>]") if ARGV.length < 2
   execute_work(ARGV.shift, ARGV)
+when "idc-envelope"
+  fail!("usage: dora idc-envelope <adapter-path> <selector-path>") unless ARGV.length == 2
+  export_idc_envelope(ARGV[0], ARGV[1])
+when "idc-render"
+  render_idc(ARGV)
 when "handoff-next"
   execute_handoff("next", ARGV)
 when "handoff-get"

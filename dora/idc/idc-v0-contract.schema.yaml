@@ -1,0 +1,60 @@
+kind: idc_v0_contract_schema
+version: 1
+title: Local advisory IDC v0 contract
+disposition: advisory_only
+authority_boundary:
+  - IDC material is non-canonical and owner-reviewable.
+  - IDC cannot create or amend Dora decisions, plans, work state, evidence, or verified status.
+  - IDC cannot invoke Codex, shell commands, Git, network access, or Dora writes.
+  - This contract does not grant source discovery, repository traversal, or automatic context selection.
+profiles:
+  research_request:
+    kind: idc_research_request
+    required_fields: [kind, version, id, goal, scope, questions, allowed_source_kinds]
+    allowed_source_kinds: [owner_input, local_document, dora_read_envelope, external_research_receipt]
+  source_manifest:
+    kind: idc_source_manifest
+    required_fields: [kind, version, id, sources, expected_evidence]
+    source_required_fields: [id, allowed_kind, locator, revision_or_digest, observed_at]
+    source_forbidden_fields: [confidence, freshness]
+    expected_evidence_required_fields: [id, expected_proof, disposition]
+    expected_evidence_dispositions: [not_provided]
+  dossier:
+    kind: idc_advisory_dossier
+    required_fields: [kind, version, id, request_ref, manifest_ref, claims, promotion_proposal]
+    claim_required_fields: [id, status, source_refs, wording]
+    claim_statuses:
+      - owner_confirmed
+      - source_fact
+      - external_research
+      - assumption
+      - open_question
+      - missing_context
+      - conflict
+      - alternative
+      - scenario
+      - advisory_recommendation
+    claim_assessment_fields: [confidence, freshness]
+    missing_context_bases: [manifest_expected_evidence, source_explicit_absence]
+    source_explicit_absence_required_fields: [source_ref, source_excerpt]
+  promotion_proposal:
+    kind: idc_promotion_proposal
+    required_fields: [kind, version, dossier_ref, proposed_text, owner_action]
+    owner_actions: [owner_review_required]
+forbidden_authority_fields:
+  - canonical_decision
+  - decision_write
+  - master_plan_write
+  - task_lifecycle_write
+  - evidence_write
+  - verified_status
+  - git_action
+  - codex_invocation
+  - shell_command
+  - network_request
+  - dora_write
+missing_context_rule: >-
+  A missing_context claim is valid only when it names one manifest expected_evidence
+  entry with disposition not_provided, or cites a supplied source and marks that source
+  as an explicit absence statement. A failed or omitted filesystem/repository search
+  is never a basis. If neither basis exists, the claim must be open_question.

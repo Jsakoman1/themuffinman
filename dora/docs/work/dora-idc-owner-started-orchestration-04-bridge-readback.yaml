@@ -1,0 +1,145 @@
+kind: work
+version: 1
+id: dora-idc-owner-started-orchestration-04-bridge-readback
+title: Expose read-only IDC triage readback and operating guidance
+status: verified
+baseline: ca0e600
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-owner-started-orchestration-master.yaml
+execution_inventory: docs/work/dora-idc-owner-started-orchestration-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-owner-started-orchestration-03-local-render.yaml
+  - docs/work/dora-idc-operational-v0-master.yaml
+  - docs/work/chatgpt-intent-plan-alignment-master.yaml
+  baseline_only_surfaces:
+  - Existing Bridge project allow-list, fixed IDC envelope, and V1/V2 read/write boundary.
+  - Existing local owner-started renderer wrapper and existing Codex local workflow.
+  residual_scope:
+  - One transient sanitized Bridge triage readback and concise operator guidance for
+    ChatGPT/Codex handoff to the owner-started local command.
+  retest_triggers:
+  - Any Bridge tool schema, triage readback field, project authorization, guidance,
+    renderer invocation, or execution boundary change.
+  non_duplication_rule: Bridge returns only triage advice and cannot persist it, invoke
+    the local command, create a handoff, start Codex, or own a workflow state.
+tasks:
+- id: expose-read-only-idc-triage-readback-and-operating-guidance
+  title: Let ChatGPT read IDC triage without granting execution authority
+  type: read-only-bridge-integration
+  status: done
+  inventory_item: idc-orchestration-bridge-readback
+  observable_outcome: An allow-listed Bridge project can evaluate one bounded structured
+    triage request and return a sanitized fixed recommendation, while the operator
+    guide states that ChatGPT/Codex may propose or locally invoke `dora idc-render`
+    only after explicit owner authorization; Bridge itself cannot execute it.
+  dependencies:
+  - idc-orchestration-local-render
+  paths:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  - docs/dora-bridge-mcp.md
+  - docs/codex-accelerated-route.md
+  - test/idc_triage_test.rb
+  required_paths:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  - docs/dora-bridge-mcp.md
+  - docs/codex-accelerated-route.md
+  - test/idc_triage_test.rb
+  validation: ruby test/idc_triage_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby test/idc_owner_started_renderer_test.rb && bin/dora doctor .dora/project.yaml
+  evidence_boundary:
+  - Bridge accepts only the bounded triage schema and returns fixed sanitized fields;
+    it cannot accept caller paths, raw source, dossier contents, output destinations,
+    commands, authorization secrets, or arbitrary selectors.
+  - Bridge never launches IDC, Codex, a shell, Git, network, a handoff, or any Dora
+    write; the owner-started local wrapper remains a separate local action.
+  - 'Guidance makes the distinction visible: Codex may recognize an IDC candidate,
+    but it must obtain explicit authorization before local rendering and normal Dora
+    promotion remains separately owner-controlled.'
+  started_at: '2026-08-12T09:20:55Z'
+  start_fingerprints:
+    bridge/lib/dora_bridge/server.rb: 0f7cb4d2816ae38770995d33749d71cb6b80f8e4dd573860cf3ad17f8b8d5b49
+    bridge/test/mcp_server_test.rb: 25df390e3d4dcdc579492a37c76166e458d3d6d75bc9442c70a387ea52c9906c
+    docs/dora-bridge-mcp.md: a33f341201ec2449690c0029997804ca9a8d91031c260f36b5f23d4298f01ccd
+    docs/codex-accelerated-route.md: e608497d306e51796bb4174efa096209954896e7f784d76ad92406714e6ce52d
+    test/idc_triage_test.rb: 4043283031f4e0111c16efea9ad3a5443b77985465da71526a203537be0314d9
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - bin/dora
+  - docs/domain-library.yaml
+  - docs/work/dora-idc-owner-started-orchestration-01-preflight.yaml
+  - docs/work/dora-idc-owner-started-orchestration-02-triage.yaml
+  - docs/work/dora-idc-owner-started-orchestration-03-local-render.yaml
+  - docs/work/dora-idc-owner-started-orchestration-04-bridge-readback.yaml
+  - docs/work/dora-idc-owner-started-orchestration-analysis.md
+  - docs/work/dora-idc-owner-started-orchestration-atomic-hardening-review.md
+  - docs/work/dora-idc-owner-started-orchestration-execution-inventory.yaml
+  - docs/work/dora-idc-owner-started-orchestration-master.yaml
+  - docs/work/dora-idc-owner-started-orchestration-preflight.md
+  - idc/idc-triage-contract.schema.yaml
+  - idc/test/owner_workflow_integration_test.rb
+  - lib/dora/idc_owner_started_renderer.rb
+  - lib/dora/idc_triage.rb
+  - test/idc_owner_started_renderer_test.rb
+  - test/idc_triage_test.rb
+evidence:
+- task: expose-read-only-idc-triage-readback-and-operating-guidance
+  command: ruby test/idc_triage_test.rb && ruby bridge/test/mcp_server_test.rb &&
+    ruby test/idc_owner_started_renderer_test.rb && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-12T09:22:38Z'
+  revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  - docs/codex-accelerated-route.md
+  - docs/dora-bridge-mcp.md
+  - test/idc_triage_test.rb
+  output: |+
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+    ADVISORY work-artifact:unsupported_kind:docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml: work artifact is unsupported_kind
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    bridge/lib/dora_bridge/server.rb: 880254a5dfa17c21ad0938524f09ef12bc03874984f1f328cfb1828889de1f1a
+    bridge/test/mcp_server_test.rb: c30f60eb4accedd95087e95ec36ca8beb72e32543fde6aa667a26a76b2a91c0d
+    docs/dora-bridge-mcp.md: 5eaecfc1a2716b872e3667248ddfa8662cd85aa2a2797714ff28c3b9c6eb9c14
+    docs/codex-accelerated-route.md: 4bb7e7e1f9d6e7fe3f8e95f368ee11b5b96755d8e2852c33306c46345762dc4d
+    test/idc_triage_test.rb: 14fb09150904d9216645f77a24d7418d04c9b8b24754252293cdcaef3dbd976f
+  requiredPaths: &1
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  - docs/dora-bridge-mcp.md
+  - docs/codex-accelerated-route.md
+  - test/idc_triage_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T09:20:55Z'
+  changedAfterStart: *1

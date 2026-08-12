@@ -1,0 +1,22 @@
+kind: dora_release_manifest
+version: 1
+release:
+  version: v1.11.2
+  source_commit: d112eae80e8b3534a42d330c3c38eb3855aab41b
+  release_type: patch
+  published_at: '2026-08-12T12:45:00Z'
+scope:
+  changed_capabilities:
+  - Bootstrap, initializer and upgrade package copies exclude `.git`, `.idea` and `.DS_Store`.
+  - Consumer release packages cannot inherit source-checkout or local IDE metadata from the reviewed local source.
+  idc_impact: IDC runtime behavior is unchanged; the release only hardens package distribution.
+  compatibility_posture: All consumers updating from a real Dora Git checkout should use this tag rather than v1.11.1.
+consumer_requirements:
+  package_update: explicit-owner-selection-only
+  adapter_change_required: true
+  required_validations: [upgrade_preview, dora_doctor, git_diff_check, consumer_declared_checks]
+  rollback: Restore the local upgrade backup before commit or revert the isolated consumer release commit after commit.
+boundaries:
+  - The release manifest does not claim that any consumer is updated, compatible, deployed or verified.
+  - IDC remains opt-in; a Dora package update does not start IDC or create a Dora write path.
+  - The release process does not discover consumer repositories or modify one without explicit owner approval.

@@ -5,8 +5,7 @@ master_plan: docs/work/dora-bridge-v3-local-runner-master.yaml
 execution_inventory: docs/work/dora-bridge-v3-local-runner-execution-inventory.yaml
 status: approved
 findings:
-- >-
-  The serial inventory declares four atomic outcomes: discovery/hardening, local runner,
+- The serial inventory declares four atomic outcomes: discovery/hardening, local runner,
   fixed preclaimed launcher contract, and closeout proof/documentation. It never queues
   a broad child plan as executable work.
 - The runner task is limited to repository-owned runner code and direct synthetic tests;

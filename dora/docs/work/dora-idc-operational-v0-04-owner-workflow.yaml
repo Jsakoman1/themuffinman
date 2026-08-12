@@ -1,0 +1,127 @@
+kind: work
+version: 1
+id: dora-idc-operational-v0-04-owner-workflow
+title: Prove the owner-started IDC workflow and Bridge read profile
+status: verified
+baseline: e25b58fc4fbaeb2611ef862be4fb5a1f202746bc
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+execution_inventory: docs/work/dora-idc-operational-v0-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-operational-v0-01-contract.yaml
+  - docs/work/dora-idc-operational-v0-02-renderer.yaml
+  - docs/work/dora-idc-operational-v0-03-envelope.yaml
+  - docs/work/dora-bridge-v2-2-collaboration-master.yaml
+  baseline_only_surfaces:
+  - Existing Bridge read behavior, structured handoff lifecycle, owner-local runner,
+    Codex execution contract, and consumer-project isolation.
+  residual_scope:
+  - One integration proof that reuses the IDC-02 local idc CLI and one read-only Bridge
+    profile that returns the IDC-03 sanitized envelope shape.
+  retest_triggers:
+  - Any IDC command input/output path rule, Bridge profile field, bridge request validation,
+    envelope selector, or owner-start boundary change.
+  non_duplication_rule: The workflow composes the existing IDC-02 CLI and IDC-03 envelope
+    with safe read surfaces; it creates no second owner command, renderer, filesystem
+    writer, runner, handoff lifecycle, decision, evidence, or consumer state.
+tasks:
+- id: prove-owner-started-idc-workflow-and-bridge-read-profile
+  title: Prove an existing local IDC command works with a read-only Bridge envelope
+  type: owner-started-advisory-workflow
+  status: done
+  inventory_item: idc-04-owner-workflow
+  observable_outcome: An integration test reuses the existing IDC-02 local idc CLI
+    over a request and allow-listed manifest, while an authorized Bridge reader retrieves
+    only the fixed IDC-03 sanitized envelope response; neither surface can start Codex
+    or mutate Dora.
+  dependencies:
+  - idc-03-envelope
+  evidence_boundary:
+  - Local synthetic request/manifest fixtures, fixed Bridge request fixtures, and
+    owner-start contract tests only.
+  - No new owner command, renderer, or filesystem writer; the test only exercises
+    the command and declared output behavior already introduced by IDC-02.
+  - No remote execution, Codex invocation, terminal inspection, handoff creation,
+    Dora write, consumer-project read/write, arbitrary filesystem access, external
+    request, Git action, or persisted dossier inside Dora.
+  paths:
+  - idc/test/owner_workflow_integration_test.rb
+  - bridge/lib/dora_bridge/project_registry.rb
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  required_paths:
+  - idc/test/owner_workflow_integration_test.rb
+  - bridge/lib/dora_bridge/project_registry.rb
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  validation: ruby idc/test/owner_workflow_integration_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby test/idc_envelope_test.rb
+  started_at: '2026-08-12T08:42:02Z'
+  start_fingerprints:
+    idc/test/owner_workflow_integration_test.rb: __missing__
+    bridge/lib/dora_bridge/server.rb: b97b96aaffc907a97c631ceb0aa8f80df63ebd63dc6f7331360047b97f7af43a
+    bridge/test/mcp_server_test.rb: fb2ac4f75c6e1a28a938f8630fa6ada752791c7499cc06690eac10e746ec4efb
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - bin/dora
+  - docs/domain-library.yaml
+  - docs/implementation-control.md
+  - docs/plan-scope-control-standard.yaml
+  - docs/work/dora-idc-operational-v0-01-contract.yaml
+  - docs/work/dora-idc-operational-v0-02-renderer.yaml
+  - docs/work/dora-idc-operational-v0-03-envelope.yaml
+  - docs/work/dora-idc-operational-v0-04-owner-workflow.yaml
+  - docs/work/dora-idc-operational-v0-analysis.md
+  - docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+  - docs/work/dora-idc-operational-v0-execution-inventory.yaml
+  - docs/work/dora-idc-operational-v0-master.yaml
+  - idc-envelope.schema.yaml
+  - idc/bin/idc
+  - idc/idc-v0-contract.schema.yaml
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/request.rb
+  - idc/test/dossier_renderer_test.rb
+  - idc/test/idc_v0_contract_test.rb
+  - lib/dora/idc_envelope.rb
+  - test/idc_envelope_test.rb
+evidence:
+- task: prove-owner-started-idc-workflow-and-bridge-read-profile
+  command: ruby idc/test/owner_workflow_integration_test.rb && ruby bridge/test/mcp_server_test.rb
+    && ruby test/idc_envelope_test.rb
+  ranAt: '2026-08-12T08:46:56Z'
+  revision: 0c52e1018fa9433abb8e9dcc7942870510cdbb64
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - bridge/lib/dora_bridge/project_registry.rb
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  - idc/test/owner_workflow_integration_test.rb
+  output: |+
+    IDC owner workflow integration test passed (owner-started local renderer, fixed Bridge envelope, and no Bridge execution).
+    Dora Bridge MCP test passed (V1 read compatibility, V2 gating, lifecycle-only readback, containment, idempotency, and sanitized output).
+    Dora IDC envelope test passed (fixed selector, sanitized provenance, stdout-only CLI, and no authority).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    idc/test/owner_workflow_integration_test.rb: f10f94f41a7c908a117ba04c27bddc654e86013f1520815ee041c2cead9c20e0
+    bridge/lib/dora_bridge/project_registry.rb: 8118d1d99c509359a31e4e035374c15fa2d52d7202f8d1216cad020c9b758717
+    bridge/lib/dora_bridge/server.rb: 0f7cb4d2816ae38770995d33749d71cb6b80f8e4dd573860cf3ad17f8b8d5b49
+    bridge/test/mcp_server_test.rb: 25df390e3d4dcdc579492a37c76166e458d3d6d75bc9442c70a387ea52c9906c
+  requiredPaths: &1
+  - idc/test/owner_workflow_integration_test.rb
+  - bridge/lib/dora_bridge/project_registry.rb
+  - bridge/lib/dora_bridge/server.rb
+  - bridge/test/mcp_server_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T08:42:02Z'
+  changedAfterStart: *1

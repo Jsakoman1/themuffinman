@@ -6,13 +6,45 @@ backend and frontend roots, or `--starter spring-vue-buildable` for a domain-fre
 Spring and Vue technical application with real setup, test, and build commands.
 Starters do not create product behavior.
 
-Dora is a portable delivery-control package for implementation planning,
-verification, documentation contracts, and controlled project extensions.
+Dora is a local-first, owner-controlled operating layer for serious AI-assisted
+software work. It connects existing-project onboarding and greenfield framing to
+advisory exploration, confirmed owner decisions, one bounded delivery slice, local
+implementation or analysis, verification evidence, and navigable project context.
+
+It is not a generic AI knowledge base, autonomous product manager, or remote-control
+system. Consumer projects retain their own source, domain truth, plans, decisions,
+evidence, and private configuration. Dora projects that context through cited,
+regenerable views rather than duplicating it in a second memory database.
+
+## Lifecycle and boundaries
+
+```text
+idea / goal or existing context
+  -> guided questions and advisory research
+  -> owner-confirmed decisions
+  -> one bounded plan or slice
+  -> local implementation or analysis
+  -> verification and evidence
+  -> derived, navigable project memory
+```
+
+The lifecycle is stack-neutral. A Java/Spring, web/TypeScript, or future Swift/iOS
+project may declare different local technical checks, but it does not receive a
+different decision, delivery, or verification lifecycle. Bridge is optional and
+owner-gated; it is not required for local Dora use and cannot remotely control Codex.
+
+## Stable consumer runtime
+
+A stable consumer vendors its own reviewed Dora release/tag and immutable commit, then
+runs that local package through its project launcher. It must not depend on a developer
+workstation checkout. The reviewed local-source bootstrap path documented below is for
+Dora development, testing, and pre-release work; it is not normal stable-consumer
+runtime authority.
 
 ## Start a new project
 
 For a new product, the primary Codex and beginner route is a confirmed idea
-interview plus a reviewed local Dora source. Codex records only user-confirmed
+interview plus a reviewed Dora development/pre-release source. Codex records only user-confirmed
 answers and explicit open decisions in `idea-interview.yaml`; Dora then creates
 neutral project context, a first capability package, a first work declaration,
 and a local Git baseline. It does not invent product rules or implementation.
@@ -32,9 +64,11 @@ project-local Dora navigation without overwriting `AGENTS.md`.
 `dora new <destination> --answers project-new.yaml` remains available for
 explicit compatibility workflows that already own complete product knowledge.
 
-For a project-local Dora package, reviewed immutable source, technical starter, or
-CI pack, use `dora bootstrap`. Dora never downloads code during bootstrap. The
-complete beginner path is in [`docs/new-project.md`](docs/new-project.md).
+For a project-local Dora package, reviewed immutable development source, technical
+starter, or CI pack, use `dora bootstrap`. Dora never downloads code during bootstrap.
+Before a project is treated as a stable consumer, its runtime must be replaced or
+recorded through the approved vendored release/tag pin process. The complete beginner
+path is in [`docs/new-project.md`](docs/new-project.md).
 
 Before starting controlled work, inspect baseline readiness with
 `dora readiness <project-root>`. It never changes Git by default. Use

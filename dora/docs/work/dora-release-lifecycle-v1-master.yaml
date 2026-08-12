@@ -1,0 +1,52 @@
+kind: master
+version: 1
+id: dora-release-lifecycle-v1
+title: Make Dora and IDC consumer releases reproducible and pinned
+status: verified
+baseline: 249ea82
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+program_state:
+  phase: approved
+  implementation_authorized: true
+  owner_gate_status: confirmed
+  activation_rule: Owner approved this release-lifecycle remediation on 2026-08-12.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-operational-v0-master.yaml
+  - docs/work/dora-idc-owner-started-orchestration-master.yaml
+  baseline_only_surfaces:
+  - Existing release-pinned consumer intent, upgrade preview/apply command surface,
+    Dora/IDC runtime behavior, and consumer-owned product code.
+  residual_scope:
+  - Record the failed historical git-subtree assumption and harden atomic scope.
+  - Persist the reviewed target pin when Dora upgrade-apply replaces a vendored package.
+  - Add an owner-maintained release operations guide, release manifest convention,
+    and registry of known consumers without automatic repository discovery.
+  retest_triggers:
+  - Any change to bootstrap source records, upgrade copy/backup behavior, release
+    provenance, package path, or consumer update instructions.
+  non_duplication_rule: Existing Dora and IDC verification is baseline evidence only;
+    this master proves release lifecycle repair and does not re-verify IDC behavior.
+non_goals:
+- Automatic consumer discovery, remote consumer mutation, unattended release rollout,
+  Bridge/IDC/PC runtime changes, GitHub workflow automation, or changes to consumer
+  product code.
+- Copying, migrating, deleting, staging, or committing TheMuffinMan's existing uncommitted
+  idc pilot or planning drafts.
+- Claiming that a registry is canonical consumer delivery state; each consumer's own
+  pin, Git history, validation evidence, and owner approval remain authoritative.
+children:
+- docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+- docs/work/dora-release-lifecycle-v1-01-pin-persistence.yaml
+- docs/work/dora-release-lifecycle-v1-02-operations-contract.yaml
+evidence:
+- verifiedAt: '2026-08-12T10:03:39Z'
+  revision: 249ea82a6b98bd79d63bf08a407e5a9eb188766e
+  children:
+  - docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+  - docs/work/dora-release-lifecycle-v1-01-pin-persistence.yaml
+  - docs/work/dora-release-lifecycle-v1-02-operations-contract.yaml

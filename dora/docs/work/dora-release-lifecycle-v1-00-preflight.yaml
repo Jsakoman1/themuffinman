@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: dora-release-lifecycle-v1-00-preflight
+title: Record release lifecycle remediation boundary
+status: verified
+baseline: 249ea82
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-release-lifecycle-v1-master.yaml
+execution_inventory: docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-owner-started-orchestration-master.yaml
+  baseline_only_surfaces:
+  - Dora and IDC implementation behavior; consumer worktrees.
+  residual_scope:
+  - One read-only preflight and atomic-hardening record for release lifecycle repair.
+  retest_triggers:
+  - Any change to upgrade apply, bootstrap pins, release manifest or consumer update
+    process.
+  non_duplication_rule: The preflight creates no runtime behavior, consumer mutation,
+    release tag, source descriptor, approval record, or consumer package update.
+tasks:
+- id: record-release-lifecycle-baseline-and-atomic-boundary
+  title: Document the invalid historical subtree assumption and safe migration boundary
+  type: security-preflight
+  status: done
+  inventory_item: release-lifecycle-preflight
+  observable_outcome: A Dora-native preflight records that known consumers contain
+    snapshot trees rather than Git subtree ancestry, identifies the existing pinned-package
+    upgrade contract, and bounds subsequent source, documentation, and consumer work.
+  dependencies: []
+  paths:
+  - docs/work/dora-release-lifecycle-v1-preflight.md
+  - docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md
+  required_paths:
+  - docs/work/dora-release-lifecycle-v1-preflight.md
+  - docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md
+  validation: ruby test/atomic_plan_contract_test.rb && bin/dora doctor .dora/project.yaml
+  evidence_boundary:
+  - No Dora runtime, release tag, Bridge, IDC, PC, source pin, consumer repository,
+    product source, Git history, or consumer working tree is modified.
+  - The preflight may name owner-provided known consumers but cannot discover or claim
+    ownership of additional repositories.
+  started_at: '2026-08-12T09:59:26Z'
+  start_fingerprints:
+    docs/work/dora-release-lifecycle-v1-preflight.md: __missing__
+    docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md: __missing__
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+  - docs/work/dora-release-lifecycle-v1-01-pin-persistence.yaml
+  - docs/work/dora-release-lifecycle-v1-02-operations-contract.yaml
+  - docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+  - docs/work/dora-release-lifecycle-v1-master.yaml
+evidence:
+- task: record-release-lifecycle-baseline-and-atomic-boundary
+  command: ruby test/atomic_plan_contract_test.rb && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-12T10:00:05Z'
+  revision: 249ea82a6b98bd79d63bf08a407e5a9eb188766e
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md
+  - docs/work/dora-release-lifecycle-v1-preflight.md
+  output: |+
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+    ADVISORY work-artifact:unsupported_kind:docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml: work artifact is unsupported_kind
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/work/dora-release-lifecycle-v1-preflight.md: 3848b04133529c33886adb9403cfcd8101c400f93e02a601a940781db5c08df4
+    docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md: d2bc0486e3230ad3a76ee0157ca6e817e0ffb1a283627f2d9348dd53615a3c1c
+  requiredPaths: &1
+  - docs/work/dora-release-lifecycle-v1-preflight.md
+  - docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T09:59:26Z'
+  changedAfterStart: *1

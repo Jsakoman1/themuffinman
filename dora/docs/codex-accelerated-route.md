@@ -3,6 +3,14 @@
 Use this route when a Codex agent helps build a new application or one new feature.
 It is designed to reduce repeated context assembly, not to replace product decisions.
 
+0. For a broad research or greenfield request, Codex may prepare one bounded
+   `dora_idc_triage_request` and use the read-only triage route. A
+   `IDC_OWNER_CONFIRMATION_REQUIRED` result means ask the owner before rendering.
+   Only an explicit current-request `IDC_OWNER_AUTHORIZED_LOCAL_RENDER` result allows
+   the owner-controlled local `dora idc-render` command, with explicit triage, request,
+   manifest, dossier, and output paths. The command renders advisory material only;
+   it does not create Dora decisions, plans, work, evidence, or verified status.
+   Bridge never runs this command, and Codex must not infer or retain authorization.
 1. Run `dora guided-next guided-agent-entrypoint.yaml`. If it returns
    `ask_one_confirmed_question`, ask the user only that question and record the
    answer through the existing interview route. If it returns

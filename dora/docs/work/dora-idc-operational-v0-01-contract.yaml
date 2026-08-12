@@ -1,0 +1,119 @@
+kind: work
+version: 1
+id: dora-idc-operational-v0-01-contract
+title: Formalize the IDC v0 advisory contract and atomic boundary
+status: verified
+baseline: e25b58fc4fbaeb2611ef862be4fb5a1f202746bc
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+execution_inventory: docs/work/dora-idc-operational-v0-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-greenfield-discovery-delivery-master.yaml
+  baseline_only_surfaces:
+  - Existing discovery provenance and canonical Dora state contracts.
+  residual_scope:
+  - Versioned local IDC request, source-manifest, dossier, and promotion-proposal
+    schemas plus their safety tests.
+  - Source-manifest provenance fields (identity, allowed kind, locator, revision/digest,
+    and observed_at) separated from claim assessment fields (status, source_refs,
+    wording, and relevant confidence/freshness assessment).
+  - Evidence-bounded missing-context semantics: only an owner-selected manifest's
+      explicit expected-but-not-provided entry or a cited supplied source's explicit
+      absence statement may support missing_context.
+  - Atomic hardening review for the four-slice program.
+  retest_triggers:
+  - Any IDC status, source, provenance, missing-context, promotion, or authority-boundary
+    rule change.
+  non_duplication_rule: The contract declares advisory data only; it cannot define
+    canonical Dora decisions, plans, evidence, or state.
+tasks:
+- id: formalize-idc-v0-contract
+  title: Define machine-checkable advisory IDC input and output boundaries
+  type: contract-and-atomic-hardening
+  status: done
+  inventory_item: idc-01-contract
+  observable_outcome: IDC v0 schemas distinguish structurally invalid input from evidence-bounded
+    missing_context and open_question, separate source provenance from claim assessment,
+    and prohibit authority-bearing fields before any renderer or Dora exporter exists.
+  dependencies: []
+  evidence_boundary:
+  - Local schema fixtures and an atomic-hardening review only.
+  - A structurally malformed source (for example absent identity, forbidden kind,
+    locator, revision/digest, or observed_at) is rejected; a missing expected document
+    is accepted only when the explicit manifest entry or cited source establishes
+    the absence.
+  - If neither basis establishes an absence, the contract requires open_question rather
+    than missing_context; it does not search a filesystem or repository to infer either
+    result.
+  - No dossier generation, Dora source read, Bridge behavior, external request, consumer
+    mutation, Git action, Codex start, or Dora write.
+  paths:
+  - idc/idc-v0-contract.schema.yaml
+  - idc/test/idc_v0_contract_test.rb
+  - docs/domain-library.yaml
+  - docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+  required_paths:
+  - idc/idc-v0-contract.schema.yaml
+  - idc/test/idc_v0_contract_test.rb
+  - docs/domain-library.yaml
+  - docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+  validation: ruby idc/test/idc_v0_contract_test.rb && ruby test/discovery_provenance_test.rb
+    && ruby test/atomic_plan_contract_test.rb
+  started_at: '2026-08-12T08:21:38Z'
+  start_fingerprints:
+    idc/idc-v0-contract.schema.yaml: __missing__
+    idc/test/idc_v0_contract_test.rb: __missing__
+    docs/domain-library.yaml: 4a795927ab0335f48da87f1bd4b73cf10f9d3a999784f8b6d9dad6b5cb15d73a
+    docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml: __missing__
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/implementation-control.md
+  - docs/plan-scope-control-standard.yaml
+  - docs/work/dora-idc-operational-v0-01-contract.yaml
+  - docs/work/dora-idc-operational-v0-02-renderer.yaml
+  - docs/work/dora-idc-operational-v0-03-envelope.yaml
+  - docs/work/dora-idc-operational-v0-04-owner-workflow.yaml
+  - docs/work/dora-idc-operational-v0-analysis.md
+  - docs/work/dora-idc-operational-v0-execution-inventory.yaml
+  - docs/work/dora-idc-operational-v0-master.yaml
+evidence:
+- task: formalize-idc-v0-contract
+  command: ruby idc/test/idc_v0_contract_test.rb && ruby test/discovery_provenance_test.rb
+    && ruby test/atomic_plan_contract_test.rb
+  ranAt: '2026-08-12T08:25:14Z'
+  revision: a90589f8b50e54004bda117ba9ff51a0f108a669
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/domain-library.yaml
+  - docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+  - idc/idc-v0-contract.schema.yaml
+  - idc/test/idc_v0_contract_test.rb
+  output: |+
+    IDC v0 contract test passed (provenance/assessment separation, evidenced gaps, and no authority).
+    Dora discovery provenance test passed (cited advisory envelope, immutable payload, and no authority surface).
+    Dora atomic plan contract test passed (portable CLI and invalid-plan rejection).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    idc/idc-v0-contract.schema.yaml: 8c9d06dfb8201adf60454a2aa62f3296c5a4f86dfcae0565c939d93e0eba5662
+    idc/test/idc_v0_contract_test.rb: e09630a61878b8c5459090b9298c43747019792d8493537fa5a914dd953bb8bf
+    docs/domain-library.yaml: abffc1d7341a239191c7ac4ff1a44ae267f8d9bdb597de87cfa53ffa0082a965
+    docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml: 8ec92e1d483cb00fc763dbf2025237fdbc96fa011a9e1df00e10641973161542
+  requiredPaths: &1
+  - idc/idc-v0-contract.schema.yaml
+  - idc/test/idc_v0_contract_test.rb
+  - docs/domain-library.yaml
+  - docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T08:21:38Z'
+  changedAfterStart: *1

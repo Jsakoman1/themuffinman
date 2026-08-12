@@ -12,6 +12,9 @@ CLI = File.join(ROOT, "bin/dora")
 Dir.mktmpdir("dora-project-bootstrap") do |sandbox|
   source = File.join(sandbox, "reviewed-dora")
   FileUtils.cp_r(ROOT, source)
+  FileUtils.mkdir_p(File.join(source, ".git")); File.write(File.join(source, ".git", "config"), "private source metadata\n")
+  FileUtils.mkdir_p(File.join(source, ".idea")); File.write(File.join(source, ".idea", "workspace.xml"), "local IDE metadata\n")
+  File.write(File.join(source, ".DS_Store"), "local finder metadata\n")
   descriptor = File.join(sandbox, "bootstrap-source.yaml")
   File.write(descriptor, YAML.dump({
     "kind" => "dora_bootstrap_source",
@@ -23,6 +26,8 @@ Dir.mktmpdir("dora-project-bootstrap") do |sandbox|
   output, status = Open3.capture2e(CLI, "bootstrap", destination, "--project", "new-project", "--source", descriptor, chdir: ROOT)
   abort "bootstrap command failed: #{output}" unless status.success?
   abort "bootstrap did not copy Dora" unless File.file?(File.join(destination, "dora", "bin", "dora"))
+  abort "bootstrap copied source control metadata" if File.exist?(File.join(destination, "dora", ".git"))
+  abort "bootstrap copied local IDE metadata" if File.exist?(File.join(destination, "dora", ".idea")) || File.exist?(File.join(destination, "dora", ".DS_Store"))
   abort "bootstrap did not create a local launcher" unless File.executable?(File.join(destination, "bin", "dora"))
 
   source_record = YAML.load_file(File.join(destination, ".dora/bootstrap-source.yaml"))

@@ -5,6 +5,7 @@ require "yaml"
 require_relative "ci_pack"
 require_relative "project_launcher"
 require_relative "stack_pack"
+require_relative "package_copy"
 
 module Dora
   class ProjectInitializer
@@ -47,7 +48,7 @@ module Dora
       fail!("project destination cannot contain its Dora source") if nested?(root, source_root) || nested?(source_root, root)
 
       FileUtils.mkdir_p(package_root)
-      FileUtils.cp_r(File.join(source_root, "."), package_root)
+      PackageCopy.copy!(source_root: source_root, destination: package_root)
     rescue Errno::ENOENT
       fail!("Dora source path does not exist")
     end

@@ -2,6 +2,7 @@
 
 require "yaml"
 
+require_relative "../../../lib/dora/idc_envelope"
 require_relative "../../../lib/dora/project_read_model"
 
 module DoraBridge
@@ -37,10 +38,13 @@ module DoraBridge
     end
 
     def read_model!(project_id)
-      entry = @entries[project_id]
-      fail!("unknown or unallowed bridge project") unless entry
+      Dora::ProjectReadModel.load!(adapter_path: adapter_path!(project_id))
+    end
 
-      Dora::ProjectReadModel.load!(adapter_path: File.expand_path(entry.fetch("adapter_path"), @config_root))
+    # The registry resolves a configured project ID to its private adapter path.
+    # Callers never receive that path and cannot choose a different project root.
+    def idc_envelope!(project_id, selection:)
+      Dora::IdcEnvelope.export!(adapter_path: adapter_path!(project_id), selection: selection)
     end
 
     # This is intentionally independent from read_model!: a readable project is
@@ -60,6 +64,13 @@ module DoraBridge
     private_class_method :fail!
 
     private
+
+    def adapter_path!(project_id)
+      entry = @entries[project_id]
+      fail!("unknown or unallowed bridge project") unless entry
+
+      File.expand_path(entry.fetch("adapter_path"), @config_root)
+    end
 
     def fail!(message)
       self.class.send(:fail!, message)

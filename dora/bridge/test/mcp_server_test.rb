@@ -98,6 +98,22 @@ Dir.mktmpdir("dora-bridge-mcp") do |root|
   abort "summary did not delegate to read model" unless output.fetch("kind") == "dora_project_read_model" && output.dig("delivery", "latest_verified", "id") == "delivery"
   abort "summary lost the explicit no-current-goal result" unless output.fetch("current_goal") == {"state" => "none"} && output.dig("integrity", "status") == "HEALTHY"
   abort "summary leaked a root or raw evidence" if output.to_s.include?(root) || output.to_s.include?("raw-command-output")
+  idc_envelope = request(server, 55, "tools/call", {"name" => "get_idc_envelope", "arguments" => {"project" => "doomsday-storage"}}).dig("result", "structuredContent")
+  abort "IDC Bridge profile did not return the fixed read-only envelope" unless idc_envelope.fetch("kind") == "dora_idc_read_envelope" && idc_envelope.fetch("read_only") == true && idc_envelope.fetch("disposition") == "advisory"
+  abort "IDC Bridge profile accepted caller-selected context" unless idc_envelope.fetch("selection") == {"project_fields" => DoraBridge::Server::IDC_ENVELOPE_SELECTION.fetch("project_fields").sort, "decision_ids" => [], "artifact_references" => []}
+  abort "IDC Bridge profile leaked a root or raw evidence" if idc_envelope.to_s.include?(root) || idc_envelope.to_s.include?("raw-command-output")
+  rejected_idc_path = request(server, 56, "tools/call", {"name" => "get_idc_envelope", "arguments" => {"project" => "doomsday-storage", "path" => "/tmp/pwn"}})
+  abort "IDC Bridge profile accepted a caller path" unless rejected_idc_path.dig("error", "code") == -32602
+  triage_request = {"kind" => "dora_idc_triage_request", "version" => 1, "id" => "bridge-idc", "request_shape" => "wide_research", "profile" => "research_dossier", "source_scope" => "explicit_owner_selected_only", "authorization_scope" => "current_request_only", "owner_authorization" => "not_granted"}
+  triage = request(server, 57, "tools/call", {"name" => "evaluate_idc_triage", "arguments" => {"project" => "doomsday-storage", "triage_request" => triage_request}}).dig("result", "structuredContent")
+  abort "IDC Bridge triage did not retain the owner confirmation gate" unless triage.values_at("kind", "read_only", "disposition", "outcome", "profile", "owner_confirmation_required") == ["dora_idc_triage_readback", true, "advisory", "IDC_OWNER_CONFIRMATION_REQUIRED", "research_dossier", true]
+  abort "IDC Bridge triage leaked a root or request prose" if triage.to_s.include?(root) || triage.to_s.include?(triage_request.fetch("id"))
+  authorized_triage = request(server, 58, "tools/call", {"name" => "evaluate_idc_triage", "arguments" => {"project" => "doomsday-storage", "triage_request" => triage_request.merge("owner_authorization" => "authorize_local_idc_render")}}).dig("result", "structuredContent")
+  abort "IDC Bridge triage did not return the local-only advisory outcome" unless authorized_triage.fetch("outcome") == "IDC_OWNER_AUTHORIZED_LOCAL_RENDER" && authorized_triage.fetch("next_action").include?("local owner/Codex")
+  rejected_triage_path = request(server, 59, "tools/call", {"name" => "evaluate_idc_triage", "arguments" => {"project" => "doomsday-storage", "triage_request" => triage_request, "path" => "/tmp/pwn"}})
+  abort "IDC Bridge triage accepted a caller path" unless rejected_triage_path.dig("error", "code") == -32602
+  malformed_triage = request(server, 60, "tools/call", {"name" => "evaluate_idc_triage", "arguments" => {"project" => "doomsday-storage", "triage_request" => triage_request.merge("source_scope" => "automatic_selection")}})
+  abort "IDC Bridge triage accepted automatic source selection" unless malformed_triage.dig("error", "code") == -32001
   enable_work_artifact_audit(project_root)
   File.write(File.join(project_root, "docs/work", "narrative-review.yaml"), "kind: [\n")
   warning_summary = request(server, 50, "tools/call", {"name" => "get_project_summary", "arguments" => {"project" => "doomsday-storage"}}).dig("result", "structuredContent")

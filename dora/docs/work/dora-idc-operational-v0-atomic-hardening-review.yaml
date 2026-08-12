@@ -1,0 +1,13 @@
+kind: dora_atomic_task_hardening_review
+version: 1
+id: dora-idc-operational-v0-atomic-hardening-review
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+execution_inventory: docs/work/dora-idc-operational-v0-execution-inventory.yaml
+status: approved
+findings:
+  - IDC-01 is a contract-only task with one observable outcome: machine-checkable advisory input and output boundaries. Its required paths contain no CLI, Bridge, envelope exporter, consumer, or runtime behavior.
+  - IDC-02 is the only later task allowed to introduce the local idc CLI and its declared output behavior. It must remain restricted to explicit inputs and output destination and cannot add Git, repository, shell, network, Dora-write, or Codex behavior.
+  - IDC-03 is a separate fixed-selector Dora stdout exporter. It may expose only the approved sanitized envelope and cannot copy ProjectMemory, retrieve raw source, write output files, or select context automatically.
+  - IDC-04 is integration-only: it reuses the IDC-02 CLI and IDC-03 envelope, introduces no second command, renderer, or filesystem writer, and leaves Bridge read-only.
+  - Every later slice has one inventory mapping, an exact direct predecessor, bounded required paths, a leaf validation command, and an evidence boundary that excludes Dora authority duplication and consumer-project mutation.
+  - The standalone Dora repository is the only implementation target. The TheMuffinMan workspace and its uncommitted IDC pilot remain excluded from this program.

@@ -1,0 +1,126 @@
+kind: work
+version: 1
+id: dora-release-lifecycle-v1-02-operations-contract
+title: Publish a reproducible Dora release and consumer update contract
+status: verified
+baseline: 249ea82
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-release-lifecycle-v1-master.yaml
+execution_inventory: docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+  - docs/work/dora-release-lifecycle-v1-01-pin-persistence.yaml
+  baseline_only_surfaces:
+  - Existing Dora/IDC capabilities, consumer product state, release tags and remote
+    deployment.
+  residual_scope:
+  - A human-readable release playbook, a validated owner-maintained known-consumer
+    registry, and a release manifest template that prevent rediscovery of the update
+    process.
+  retest_triggers:
+  - Any change to release versioning, source pin, package path, registry structure,
+    upgrade command, backup/rollback or consumer validation requirements.
+  non_duplication_rule: The operations contract records procedure and declared consumers
+    only; it does not mark a consumer updated, compatible, deployed or verified.
+tasks:
+- id: publish-release-operations-contract-and-known-consumer-registry
+  title: Add durable release update instructions and validate the known-consumer registry
+  type: documentation
+  status: done
+  inventory_item: release-operations-contract
+  observable_outcome: Dora contains a versioned guide, manifest template and machine-readable
+    registry that name the explicit owner-maintained release/update steps, known consumers,
+    required approval/backup/pin/validation evidence and explicit non-automation boundary.
+  dependencies:
+  - release-pin-persistence
+  paths:
+  - docs/dora-release-operations.md
+  - docs/dora-consumer-release-registry.yaml
+  - templates/dora-release-manifest.yaml
+  - test/dora_consumer_release_registry_test.rb
+  required_paths:
+  - docs/dora-release-operations.md
+  - docs/dora-consumer-release-registry.yaml
+  - templates/dora-release-manifest.yaml
+  - test/dora_consumer_release_registry_test.rb
+  validation: ruby test/dora_consumer_release_registry_test.rb && bin/dora doctor
+    .dora/project.yaml
+  evidence_boundary:
+  - The registry is owner-maintained coordination metadata only; it cannot discover,
+    mutate, verify, deploy or infer state for a consumer.
+  - No consumer repository, release tag, remote, Bridge, IDC, PC or product runtime
+    is modified.
+  started_at: '2026-08-12T10:02:39Z'
+  start_fingerprints:
+    docs/dora-release-operations.md: __missing__
+    docs/dora-consumer-release-registry.yaml: __missing__
+    templates/dora-release-manifest.yaml: __missing__
+    test/dora_consumer_release_registry_test.rb: __missing__
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/work/dora-release-lifecycle-v1-00-preflight.yaml
+  - docs/work/dora-release-lifecycle-v1-01-pin-persistence.yaml
+  - docs/work/dora-release-lifecycle-v1-02-operations-contract.yaml
+  - docs/work/dora-release-lifecycle-v1-atomic-hardening-review.md
+  - docs/work/dora-release-lifecycle-v1-execution-inventory.yaml
+  - docs/work/dora-release-lifecycle-v1-master.yaml
+  - docs/work/dora-release-lifecycle-v1-preflight.md
+  - lib/dora/project_upgrade.rb
+  - test/project_upgrade_apply_command_test.rb
+  - test/project_upgrade_apply_test.rb
+evidence:
+- task: publish-release-operations-contract-and-known-consumer-registry
+  command: ruby test/dora_consumer_release_registry_test.rb && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-12T10:03:38Z'
+  revision: 249ea82a6b98bd79d63bf08a407e5a9eb188766e
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/dora-consumer-release-registry.yaml
+  - docs/dora-release-operations.md
+  - templates/dora-release-manifest.yaml
+  - test/dora_consumer_release_registry_test.rb
+  output: |+
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+    ADVISORY work-artifact:unsupported_kind:docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml: work artifact is unsupported_kind
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/dora-release-operations.md: 30bbfbec814ff0df205ec2f518979fe936dfe9f5212a71569c466e048667dc92
+    docs/dora-consumer-release-registry.yaml: 22a96eee9bbbcecb584fec8a0ad5cfddd41ddd803ef5fd8a4fbdafe75ed83e0a
+    templates/dora-release-manifest.yaml: 6e2bcd00609beb28d4b39093e494c13d1921a434708c79d4c8c82a736b85f1ac
+    test/dora_consumer_release_registry_test.rb: c668057a9cde9af0afba44cd5fed3747cb858450a4362079bd95dcf191c2ee4b
+  requiredPaths: &1
+  - docs/dora-release-operations.md
+  - docs/dora-consumer-release-registry.yaml
+  - templates/dora-release-manifest.yaml
+  - test/dora_consumer_release_registry_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T10:02:39Z'
+  changedAfterStart: *1

@@ -16,13 +16,14 @@ commands:
 context:
   generated_output_paths: [audit_output, runtime_evidence]
 distribution:
-  method: git_subtree
+  method: release_pinned_package
   source_repository: https://github.com/Jsakoman1/dora.git
-  source_ref: v1.10.1
-  source_commit: dcff938b9c8f6df47a3a6142008be907195736ca
-  subtree_prefix: dora
-  update_command: git subtree pull --prefix=dora dora v1.10.1 --squash
-  rollback_rule: Revert the separate MuffinMan v1.10.1 pin commit to restore the recorded v1.9.0 pin; do not reconstruct product evidence from Dora.
+  source_ref: v1.11.3
+  source_commit: b65fcbf6633c5b370c031048f32925aa2fe96f48
+  source_checksum: 14bc4fc2138bf8b96d408748a61c023fed80d656a2974a23ee66a0a28e06f6ac
+  package_path: dora
+  update_command: Use an owner-approved reviewed local source descriptor with Dora upgrade-preview and upgrade-apply; do not use git subtree.
+  rollback_rule: Restore the recorded Dora upgrade backup before commit or revert the isolated Dora pin commit; do not reconstruct product evidence from Dora.
 extensions:
   - id: muffinman-reusable-plugin-manifest
     category: product_contract

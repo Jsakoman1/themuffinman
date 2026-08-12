@@ -1,0 +1,55 @@
+kind: execution_inventory
+version: 1
+id: dora-idc-owner-started-orchestration
+master_plan: docs/work/dora-idc-owner-started-orchestration-master.yaml
+state: verified
+execution_mode: strict_serial
+atomic_hardening:
+  first_item: idc-orchestration-preflight
+  rule: The preflight must prove every later task has one observable outcome, exact
+    target paths, direct serial dependency, leaf validation, and a no-authority boundary.
+items:
+- id: idc-orchestration-preflight
+  order: 1
+  plan: docs/work/dora-idc-owner-started-orchestration-01-preflight.yaml
+  task: record-idc-orchestration-authority-and-atomic-boundary
+  status: verified
+  started_at: '2026-08-12T09:14:10Z'
+  verified_at: '2026-08-12T09:15:06Z'
+  evidence:
+    plan: docs/work/dora-idc-owner-started-orchestration-01-preflight.yaml
+    task: record-idc-orchestration-authority-and-atomic-boundary
+    revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb
+- id: idc-orchestration-triage
+  order: 2
+  plan: docs/work/dora-idc-owner-started-orchestration-02-triage.yaml
+  task: implement-deterministic-idc-triage-contract
+  status: verified
+  started_at: '2026-08-12T09:15:19Z'
+  verified_at: '2026-08-12T09:17:08Z'
+  evidence:
+    plan: docs/work/dora-idc-owner-started-orchestration-02-triage.yaml
+    task: implement-deterministic-idc-triage-contract
+    revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb
+- id: idc-orchestration-local-render
+  order: 3
+  plan: docs/work/dora-idc-owner-started-orchestration-03-local-render.yaml
+  task: implement-owner-gated-local-idc-render-wrapper
+  status: verified
+  started_at: '2026-08-12T09:17:19Z'
+  verified_at: '2026-08-12T09:20:38Z'
+  evidence:
+    plan: docs/work/dora-idc-owner-started-orchestration-03-local-render.yaml
+    task: implement-owner-gated-local-idc-render-wrapper
+    revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb
+- id: idc-orchestration-bridge-readback
+  order: 4
+  plan: docs/work/dora-idc-owner-started-orchestration-04-bridge-readback.yaml
+  task: expose-read-only-idc-triage-readback-and-operating-guidance
+  status: verified
+  started_at: '2026-08-12T09:20:55Z'
+  verified_at: '2026-08-12T09:22:39Z'
+  evidence:
+    plan: docs/work/dora-idc-owner-started-orchestration-04-bridge-readback.yaml
+    task: expose-read-only-idc-triage-readback-and-operating-guidance
+    revision: ca0e600b27ac995c83dc4757be6b4fe089f186bb

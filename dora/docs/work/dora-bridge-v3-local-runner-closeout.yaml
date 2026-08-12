@@ -50,7 +50,6 @@ tasks:
   - docs/domain-library.yaml
   - docs/decision-log.yaml
   - docs/project-memory.yaml
-  - docs/implementation-backlog.md
   validation: ruby bridge/test/structured_handoff_e2e_test.rb && ruby bridge/test/mcp_server_test.rb
     && ruby test/handoff_test.rb && ruby test/handoff_cli_test.rb && ruby test/project_memory_closeout_gate_test.rb
   started_at: '2026-08-10T06:36:41Z'

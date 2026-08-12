@@ -2,6 +2,51 @@
 kind: dora_decision_log
 version: 1
 entries:
+- id: dora-local-portfolio-read-model-boundary
+  decision: Dora may support a local, explicitly allow-listed portfolio read model, provided every portfolio view remains read-only and advisory.
+  status: accepted
+  domain_references:
+  - docs/domain-library.yaml
+  plan_references:
+  - docs/work/dora-greenfield-discovery-delivery-master.yaml#derived-context-index-preflight
+  evidence_references:
+  - docs/product-brief.yaml
+- id: dora-decision-log-canonical-owner-authority
+  decision: DecisionLog is Dora's sole canonical record of owner decisions. Delivery state remains in plans, tasks, and evidence; ProjectMemory and read models remain derived navigation with cited provenance only.
+  status: accepted
+  domain_references:
+  - docs/domain-library.yaml
+  plan_references:
+  - docs/work/dora-implementation-excellence-master.yaml#source_of_truth_contract
+  evidence_references:
+  - docs/product-brief.yaml
+- id: dora-stable-consumer-release-runtime
+  decision: Stable consumer projects use a reproducibly vendored Dora runtime pinned to an immutable release/tag and commit. Reviewed local-source/bootstrap is limited to Dora development, testing, and pre-release work, not normal consumer runtime.
+  status: accepted
+  domain_references:
+  - docs/domain-library.yaml
+  plan_references:
+  - docs/work/dora-independent-release-tree-proof.yaml
+  evidence_references:
+  - docs/new-project.md
+- id: dora-swift-ios-preflight-sequencing
+  decision: Dora does not build a Swift/iOS technology profile now. It first learns from real Spring and web consumer use; a small owner-approved Swift/iOS local build/test-profile preflight may begin when an iPhone application actually starts.
+  status: accepted
+  domain_references:
+  - docs/domain-library.yaml
+  plan_references:
+  - docs/work/dora-implementation-excellence-16-quality-profiles.yaml
+  evidence_references:
+  - docs/product-brief.yaml
+- id: dora-bridge-optional-owner-gated-posture
+  decision: Dora Bridge remains an optional, owner-gated integration layer. It is not Dora's core definition and has no remote-control authority.
+  status: accepted
+  domain_references:
+  - docs/domain-library.yaml
+  plan_references:
+  - docs/work/dora-bridge-v3-local-runner-master.yaml
+  evidence_references:
+  - docs/product-brief.yaml
 - id: dora-bridge-v2-structured-handoff-owner-decision
   decision: 'Approve Dora Bridge V2 as a separately governed structured handoff inbox:
     V1 remains read-only; ChatGPT may create only validated structured handoffs and

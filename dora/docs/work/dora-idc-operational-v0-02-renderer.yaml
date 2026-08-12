@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: dora-idc-operational-v0-02-renderer
+title: Implement the local IDC validator and deterministic renderer
+status: verified
+baseline: e25b58fc4fbaeb2611ef862be4fb5a1f202746bc
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-idc-operational-v0-master.yaml
+execution_inventory: docs/work/dora-idc-operational-v0-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-operational-v0-01-contract.yaml
+  baseline_only_surfaces:
+  - Existing Dora discovery synthesis, ProjectReadModel, Bridge, and work lifecycle
+    behavior.
+  residual_scope:
+  - The program's only local idc CLI, validating and stably rendering explicitly supplied
+    IDC request, source manifest, and dossier data.
+  retest_triggers:
+  - Any rendering, source/claim linkage, status, freshness, conflict, missing-context,
+    stop-condition, or promotion-proposal behavior change.
+  non_duplication_rule: The renderer presents advisory owner-readable material and
+    does not become a research engine, decision log, or lifecycle store.
+tasks:
+- id: implement-idc-local-validator-and-renderer
+  title: Validate and render explicit advisory dossier material locally
+  type: local-advisory-renderer
+  status: done
+  inventory_item: idc-02-renderer
+  observable_outcome: The program's only owner-started local idc CLI deterministically
+    validates and renders one explicitly supplied dossier while keeping source-to-claim
+    traceability, conflicts, evidence-bounded missing_context, open questions, stop
+    conditions, and promotion proposals visible.
+  dependencies:
+  - idc-01-contract
+  evidence_boundary:
+  - Local synthetic fixtures and deterministic command output only.
+  - Code changes are allowed only in this task's explicit target paths; no mutation
+    is permitted outside them.
+  - At runtime the CLI consumes only explicitly supplied request, manifest, and dossier
+    inputs and writes only its declared output destination.
+  - No source discovery, arbitrary filesystem traversal, Dora read/write, network,
+    web request, database, Git or repository behavior, subprocess or shell execution
+    by IDC, or Codex invocation.
+  paths:
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/request.rb
+  - idc/bin/idc
+  - idc/test/dossier_renderer_test.rb
+  required_paths:
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/request.rb
+  - idc/bin/idc
+  - idc/test/dossier_renderer_test.rb
+  validation: ruby idc/test/dossier_renderer_test.rb && ruby idc/test/idc_v0_contract_test.rb
+  started_at: '2026-08-12T08:31:25Z'
+  start_fingerprints:
+    idc/lib/idc/dossier.rb: __missing__
+    idc/lib/idc/request.rb: __missing__
+    idc/bin/idc: __missing__
+    idc/test/dossier_renderer_test.rb: __missing__
+  start_workspace_paths:
+  - ".idea/workspace.xml"
+  - docs/domain-library.yaml
+  - docs/implementation-control.md
+  - docs/plan-scope-control-standard.yaml
+  - docs/work/dora-idc-operational-v0-01-contract.yaml
+  - docs/work/dora-idc-operational-v0-02-renderer.yaml
+  - docs/work/dora-idc-operational-v0-03-envelope.yaml
+  - docs/work/dora-idc-operational-v0-04-owner-workflow.yaml
+  - docs/work/dora-idc-operational-v0-analysis.md
+  - docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+  - docs/work/dora-idc-operational-v0-execution-inventory.yaml
+  - docs/work/dora-idc-operational-v0-master.yaml
+  - idc/idc-v0-contract.schema.yaml
+  - idc/test/idc_v0_contract_test.rb
+evidence:
+- task: implement-idc-local-validator-and-renderer
+  command: ruby idc/test/dossier_renderer_test.rb && ruby idc/test/idc_v0_contract_test.rb
+  ranAt: '2026-08-12T08:36:49Z'
+  revision: c443eaf12ef0d86faeb600b228824d6792f2fe27
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - idc/bin/idc
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/request.rb
+  - idc/test/dossier_renderer_test.rb
+  output: |+
+    IDC dossier renderer test passed (deterministic explicit inputs, visible uncertainty, and no runtime authority).
+    IDC v0 contract test passed (provenance/assessment separation, evidenced gaps, and no authority).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    idc/lib/idc/dossier.rb: 3d221e800a80e06b85155d003b234b085742bebcd5e756cf5e61227031f719c7
+    idc/lib/idc/request.rb: 788cf92112ba7aa99a5d7457dc118b11c8921c8030ae706616f33440fb55ab56
+    idc/bin/idc: cc54c192c148557936014c91bdb52d83fccdf05bda6968affae1382b21566899
+    idc/test/dossier_renderer_test.rb: 2d69d7ec291470dec33a7b3168345aae4f10f9226b60ef8824ed942858d2de57
+  requiredPaths: &1
+  - idc/lib/idc/dossier.rb
+  - idc/lib/idc/request.rb
+  - idc/bin/idc
+  - idc/test/dossier_renderer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T08:31:25Z'
+  changedAfterStart: *1
