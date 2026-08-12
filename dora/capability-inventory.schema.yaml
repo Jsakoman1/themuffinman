@@ -1,0 +1,9 @@
+kind: dora_capability_inventory_schema
+version: 1
+required_fields: [kind, version, component, capabilities]
+statuses: [planned, partial, available, verified, retired]
+capability_required_fields: [id, title, status, owner, documentation_references, evidence_references, gaps]
+rules:
+  - A capability inventory is a current declared posture, never a decision, plan, lifecycle record or verification evidence.
+  - A verified capability must cite at least one existing evidence reference; the inventory link is not proof by itself.
+  - Every capability is explicit; no source discovery or inferred status is permitted.

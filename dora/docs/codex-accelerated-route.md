@@ -3,6 +3,12 @@
 Use this route when a Codex agent helps build a new application or one new feature.
 It is designed to reduce repeated context assembly, not to replace product decisions.
 
+The default decision rule is machine-readable in
+[`agent-request-routing-policy.yaml`](agent-request-routing-policy.yaml): classify
+the request before planning. Bounded delivery stays on Dora's direct route; wide
+research and greenfield discovery are IDC candidates. Classification is advisory
+and never authorizes rendering or implementation.
+
 0. For a broad research or greenfield request, Codex may prepare one bounded
    `dora_idc_triage_request` and use the read-only triage route. A
    `IDC_OWNER_CONFIRMATION_REQUIRED` result means ask the owner before rendering.

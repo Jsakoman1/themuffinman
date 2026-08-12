@@ -1,0 +1,22 @@
+kind: dora_project_memory
+version: 1
+project_intent:
+  product_brief: docs/product-brief.yaml
+  domain_library: docs/domain-library.yaml
+canonical_knowledge:
+- id: product-brief
+  path: docs/product-brief.yaml
+  purpose: Current MuffinMan product problem, intended outcomes, boundaries, assumptions and unanswered decisions.
+- id: domain-library
+  path: docs/domain-library.yaml
+  purpose: Current shared domain vocabulary, entity boundaries, invariants, permissions and workflow model.
+- id: agent-profile
+  path: .dora/agent-project-profile.yaml
+  purpose: Project-local agent authority limits, commands and implementation order.
+open_decisions: []
+capability_intent:
+- id: modular-product-foundation
+  intended_outcome: Maintain a modular product whose backend-owned rules can support shared web and later mobile clients.
+  knowledge_references: [product-brief, domain-library, agent-profile]
+current_work:
+  state: none

@@ -1,6 +1,6 @@
 kind: dora_documentation_evidence
 version: 1
 claims:
-  - id: example-contract
-    match: project-owned invariant
-    evidence: [docs/evidence.txt]
+  - id: project-knowledge
+    match: project
+    evidence: [docs/product-brief.yaml]

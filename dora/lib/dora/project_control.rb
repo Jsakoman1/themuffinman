@@ -19,7 +19,9 @@ module Dora
       missing_keys = required_keys.reject { |key| controls[key].is_a?(String) && !controls[key].empty? }
       fail!("project control controls are missing #{missing_keys.join(", ")}") unless missing_keys.empty?
 
-      resolved = controls.slice(*required_keys).transform_values do |relative|
+      optional_keys = Array(schema.fetch("controls").fetch("optional_keys", []))
+      selected_keys = required_keys + optional_keys.select { |key| controls[key].is_a?(String) && !controls[key].empty? }
+      resolved = controls.slice(*selected_keys).transform_values do |relative|
         fail!("project control path must be relative: #{relative}") if relative.start_with?("/")
         absolute = File.expand_path(relative, project_root)
         fail!("project control path resolves outside project root: #{relative}") unless absolute.start_with?("#{project_root}/")

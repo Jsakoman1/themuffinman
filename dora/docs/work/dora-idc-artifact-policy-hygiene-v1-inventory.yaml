@@ -1,0 +1,18 @@
+kind: execution_inventory
+version: 1
+id: dora-idc-artifact-policy-hygiene-v1
+master_plan: docs/work/dora-idc-artifact-policy-hygiene-v1.yaml
+state: verified
+execution_mode: strict_serial
+items:
+- id: idc-atomic-review-classification
+  order: 1
+  plan: docs/work/dora-idc-artifact-policy-hygiene-v1.yaml
+  task: classify-retained-idc-atomic-review
+  status: verified
+  started_at: '2026-08-12T11:02:47Z'
+  verified_at: '2026-08-12T11:03:11Z'
+  evidence:
+    plan: docs/work/dora-idc-artifact-policy-hygiene-v1.yaml
+    task: classify-retained-idc-atomic-review
+    revision: 953b5ab9cb87c1f3bff7d1e456677e3ebedae672

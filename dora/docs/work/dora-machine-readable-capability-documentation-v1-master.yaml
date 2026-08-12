@@ -1,0 +1,67 @@
+kind: master
+version: 1
+id: dora-machine-readable-capability-documentation-v1
+title: Establish a machine-readable capability and documentation control standard
+status: active
+baseline: 3ed902b
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-machine-readable-capability-documentation-v1-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-machine-readable-capability-documentation-v1-00-hardening.yaml
+program_state:
+  phase: owner_authorized_goal_pursuit
+  implementation_authorized: true
+  owner_gate_status: authorized_for_dora_core_slices
+  authorization_record: Owner authorized goal pursuing on 2026-08-12 after the preflight, atomic-plan review and routing-policy update.
+  activation_rule: Slices 00 through 05a may start serially. The v1.12.0 release gate and every external repository adoption remain separately owner-gated.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-idc-operational-v0-master.yaml
+  - docs/work/dora-release-lifecycle-v1-master.yaml
+  - docs/work/dora-consumer-compatibility-repair-v1-master.yaml
+  baseline_only_surfaces:
+  - Existing Dora work lifecycle, DecisionLog, ProjectMemory, evidence semantics, IDC v0 runtime, Bridge authority and consumer product code.
+  - Existing consumer release pins and the active TheMuffinMan archive branch.
+  residual_scope:
+  - Define and validate one portable current-capability, topology and documentation-traceability model.
+  - Scaffold that model for every new Dora project without breaking unaffiliated legacy adapters.
+  - Self-adopt it in Dora/IDC, including one machine-readable request-routing policy that reuses verified IDC triage rather than creating another agent runtime.
+  - Publish an explicit external-adoption contract, then require each repository to adopt it through its own owner-approved plan.
+  retest_triggers:
+  - Any change to project-control schema, ProjectDoctor, system-map/documentation-evidence semantics, project initialization, capability status semantics or consumer adoption contract.
+  non_duplication_rule: Existing plans, tests and evidence are baseline references only; an inventory link never becomes new verification evidence.
+non_goals:
+- A generic documentation database, automatic source discovery, vector search, LLM documentation generation or independent delivery/evidence state.
+- PC/CPPE implementation, personal-memory storage, Bridge write authority, remote execution, consumer product changes or archive-branch publication.
+- Reclassifying historical implementation from source inspection alone or changing any DecisionLog/work lifecycle state.
+owner_gates:
+- Approve the portable status vocabulary and `verified` evidence-link rule in slice 01.
+- Approve non-breaking legacy adoption posture in slice 02.
+- Confirm the request-routing defaults in slice 05a: IDC candidacy is automatic advisory triage, but local rendering and every Dora promotion remain explicitly owner-authorized.
+- Approve the concrete Dora release version before slice 05 starts.
+- Approve every external repository adoption plan separately after the Dora release slice is verified; those plans are deliberately not tasks in this Dora worktree.
+- Keep PC and CPPE as planned AI-system architecture entries; no implementation authority is granted.
+children:
+- docs/work/dora-machine-readable-capability-documentation-v1-00-hardening.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-01-contract.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-02-controls.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-03-scaffold.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-04-dora-idc.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-05a-request-routing.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-05-release.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-06-external-adoption.yaml
+- docs/work/dora-machine-readable-capability-documentation-v1-07-closeout.yaml
+external_adoption_follow_ons:
+- repository: ai-system
+  purpose: Record the Dora/IDC/PC/CPPE component registry and topology as private architecture documentation.
+  eligibility: Dora release slice is verified and the AI-system owner approves its project-local plan.
+  authority_boundary: The registry may link Dora facts but cannot own Dora decisions, delivery state or IDC runtime truth.
+- repository: DoomsDayStorage
+  purpose: Adopt the portable capability inventory and strengthen existing documentation controls from current product evidence.
+  eligibility: Dora release slice is verified and the DoomsDayStorage owner approves its project-local plan.
+  authority_boundary: DoomsDayStorage retains product/domain truth, DecisionLog, work plans and runtime evidence.
+- repository: TheMuffinMan
+  purpose: Map the existing capability inventory into the portable contract without re-evaluating product status.
+  eligibility: Dora release slice is verified and the TheMuffinMan owner approves its project-local plan.
+  authority_boundary: TheMuffinMan retains its existing inventory status authority and all product/delivery controls.

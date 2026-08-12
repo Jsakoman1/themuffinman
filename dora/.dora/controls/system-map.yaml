@@ -6,6 +6,9 @@ nodes:
 - id: bridge-adapter
 - id: project-controls
 - id: consumer-artifacts
+- id: idc-v0
+- id: local-owner-renderer
+- id: release-pinned-consumer
 edges:
 - from: project-controls
   to: dora-core
@@ -13,3 +16,9 @@ edges:
   to: project-read-model
 - from: project-read-model
   to: bridge-adapter
+- from: dora-core
+  to: idc-v0
+- from: idc-v0
+  to: local-owner-renderer
+- from: dora-core
+  to: release-pinned-consumer

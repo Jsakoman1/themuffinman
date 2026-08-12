@@ -8,6 +8,11 @@ This document owns Dora's plan-scope control policy.
 - A task is verified only through the declared Dora work-verification workflow with passing recorded evidence.
 - Advisory research, Bridge projections, handoffs, and derived context cannot create owner decisions, plans, task state, evidence, or verified status.
 - Consumer repositories and private local workspaces remain outside Dora source-repository changes unless an owner explicitly approves a separate bounded task.
+- Before planning, follow `docs/agent-request-routing-policy.yaml`: bounded delivery
+  uses Dora directly; wide research and greenfield discovery use only owner-gated
+  IDC triage. Every Master Plan receives preflight, child-plan review, atomic
+  hardening, serial inventory and owner readback. Goal pursuing still requires
+  explicit owner authorization after that readback.
 
 The detailed required plan fields and review questions are defined in
 `docs/plan-scope-control-standard.yaml`.

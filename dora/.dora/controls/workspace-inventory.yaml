@@ -9,6 +9,9 @@ categories:
 - id: bridge-adapter
   path_prefixes:
   - bridge/
+- id: idc-v0
+  path_prefixes:
+  - idc/
 - id: project-controls
   path_prefixes:
   - .dora/

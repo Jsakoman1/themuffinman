@@ -11,6 +11,7 @@ files:
   - .dora/controls/workspace-inventory.yaml
   - .dora/controls/documentation-evidence.yaml
   - .dora/controls/system-map.yaml
+  - .dora/controls/capability-inventory.yaml
   - .dora/controls/artifact-policy.yaml
   - .dora/controls/backlog.yaml
   - docs/product-brief.yaml

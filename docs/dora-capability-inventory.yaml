@@ -1,0 +1,21 @@
+kind: dora_capability_inventory
+version: 1
+component:
+  id: themuffinman-documentation-controls
+  owner: TheMuffinMan product repository
+adoption: explicit
+capabilities:
+- id: product-status-navigation
+  title: Current product capability status navigation
+  status: available
+  owner: TheMuffinMan product repository
+  documentation_references: [docs/capability-inventory.yaml, docs/system-map.md, docs/business-logic.md, docs/domain-technical.md]
+  evidence_references: [docs/capability-evidence-registry.yaml]
+  gaps: [Product capability statuses, gaps and verification remain owned exclusively by docs/capability-inventory.yaml and its cited evidence.]
+- id: dora-documentation-controls
+  title: Cited Dora project documentation controls
+  status: available
+  owner: TheMuffinMan product repository
+  documentation_references: [docs/dora-capability-inventory.yaml, docs/dora-capability-documentation.md, .dora/controls/system-map.yaml, .dora/controls/documentation-evidence.yaml]
+  evidence_references: [docs/work/themuffinman-capability-documentation-adoption-v1-hardening-review.md]
+  gaps: [This derived navigation layer cannot create a product decision, change work lifecycle, or claim product delivery verification.]

@@ -1,0 +1,130 @@
+kind: work
+version: 1
+id: dora-machine-readable-capability-documentation-v1-02-controls
+title: Validate adopted documentation controls compatibly
+status: verified
+baseline: 3ed902b
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-machine-readable-capability-documentation-v1-master.yaml
+execution_inventory: docs/work/dora-machine-readable-capability-documentation-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-consumer-compatibility-repair-v1-master.yaml
+  baseline_only_surfaces:
+  - Existing v1 project adapters and consumer Doctor success semantics.
+  residual_scope:
+  - Recognize and validate an explicitly adopted capability inventory while preserving
+    legacy adapter compatibility.
+  retest_triggers:
+  - Project-control schema
+  - ControlContracts
+  - ProjectDoctor or documentation-control validation changes.
+  non_duplication_rule: Passing documentation controls does not mark any capability
+    or delivery verified.
+tasks:
+- id: validate-adopted-documentation-controls-without-breaking-legacy-projects
+  title: Add an opt-in control and Doctor report for machine-readable capability documentation
+  type: implementation
+  status: done
+  inventory_item: capability-documentation-controls
+  observable_outcome: An adopting project receives deterministic validation of its
+    inventory/system map/documentation evidence, while a legacy project stays valid
+    until an explicit adoption change.
+  dependencies:
+  - capability-documentation-contract
+  paths:
+  - project-control.schema.yaml
+  - lib/dora/project_control.rb
+  - lib/dora/control_contracts.rb
+  - lib/dora/project_doctor.rb
+  - test/project_control_test.rb
+  - test/project_doctor_test.rb
+  required_paths:
+  - project-control.schema.yaml
+  - lib/dora/project_control.rb
+  - lib/dora/control_contracts.rb
+  - lib/dora/project_doctor.rb
+  - test/project_control_test.rb
+  - test/project_doctor_test.rb
+  validation: ruby test/project_control_test.rb && ruby test/project_doctor_test.rb
+    && ruby test/capability_inventory_test.rb && ruby test/documentation_control_test.rb
+  evidence_boundary:
+  - Legacy consumers receive no hidden migration, status change or broken control
+    contract.
+  - Doctor validates declared references only; it does not crawl source or infer undocumented
+    capabilities.
+  started_at: '2026-08-12T11:43:01Z'
+  start_fingerprints:
+    project-control.schema.yaml: 03a85237ce5a82f3cceea9c3422df844d4da053d46af99af86bfe65a88c29594
+    lib/dora/project_control.rb: f7ae360da3a5cd205c0f26aba24789cc8689583771cdf46c1abe623ec7fc888c
+    lib/dora/control_contracts.rb: 9a8b8c06174b7e24efd40b2412e9c3d2ff1352771540ef19706b048c559a5f18
+    lib/dora/project_doctor.rb: cc46862568f8c8eb9b73fe37730a62dd6f614c891cde0202aa325ebf6eb0d3cc
+    test/project_control_test.rb: dde700040f5a61095e48bb483e8af54279a74fc20c27e504b3f498b6baab4cad
+    test/project_doctor_test.rb: 707e5d57ea7a6a103d05cd86b5455b29dbcc78453413da6d364bc650865a9f96
+  start_workspace_paths:
+  - capability-inventory.schema.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-00-hardening.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-01-contract.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-02-controls.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-03-scaffold.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-04-dora-idc.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-05-release.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-05a-request-routing.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-06-external-adoption.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-07-closeout.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-analysis.md
+  - docs/work/dora-machine-readable-capability-documentation-v1-execution-inventory.yaml
+  - docs/work/dora-machine-readable-capability-documentation-v1-hardening-review.md
+  - docs/work/dora-machine-readable-capability-documentation-v1-master.yaml
+  - lib/dora/capability_inventory.rb
+  - lib/dora/documentation_control.rb
+  - templates/capability-inventory.yaml
+  - test/capability_inventory_test.rb
+  - test/documentation_control_test.rb
+evidence:
+- task: validate-adopted-documentation-controls-without-breaking-legacy-projects
+  command: ruby test/project_control_test.rb && ruby test/project_doctor_test.rb &&
+    ruby test/capability_inventory_test.rb && ruby test/documentation_control_test.rb
+  ranAt: '2026-08-12T11:44:45Z'
+  revision: 47d101579140fd149ee0335b5a678d84ef799d81
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - lib/dora/control_contracts.rb
+  - lib/dora/project_control.rb
+  - lib/dora/project_doctor.rb
+  - project-control.schema.yaml
+  - test/project_control_test.rb
+  - test/project_doctor_test.rb
+  output: |+
+    Dora project control test passed (two isolated control bundles).
+    Dora project doctor test passed (healthy and unhealthy projects).
+    Dora capability inventory test passed (explicit status and verified-evidence boundary).
+    Dora documentation control test passed (explicit map endpoints and claim references).
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    project-control.schema.yaml: 0544f20e90f7827ffec9270b188606153d86cbb7003ac56ea568931d256c681b
+    lib/dora/project_control.rb: ab0c65d8763c8746672eb71bc3b00350844dac88172efa8b28fda36b1a115b57
+    lib/dora/control_contracts.rb: b0e6eb538a417e29d3ffa0fceac7329df1ab33592c94d3bfa3f8181ab6c095ed
+    lib/dora/project_doctor.rb: 1fc85e3937ba59d2a5f43a8efc746c41db8c861c3328ef4e4dfc41e0028da5f7
+    test/project_control_test.rb: cf891ad71306f71c88a9ac820ab42e7545025bd994eb33e68176e81fdd6d8a18
+    test/project_doctor_test.rb: 29fc51b6e5b5d3b138e8f90a7e0de371d07e2c0dfe95dd1a800837b5fab596b9
+  requiredPaths: &1
+  - project-control.schema.yaml
+  - lib/dora/project_control.rb
+  - lib/dora/control_contracts.rb
+  - lib/dora/project_doctor.rb
+  - test/project_control_test.rb
+  - test/project_doctor_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T11:43:01Z'
+  changedAfterStart: *1

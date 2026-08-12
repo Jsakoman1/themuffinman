@@ -15,6 +15,9 @@ rules:
 - id: bridge-mcp
   path_prefixes: [bridge/]
   tool_ids: [bridge-mcp]
+- id: idc-v0
+  path_prefixes: [idc/, lib/dora/idc_, test/idc_]
+  tool_ids: [control-check]
 - id: plugin-contract
   path_prefixes: [lib/dora/plugin_, test/plugin_]
   tool_ids: [plugin-contract]

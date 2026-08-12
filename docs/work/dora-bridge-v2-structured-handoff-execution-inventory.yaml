@@ -2,7 +2,7 @@ kind: execution_inventory
 version: 1
 id: dora-bridge-v2-structured-handoff-execution
 master_plan: docs/work/dora-bridge-v2-structured-handoff-master.yaml
-state: active
+state: verified
 items:
 - id: v2-preflight
   order: 1
@@ -74,5 +74,10 @@ items:
   order: 7
   plan: docs/work/dora-bridge-v2-structured-handoff-closeout.yaml
   task: prove-structured-handoff-end-to-end-and-record-v3-boundary
-  status: in_progress
+  status: verified
   started_at: '2026-08-09T22:39:43Z'
+  verified_at: '2026-08-12T12:33:34Z'
+  evidence:
+    plan: docs/work/dora-bridge-v2-structured-handoff-closeout.yaml
+    task: prove-structured-handoff-end-to-end-and-record-v3-boundary
+    revision: e219617bd2bbe66c8dbff04e7c5793084d156727

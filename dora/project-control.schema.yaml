@@ -10,6 +10,7 @@ project_command_contract:
 required_fields: [kind, version, controls]
 controls:
   required_keys: [tool_catalog, change_routing, context_search, workspace_inventory, documentation_evidence, system_map, artifact_policy, backlog]
+  optional_keys: [capability_inventory]
   rules:
     - Every value is a non-empty path relative to project.root.
     - Every configured control file must exist inside project.root.

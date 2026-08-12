@@ -97,7 +97,8 @@ module Dora
       end
       controls = ProjectControl.load!(control_path, schema_path: schema_path, project_root: project_root)
       checks << passed("project-control", "control bundle and declared control files exist")
-      checks.concat(ControlContracts.validate(controls))
+      contract_checks = ControlContracts.validate(controls)
+      checks.concat(contract_checks)
     rescue ArgumentError => error
       checks << failed("project-control", error.message)
     end

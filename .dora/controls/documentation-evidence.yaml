@@ -4,3 +4,6 @@ claims:
   - id: dora-consumer-baseline
     match: MuffinMan Dora consumer baseline
     evidence: [docs/product-brief.yaml, docs/domain-library.yaml]
+  - id: dora-capability-documentation-boundary
+    match: Dora capability documentation boundary
+    evidence: [docs/dora-capability-documentation.md, docs/dora-capability-inventory.yaml]

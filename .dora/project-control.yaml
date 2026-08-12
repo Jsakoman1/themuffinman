@@ -9,3 +9,4 @@ controls:
   system_map: .dora/controls/system-map.yaml
   artifact_policy: .dora/controls/artifact-policy.yaml
   backlog: .dora/controls/backlog.yaml
+  capability_inventory: docs/dora-capability-inventory.yaml

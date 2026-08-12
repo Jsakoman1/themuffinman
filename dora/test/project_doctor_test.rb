@@ -49,6 +49,14 @@ Dir.mktmpdir("dora-doctor") do |sandbox|
   healthy_adapter = File.join(healthy_root, ".dora/project.yaml")
   healthy = report_for(healthy_adapter)
   abort "doctor did not accept a generated project" unless healthy.fetch("healthy")
+  abort "new project did not report its scaffolded capability inventory" unless healthy.fetch("checks").any? { |check| check.fetch("id") == "control:capability_inventory" && check.fetch("status") == "passed" }
+
+  adopted_control = YAML.load_file(File.join(healthy_root, ".dora/project-control.yaml"))
+  adopted_control.fetch("controls")["capability_inventory"] = ".dora/controls/capability-inventory.yaml"
+  File.write(File.join(healthy_root, ".dora/controls/capability-inventory.yaml"), YAML.dump({"kind" => "dora_capability_inventory", "version" => 1, "component" => {"id" => "healthy-project", "owner" => "Owner"}, "capabilities" => []}))
+  File.write(File.join(healthy_root, ".dora/project-control.yaml"), YAML.dump(adopted_control))
+  adopted = report_for(healthy_adapter)
+  abort "doctor did not validate adopted capability controls" unless adopted.fetch("checks").any? { |check| check.fetch("id") == "control:capability_inventory" && check.fetch("status") == "passed" }
 
   _output, healthy_status = Open3.capture2e(CLI, "doctor", healthy_adapter, chdir: ROOT)
   abort "doctor CLI rejected a healthy project" unless healthy_status.success?

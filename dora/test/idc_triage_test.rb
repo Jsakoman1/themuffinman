@@ -9,6 +9,7 @@ end
 
 bounded = Dora::IdcTriage.evaluate!(request: triage_request("request_shape" => "bounded_delivery", "profile" => "none"))
 abort "bounded delivery did not avoid IDC" unless bounded.fetch("outcome") == "NO_IDC_NEEDED" && bounded.fetch("profile") == "none" && !bounded.fetch("owner_confirmation_required")
+abort "bounded delivery triage implied render authority" if bounded.fetch("next_action").include?("render")
 
 confirmation = Dora::IdcTriage.evaluate!(request: triage_request)
 abort "unapproved IDC request did not require owner confirmation" unless confirmation.fetch("outcome") == "IDC_OWNER_CONFIRMATION_REQUIRED" && confirmation.fetch("owner_confirmation_required")

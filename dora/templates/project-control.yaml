@@ -7,5 +7,6 @@ controls:
   workspace_inventory: .dora/controls/workspace-inventory.yaml
   documentation_evidence: .dora/controls/documentation-evidence.yaml
   system_map: .dora/controls/system-map.yaml
+  capability_inventory: .dora/controls/capability-inventory.yaml
   artifact_policy: .dora/controls/artifact-policy.yaml
   backlog: .dora/controls/backlog.yaml

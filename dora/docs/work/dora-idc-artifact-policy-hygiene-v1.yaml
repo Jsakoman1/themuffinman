@@ -1,0 +1,96 @@
+kind: work
+version: 1
+id: dora-idc-artifact-policy-hygiene-v1
+title: Classify the retained IDC atomic review as non-executable
+status: verified
+baseline: 953b5ab
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-idc-artifact-policy-hygiene-v1-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Dora/IDC runtime behavior, work-plan semantics, Bridge authority, consumer packages,
+    and Private Context research.
+  residual_scope:
+  - Classify one retained narrative IDC atomic-hardening review so Doctor does not
+    report it as unsupported executable work.
+  retest_triggers:
+  - Any artifact-policy, WorkArtifactAudit, or retained IDC review classification
+    change.
+  non_duplication_rule: This task changes Doctor hygiene classification only; it does
+    not re-verify IDC delivery behavior.
+tasks:
+- id: classify-retained-idc-atomic-review
+  title: Exclude the cited narrative review from executable work-artifact auditing
+  type: docs-only
+  status: done
+  inventory_item: idc-atomic-review-classification
+  observable_outcome: Dora Doctor has no unsupported-kind advisory for the retained
+    IDC atomic hardening review, while the artifact-policy test proves the exact exclusion
+    remains declared.
+  dependencies: []
+  paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - test/artifact_policy_test.rb
+  required_paths:
+  - ".dora/controls/artifact-policy.yaml"
+  - test/artifact_policy_test.rb
+  validation: ruby test/artifact_policy_test.rb && bin/dora doctor .dora/project.yaml
+  evidence_boundary:
+  - No IDC runtime, canonical plan, decision, evidence, consumer package, Bridge,
+    Git, shell, network, or Private Context behavior changes.
+  started_at: '2026-08-12T11:02:47Z'
+  start_fingerprints:
+    ".dora/controls/artifact-policy.yaml": 4f2dc33bdb2b068d12bb2ec7341bb47fb548a056d1c1aec03b7d962731dc80a9
+    test/artifact_policy_test.rb: 66357dd0efc1ceb1a432afcfbc17713c6e7cbea7597fc841f2d881ed60995be2
+  start_workspace_paths:
+  - docs/work/dora-idc-artifact-policy-hygiene-v1-inventory.yaml
+  - docs/work/dora-idc-artifact-policy-hygiene-v1.yaml
+evidence:
+- task: classify-retained-idc-atomic-review
+  command: ruby test/artifact_policy_test.rb && bin/dora doctor .dora/project.yaml
+  ranAt: '2026-08-12T11:03:10Z'
+  revision: 953b5ab9cb87c1f3bff7d1e456677e3ebedae672
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - ".dora/controls/artifact-policy.yaml"
+  - test/artifact_policy_test.rb
+  output: |+
+    PASSED project-root: declared project root exists
+    PASSED adapter: adapter satisfies the Dora schema
+    PASSED path:docs: docs
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    ".dora/controls/artifact-policy.yaml": 81ce0ab6232d7c55f23dc71912e3c7f8980ad1ab0556f6a7ce83e044e25c947e
+    test/artifact_policy_test.rb: b020a2faef0419126642d43c3d87a4f53edeaaf668f89a5bf083960cd0703ade
+  requiredPaths: &1
+  - ".dora/controls/artifact-policy.yaml"
+  - test/artifact_policy_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-12T11:02:47Z'
+  changedAfterStart: *1

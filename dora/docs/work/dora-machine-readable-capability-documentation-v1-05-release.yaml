@@ -1,0 +1,30 @@
+kind: work
+version: 1
+id: dora-machine-readable-capability-documentation-v1-05-release
+title: Prepare the reviewed Dora release contract for documentation-control adoption
+status: planned
+baseline: 3ed902b
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/dora-machine-readable-capability-documentation-v1-master.yaml
+execution_inventory: docs/work/dora-machine-readable-capability-documentation-v1-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/dora-release-lifecycle-v1-master.yaml]
+  baseline_only_surfaces: [Existing published Dora releases and consumer pin records.]
+  residual_scope: [One owner-approved v1.12.0 release manifest and consumer migration instructions after Dora/IDC self-adoption.]
+  retest_triggers: [Release manifest, package contents, project-control compatibility or consumer adoption instruction changes.]
+  non_duplication_rule: A source release manifest does not claim consumer adoption or verification.
+tasks:
+- id: prepare-approved-release-contract-for-consumer-adoption
+  title: Record compatible documentation-control release and consumer review requirements
+  type: documentation
+  status: planned
+  inventory_item: capability-documentation-release
+  observable_outcome: A reviewed v1.12.0 release manifest states the opt-in legacy posture, new-project guarantee and exact consumer validation needed before adoption.
+  dependencies: [agent-request-routing-policy]
+  paths: [docs/releases/v1.12.0.yaml, docs/dora-release-operations.md, docs/dora-consumer-release-registry.yaml]
+  required_paths: [docs/releases/v1.12.0.yaml, docs/dora-release-operations.md, docs/dora-consumer-release-registry.yaml]
+  validation: ruby test/capability_inventory_test.rb && ruby test/documentation_control_test.rb && ruby test/bootstrap_source_verification_test.rb
+  evidence_boundary:
+  - No tag, push or consumer mutation occurs until the owner separately approves the concrete release version and selected consumer rollout.

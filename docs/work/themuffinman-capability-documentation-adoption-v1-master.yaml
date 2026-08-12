@@ -1,0 +1,41 @@
+kind: master
+version: 1
+id: themuffinman-capability-documentation-adoption-v1
+title: Adopt Dora capability documentation controls in TheMuffinMan
+status: verified
+baseline: e219617bd2bbe66c8dbff04e7c5793084d156727
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/themuffinman-capability-documentation-adoption-v1-execution-inventory.yaml
+scope_control:
+  reused_verified_plans:
+  - docs/work/dora-bridge-v2-structured-handoff-master.yaml
+  baseline_only_surfaces:
+  - Product code
+  - database
+  - application behavior
+  - existing product capability inventory
+  - owner decisions and historical evidence.
+  residual_scope:
+  - Upgrade only the vendored Dora package from approved immutable source
+  - then add a separate cited Dora documentation-control inventory.
+  retest_triggers:
+  - Dora package
+  - project control
+  - Dora capability inventory
+  - Dora system-map link or Dora documentation-evidence changes.
+  non_duplication_rule: The existing product_capability_inventory remains the sole
+    MuffinMan product-status authority; the Dora inventory is navigation only.
+children:
+- docs/work/themuffinman-capability-documentation-adoption-v1-00-hardening.yaml
+- docs/work/themuffinman-capability-documentation-adoption-v1-01-package-upgrade.yaml
+- docs/work/themuffinman-capability-documentation-adoption-v1-02-controls.yaml
+- docs/work/themuffinman-capability-documentation-adoption-v1-03-closeout.yaml
+evidence:
+- verifiedAt: '2026-08-12T12:38:22Z'
+  revision: e219617bd2bbe66c8dbff04e7c5793084d156727
+  children:
+  - docs/work/themuffinman-capability-documentation-adoption-v1-00-hardening.yaml
+  - docs/work/themuffinman-capability-documentation-adoption-v1-01-package-upgrade.yaml
+  - docs/work/themuffinman-capability-documentation-adoption-v1-02-controls.yaml
+  - docs/work/themuffinman-capability-documentation-adoption-v1-03-closeout.yaml

@@ -19,3 +19,5 @@ work_artifact_audit:
     reason: Retained pre-goal planning blueprint; it selects no executable work and is not verification evidence.
   - path: docs/work/dora-project-memory-closeout-gate-atomic-hardening-review.yaml
     reason: Retained project-memory atomic hardening review cited by verified preflight evidence; it is narrative, not executable work.
+  - path: docs/work/dora-idc-operational-v0-atomic-hardening-review.yaml
+    reason: Retained IDC v0 atomic hardening review cited by verified contract work; it is narrative, not executable work.

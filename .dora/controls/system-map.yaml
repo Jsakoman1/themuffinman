@@ -4,8 +4,13 @@ nodes:
   - id: muffinman-application
   - id: vendored-dora
   - id: product-and-domain-docs
+  - id: dora-capability-documentation
 edges:
   - from: product-and-domain-docs
     to: muffinman-application
   - from: vendored-dora
     to: product-and-domain-docs
+  - from: product-and-domain-docs
+    to: dora-capability-documentation
+  - from: vendored-dora
+    to: dora-capability-documentation

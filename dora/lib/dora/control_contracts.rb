@@ -2,6 +2,8 @@
 
 require "yaml"
 require_relative "artifact_policy"
+require_relative "capability_inventory"
+require_relative "documentation_control"
 require_relative "tool_catalog"
 
 module Dora
@@ -20,7 +22,7 @@ module Dora
     def self.validate(controls)
       REQUIRED.map do |id, (kind, required_key)|
         validate_control(id, controls.fetch(id), kind, required_key)
-      end
+      end + optional_controls(controls)
     end
 
     def self.validate_control(id, path, kind, required_key)
@@ -35,6 +37,17 @@ module Dora
       {"id" => "control:#{id}", "status" => "failed", "detail" => error.message}
     end
     private_class_method :validate_control
+
+    def self.optional_controls(controls)
+      return [] unless controls.key?("capability_inventory")
+
+      CapabilityInventory.validate_file!(controls.fetch("capability_inventory"))
+      DocumentationControl.validate!(system_map: controls.fetch("system_map"), documentation_evidence: controls.fetch("documentation_evidence"))
+      [{"id" => "control:capability_inventory", "status" => "passed", "detail" => "adopted capability documentation controls are configured"}]
+    rescue ArgumentError, Psych::Exception => error
+      [{"id" => "control:capability_inventory", "status" => "failed", "detail" => error.message}]
+    end
+    private_class_method :optional_controls
 
     def self.fail!(message)
       raise ArgumentError, message
