@@ -1,5 +1,0 @@
-kind: dora_agent_cockpit_projects
-version: 1
-projects:
-  - {id: garden-board, task: record-planting, tool: garden-test}
-  - {id: library-board, task: record-loan, tool: library-test}

@@ -1,5 +1,0 @@
-kind: dora_upgrade_apply_consumers
-version: 1
-consumers:
-  - {id: garden-journal, old_marker: garden-old, new_marker: garden-new}
-  - {id: community-library, old_marker: library-old, new_marker: library-new}

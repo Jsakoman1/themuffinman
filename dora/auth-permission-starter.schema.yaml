@@ -1,4 +1,0 @@
-kind: dora_auth_permission_starter_schema
-version: 1
-required_fields: [kind, version, authentication, roles, ownership, audit_events, confirmation]
-completion_boundary: This contract records explicitly confirmed auth and permission intent only. It neither creates credentials nor selects a provider or product policy.

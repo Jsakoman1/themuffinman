@@ -1,9 +1,0 @@
-kind: dora_capability_blueprint_schema
-version: 1
-purpose: Plan one application capability with explicit ownership, boundaries, rules, and evidence before implementation.
-required_fields: [kind, version, capability, ownership, api_boundary, state_model, permissions, validations, evidence, client_responsibilities]
-invariants:
-  - Business rules, permissions, validations, and state transitions have one backend or service owner.
-  - API boundaries expose typed capability contracts, not client-derived business decisions.
-  - Evidence distinguishes static, test, and runtime observations from completion claims.
-  - Client responsibilities describe presentation and declared interactions only.

@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.time.Duration;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -60,8 +61,8 @@ class BusinessBookingValidationServiceTest {
         AppUser owner = user(1L, "owner");
         AppUser customer = user(2L, "customer");
         BusinessOffering offering = offering(owner);
-        Instant start = Instant.parse("2026-08-12T09:00:00Z");
-        Instant end = Instant.parse("2026-08-12T10:00:00Z");
+        Instant start = futureStart();
+        Instant end = start.plus(Duration.ofHours(1));
 
         when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
         when(businessAvailabilityExceptionRepository.findByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
@@ -94,8 +95,8 @@ class BusinessBookingValidationServiceTest {
         AppUser owner = user(1L, "owner");
         AppUser customer = user(2L, "customer");
         BusinessOffering offering = offering(owner);
-        Instant start = Instant.parse("2026-08-12T09:00:00Z");
-        Instant end = Instant.parse("2026-08-12T10:00:00Z");
+        Instant start = futureStart();
+        Instant end = start.plus(Duration.ofHours(1));
 
         when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
         when(businessAvailabilityExceptionRepository.findByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
@@ -129,8 +130,8 @@ class BusinessBookingValidationServiceTest {
         AppUser customer = user(2L, "customer");
         BusinessOffering offering = offering(owner);
         offering.setDefaultDurationMinutes(45);
-        Instant start = Instant.parse("2026-08-12T09:00:00Z");
-        Instant end = Instant.parse("2026-08-12T09:45:00Z");
+        Instant start = futureStart();
+        Instant end = start.plus(Duration.ofMinutes(45));
 
         when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
         when(businessAvailabilityExceptionRepository.findByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
@@ -138,7 +139,7 @@ class BusinessBookingValidationServiceTest {
                 offering.getBusinessProfile(), offering, List.of(), List.of(), start, end
         )).thenReturn(List.of(
                 window(start, end),
-                window(Instant.parse("2026-08-12T09:30:00Z"), Instant.parse("2026-08-12T10:15:00Z"))
+                window(start.plus(Duration.ofMinutes(30)), start.plus(Duration.ofMinutes(75)))
         ));
         when(businessBookingPrimitiveService.countOverlappingCapacityUsage(offering.getId(), start, end)).thenReturn(BigDecimal.ZERO);
 
@@ -153,6 +154,10 @@ class BusinessBookingValidationServiceTest {
                 .effectiveCapacity(1)
                 .timezone("Europe/Zurich")
                 .build();
+    }
+
+    private Instant futureStart() {
+        return Instant.now().plus(Duration.ofDays(1));
     }
 
     private BusinessBookingPolicy policy() {

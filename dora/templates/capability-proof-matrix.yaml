@@ -1,9 +1,0 @@
-kind: dora_capability_proof_matrix
-version: 1
-capability: replace-with-confirmed-capability
-assertions:
-  - {id: replace-with-assertion, statement: Replace with one confirmed behavior statement., confirmed: false}
-obligations:
-  - {id: replace-with-unit-proof, assertion_id: replace-with-assertion, evidence_class: unit, status: required, boundary: A project-owned unit test must prove this assertion.}
-  - {id: replace-with-runtime-proof, assertion_id: replace-with-assertion, evidence_class: browser_runtime, status: unresolved, boundary: Browser execution requires a separately approved project-owned scenario.}
-completion_boundary: A capability proof matrix records obligations only; it does not execute a command, start a browser, access a database, or prove acceptance.

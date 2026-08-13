@@ -1,7 +1,0 @@
-kind: dora_ci_pack
-version: 1
-id: github-actions
-workflow_path: .github/workflows/dora-control.yml
-commands:
-  doctor: ./bin/dora doctor .dora/project.yaml
-  adapter_validation: ./bin/dora validate-adapter .dora/project.yaml

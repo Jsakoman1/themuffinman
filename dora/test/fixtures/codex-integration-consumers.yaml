@@ -1,7 +1,0 @@
-kind: dora_codex_integration_consumers
-version: 1
-consumers:
-  - id: garden-journal
-    agents: "# Garden rules\nKeep planting notes reviewable.\n"
-  - id: community-library
-    agents: "# Library rules\nKeep reservations group-scoped.\n"

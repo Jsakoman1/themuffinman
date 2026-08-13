@@ -35,6 +35,9 @@ class BusinessPublicReadServiceTest {
     @Mock
     private BusinessGalleryImageRepository businessGalleryImageRepository;
 
+    @Mock
+    private BusinessReviewService businessReviewService;
+
     @Spy
     private BusinessOfferingMgr businessOfferingMgr = new BusinessOfferingMgr();
 
@@ -68,6 +71,7 @@ class BusinessPublicReadServiceTest {
         when(businessProfileRepository.findBySlug("dog-place")).thenReturn(Optional.of(profile));
         when(businessOfferingRepository.findActiveByBusinessProfileId(profile.getId())).thenReturn(List.of(offering));
         when(businessGalleryImageRepository.findActiveByBusinessProfileId(profile.getId())).thenReturn(List.of());
+        when(businessReviewService.getPublicRatingSummary(profile.getId())).thenReturn(null);
 
         var result = businessPublicReadService.getPublicBusinessPage("dog-place");
 

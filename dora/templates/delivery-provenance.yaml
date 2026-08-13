@@ -1,7 +1,0 @@
-kind: dora_delivery_provenance
-version: 1
-validation_command: ./bin/dora doctor .dora/project.yaml
-evidence_paths: [docs/evidence.txt]
-rules:
-  - Evidence paths and validation commands are project-owned declarations.
-  - A provenance record identifies inputs; it does not claim product, runtime, or release completion.

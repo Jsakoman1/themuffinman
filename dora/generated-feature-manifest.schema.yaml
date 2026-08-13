@@ -1,4 +1,0 @@
-kind: dora_generated_feature_manifest_schema
-version: 1
-required_fields: [kind, version, generator_version, confirmed_input_digest, migration_version, template_digests, outputs, unresolved_obligations]
-completion_boundary: A generated feature manifest is a deterministic output declaration. It does not create files, validate compilation, or prove behavior.

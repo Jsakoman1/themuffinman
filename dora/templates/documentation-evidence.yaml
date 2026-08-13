@@ -1,6 +1,0 @@
-kind: dora_documentation_evidence
-version: 1
-claims:
-  - id: project-knowledge
-    match: project
-    evidence: [docs/product-brief.yaml]

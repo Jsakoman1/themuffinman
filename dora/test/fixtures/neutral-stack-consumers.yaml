@@ -1,7 +1,0 @@
-kind: dora_neutral_stack_consumers
-version: 1
-consumers:
-  - id: blank-consumer
-    starter: blank
-  - id: buildable-consumer
-    starter: spring-vue-buildable

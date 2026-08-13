@@ -1,8 +1,0 @@
-kind: dora_finding_export_schema
-version: 1
-purpose: Convert Dora standard findings to a portable read-only annotation document.
-required_fields: [kind, version, read_only, annotations, diagnostic_boundary]
-invariants:
-  - Export preserves finding id, severity, location, explanation, repair, and evidence.
-  - Export is a view of supplied findings and never writes to the project or an external service.
-  - Exported annotations remain diagnostic evidence only.

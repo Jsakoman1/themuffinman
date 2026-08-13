@@ -1,6 +1,0 @@
-kind: dora_bridge_projects
-version: 1
-projects:
-  - id: doomsday-storage
-    name: DoomsDayStorage
-    adapter_path: ../project/.dora/project.yaml

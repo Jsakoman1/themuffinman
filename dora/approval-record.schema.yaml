@@ -1,4 +1,0 @@
-kind: dora_schema
-version: 1
-id: approval-record
-required_fields: [kind, version, id, actor, operation, scope, expires_at, evidence, rollback]

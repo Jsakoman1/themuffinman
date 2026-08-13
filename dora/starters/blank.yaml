@@ -1,9 +1,0 @@
-kind: dora_starter_pack
-version: 1
-id: blank
-technical_only: true
-commands: {setup: 'true', test: 'true', build: 'true'}
-directories: [src]
-files:
-  README.md: "# New project\n\nThis is a technical Dora starter. Define product behavior before adding application code.\n"
-boundaries: [No product domain, authentication, database schema, or user-facing feature is generated.]

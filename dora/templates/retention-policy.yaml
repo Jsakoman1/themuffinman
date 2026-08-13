@@ -1,8 +1,0 @@
-kind: dora_retention_policy
-version: 1
-generated_roots: [docs/audit-output]
-retained_paths: []
-cleanup_candidate_globs: []
-rules:
-  - Unclassified files are retained by default.
-  - Review is read-only; cleanup requires a separate explicit command.

@@ -1,2 +1,0 @@
--- REVIEW REQUIRED: Flyway skeleton for {{entity}} in capability {{capability}}.
--- Declare column types, constraints, indexes, and foreign keys only after review.

@@ -1,9 +1,0 @@
-kind: dora_workspace_snapshot_config
-version: 1
-roots: [src]
-categories:
-  - id: source
-    path_prefixes: [src/]
-rules:
-  - Only changes under declared roots are captured.
-  - Categories are project-owned path declarations; unmatched paths are other.

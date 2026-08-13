@@ -280,3 +280,11 @@ covered by the backend test suite before any runtime evidence is promoted.
 The System Map hardening runtime boundary index is
 `docs/system-map-runtime-boundary-registry.yaml`; it classifies durability and
 replay requirements without prescribing a universal outbox for every module.
+
+## Locked Dora CLI
+
+The repository resolves Dora only through the exact local identity in
+`dora.lock.yaml`. It has no live-checkout, generic PATH or network fallback.
+The former vendored `dora/` runtime was removed after a clean-copy and local
+control-check pilot; restore it only through an explicit Git rollback, never by
+copying a developer checkout.

@@ -1,8 +1,0 @@
-kind: dora_analysis_cache_schema
-version: 1
-purpose: Store explicitly keyed static-analysis results so repeat runs can reuse identical declared inputs.
-required_entry_fields: [kind, version, key, input_digest, value]
-invariants:
-  - Cache reuse requires the same cache version, key, and canonical declared input digest.
-  - A cache miss executes the caller-supplied analysis; the cache never invents a result.
-  - Cache data is local performance data and is not verification or release evidence.

@@ -1,7 +1,0 @@
-kind: dora_workspace_inventory
-version: 1
-categories:
-  - id: source
-    path_prefixes: [src/]
-  - id: documentation
-    path_prefixes: [docs/]

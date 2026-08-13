@@ -1,12 +1,31 @@
-#!/usr/bin/env sh
-set -eu
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-project_root=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
-package_root="$project_root/dora"
+require "digest"
+require "yaml"
 
-if [ ! -x "$package_root/bin/dora" ]; then
-  echo "Dora launcher failed: pinned Dora package is unavailable at dora/bin/dora" >&2
-  exit 1
-fi
+LOCK_PATH = File.expand_path("../dora.lock.yaml", __dir__)
+CACHE_ROOT = File.join(Dir.home, "Library/Application Support/AISystem/tools")
+RELEASE_VERSION = /\Av[0-9]+\.[0-9]+\.[0-9]+\z/
+CHECKSUM = /\A[0-9a-f]{64}\z/
+EXCLUDED = %w[.DS_Store .git .idea].freeze
 
-exec "$package_root/bin/dora" "$@"
+def fail!(message); warn "Dora launcher failed: #{message}"; exit 1; end
+def package_checksum(root)
+  entries = Dir.glob(File.join(root, "**", "*"), File::FNM_DOTMATCH).select do |path|
+    relative = path.delete_prefix("#{root}/")
+    File.file?(path) && relative != ".dora-release.yaml" && (relative.split("/") & EXCLUDED).empty?
+  end.sort
+  Digest::SHA256.hexdigest(entries.map { |path| relative = path.delete_prefix("#{root}/"); "#{relative}\0#{Digest::SHA256.file(path).hexdigest}" }.join("\n"))
+end
+begin
+  lock = YAML.load_file(LOCK_PATH); required = %w[kind version release_version source_commit package_checksum adapter_contract_version cache_layout]
+  fail!("consumer lock is invalid") unless lock.is_a?(Hash) && required.all? { |field| lock.key?(field) }
+  fail!("consumer lock identity is invalid") unless lock["kind"] == "dora_locked_cli_lock" && lock["version"].to_i == 1 && lock["cache_layout"] == "user_application_support_v1" && lock["release_version"].is_a?(String) && lock["release_version"].match?(RELEASE_VERSION) && lock["source_commit"].is_a?(String) && lock["source_commit"].match?(/\A[0-9a-f]{40}\z/i) && lock["package_checksum"].is_a?(String) && lock["package_checksum"].match?(CHECKSUM) && lock["adapter_contract_version"] == 1
+  release = File.join(CACHE_ROOT, "dora", lock.fetch("release_version"), lock.fetch("package_checksum")); manifest = YAML.load_file(File.join(release, ".dora-release.yaml"))
+  expected = {"kind" => "dora_locked_cli_release", "version" => 1, "release_version" => lock.fetch("release_version"), "source_commit" => lock.fetch("source_commit"), "package_checksum" => lock.fetch("package_checksum"), "adapter_contract_version" => 1}
+  fail!("exact locked release is unavailable or mismatched") unless manifest.is_a?(Hash) && expected.all? { |key, value| manifest[key] == value } && File.executable?(File.join(release, "bin/dora")) && package_checksum(release) == lock.fetch("package_checksum")
+  exec File.join(release, "bin/dora"), *ARGV
+rescue Psych::Exception, Errno::ENOENT, Errno::EACCES
+  fail!("exact locked release is unavailable or mismatched")
+end

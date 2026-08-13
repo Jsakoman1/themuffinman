@@ -1,9 +1,0 @@
-kind: dora_distribution_lifecycle_sources
-version: 1
-reviewed_ref: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-consumer_ref: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-consumers:
-  - id: alpha-consumer
-    marker: alpha-old
-  - id: beta-consumer
-    marker: beta-old

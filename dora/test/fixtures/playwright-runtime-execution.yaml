@@ -1,7 +1,0 @@
-kind: dora_playwright_runtime_execution
-version: 1
-profile: playwright-technical-health
-endpoint: /health
-expected_body: {dora: technical-health}
-evidence_path: dora/test/runtime-evidence/playwright-technical-health.json
-boundary: A temporary local technical-health server is the sole runtime target; no consumer endpoint, product data, or production service is contacted.

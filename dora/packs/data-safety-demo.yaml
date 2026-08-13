@@ -1,9 +1,0 @@
-kind: dora_data_safety_demo_pack
-version: 1
-id: data-safety-demo
-template_root: templates/data-safety-demo
-external_actions: explicit_user_approval_required
-boundaries:
-  - No database, backup target, export destination, retention job, or demo record is created.
-  - Demo data must be declared separately from production data and must exclude real data.
-completion_boundary: This pack provides static review templates only. It does not back up, restore, export, delete, seed, or prove any data operation.

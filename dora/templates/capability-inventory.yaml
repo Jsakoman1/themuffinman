@@ -1,7 +1,0 @@
-kind: dora_capability_inventory
-version: 1
-component:
-  id: project-component
-  owner: project-owner
-adoption: explicit
-capabilities: []

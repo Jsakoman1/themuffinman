@@ -1,7 +1,0 @@
-kind: dora_application_idea
-version: 1
-product: Shared note board
-user_problem: A small group needs one visible place for decisions.
-primary_users: [Small group member]
-first_capability: Create and read a shared note.
-non_goal: Do not build a full messaging product.

@@ -1,5 +1,0 @@
-kind: dora_reviewable_capability_skeleton
-capability: {{capability}}
-entity: {{entity}}
-confirmed_model: |
-  {{model_yaml}}

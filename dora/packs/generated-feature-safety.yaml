@@ -1,5 +1,0 @@
-kind: dora_static_safety_pack
-version: 1
-id: generated-feature-safety
-checks: [missing_output, content_digest_mismatch, historic_migration_target, dto_trace_gap, api_trace_gap, workflow_trace_gap, permission_trace_gap]
-completion_boundary: This pack performs static output inspection only. It never rewrites a generated file or proves compile, runtime, or acceptance behavior.

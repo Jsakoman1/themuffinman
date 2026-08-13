@@ -1,4 +1,0 @@
-kind: dora_auth_permission_neutral_starter
-version: 1
-status: requires_explicit_declaration
-completion_boundary: This installed surface creates no credentials, provider configuration, roles, ownership policy, audit events, or product behavior.

@@ -1,5 +1,0 @@
-kind: dora_demo_data_policy
-version: 1
-real_data_excluded: true
-status: requires_explicit_project_declaration
-completion_boundary: This template creates no seed data and cannot be used as a production-data policy.

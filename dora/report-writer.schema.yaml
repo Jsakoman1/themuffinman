@@ -1,5 +1,0 @@
-kind: dora_schema
-version: 1
-id: report-writer
-description: Writes declared diagnostic JSON or Markdown reports below a consumer-owned project root.
-invariants: [Report paths are relative and cannot escape the project root, Writes are atomic, Reports do not claim product completion.]

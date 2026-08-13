@@ -1,4 +1,0 @@
-kind: dora_stack_catalog_schema
-version: 1
-required_fields: [kind, version, stacks]
-boundary: A stack catalog declares technical starter availability and exclusions only; it does not supply product behavior.

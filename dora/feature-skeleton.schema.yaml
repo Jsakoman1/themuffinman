@@ -1,6 +1,0 @@
-kind: dora_feature_skeleton_schema
-version: 1
-required_fields: [kind, version, capability, entity, fields, permission, workflow, api_operations, ui_blueprint, confirmation]
-invariants:
-  - Every entity, field, permission, workflow, API operation, and UI blueprint is explicitly declared.
-  - The feature skeleton is review input only and never an implementation or acceptance claim.

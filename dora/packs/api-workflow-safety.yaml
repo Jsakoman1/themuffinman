@@ -1,6 +1,0 @@
-kind: dora_static_safety_pack
-version: 1
-id: api-workflow-safety
-input_kind: dora_api_workflow_safety_input
-checks: [missing_dto_id, missing_api_id, missing_client_id, missing_permission_id, missing_workflow_id, permission_confirmation_missing, api_workflow_status_mismatch]
-completion_boundary: This pack reports declared static contract gaps only; it does not generate API or client code and does not prove runtime behavior.

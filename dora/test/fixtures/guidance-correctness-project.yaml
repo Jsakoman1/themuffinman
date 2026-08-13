@@ -1,4 +1,0 @@
-kind: dora_guidance_correctness_fixture
-version: 1
-approval: {operation: upgrade, scope: project, expires_at: '2000-01-01T00:00:00Z'}
-wrong_scope_approval: {operation: upgrade, scope: other-project, expires_at: '2030-01-01T00:00:00Z'}

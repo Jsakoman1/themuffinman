@@ -1,0 +1,11 @@
+kind: dora_locked_cli_attestation
+version: 1
+release_version: v1.13.3
+package_checksum: d58c4eb970ba6c9c6259efaf1db59db8d7414e95a7de5969bf0943577dd730c9
+clean_copy: passed
+rollback: not_required
+speed_budget: passed
+median_ms: 220
+p95_ms: 223
+prior_rollback_pilot: passed
+evidence_boundary: Local delivery-tool checks only; no product, data, provider, deployment or network behavior.

@@ -1,8 +1,0 @@
-kind: dora_optional_plugin_pack
-version: 1
-id: architecture-integrity
-entrypoint: dora/lib/dora/plugins/architecture_integrity.rb
-inputs:
-  required: [canonical_paths, forbidden_rules]
-output:
-  kind: static-architecture-integrity-report

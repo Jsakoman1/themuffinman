@@ -1,4 +1,0 @@
-kind: dora_revision_evidence_trace_schema
-version: 1
-required_fields: [kind, version, capability_id, revision, changed_paths, work, validation_evidence, runtime_evidence, unresolved]
-completion_boundary: A revision evidence trace links declared change and evidence records; it does not prove acceptance or release readiness.
