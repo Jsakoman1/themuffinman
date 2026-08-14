@@ -19,9 +19,9 @@ distribution:
   method: locked_local_cli
   source_repository: https://github.com/Jsakoman1/dora.git
   lock_path: dora.lock.yaml
-  release_version: v1.15.0
-  source_commit: 402d2a2ae0bf21496b461e0aabf8d22863087ba4
-  package_checksum: 834a85b72eec6c0f7a2e468d3c7fc4ca6c2f16c59b20e62a88befe7eff784f59
+  release_version: v1.16.2
+  source_commit: 25eb5ca8c7e8fd780f582f919feb114f1d48acfe
+  package_checksum: f4d967678ce8f699c9ffb5c1a28ea2db73858a61b91f952a86c790c01d2f5954
   cache_layout: user_application_support_v1
   update_command: Use locked-cli-rotation-preview and an exact owner-approved lock rotation; do not use git subtree or copy a Dora checkout.
   rollback_rule: Restore the prior exact lock through an explicit approved rotation or revert the isolated lock commit; do not reconstruct product evidence from Dora.
