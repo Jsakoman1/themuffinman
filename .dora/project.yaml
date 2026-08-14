@@ -16,14 +16,15 @@ commands:
 context:
   generated_output_paths: [audit_output, runtime_evidence]
 distribution:
-  method: release_pinned_package
+  method: locked_local_cli
   source_repository: https://github.com/Jsakoman1/dora.git
-  source_ref: 922dbf5e0f9d32d52e546ccdd6145c592b1ab01a
-  source_commit: 922dbf5e0f9d32d52e546ccdd6145c592b1ab01a
-  source_checksum: a99b17942eca6a3dc74b5e0e83840c2c26aa0e076e44c8f62083ab57d0a2d3cd
-  package_path: dora
-  update_command: Use an owner-approved reviewed local source descriptor with Dora upgrade-preview and upgrade-apply; do not use git subtree.
-  rollback_rule: Restore the recorded Dora upgrade backup before commit or revert the isolated Dora pin commit; do not reconstruct product evidence from Dora.
+  lock_path: dora.lock.yaml
+  release_version: v1.15.0
+  source_commit: 402d2a2ae0bf21496b461e0aabf8d22863087ba4
+  package_checksum: 834a85b72eec6c0f7a2e468d3c7fc4ca6c2f16c59b20e62a88befe7eff784f59
+  cache_layout: user_application_support_v1
+  update_command: Use locked-cli-rotation-preview and an exact owner-approved lock rotation; do not use git subtree or copy a Dora checkout.
+  rollback_rule: Restore the prior exact lock through an explicit approved rotation or revert the isolated lock commit; do not reconstruct product evidence from Dora.
 extensions:
   - id: muffinman-reusable-plugin-manifest
     category: product_contract

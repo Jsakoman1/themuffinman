@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: dora-v1-15-locked-cli-alignment
+title: Align MuffinMan Dora metadata with the locked CLI runtime
+status: verified
+baseline: d4b4ce0
+strict_verification: false
+serial_task_execution: false
+control_class: controlled_change
+terminal_traceability: compact_delivery_ledger_or_immutable_git_reference
+tasks:
+- id: align-locked-cli-runtime-metadata
+  title: Remove stale vendored metadata and test the exact locked runtime
+  observable_outcome: The consumer has one Dora runtime identity in its lock, distribution
+    metadata and regression test, with no obsolete bootstrap source record.
+  dependencies: []
+  evidence_boundary:
+  - local locked-launcher doctor and exact consumer pin test
+  paths:
+  - dora.lock.yaml
+  - ".dora/project.yaml"
+  - ".dora/bootstrap-source.yaml"
+  - test/dora_consumer_integration/dora_source_pin_test.rb
+  - docs/implementation-control.md
+  - docs/work/dora-v1-15-locked-cli-alignment.yaml
+  required_paths:
+  - dora.lock.yaml
+  - ".dora/project.yaml"
+  - ".dora/bootstrap-source.yaml"
+  - test/dora_consumer_integration/dora_source_pin_test.rb
+  - docs/implementation-control.md
+  - docs/work/dora-v1-15-locked-cli-alignment.yaml
+  validation: "./bin/dora doctor .dora/project.yaml && ruby test/dora_consumer_integration/dora_source_pin_test.rb
+    && git diff --check"
+  status: done
+evidence:
+- task: align-locked-cli-runtime-metadata
+  command: "./bin/dora doctor .dora/project.yaml && ruby test/dora_consumer_integration/dora_source_pin_test.rb
+    && git diff --check"
+  ranAt: '2026-08-14T10:34:10Z'
+  revision: d4b4ce09e3b45768ea0bc54ffbef5511dc6554a4
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - ".dora/bootstrap-source.yaml"
+  - ".dora/project.yaml"
+  - docs/implementation-control.md
+  - dora.lock.yaml
+  - test/dora_consumer_integration/dora_source_pin_test.rb
+  - docs/work/dora-v1-15-locked-cli-alignment.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    dora.lock.yaml: ec2a5f91fa52a4e8f341d8d0e7c036dabf5088ad43708ae1f1142962c82b33d6
+    ".dora/project.yaml": d1952ab437e0cb97dbfa54730e9dc12d4d5bb2d15a93916559a53e395b53e835
+    ".dora/bootstrap-source.yaml": __missing__
+    test/dora_consumer_integration/dora_source_pin_test.rb: d9c670c06a415beb24ef09e4bf5b33e1b51b5cc5f89fa6349310c767ec47b932
+    docs/implementation-control.md: e762c05ad27bbedd3cc01fc9115a9f2be707cc0f2c7928eeaf3d805ad1aad8c1
+    docs/work/dora-v1-15-locked-cli-alignment.yaml: 6605761e6e9cdb8dc1e3384a51699776a6ed044fb3ccb59605d5e13aafe0ae1b
+  output: |
+    PASSED path:work_plans: docs/work
+    PASSED path:audit_output: docs/audit-output
+    PASSED path:runtime_evidence: docs/runtime-evidence
+    PASSED command:work_start: bin/dora is available
+    PASSED command:work_verify: bin/dora is available
+    PASSED command:control_check: bin/dora is available
+    PASSED command:work_plan_preflight: bin/dora is available
+    PASSED project-control: control bundle and declared control files exist
+    PASSED control:tool_catalog: dora_tool_catalog is configured
+    PASSED control:change_routing: dora_change_routing is configured
+    PASSED control:context_search: dora_context_search is configured
+    PASSED control:workspace_inventory: dora_workspace_inventory is configured
+    PASSED control:documentation_evidence: dora_documentation_evidence is configured
+    PASSED control:system_map: dora_system_map is configured
+    PASSED control:artifact_policy: dora_artifact_policy is configured
+    PASSED control:backlog: dora_backlog is configured
+    PASSED control:capability_inventory: adopted capability documentation controls are configured
+    PASSED project-knowledge: product brief, domain library, agent profile, and agent entrypoint are valid
+    MuffinMan locked Dora CLI test passed (exact lock/cache identity and no stale vendored metadata).

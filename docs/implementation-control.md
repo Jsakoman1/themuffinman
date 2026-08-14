@@ -285,6 +285,9 @@ replay requirements without prescribing a universal outbox for every module.
 
 The repository resolves Dora only through the exact local identity in
 `dora.lock.yaml`. It has no live-checkout, generic PATH or network fallback.
+The `.dora/project.yaml` distribution record mirrors that lock identity for
+human and automation review; neither record may describe a vendored package or
+bootstrap-source path.
 The former vendored `dora/` runtime was removed after a clean-copy and local
 control-check pilot; restore it only through an explicit Git rollback, never by
 copying a developer checkout.

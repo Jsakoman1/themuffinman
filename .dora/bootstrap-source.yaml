@@ -1,6 +1,0 @@
-kind: dora_bootstrap_record
-version: 1
-source:
-  ref: 922dbf5e0f9d32d52e546ccdd6145c592b1ab01a
-  checksum: a99b17942eca6a3dc74b5e0e83840c2c26aa0e076e44c8f62083ab57d0a2d3cd
-package_path: dora
