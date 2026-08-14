@@ -6,10 +6,10 @@ result: verified_local_controls
 baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
 measured_results:
   workspace_change_baseline:
-    evidence: docs/workspace-change-snapshot-2026-07-31.yaml
+    evidence: docs/delivery-ledger.yaml
     immutable_classified_paths: 468
     audit: passed
-    boundary: The snapshot is review evidence, not a clean-worktree or commit claim.
+    boundary: Detailed historical workspace change evidence remains in Git; the compact delivery ledger is not a clean-worktree or commit claim.
   work_artifact_retention:
     policy: docs/work-artifact-retention-policy.yaml
     review: docs/work-artifact-retention-review-2026-07-31.yaml

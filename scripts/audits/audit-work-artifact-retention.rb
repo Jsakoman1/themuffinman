@@ -57,12 +57,13 @@ def report
   end
   {
     "kind" => "work_artifact_retention_review",
-    "version" => 1,
+    "version" => 2,
     "generated_at" => Time.now.utc.iso8601,
     "policy" => "docs/work-artifact-retention-policy.yaml",
     "deletion_performed" => false,
     "summary" => entries.group_by { |entry| entry.fetch("classification") }.transform_values(&:length).sort.to_h,
-    "entries" => entries
+    "artifacts_reviewed" => entries.length,
+    "detail_audit" => "Git history and an exact deletion manifest; this compact review intentionally retains no per-path history."
   }
 end
 
@@ -75,6 +76,13 @@ def verify_report(path)
   failures << "report kind is invalid" unless document["kind"] == "work_artifact_retention_review"
   failures << "report points to the wrong policy" unless document["policy"] == "docs/work-artifact-retention-policy.yaml"
   failures << "report must not record deletion" unless document["deletion_performed"] == false
+  if document["version"] == 2
+    failures << "compact report must declare an artifact count" unless document["artifacts_reviewed"].is_a?(Integer)
+    failures << "compact report must not retain per-path entries" if document.key?("entries")
+    abort "Work-artifact retention audit failed:\n- #{failures.join("\n- ")}" unless failures.empty?
+    puts "Work-artifact retention audit passed (compact review, #{document.fetch("artifacts_reviewed")} artifacts, no deletion)."
+    return
+  end
   entries = Array(document["entries"])
   failures << "report paths are duplicated" unless entries.map { |entry| entry["path"] }.uniq.length == entries.length
   failures << "report entries are not sorted" unless entries.map { |entry| entry["path"] } == entries.map { |entry| entry["path"] }.sort

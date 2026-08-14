@@ -1,0 +1,13 @@
+kind: terminal_delivery_ledger
+version: 1
+repository_id: themuffinman
+detailed_audit: git_history
+retention_policy: manifest_gated_terminal_prune_v1
+entries:
+  - id: terminal-artifact-retention-v1
+    status: verified
+    scope: docs/work
+    deletion_disposition: manifest_gated
+    manifest_disposition: generated_and_consumed_not_retained
+    removed_artifacts: 31
+    retained_exceptions: 283
