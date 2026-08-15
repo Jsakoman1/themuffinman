@@ -68,9 +68,9 @@ class PasswordRecoveryServiceTest {
         token.setUser(user);
         token.setExpiresAt(Instant.now().plusSeconds(60));
         when(tokenRepository.findByTokenHash(any(String.class))).thenReturn(Optional.of(token));
-        when(passwordEncoder.encode("newPassword1")).thenReturn("encoded-new-password");
+        when(passwordEncoder.encode("newPassword12345")).thenReturn("encoded-new-password");
 
-        buildService().reset(new PasswordResetRequestDTO("raw-token", "newPassword1"));
+        buildService().reset(new PasswordResetRequestDTO("raw-token", "newPassword12345"));
 
         assertEquals("encoded-new-password", user.getPasswordHash());
         assertTrue(token.getConsumedAt() != null);
@@ -85,10 +85,26 @@ class PasswordRecoveryServiceTest {
         when(tokenRepository.findByTokenHash(any(String.class))).thenReturn(Optional.of(token));
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-                () -> buildService().reset(new PasswordResetRequestDTO("raw-token", "newPassword1")));
+                () -> buildService().reset(new PasswordResetRequestDTO("raw-token", "newPassword12345")));
 
         assertEquals(BAD_REQUEST, exception.getStatusCode());
         assertEquals("Invalid or expired password recovery token", exception.getReason());
+    }
+
+    @Test
+    void resetRejectsFewerThanFifteenUnicodeCodePointsWithoutConsumingToken() {
+        AppUser user = new AppUser();
+        PasswordRecoveryToken token = new PasswordRecoveryToken();
+        token.setUser(user);
+        token.setExpiresAt(Instant.now().plusSeconds(60));
+        when(tokenRepository.findByTokenHash(any(String.class))).thenReturn(Optional.of(token));
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> buildService().reset(new PasswordResetRequestDTO("raw-token", "🔐".repeat(14))));
+
+        assertEquals(BAD_REQUEST, exception.getStatusCode());
+        assertEquals("Password must contain at least 15 Unicode characters", exception.getReason());
+        assertTrue(token.getConsumedAt() == null);
     }
 
     @Test

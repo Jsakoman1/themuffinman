@@ -30,7 +30,18 @@
         <java.version>21</java.version>
         <argLine/>
     </properties>
+    <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Jsakoman1/auth-foundation</url>
+        </repository>
+    </repositories>
     <dependencies>
+        <dependency>
+            <groupId>com.jsakoman.auth</groupId>
+            <artifactId>auth-foundation</artifactId>
+            <version>0.3.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

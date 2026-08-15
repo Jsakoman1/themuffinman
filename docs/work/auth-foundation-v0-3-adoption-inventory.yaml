@@ -1,0 +1,12 @@
+kind: execution_inventory
+version: 1
+id: auth-foundation-v0-3-adoption-execution
+master_plan: docs/work/auth-foundation-v0-3-adoption.yaml
+items:
+- id: auth-foundation-v0-3-single-factor-policy
+  order: 1
+  plan: docs/work/auth-foundation-v0-3-adoption.yaml
+  task: adopt-shared-single-factor-password-policy
+  status: in_progress
+  started_at: '2026-08-14T20:46:31Z'
+state: proposed

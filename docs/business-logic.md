@@ -234,6 +234,8 @@ Current covered modules:
 
 - Registration creates a normal user account, not an admin account.
 - Login is based on email plus password.
+- New registrations and password resets require at least 15 Unicode code points;
+  existing account passwords continue to work for login.
 - Email comparison is case-insensitive after normalization.
 - The authenticated session payload exposes the current user's identity and profile basics.
 - JWT tokens are issued on register and login, but not on the `/auth/me` refresh-style read.

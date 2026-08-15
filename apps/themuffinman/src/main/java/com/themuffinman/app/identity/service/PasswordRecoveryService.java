@@ -1,7 +1,9 @@
 package com.themuffinman.app.identity.service;
 
+import com.jsakoman.authfoundation.CredentialInputPolicy;
+import com.jsakoman.authfoundation.EmailPolicy;
+import com.jsakoman.authfoundation.PasswordPolicyProfile;
 import com.themuffinman.app.common.errors.ServiceErrors;
-import com.themuffinman.app.common.normalization.UserInputNormalizer;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.themuffinman.app.config.AccountRecoveryProperties;
@@ -32,6 +34,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PasswordRecoveryService {
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final Duration TOKEN_TTL = Duration.ofMinutes(15);
+    private static final CredentialInputPolicy CREDENTIAL_INPUT_POLICY = CredentialInputPolicy.forProfile(
+            EmailPolicy.legacyCompatibleBaseline(), PasswordPolicyProfile.SINGLE_FACTOR);
 
     private final AppUserRepository appUserRepository;
     private final PasswordRecoveryTokenRepository tokenRepository;
@@ -68,7 +72,7 @@ public class PasswordRecoveryService {
 
     @Transactional
     public PasswordRecoveryResponseDTO request(PasswordRecoveryRequestDTO request, String sourceKey) {
-        String email = UserInputNormalizer.normalizeEmail(request.email());
+        String email = CREDENTIAL_INPUT_POLICY.normalizeEmail(request.email()).value();
         assertWithinLimit(email, sourceKey);
         appUserRepository.findByEmail(email).ifPresent(user -> {
             tokenRepository.deleteByUserIdAndConsumedAtIsNull(user.getId());
@@ -104,7 +108,7 @@ public class PasswordRecoveryService {
             throw ServiceErrors.badRequest("Invalid or expired password recovery token");
         }
         AppUser user = token.getUser();
-        user.setPasswordHash(passwordEncoder.encode(request.password()));
+        user.setPasswordHash(passwordEncoder.encode(validateNewPassword(request.password())));
         token.setConsumedAt(now);
         tokenRepository.save(token);
         appUserRepository.save(user);
@@ -114,6 +118,14 @@ public class PasswordRecoveryService {
         byte[] bytes = new byte[32];
         RANDOM.nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+
+    private String validateNewPassword(String password) {
+        try {
+            return CREDENTIAL_INPUT_POLICY.validatePassword(password);
+        } catch (IllegalArgumentException exception) {
+            throw ServiceErrors.badRequest("Password must contain at least 15 Unicode characters");
+        }
     }
 
     private String hash(String value) {

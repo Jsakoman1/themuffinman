@@ -118,7 +118,6 @@ class AuthControllerTest {
         assertFalse(violations.isEmpty());
         assertHasViolation(violations, "email");
         assertHasViolation(violations, "username");
-        assertHasViolation(violations, "password");
     }
 
     @Test
@@ -139,6 +138,13 @@ class AuthControllerTest {
 
         assertTrue(VALIDATOR.validate(registerRequest).isEmpty());
         assertTrue(VALIDATOR.validate(loginRequest).isEmpty());
+    }
+
+    @Test
+    void registerRequestLeavesUnicodePasswordLengthToTheSharedBackendPolicy() {
+        RegisterRequestDTO request = new RegisterRequestDTO("user@example.com", "new-user", "🔐".repeat(14));
+
+        assertTrue(VALIDATOR.validate(request).isEmpty());
     }
 
     @Test

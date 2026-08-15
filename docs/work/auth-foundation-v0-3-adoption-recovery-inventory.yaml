@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: auth-foundation-v0-3-adoption-recovery-execution
+master_plan: docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+items:
+- id: unicode-policy-validation-expectations
+  order: 1
+  plan: docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  task: recover-unicode-policy-validation-expectations
+  status: verified
+  started_at: '2026-08-14T20:52:14Z'
+  verified_at: '2026-08-14T20:57:52Z'
+  evidence:
+    plan: docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+    task: recover-unicode-policy-validation-expectations
+    revision: 590afb8f98d98a6b2f4776fa1837ccb820cc7ad0
+state: verified

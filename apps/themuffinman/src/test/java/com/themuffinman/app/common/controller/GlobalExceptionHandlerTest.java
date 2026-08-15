@@ -65,10 +65,9 @@ class GlobalExceptionHandlerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
                 .andExpect(jsonPath("$.message").value("Validation failed"))
-                .andExpect(jsonPath("$.fieldErrors.length()").value(3))
+                .andExpect(jsonPath("$.fieldErrors.length()").value(2))
                 .andExpect(jsonPath("$.fieldErrors[?(@.field=='email')]").exists())
-                .andExpect(jsonPath("$.fieldErrors[?(@.field=='username')]").exists())
-                .andExpect(jsonPath("$.fieldErrors[?(@.field=='password')]").exists());
+                .andExpect(jsonPath("$.fieldErrors[?(@.field=='username')]").exists());
     }
 
     @Test
@@ -82,6 +81,15 @@ class GlobalExceptionHandlerTest {
                 .andExpect(jsonPath("$.code").value("CONFLICT"))
                 .andExpect(jsonPath("$.message").value("Email already exists"))
                 .andExpect(jsonPath("$.fieldErrors").isArray());
+    }
+
+    @Test
+    void shortRegistrationPasswordReturnsTheSharedPolicyBadRequest() throws Exception {
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new RegisterRequestDTO("user@example.com", "new-user", "🔐".repeat(14)))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Password must contain at least 15 Unicode characters"));
     }
 
     @Test

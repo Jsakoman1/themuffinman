@@ -4,6 +4,10 @@ The repository is in maintenance mode. Product capability status remains authori
 `docs/capability-inventory.yaml`; mapping and runtime truth remain in the canonical registries
 listed in `docs/implementation-control.md`.
 
+## Recently completed
+
+- `AUTH-FOUNDATION-V0-3-CONSUMER-ADOPTION` Verified local slice: registration and password reset use the shared Auth Foundation v0.3 single-factor policy while JWT, token revocation, recovery-token lifecycle, persistence, and login compatibility remain TheMuffinMan-owned. Remote package resolution remains a GitHub Actions secret boundary.
+
 ## Open follow-ups
 
 - DORA-V17-CODEX-ACCELERATION-001: prepare and execute the Dora v1.7 Codex acceleration program: one guided agent entrypoint, compact cited task context, confirmed-domain capability dependency graph, project convention checks, safe related-feature composition, proof orchestration, independent-consumer proof, and a concise Codex guide. Master: `docs/work/dora-v17-codex-acceleration-master.yaml`.

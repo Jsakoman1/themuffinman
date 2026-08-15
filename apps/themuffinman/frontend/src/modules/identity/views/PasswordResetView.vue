@@ -41,7 +41,7 @@ const resetPassword = async () => {
       <AppStatus v-if="completed" message="Password updated. You can log in with the new password." tone="success" />
       <AppStatus v-else-if="!token" message="This recovery link is missing its token. Request a new link to continue." tone="error" />
       <form v-else class="auth-terminal__form identity-surface__form" :aria-busy="isSubmitting || undefined" @submit.prevent="resetPassword">
-        <AppFormField label="New password" required><input v-model="password" aria-label="New password" class="auth-terminal__input identity-surface__input" type="password" autocomplete="new-password" minlength="8" :disabled="isSubmitting" required /></AppFormField>
+        <AppFormField label="New password" required><input v-model="password" aria-label="New password" class="auth-terminal__input identity-surface__input" type="password" autocomplete="new-password" minlength="15" :disabled="isSubmitting" required /></AppFormField>
         <AppStatus v-if="isSubmitting" message="Saving your password…" busy /><AppStatus v-else-if="error" :message="error" tone="error" />
         <AppFormFooter><template #primary><button type="submit" :disabled="isSubmitting">{{ isSubmitting ? "Saving…" : "Save password" }}</button></template></AppFormFooter>
       </form>

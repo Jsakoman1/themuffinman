@@ -36,6 +36,18 @@ reuse occupied ports, so do not kill an unverified process by port alone.
 
 For a small change, implement and run the relevant targeted test.
 
+## Shared Auth Foundation adoption
+
+Before changing an Auth Foundation consumer, run its repository-native backend
+entry point (here: `make backend-test`), not a guessed root-level Maven command.
+Use the supported Java runtime selected by the repository; the application wrapper
+lives in `apps/themuffinman/`. For a new registration or password-reset policy,
+add a focused compile-and-test check before the full suite, then run the full
+repository-native validation. Keep login free of new-password policy checks so
+existing password hashes remain usable. Transport DTO constraints validate request
+shape; Auth Foundation validates Unicode-aware password policy at the service
+boundary. Do not place Unicode minimum-length rules back in Bean Validation.
+
 For a non-trivial change:
 
 1. Create `docs/work/<id>.yaml` from `docs/work-plan.template.yaml`.

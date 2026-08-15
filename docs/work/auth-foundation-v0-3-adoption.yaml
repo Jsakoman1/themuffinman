@@ -1,0 +1,223 @@
+kind: work
+version: 1
+id: auth-foundation-v0-3-adoption
+title: Adopt Auth Foundation v0.3 for new single-factor passwords
+status: active
+baseline: 590afb8f98d98a6b2f4776fa1837ccb820cc7ad0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - JWT issuance, token revocation, password recovery token lifecycle and account
+    persistence.
+  residual_scope:
+  - Add the shared package and apply its single-factor input policy only to registration
+    and password reset.
+  retest_triggers:
+  - Any change to registration, login, reset, JWT, recovery-token or frontend identity
+    form behavior.
+  non_duplication_rule: Existing identity evidence is baseline-only; this slice proves
+    only the new credential-input boundary.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: adopt-shared-single-factor-password-policy
+  inventory_item: auth-foundation-v0-3-single-factor-policy
+  title: Enforce Auth Foundation v0.3 for newly created and reset passwords
+  type: implementation
+  status: blocked
+  observable_outcome: Registration and password reset require at least 15 Unicode
+    code points through Auth Foundation v0.3, while login still verifies existing
+    password hashes and JWT, recovery-token, revocation and account behavior remain
+    consumer-owned.
+  dependencies: []
+  evidence_boundary:
+  - Local synthetic backend and frontend compilation evidence only.
+  - No account, secret, provider, deployment or production-runtime claim.
+  paths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue
+  - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
+  - ".github/workflows/repository-validation.yml"
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+  required_paths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue
+  - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
+  - ".github/workflows/repository-validation.yml"
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+  validation: make backend-test && make frontend-type-check && make frontend-build
+    && git diff --check
+  started_at: '2026-08-14T20:46:31Z'
+  start_fingerprints:
+    apps/themuffinman/pom.xml: be8d1922b251b8c3ba935b196686e525e9deaa4ff08cf99ecf76623f23df6ac8
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java: eb97778265a6dfbbfc66054b3097aac9fbab47c35ce3c0723c728d0fdc4bcab6
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java: f8a92b36c7d3923673ee5916aebf9e8c9686692dd548f2acb94adafa025d8c61
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java: c801133f162d2dc67167ffb8dee9e62b1fc8a1d16742c075bf10ebbacd081338
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java: cd7627e43dc63d1700ee91e78dc3784fd46200e150693f632e50aa368825f16b
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java: 3265b5505f32d4a92c188fe241998a1e5fcf91aae7efaca6b1b7be9781ccddb1
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java: ab2559ec2650488fb7d3296215df6bc09642b48e65cecf6269310455fa040b0c
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java: 6b7214bb33392dff9584a4371377d51530bb39b6ab774bdc5f75c3f666a41703
+    apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue: babf27b38224b6c55545edd841eec958f79914919f1f5ed174385583c24fc126
+    apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue: 731d61d30b917448ac20bd7d6667ab50c073249b922e2adee970b1e31a461d92
+    ".github/workflows/repository-validation.yml": 820801c895257379ef3dd2dc733a8854a2ca7fcdaa40b5814825c6d2ac8207dc
+    docs/business-logic.md: cb0b659c0ed7cec55295cc7366a20f80b4fcbf55fec6b84b025c9b38296f4077
+    docs/domain-technical.md: fec5cb6f860647a9a880c4296a60e80cbee480a77b2b6c46ccd22a988c3b0789
+    docs/implementation-backlog.md: 43288b46fcbdc4e251cc29285460200bf9ddad04876beb87dd9d9ad5f5abd3e3
+    docs/work/auth-foundation-v0-3-adoption.yaml: 6301764b5326a1b07ea08f8624100959cc35c31262d084f3d7410eab53aa0636
+    docs/work/auth-foundation-v0-3-adoption-inventory.yaml: f4acc36ae1fe776c6855b489f0a72fcd4c09bddf882e2a7906f948aa3cfa4ddd
+  start_verifier_footprint_fingerprints:
+    apps/themuffinman/pom.xml: be8d1922b251b8c3ba935b196686e525e9deaa4ff08cf99ecf76623f23df6ac8
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java: eb97778265a6dfbbfc66054b3097aac9fbab47c35ce3c0723c728d0fdc4bcab6
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java: f8a92b36c7d3923673ee5916aebf9e8c9686692dd548f2acb94adafa025d8c61
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java: c801133f162d2dc67167ffb8dee9e62b1fc8a1d16742c075bf10ebbacd081338
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java: cd7627e43dc63d1700ee91e78dc3784fd46200e150693f632e50aa368825f16b
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java: 3265b5505f32d4a92c188fe241998a1e5fcf91aae7efaca6b1b7be9781ccddb1
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java: ab2559ec2650488fb7d3296215df6bc09642b48e65cecf6269310455fa040b0c
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java: 6b7214bb33392dff9584a4371377d51530bb39b6ab774bdc5f75c3f666a41703
+    apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue: babf27b38224b6c55545edd841eec958f79914919f1f5ed174385583c24fc126
+    apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue: 731d61d30b917448ac20bd7d6667ab50c073249b922e2adee970b1e31a461d92
+    ".github/workflows/repository-validation.yml": 820801c895257379ef3dd2dc733a8854a2ca7fcdaa40b5814825c6d2ac8207dc
+    docs/business-logic.md: cb0b659c0ed7cec55295cc7366a20f80b4fcbf55fec6b84b025c9b38296f4077
+    docs/domain-technical.md: fec5cb6f860647a9a880c4296a60e80cbee480a77b2b6c46ccd22a988c3b0789
+    docs/implementation-backlog.md: 43288b46fcbdc4e251cc29285460200bf9ddad04876beb87dd9d9ad5f5abd3e3
+    docs/work/auth-foundation-v0-3-adoption.yaml: 6301764b5326a1b07ea08f8624100959cc35c31262d084f3d7410eab53aa0636
+    docs/work/auth-foundation-v0-3-adoption-inventory.yaml: f4acc36ae1fe776c6855b489f0a72fcd4c09bddf882e2a7906f948aa3cfa4ddd
+  start_workspace_paths:
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  start_workspace_fingerprints:
+    docs/work/auth-foundation-v0-3-adoption-inventory.yaml: f4acc36ae1fe776c6855b489f0a72fcd4c09bddf882e2a7906f948aa3cfa4ddd
+    docs/work/auth-foundation-v0-3-adoption.yaml: 6301764b5326a1b07ea08f8624100959cc35c31262d084f3d7410eab53aa0636
+evidence:
+- task: adopt-shared-single-factor-password-policy
+  command: make backend-test && make frontend-type-check && make frontend-build &&
+    git diff --check
+  ranAt: '2026-08-14T20:49:30Z'
+  revision: 590afb8f98d98a6b2f4776fa1837ccb820cc7ad0
+  exitCode: 2
+  result: failed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - ".github/workflows/repository-validation.yml"
+  - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
+  - apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    apps/themuffinman/pom.xml: 3b1065e46f67bfecbced81183e94cde4d11e84d3f761dcc5097f9bb366e147ee
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java: a0b233f1965a54b1fb1f65a45564c8f9a7dcbacd44fd55894fe80adcf43dd712
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java: a3d7cb4246f6541b3cc5eb13e6b39ec6ffc6a21c85381752a16e3f59b3010aec
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java: bd93a9759f6066a285f67107bf79b3c9f4e6c25336d1526115ae0e67c6cca9e3
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java: 271aa7628b3d843409ae94bf56a5a4c964f3340b43e07376bad88528fdf9049c
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java: ce142c25f6a14dbe7242e6f78ab2cb6a4099901756e33e8e40f82f429f614af0
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java: be4fec3354e3e84a87d4663ce7f6c9c8dc3e389a4d640849731332b8f53ce581
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java: 9c3f2bd4264f98c8913f89dfd2d2485faecff14113f36a5eb65982fc1a198339
+    apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue: 833fc049a287631a6ce7ad9de227996fda96a841c4bf202317c46e4cdcc0a125
+    apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue: 7f20a2dadc03953dacaf2b8875837a59abc96671a2ab945496669aadb48533b4
+    ".github/workflows/repository-validation.yml": 403a8a528fdba6111dedeab019a2e58cf3dd01e7a7f7d640c2601beb580337f8
+    docs/business-logic.md: 7ef179ae05c0f53d3fabf88e4f71973cb4afef545b88e0c827fb0d72ba3d1ddc
+    docs/domain-technical.md: 6c0df24bd05b358459761c715fb9fe1c8c5d8501b8ac3a7a6e956dfaf89cc6b5
+    docs/implementation-backlog.md: 992a40b23c2d61d11ef52665d3a7c93f5f5e3bd082d3d9f85944e7cf88a368aa
+    docs/work/auth-foundation-v0-3-adoption.yaml: 26779d2c68cb9c462157bf9d496648587e944c8e79763940e0edf60b4eac3a68
+    docs/work/auth-foundation-v0-3-adoption-inventory.yaml: e6926236554910a416594eb945c59e9893c18ea429c1fe94be518a6ccf38d00a
+  output: "[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD FAILURE\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  27.529 s\n[INFO] Finished at: 2026-08-14T22:49:59+02:00\n[INFO] ------------------------------------------------------------------------\n[ERROR]
+    Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.5:test
+    (default-test) on project themuffinman: There are test failures.\n[ERROR] \n[ERROR]
+    See /Users/jsakoman/Desktop/themuffinman/apps/themuffinman/target/surefire-reports
+    for the individual test results.\n[ERROR] See dump files (if any exist) [date].dump,
+    [date]-jvmRun[N].dump and [date].dumpstream.\n[ERROR] -> [Help 1]\n[ERROR] \n[ERROR]
+    To see the full stack trace of the errors, re-run Maven with the -e switch.\n[ERROR]
+    Re-run Maven using the -X switch to enable full debug logging.\n[ERROR] \n[ERROR]
+    For more information about the errors and possible solutions, please read the
+    following articles:\n[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException\n\nmake[2]:
+    *** [backend-test] Error 1\nmake[1]: *** [backend-test] Error 2"
+  requiredPaths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+  - apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue
+  - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
+  - ".github/workflows/repository-validation.yml"
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: []
+  startedAt: '2026-08-14T20:46:31Z'
+  changedAfterStart:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+  - apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue
+  - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
+  - ".github/workflows/repository-validation.yml"
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml

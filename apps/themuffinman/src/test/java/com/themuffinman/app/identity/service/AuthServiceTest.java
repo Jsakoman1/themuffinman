@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @ExtendWith(MockitoExtension.class)
@@ -79,6 +80,17 @@ class AuthServiceTest {
 
         assertEquals(CONFLICT, exception.getStatusCode());
         assertEquals("Email already exists", exception.getReason());
+    }
+
+    @Test
+    void registerRejectsFewerThanFifteenUnicodeCodePoints() {
+        ResponseStatusException exception = assertThrows(
+                ResponseStatusException.class,
+                () -> buildService().register(new RegisterRequestDTO("user@example.com", "new-user", "🔐".repeat(14)))
+        );
+
+        assertEquals(BAD_REQUEST, exception.getStatusCode());
+        assertEquals("Password must contain at least 15 Unicode characters", exception.getReason());
     }
 
     @Test

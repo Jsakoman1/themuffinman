@@ -1241,6 +1241,9 @@ Technical rules:
 Register flow:
 - `/auth/register` normalizes email before uniqueness checks
 - registration persists a user with encoded password and role `USER`
+- new registration and password reset validate the Auth Foundation v0.3
+  single-factor policy of at least 15 Unicode code points before hashing; existing
+  stored hashes remain valid for login
 - registration returns an auth response plus a freshly issued JWT token
 
 Login flow:
@@ -1267,7 +1270,8 @@ Create and update validation:
 - username is required after trim
 - username length must be between `3` and `50`
 - password is required for create
-- password length must be between `8` and `100`
+- new and reset passwords must contain at least `15` Unicode code points; the
+  shared package rejects values above its `128`-code-point maximum
 - email uniqueness is checked case-insensitively
 
 Update behavior:

@@ -1,0 +1,169 @@
+kind: work
+version: 1
+id: auth-foundation-v0-3-adoption-recovery
+title: Recover Auth Foundation v0.3 validation expectation coverage
+status: verified
+baseline: 590afb8f98d98a6b2f4776fa1837ccb820cc7ad0
+recovery_of: docs/work/auth-foundation-v0-3-adoption.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Auth Foundation v0.3 policy implementation
+  - JWT
+  - recovery tokens
+  - persistence
+  residual_scope:
+  - Correct full-suite tests that still assigned password minimum length to Bean Validation.
+  retest_triggers:
+  - Any change to registration request validation or global validation-error shape.
+  non_duplication_rule: The blocked parent remains immutable failure evidence; this
+    child proves only its test-expectation recovery.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: recover-unicode-policy-validation-expectations
+  inventory_item: unicode-policy-validation-expectations
+  title: Prove transport and shared-policy validation responsibilities
+  type: implementation
+  status: done
+  observable_outcome: Full-suite validation tests distinguish DTO transport validation
+    from Auth Foundation's Unicode-aware password policy without changing authentication
+    behavior.
+  dependencies: []
+  evidence_boundary:
+  - Local synthetic unit-test evidence only; no account
+  - secret
+  - provider
+  - deployment
+  - or runtime claim.
+  paths:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - docs/codex-fast-path.md
+  - docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
+  required_paths:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - docs/codex-fast-path.md
+  - docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
+  validation: make backend-test && git diff --check
+  started_at: '2026-08-14T20:52:14Z'
+  start_fingerprints:
+    apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java: 2d164216a565d1325121bcac3300bf017160956a1326ab7218aad1993497a4c1
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java: 2d96fac070fe86de61bbb19205f974142e536fe9faa53a6305f55add00c4df69
+    docs/work/auth-foundation-v0-3-adoption-recovery.yaml: 4ffe0e10fc982995e9dd7600f27623597c8366d5c1bb13c0c951a9358d7cdaf6
+    docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml: 629eb72e6505ca60725bc2d5cc1603f150b1716f7bcc71ccbbafa827a6608b8a
+  start_verifier_footprint_fingerprints:
+    apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java: 2d164216a565d1325121bcac3300bf017160956a1326ab7218aad1993497a4c1
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java: 2d96fac070fe86de61bbb19205f974142e536fe9faa53a6305f55add00c4df69
+    docs/work/auth-foundation-v0-3-adoption-recovery.yaml: 4ffe0e10fc982995e9dd7600f27623597c8366d5c1bb13c0c951a9358d7cdaf6
+    docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml: 629eb72e6505ca60725bc2d5cc1603f150b1716f7bcc71ccbbafa827a6608b8a
+  start_workspace_paths:
+  - ".github/workflows/repository-validation.yml"
+  - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
+  - apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/auth-foundation-v0-3-adoption-inventory.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  - docs/work/auth-foundation-v0-3-adoption.yaml
+  start_workspace_fingerprints:
+    ".github/workflows/repository-validation.yml": 403a8a528fdba6111dedeab019a2e58cf3dd01e7a7f7d640c2601beb580337f8
+    apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue: 7f20a2dadc03953dacaf2b8875837a59abc96671a2ab945496669aadb48533b4
+    apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue: 833fc049a287631a6ce7ad9de227996fda96a841c4bf202317c46e4cdcc0a125
+    apps/themuffinman/pom.xml: 3b1065e46f67bfecbced81183e94cde4d11e84d3f761dcc5097f9bb366e147ee
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java: 271aa7628b3d843409ae94bf56a5a4c964f3340b43e07376bad88528fdf9049c
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/PasswordResetRequestDTO.java: ce142c25f6a14dbe7242e6f78ab2cb6a4099901756e33e8e40f82f429f614af0
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java: bd93a9759f6066a285f67107bf79b3c9f4e6c25336d1526115ae0e67c6cca9e3
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java: a0b233f1965a54b1fb1f65a45564c8f9a7dcbacd44fd55894fe80adcf43dd712
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java: a3d7cb4246f6541b3cc5eb13e6b39ec6ffc6a21c85381752a16e3f59b3010aec
+    apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java: 2d164216a565d1325121bcac3300bf017160956a1326ab7218aad1993497a4c1
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java: 2d96fac070fe86de61bbb19205f974142e536fe9faa53a6305f55add00c4df69
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java: be4fec3354e3e84a87d4663ce7f6c9c8dc3e389a4d640849731332b8f53ce581
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java: 9c3f2bd4264f98c8913f89dfd2d2485faecff14113f36a5eb65982fc1a198339
+    docs/business-logic.md: 7ef179ae05c0f53d3fabf88e4f71973cb4afef545b88e0c827fb0d72ba3d1ddc
+    docs/domain-technical.md: 6c0df24bd05b358459761c715fb9fe1c8c5d8501b8ac3a7a6e956dfaf89cc6b5
+    docs/implementation-backlog.md: 992a40b23c2d61d11ef52665d3a7c93f5f5e3bd082d3d9f85944e7cf88a368aa
+    docs/work/auth-foundation-v0-3-adoption-inventory.yaml: e6926236554910a416594eb945c59e9893c18ea429c1fe94be518a6ccf38d00a
+    docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml: 629eb72e6505ca60725bc2d5cc1603f150b1716f7bcc71ccbbafa827a6608b8a
+    docs/work/auth-foundation-v0-3-adoption-recovery.yaml: 4ffe0e10fc982995e9dd7600f27623597c8366d5c1bb13c0c951a9358d7cdaf6
+    docs/work/auth-foundation-v0-3-adoption.yaml: e141aec43e0a47a543170fbf740dbc26f80b79d671eeb49e572d6969d7cc70b8
+evidence:
+- task: recover-unicode-policy-validation-expectations
+  command: make backend-test && git diff --check
+  ranAt: '2026-08-14T20:57:25Z'
+  revision: 590afb8f98d98a6b2f4776fa1837ccb820cc7ad0
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - docs/codex-fast-path.md
+  - docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java: 2c60d2d588231e9b39d40123dbc81b01d02f3844ed50902094ae55b0ab2041c4
+    apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java: 63de6c1360171b233ba902c77d975351540747b292c2827d90c473aa4af2aa0c
+    docs/codex-fast-path.md: dedd502a8dcc499e6149b7a3d3770b1c6a9679cbd47a1bf0db7814fe0362def7
+    docs/work/auth-foundation-v0-3-adoption-recovery.yaml: cbf15b53e3024c60c3522073c1834addb2edd2880c19fd1c050741f3542d805c
+    docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml: f413681c8375de0032c248dea244cad06c5ce60d2b80f47ea13bc49687753dd6
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketApplicationNewsOutboxClaimServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketApplicationNewsOutboxClaimServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketQuestPresentationAssemblerTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestPresentationAssemblerTest\n[INFO]
+    Running com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in
+    com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 853, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  25.240 s\n[INFO] Finished at: 2026-08-14T22:57:52+02:00\n[INFO] ------------------------------------------------------------------------"
+  requiredPaths:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - docs/codex-fast-path.md
+  - docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: []
+  startedAt: '2026-08-14T20:52:14Z'
+  changedAfterStart:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+  - docs/codex-fast-path.md
+  - docs/work/auth-foundation-v0-3-adoption-recovery.yaml
+  - docs/work/auth-foundation-v0-3-adoption-recovery-inventory.yaml
