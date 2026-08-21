@@ -15,9 +15,11 @@ runtime evidence, and build artifacts, then returns a bounded ranked context pac
 Use `mode=symbol`, `mode=callsite`, or `mode=canonical` when the investigation intent
 is known. Use `make change-validation paths="path-a path-b"` to obtain an advisory,
 deduplicated leaf-validation set before selecting the task's required command.
-Use `make repository-map` for a quick structural check, or
-`ruby scripts/repository-map.rb --query "SymbolName" --max-output 20000` for a
-compact symbol result rather than the full frontend AST/backend map.
+Use `make repository-map` for a locked, project-declared structural check. For a
+known symbol use `make context-search mode=symbol q="SymbolName" budget=20000`;
+after selecting an exact source seed, use the locked `bin/dora source-slice`
+command for a Java or TypeScript/Vue static import closure. These routes never
+resolve a Dora package-internal implementation path.
 For a large dirty workspace, use `make workspace-change-report` before opening broad
 diffs. It classifies current paths without editing them; a dated workspace snapshot is
 an immutable historical handoff, not permission to commit, delete, or restore files.

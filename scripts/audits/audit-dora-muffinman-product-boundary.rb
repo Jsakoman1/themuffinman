@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "open3"
 
 ROOT = File.expand_path("../..", __dir__)
 catalog_path = File.join(ROOT, "docs/dora-muffinman-tool-ownership.yaml")
@@ -16,6 +17,10 @@ failures << "ownership catalog has no groups" if groups.empty?
 allowed = %w[delegate extract product_retained]
 declared = groups.flat_map { |group| Array(group["audits"]) }
 actual = Dir.glob(File.join(ROOT, "scripts/audits/audit-*.rb")).map { |path| File.basename(path) }.sort
+help_output, help_status = Open3.capture2e(File.join(ROOT, "bin/dora"), "help", "--format", "yaml", chdir: ROOT)
+help = YAML.safe_load(help_output, aliases: true) if help_status.success?
+public_commands = Array(help&.dig("payload", "commands")).map { |command| command["id"] }
+failures << "locked Dora help is unavailable" unless help_status.success? && help&.dig("outcome") == "success"
 failures << "local audit classification is incomplete" unless declared.sort == actual
 failures << "local audit classification has duplicates" unless declared.uniq.length == declared.length
 
@@ -25,9 +30,9 @@ groups.each do |group|
   failures << "ownership group #{id} has an invalid decision" unless allowed.include?(decision)
   failures << "ownership group #{id} has no reason" if group["reason"].to_s.empty?
   if %w[delegate extract].include?(decision)
-    surfaces = Array(group["dora_surfaces"])
-    failures << "reusable ownership group #{id} has no Dora surface" if surfaces.empty?
-    surfaces.each { |surface| failures << "Dora surface is missing: #{surface}" unless File.file?(File.join(ROOT, surface)) }
+    commands = Array(group["public_commands"])
+    failures << "reusable ownership group #{id} has no public Dora command" if commands.empty?
+    commands.each { |command| failures << "locked Dora public command is missing: #{command}" unless public_commands.include?(command) }
   else
     failures << "product-retained group #{id} has no retention basis" if group["retention_basis"].to_s.empty?
   end
@@ -49,11 +54,15 @@ Array(static_group && static_group["audits"]).each do |audit|
   failures << "delegated audit has no Dora report destination: #{audit}" unless plugin.dig("output", "path").to_s.start_with?("docs/audit-output/")
 end
 
-failures << "MuffinMan Java parser is not a Dora compatibility redirect" unless File.read(File.join(ROOT, "scripts/RepositoryJavaAstIndex.java")).include?("dora/tools/java-ast-index")
-failures << "MuffinMan TypeScript/Vue parser is not a Dora compatibility redirect" unless File.read(File.join(ROOT, "apps/themuffinman/frontend/scripts/repository-ast-index.mjs")).include?("typescript-vue-ast-index.mjs")
-%w[dora/lib/dora/plugins/java_ast_index.rb dora/lib/dora/plugins/typescript_vue_ast_index.rb dora/lib/dora/builtin_plugin_runner.rb].each do |path|
-  failures << "required Dora reusable engine is missing: #{path}" unless File.file?(File.join(ROOT, path))
+map = YAML.load_file(File.join(ROOT, ".dora/repository-map.yaml"))
+failures << "project-owned repository map is invalid" unless map["kind"] == "dora_repository_map" && map["version"].to_i == 1
+failures << "project-owned repository map omits backend and frontend roots" unless Array(map["source_roots"]).map { |root| root["id"] }.sort == %w[backend frontend]
+%w[scripts/RepositoryJavaAstIndex.java apps/themuffinman/frontend/scripts/repository-ast-index.mjs scripts/repository-map.rb].each do |path|
+  failures << "unsupported vendored-Dora compatibility path remains: #{path}" if File.exist?(File.join(ROOT, path))
 end
+makefile = File.read(File.join(ROOT, "Makefile"))
+failures << "repository map does not route through locked Dora" unless makefile.include?("bin/dora repository-map .dora/project.yaml --config .dora/repository-map.yaml")
+failures << "symbol fallback does not stay consumer-owned and bounded" unless makefile.include?("scripts/context-search.rb --mode symbol")
 
 failures << "compatibility matrix kind is invalid" unless matrix["kind"] == "dora_muffinman_compatibility_matrix" && matrix["version"].to_i == 1
 failures << "compatibility matrix does not identify the ownership catalog" unless matrix["ownership_catalog"] == "docs/dora-muffinman-tool-ownership.yaml"

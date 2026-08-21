@@ -24,8 +24,13 @@ categories:
       - product_backend_device_contract_bundle
       - query_scope_contract
       - runtime_scenario_catalog
+      - dora_atomic_hardening_review
+      - dora_atomic_task_hardening_review
+      - dora_scope_plan
+      - scope
     required_fields: [kind, version]
-compatibility_rule: Historical variants are recognized inputs and are never normalized into executable completion state.
+compatibility_rule: Retention classification selects current strict validation versus historical compatibility validation; historical variants remain visible and are never normalized into executable completion state.
+classification_source: docs/work-artifact-retention-policy.yaml
 legacy_path_exceptions:
   docs/work/home-friendly-follow-ups-execution-inventory.yaml:
     missing_required_fields: [id]

@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require "open3"
-require "json"
 require "yaml"
 
 ROOT = File.expand_path("..", __dir__)
@@ -14,13 +13,13 @@ STAGE_CONTRACT = {
   "ruby_syntax" => "tool_mechanics",
   "frontend_script_syntax" => "tool_mechanics",
   "yaml_parse" => "tool_mechanics",
-  "frontend_ast_index" => "tool_mechanics",
   "generated_contracts" => "product_contract",
   "web_surface_contract" => "product_contract",
   "admin_agent_scenarios" => "product_contract",
   "modern_surface_contract" => "product_contract",
   "repository_map" => "tool_mechanics",
   "repository_map_query" => "tool_mechanics",
+  "source_slice" => "tool_mechanics",
   "tool_catalog" => "tool_mechanics",
   "runtime_tools" => "tool_mechanics",
   "context_search" => "tool_mechanics",
@@ -66,17 +65,15 @@ Dir[File.join(ROOT, "docs/**/*.yaml")].sort.each do |path|
   record_stage("yaml_parse", "tool_mechanics", path.delete_prefix("#{ROOT}/"))
 end
 
-run("frontend_ast_index", "tool_mechanics", tooling_only, "node", "apps/themuffinman/frontend/scripts/repository-ast-index.mjs")
 run("generated_contracts", "product_contract", tooling_only, "node", "apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs", "--check")
 run("web_surface_contract", "product_contract", tooling_only, "node", "apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs")
 run("admin_agent_scenarios", "product_contract", tooling_only, "node", "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs")
 run("modern_surface_contract", "product_contract", tooling_only, "node", "apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs")
-run("repository_map", "tool_mechanics", tooling_only, "ruby", "scripts/repository-map.rb", "--check")
-query_output = run("repository_map_query", "tool_mechanics", tooling_only, "ruby", "scripts/repository-map.rb", "--query", "WorkspaceNavigationService", "--max-output", "20000")
-query = JSON.parse(query_output)
-abort "Repository map query leaked global AST" if query.key?("frontend_ast") || query.key?("graph")
-abort "Repository map query missed known backend symbol" if query.dig("matches", "backend").empty?
+run("repository_map", "tool_mechanics", tooling_only, "bin/dora", "repository-map", ".dora/project.yaml", "--config", ".dora/repository-map.yaml")
+query_output = run("repository_map_query", "tool_mechanics", tooling_only, "ruby", "scripts/context-search.rb", "--mode", "symbol", "--budget", "20000", "WorkspaceNavigationService")
+abort "Repository context query missed known backend symbol" unless query_output.include?("apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java")
 abort "Repository map query exceeded configured output budget" if query_output.bytesize > 20_000
+run("source_slice", "tool_mechanics", tooling_only, "bin/dora", "source-slice", "java", "--project-root", ".", "--source-root", "apps/themuffinman/src/main/java", "--seed", "apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java", "--format", "yaml")
 run("tool_catalog", "tool_mechanics", tooling_only, "ruby", "scripts/audits/audit-tool-catalog.rb", "--check")
 run("runtime_tools", "tool_mechanics", tooling_only, "ruby", "scripts/audits/audit-runtime-tools.rb")
 context_output = run("context_search", "tool_mechanics", tooling_only, "ruby", "scripts/context-search.rb", "--mode", "symbol", "--budget", "1024", "VisionConversationService")
@@ -92,4 +89,4 @@ STAGE_RESULTS.each do |stage_id, result|
   puts "STAGE class=#{result.fetch(:stage_class)} id=#{stage_id} files=#{result.fetch(:details).length}"
   result.fetch(:details).each { |detail| puts "  DETAIL id=#{stage_id} #{detail}" } if verbose
 end
-puts "Tool self-test passed (#{scope}; Ruby/Node syntax, YAML, AST, contracts, repository map, catalog, and bounded search)."
+puts "Tool self-test passed (#{scope}; Ruby/Node syntax, YAML, locked source tooling, contracts, lifecycle-aware work artifacts, catalog, and bounded search)."

@@ -7,6 +7,14 @@ ownership_catalog: docs/dora-muffinman-tool-ownership.yaml
 product_boundary_audit: scripts/audits/audit-dora-muffinman-product-boundary.rb
 fixture_trace: ruby dora/test/work_execution_test.rb
 entries:
+  - target: repository-map
+    dora_executor: bin/dora repository-map .dora/project.yaml --config .dora/repository-map.yaml
+    evidence_paths: [.dora/repository-map.yaml]
+    proof: The locked public command reads only consumer-declared backend/frontend roots and emits structural source kinds plus declared relationships.
+  - target: source-slice
+    dora_executor: bin/dora source-slice <java|typescript-vue> --project-root . --source-root <path> --seed <path> [language-specific parser inputs]
+    evidence_paths: [docs/codex-fast-path.md, docs/intellij-mcp-tool-routing.yaml]
+    proof: After consumer-owned bounded search identifies an exact seed, the locked public command returns its static import closure without exposing a package-internal tool path.
   - target: work-start
     dora_executor: bin/dora work-start .dora/project.yaml plan="$(plan)" task="$(task)"
     evidence_paths: [docs/work, docs/work/dora-muffinman-separation-execution-inventory.yaml]
@@ -21,4 +29,4 @@ invariants:
   - Product-specific audit, runtime, and capability evidence remains outside this compatibility surface.
   - Every MuffinMan audit is classified as delegated reusable mechanics, extracted reusable mechanics, or product-retained authority in the ownership catalog.
   - A product-retained audit remains because it owns product meaning, product runtime authority, historical product record, or project-specific operational input.
-  - Reusable parser implementations and static-analysis algorithms are Dora-owned; MuffinMan compatibility shells contain no reusable analysis code.
+  - Reusable parser implementations and static-analysis algorithms remain Dora-owned behind public locked commands; MuffinMan keeps no compatibility shell or package-internal path.

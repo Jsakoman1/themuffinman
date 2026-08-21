@@ -1,0 +1,16 @@
+kind: dora_repository_map
+version: 1
+source_roots:
+- id: backend
+  path: apps/themuffinman/src/main/java
+  plugins: [java_spring]
+- id: frontend
+  path: apps/themuffinman/frontend/src
+  plugins: [typescript_vue]
+relationships:
+- {from: backend, to: frontend, kind: serves}
+- {from: backend, to: documentation, kind: documented_by}
+- {from: frontend, to: documentation, kind: documented_by}
+rules:
+- Source roots and relationships are project-owned declarations.
+- Output describes source kinds and declared relationships, not symbols, call graphs, product capabilities, or runtime behavior.

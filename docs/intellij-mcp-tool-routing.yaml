@@ -22,7 +22,7 @@ intents:
     use_when: A fully qualified or uniquely named Java, Kotlin, TypeScript, or Vue symbol is known.
     preferred: IDEA search_symbol or get_symbol_info
     preconditions: [project_index_ready, project_path]
-    fallback: ruby scripts/repository-map.rb --query "SymbolName" --max-output 20000
+    fallback: make context-search mode=symbol q="SymbolName" budget=20000, then locked bin/dora source-slice with the selected exact seed when import closure is needed
     local_evidence: none; discovery only
     bounds: maxResults and compact query output budget
   - id: call_relationship
@@ -36,7 +36,7 @@ intents:
     use_when: A resolved symbol must be renamed across source references.
     preferred: IDEA rename_refactoring
     preconditions: [resolved_symbol, project_index_ready, clean_target_scope]
-    fallback: bounded manual edit after local repository-map and callsite inspection
+    fallback: bounded manual edit after locked repository-map, bounded context-search, and relevant source-slice/callsite inspection
     local_evidence: compiler/type-check and relevant targeted tests
     bounds: exact symbol target and previewed affected paths
   - id: edited_file_inspection

@@ -31,10 +31,11 @@ Focused groups:
 - `make audit-delivery-provenance` — build, generated-contract, dependency, and release-provenance integrity
 - `make system-map-impact` — advisory changed-file relationships to system-map registries and evidence sources
 - `make audit-atomic-task-hardening` — atomic task and execution-inventory shape for the retained System Map control queue
-- `make repository-map` — validates the frontend Babel AST index and JDK Java Compiler AST/source map without retaining generated output
+- `make repository-map` — runs the locked public Dora structural map over project-declared backend/frontend roots without retaining output
 - `make audit-tool-catalog` — detects local helpers that are no longer referenced by the repository control surface
 - `make audit-runtime-tools` — checks retained Chromium/runtime scripts, Playwright availability, references, and syntax without claiming live runtime proof
-- `make tool-self-test` — tests helper syntax, YAML parsing, AST indexing, repository mapping, catalog integrity, and bounded search
+- `make audit-work-artifact-schema` — strictly validates current active/draft work while reporting retained historical artifacts through the retention-policy compatibility boundary
+- `make tool-self-test` — tests helper syntax, YAML parsing, locked repository mapping/source slicing, lifecycle-aware work artifacts, catalog integrity, and bounded search
 - `make clean-generated` — remove disposable audit output, frontend build output, and temporary files
 
 Use a focused audit in a work plan when it is relevant to that change. A passing audit is evidence for that task, not a

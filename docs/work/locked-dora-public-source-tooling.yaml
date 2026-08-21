@@ -1,0 +1,188 @@
+kind: work
+version: 1
+id: locked-dora-public-source-tooling
+title: Route repository navigation through locked public Dora capabilities
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/locked-dora-audit-support-repair.yaml
+  baseline_only_surfaces:
+  - docs/work/developer-tooling-intellij-mcp-closeout-2026-07-31.yaml
+  - docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  residual_scope:
+  - Replace current repository-navigation dependencies on the removed vendored Dora
+    tree with exact locked public commands and consumer-owned bounded search.
+  retest_triggers:
+  - Changes to repository-map roots, symbol-search routing, source-slice invocation,
+    or the locked CLI launcher.
+  non_duplication_rule: Historical extraction evidence remains immutable; this task
+    updates only the current executable consumer boundary.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: wire-public-source-tooling
+  title: Replace private AST redirects with supported locked operations
+  type: implementation
+  status: done
+  observable_outcome: A fresh worker can inspect repository structure, find a known
+    symbol, and request its static source closure without a vendored dora tree or
+    package-internal path.
+  dependencies: []
+  evidence_boundary:
+  - Repository-local structural inventory, bounded search, static source closure,
+    control tests, and documentation only; no product behavior or runtime acceptance
+    claim.
+  paths:
+  - ".dora/repository-map.yaml"
+  - Makefile
+  - scripts/tool-self-test.rb
+  - scripts/verify-work.rb
+  - scripts/validate-control-sources.rb
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - test/dora_consumer_integration/dora_plugin_redirect_test.rb
+  - docs/audits.md
+  - docs/codex-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - docs/local-tool-catalog.yaml
+  - docs/dora-control-ownership-inventory.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/implementation-backlog.md
+  - scripts/repository-map.rb
+  - scripts/RepositoryJavaAstIndex.java
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - docs/work/locked-dora-public-source-tooling.yaml
+  required_paths:
+  - ".dora/repository-map.yaml"
+  - Makefile
+  - scripts/tool-self-test.rb
+  - scripts/verify-work.rb
+  - scripts/validate-control-sources.rb
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - test/dora_consumer_integration/dora_plugin_redirect_test.rb
+  - docs/audits.md
+  - docs/codex-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - docs/local-tool-catalog.yaml
+  - docs/dora-control-ownership-inventory.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/work/locked-dora-public-source-tooling.yaml
+  verifier_footprint_paths: &1
+  - ".dora/repository-map.yaml"
+  - Makefile
+  - scripts/tool-self-test.rb
+  - scripts/verify-work.rb
+  - scripts/validate-control-sources.rb
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - test/dora_consumer_integration/dora_plugin_redirect_test.rb
+  - docs/audits.md
+  - docs/codex-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - docs/local-tool-catalog.yaml
+  - docs/dora-control-ownership-inventory.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/work/locked-dora-public-source-tooling.yaml
+  validation: ruby test/dora_consumer_integration/dora_plugin_redirect_test.rb &&
+    ruby scripts/audits/audit-dora-muffinman-product-boundary.rb && ruby scripts/audits/audit-tool-catalog.rb
+    --check && ruby scripts/tool-help.rb --check && ruby scripts/validate-control-sources.rb
+    && ruby scripts/tool-self-test.rb --check-stage-contract && make audit-docs &&
+    git diff --check
+evidence:
+- task: wire-public-source-tooling
+  command: ruby test/dora_consumer_integration/dora_plugin_redirect_test.rb && ruby
+    scripts/audits/audit-dora-muffinman-product-boundary.rb && ruby scripts/audits/audit-tool-catalog.rb
+    --check && ruby scripts/tool-help.rb --check && ruby scripts/validate-control-sources.rb
+    && ruby scripts/tool-self-test.rb --check-stage-contract && make audit-docs &&
+    git diff --check
+  ranAt: '2026-08-21T13:11:03Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - Makefile
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - docs/audits.md
+  - docs/codex-fast-path.md
+  - docs/dora-control-ownership-inventory.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/implementation-backlog.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - docs/local-tool-catalog.yaml
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - scripts/repository-map.rb
+  - scripts/tool-self-test.rb
+  - scripts/validate-control-sources.rb
+  - scripts/verify-work.rb
+  - test/dora_consumer_integration/dora_plugin_redirect_test.rb
+  - ".dora/repository-map.yaml"
+  - docs/work/locked-dora-public-source-tooling.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    ".dora/repository-map.yaml": 9b1af059bc941df5ed37d71896b7960741780029837112b2928fcefc68de889e
+    Makefile: c86d3eb7c519c5367defe90e6b3f687545a8777cb9ca53e0fa55303373f471e9
+    scripts/tool-self-test.rb: 517e846033f94d0e201ce41d0c84a8e1978fd4c859201baf2f040d9380cffb60
+    scripts/verify-work.rb: cd99342625ff1359094bb03b44eb0606264ce5d87f8c2235e64ea29bd9f806c0
+    scripts/validate-control-sources.rb: fa7c4ceed5eb574d373160d14aa11035d948b653e72096d18adad98598dde63c
+    scripts/audits/audit-dora-muffinman-product-boundary.rb: ec9325b51d2a689386e2f8a820930b67fad7f43cd0996f728b7a9167f19c194c
+    test/dora_consumer_integration/dora_plugin_redirect_test.rb: 9d4b491e71354445e66b1a8a331ff431d510ab6126336d22f3ffeab07d38f303
+    docs/audits.md: e8d0447502abbbb387e656e28b40b21f5fd94d211ddb0f5023415ed1e7870e78
+    docs/codex-fast-path.md: c714c9e39b23ef4a135a14a3f61af4ac2ccf75964ecfa45de53900d7626fb2fe
+    docs/intellij-mcp-tool-routing.yaml: 7295c133d63096873696b19f033235382fa3d44853cf87fe1da9ca4abee05b06
+    docs/local-tool-catalog.yaml: 5adf71be05214483289348e608a1f92874f67572025931dcf9d6ff770d26fa69
+    docs/dora-control-ownership-inventory.yaml: 14087a0b9c535be74e73375915939baa74a4637d0dca99975b6f88734f0b4c96
+    docs/dora-muffinman-tool-ownership.yaml: 856b3b5055cd1d9ba10581366968b4f49804449ed8da3d631290b100967d5b8a
+    docs/dora-muffinman-compatibility-matrix.yaml: 3ed537603ba181b8ac33fd6bf7279cae79ddebce14e3452a8f505e299a589cb7
+    docs/implementation-backlog.md: a46809fc1b29e00766d592f944f7a3e3a6c8b5a20b9f6c6e6299f86c434c98c3
+    docs/work/locked-dora-public-source-tooling.yaml: 86b040833b0a44ba864f8289d29ddb977d3e5e6eab868c1de9398e8885098bb9
+  output: |-
+    MuffinMan locked Dora source-tooling integration test passed (public repository map, consumer search, and no package-internal redirects).
+    Dora/MuffinMan product-boundary audit passed (47 audits classified; reusable mechanics route to Dora and retained controls keep product authority).
+    Tool catalog passed (84 tools, 4 categories, 13 help commands, 0 unreferenced).
+    Tool help check passed (13 catalog commands map to Make targets).
+    Control sources valid (498 YAML files, capability and target inventories present).
+    Tool self-test stage contract passed (17 stages, tooling and product classes).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 387
+      review needed: 0
+      high priority: 0
+  requiredPaths:
+  - ".dora/repository-map.yaml"
+  - Makefile
+  - scripts/tool-self-test.rb
+  - scripts/verify-work.rb
+  - scripts/validate-control-sources.rb
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - test/dora_consumer_integration/dora_plugin_redirect_test.rb
+  - docs/audits.md
+  - docs/codex-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - docs/local-tool-catalog.yaml
+  - docs/dora-control-ownership-inventory.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/work/locked-dora-public-source-tooling.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: *1

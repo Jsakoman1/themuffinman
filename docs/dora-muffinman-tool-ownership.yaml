@@ -2,14 +2,14 @@ kind: dora_muffinman_tool_ownership
 version: 1
 policy: Every local audit is classified; extract moves reusable mechanics to Dora, delegate keeps only MuffinMan inputs and destinations, and product_retained keeps product truth or repository-specific evidence authority.
 v08_boundary:
-  parser_ownership: Dora owns the reusable Java and TypeScript/Vue AST implementations; MuffinMan retains compatibility redirects only.
+  parser_ownership: Dora owns reusable Java and TypeScript/Vue parsing behind locked public repository-map and source-slice commands; MuffinMan retains only project roots, bounded search, and task-selected seeds.
   analysis_ownership: Dora owns built-in static analysis; MuffinMan declares product roots, rules, and report destinations in .dora/plugins.yaml.
   retained_authority: MuffinMan retains product meaning, runtime evidence, historical records, and local operational inputs.
 groups:
   - id: reusable_static_analysis
     decision: delegate
     reason: Algorithms execute as Dora built-ins; MuffinMan declares only product roots, analysis inputs, and report destinations in its manifest.
-    dora_surfaces: [dora/lib/dora/builtin_plugin_runner.rb, dora/lib/dora/plugin_runner.rb, dora/lib/dora/plugin_adapter.rb]
+    public_commands: [plugin-run, repository-map, source-slice]
     manifest_required: true
     manifest_path: .dora/plugins.yaml
     wrapper_contract:
@@ -19,12 +19,12 @@ groups:
   - id: reusable_control_mechanics
     decision: extract
     reason: Plan contracts, serial integrity, package boundaries, templates, tool catalogues, and work artifacts are portable control mechanisms.
-    dora_surfaces: [bin/dora, dora/lib/dora/atomic_plan_contract.rb, dora/lib/dora/plan_coverage.rb, dora/lib/dora/serial_plan_integrity.rb, dora/lib/dora/template_freshness.rb, dora/lib/dora/tool_catalog.rb, dora/lib/dora/work_artifact_schema.rb, dora/lib/dora/work_execution.rb, dora/lib/dora/workspace_snapshot.rb]
+    public_commands: [plan-contract, plan-coverage, templates, tools, work-start, work-verify]
     audits: [audit-atomic-task-hardening.rb, audit-dora-control-ownership.rb, audit-dora-package-boundary.rb, audit-plan-coverage.rb, audit-serial-execution-inventory.rb, audit-template-freshness.rb, audit-tool-catalog.rb, audit-work-artifact-schema.rb, audit-work-plan-recursion.rb, audit-workspace-change-inventory.rb]
   - id: release_and_adapter_controls
     decision: delegate
     reason: Dora supplies release and compatibility mechanics while MuffinMan owns its chosen remote, adapter, and evidence locations.
-    dora_surfaces: [dora/lib/dora/project_bootstrap.rb, dora/lib/dora/adapter.rb, dora/lib/dora/work_execution.rb]
+    public_commands: [adopt, bootstrap, doctor, validate-adapter, work-start, work-verify]
     audits: [audit-dora-extraction-manifest.rb, audit-dora-muffinman-compatibility.rb]
   - id: historical_or_plan_specific_controls
     decision: product_retained

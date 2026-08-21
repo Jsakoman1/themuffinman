@@ -9,7 +9,6 @@ require "open3"
 require "tempfile"
 require "time"
 require "yaml"
-require_relative "../dora/lib/dora/report_writer"
 
 module AuditSupport
   REPO_ROOT = File.expand_path("..", __dir__)
@@ -29,12 +28,28 @@ module AuditSupport
     path
   end
 
-  def write_json(relative_path, payload)
-    Dora::ReportWriter.write_json!(root: REPO_ROOT, relative_path: relative_path, payload: payload)
+  def write_json(relative_path, payload, root: REPO_ROOT)
+    write_report(relative_path, JSON.pretty_generate(payload) + "\n", root: root)
   end
 
-  def write_text(relative_path, content)
-    Dora::ReportWriter.write_text!(root: REPO_ROOT, relative_path: relative_path, content: content)
+  def write_text(relative_path, content, root: REPO_ROOT)
+    raise ArgumentError, "report content must be a string" unless content.is_a?(String)
+
+    write_report(relative_path, content, root: root)
+  end
+
+  def write_report(relative_path, content, root: REPO_ROOT)
+    unless relative_path.is_a?(String) && !relative_path.empty? && !relative_path.start_with?("/") && !relative_path.split("/").include?("..")
+      raise ArgumentError, "report path must be project-relative"
+    end
+
+    project_root = File.expand_path(root)
+    destination = File.expand_path(relative_path, project_root)
+    raise ArgumentError, "report path resolves outside project root" unless destination.start_with?("#{project_root}/")
+
+    FileUtils.mkdir_p(File.dirname(destination))
+    atomic_write(destination, content)
+    relative_path
   end
 
   def atomic_write(absolute_path, content)

@@ -68,6 +68,13 @@ verified review candidates. It never deletes a work artifact or changes verifier
 status. Any cleanup requires a separate user-authorized plan with an exact manifest
 and a fresh reference check immediately before deletion.
 
+`make audit-work-artifact-schema` reuses that retention classification. Executable
+`active` or `draft` artifacts receive the current strict schema checks. Explicit
+historical kinds and retained executable evidence receive only the historical
+compatibility contract (`kind` and `version`); they remain counted and inspectable,
+but their obsolete task shape does not redefine current tool health. Unknown kinds,
+malformed history, and malformed current work still fail.
+
 ## States
 
 `draft -> active -> verified` is the normal path. A plan may be `deferred` when its remaining work requires an

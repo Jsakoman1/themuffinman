@@ -33,3 +33,8 @@ candidate_contract:
   requires_reference_recheck_immediately_before_cleanup: true
   deletion_authority: separate_user_authorized_cleanup_task
   completion_authority: repository work verifier
+validation_projection:
+  current_strict_classes: [active_or_draft]
+  historical_compatibility_classes: [historical_contract, externally_referenced_verified, unreferenced_verified, other_status]
+  historical_minimum_fields: [kind, version]
+  rule: Retention classification selects the validation boundary; it never changes lifecycle status or completion evidence.

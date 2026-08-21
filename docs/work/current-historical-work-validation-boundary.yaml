@@ -1,0 +1,110 @@
+kind: work
+version: 1
+id: current-historical-work-validation-boundary
+title: Keep current work validation strict without invalidating retained history
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+authority_boundary: This local tooling task may compose the existing work-artifact
+  retention classification with schema validation. It cannot rewrite historical artifacts,
+  change lifecycle status, delete retained evidence, or infer completion.
+tasks:
+- id: compose-retention-aware-validation
+  title: Select strict or compatibility validation from canonical retention truth
+  type: implementation
+  status: done
+  observable_outcome: Current active and draft work remains subject to the current
+    strict contract, while retained historical artifacts remain visible under an explicit
+    minimum compatibility boundary and unknown artifacts fail closed.
+  dependencies: []
+  evidence_boundary:
+  - Repository-local fixtures, the complete current work-artifact corpus, and the
+    whole-tooling suite only; no artifact rewrite, deletion, product-runtime claim,
+    lifecycle promotion, or release claim.
+  paths: &1
+  - docs/audits.md
+  - docs/implementation-control.md
+  - docs/work-artifact-retention-policy.yaml
+  - docs/work-artifact-schema.yaml
+  - scripts/work_artifact_retention.rb
+  - scripts/audits/audit-work-artifact-retention.rb
+  - scripts/audits/audit-work-artifact-schema.rb
+  - scripts/tool-self-test.rb
+  - docs/work/current-historical-work-validation-boundary.yaml
+  required_paths: *1
+  verifier_footprint_paths: *1
+  validation: ruby scripts/audits/audit-work-artifact-retention.rb --check-fixtures
+    && ruby scripts/audits/audit-work-artifact-schema.rb --check-fixtures && ruby
+    scripts/audits/audit-work-artifact-schema.rb && ruby scripts/tool-self-test.rb
+    --check-stage-contract && make tool-self-test && git diff --check
+evidence:
+- task: compose-retention-aware-validation
+  command: ruby scripts/audits/audit-work-artifact-retention.rb --check-fixtures &&
+    ruby scripts/audits/audit-work-artifact-schema.rb --check-fixtures && ruby scripts/audits/audit-work-artifact-schema.rb
+    && ruby scripts/tool-self-test.rb --check-stage-contract && make tool-self-test
+    && git diff --check
+  ranAt: '2026-08-21T13:13:31Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/audits.md
+  - docs/implementation-control.md
+  - docs/work-artifact-retention-policy.yaml
+  - docs/work-artifact-schema.yaml
+  - scripts/audits/audit-work-artifact-retention.rb
+  - scripts/audits/audit-work-artifact-schema.rb
+  - scripts/tool-self-test.rb
+  - docs/work/current-historical-work-validation-boundary.yaml
+  - scripts/work_artifact_retention.rb
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/audits.md: e8d0447502abbbb387e656e28b40b21f5fd94d211ddb0f5023415ed1e7870e78
+    docs/implementation-control.md: 7b575fae8f73684cb9f04f06cd8ee5d705f491db20422e323fa13c794a4c7211
+    docs/work-artifact-retention-policy.yaml: 9d18c5969a0d02e7337c30d89241c36752e203443e4e97a0ba3968e011fbcb0f
+    docs/work-artifact-schema.yaml: 4d435f308cae22586c22d4669aa52b55d227445a4e67af52052cfdddbffb4d3f
+    scripts/work_artifact_retention.rb: ec3fb649622cfa8405fb0e204ea6edb7bd2860f6e8adbef9d5bd7080a02ea7a3
+    scripts/audits/audit-work-artifact-retention.rb: 3cb7e70d824020913d68c447640418e4084fc473b5ea87ef0f440cfdc28c66f1
+    scripts/audits/audit-work-artifact-schema.rb: 69ccf9c4a7b5fa76156d78e5ba1f43bd3248cef9469723f93720baed6d51ab22
+    scripts/tool-self-test.rb: 517e846033f94d0e201ce41d0c84a8e1978fd4c859201baf2f040d9380cffb60
+    docs/work/current-historical-work-validation-boundary.yaml: ddfa588769d102f185216f5000d7d0f03f6c0841e0094b86737af1dd59e99976
+  output: |-
+    ruby scripts/tool-self-test.rb
+    STAGE class=tool_mechanics id=ruby_syntax files=60
+    STAGE class=tool_mechanics id=frontend_script_syntax files=24
+    STAGE class=tool_mechanics id=yaml_parse files=499
+    STAGE class=product_contract id=generated_contracts files=1
+    STAGE class=product_contract id=web_surface_contract files=1
+    STAGE class=product_contract id=admin_agent_scenarios files=1
+    STAGE class=product_contract id=modern_surface_contract files=1
+    STAGE class=tool_mechanics id=repository_map files=1
+    STAGE class=tool_mechanics id=repository_map_query files=1
+    STAGE class=tool_mechanics id=source_slice files=1
+    STAGE class=tool_mechanics id=tool_catalog files=1
+    STAGE class=tool_mechanics id=runtime_tools files=1
+    STAGE class=tool_mechanics id=context_search files=1
+    STAGE class=tool_mechanics id=change_validation files=1
+    STAGE class=tool_mechanics id=template_freshness files=1
+    STAGE class=tool_mechanics id=work_artifact_schema files=1
+    STAGE class=tool_mechanics id=tool_help files=1
+    Tool self-test passed (all stages; Ruby/Node syntax, YAML, locked source tooling, contracts, lifecycle-aware work artifacts, catalog, and bounded search).
+  requiredPaths:
+  - docs/audits.md
+  - docs/implementation-control.md
+  - docs/work-artifact-retention-policy.yaml
+  - docs/work-artifact-schema.yaml
+  - scripts/work_artifact_retention.rb
+  - scripts/audits/audit-work-artifact-retention.rb
+  - scripts/audits/audit-work-artifact-schema.rb
+  - scripts/tool-self-test.rb
+  - docs/work/current-historical-work-validation-boundary.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: *1

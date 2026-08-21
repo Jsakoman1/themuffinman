@@ -52,7 +52,8 @@ commands:
   - {id: context_search, target: context-search, purpose: Read a bounded source and canonical-document context pack., preconditions: [query], expected_cost: short}
   - {id: change_validation, target: change-validation, purpose: Select advisory leaf validations for explicit changed paths., preconditions: [repository_relative_paths], expected_cost: instant}
   - {id: workspace_change_report, target: workspace-change-report, purpose: Classify the current dirty worktree without modifying it., preconditions: [repository_root], expected_cost: short}
-  - {id: repository_map, target: repository-map, purpose: Validate or query compact repository structure., preconditions: [repository_root], expected_cost: short}
+  - {id: repository_map, target: repository-map, purpose: Validate project-declared structure through the locked public Dora command., preconditions: [repository_root, locked_dora], expected_cost: short}
+  - {id: source_slice, target: source-slice, purpose: Return a static import closure through locked Dora after bounded search identifies an exact seed., preconditions: [repository_root, locked_dora, language, source_root, seed], expected_cost: short}
   - {id: tool_self_test, target: tool-self-test, purpose: Validate repository tooling and product-contract stages., preconditions: [node_dependencies], expected_cost: medium}
   - {id: work_start, target: work-start, purpose: Snapshot one serial task before implementation., preconditions: [plan, task], expected_cost: instant}
   - {id: work_verify, target: work-verify, purpose: Run one task leaf validation and record bounded evidence., preconditions: [plan], expected_cost: command_specific}

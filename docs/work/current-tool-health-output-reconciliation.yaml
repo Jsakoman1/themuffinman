@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: current-tool-health-output-reconciliation
+title: Align the whole-tooling success contract with the active public source path
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+tasks:
+- id: reconcile-tool-health-output
+  title: Replace the obsolete AST success label with the validated current tooling
+    boundary
+  type: implementation
+  status: done
+  observable_outcome: The whole-tooling success output names locked source tooling
+    and lifecycle-aware work-artifact validation instead of removed AST wrappers.
+  dependencies: []
+  evidence_boundary:
+  - CLI wording and the passing repository tooling suite only; no product-runtime
+    or release claim.
+  paths:
+  - scripts/tool-self-test.rb
+  - docs/work/current-tool-health-output-reconciliation.yaml
+  required_paths:
+  - scripts/tool-self-test.rb
+  verifier_footprint_paths: &1
+  - scripts/tool-self-test.rb
+  validation: ruby scripts/tool-self-test.rb --check-stage-contract && make tool-self-test
+    && git diff --check
+evidence:
+- task: reconcile-tool-health-output
+  command: ruby scripts/tool-self-test.rb --check-stage-contract && make tool-self-test
+    && git diff --check
+  ranAt: '2026-08-21T13:11:16Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - scripts/tool-self-test.rb
+  - docs/work/current-tool-health-output-reconciliation.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    scripts/tool-self-test.rb: 517e846033f94d0e201ce41d0c84a8e1978fd4c859201baf2f040d9380cffb60
+  output: |-
+    ruby scripts/tool-self-test.rb
+    STAGE class=tool_mechanics id=ruby_syntax files=60
+    STAGE class=tool_mechanics id=frontend_script_syntax files=24
+    STAGE class=tool_mechanics id=yaml_parse files=498
+    STAGE class=product_contract id=generated_contracts files=1
+    STAGE class=product_contract id=web_surface_contract files=1
+    STAGE class=product_contract id=admin_agent_scenarios files=1
+    STAGE class=product_contract id=modern_surface_contract files=1
+    STAGE class=tool_mechanics id=repository_map files=1
+    STAGE class=tool_mechanics id=repository_map_query files=1
+    STAGE class=tool_mechanics id=source_slice files=1
+    STAGE class=tool_mechanics id=tool_catalog files=1
+    STAGE class=tool_mechanics id=runtime_tools files=1
+    STAGE class=tool_mechanics id=context_search files=1
+    STAGE class=tool_mechanics id=change_validation files=1
+    STAGE class=tool_mechanics id=template_freshness files=1
+    STAGE class=tool_mechanics id=work_artifact_schema files=1
+    STAGE class=tool_mechanics id=tool_help files=1
+    Tool self-test passed (all stages; Ruby/Node syntax, YAML, locked source tooling, contracts, lifecycle-aware work artifacts, catalog, and bounded search).
+  requiredPaths:
+  - scripts/tool-self-test.rb
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: *1

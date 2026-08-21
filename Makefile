@@ -1,6 +1,6 @@
 SHELL := /bin/zsh
 
-.PHONY: help dev dev-stop dev-doctor clean-generated control-check audit-atomic-task-hardening context-search repository-map change-validation workspace-change-report audit-tool-catalog audit-template-freshness audit-work-artifact-schema audit-work-artifact-retention audit-intellij-mcp-routing tool-self-test
+.PHONY: help dev dev-stop dev-doctor clean-generated control-check audit-atomic-task-hardening context-search repository-map source-slice change-validation workspace-change-report audit-tool-catalog audit-template-freshness audit-work-artifact-schema audit-work-artifact-retention audit-intellij-mcp-routing tool-self-test
 
 help:
 	ruby scripts/tool-help.rb
@@ -37,7 +37,11 @@ context-search:
 	ruby scripts/context-search.rb $(if $(mode),--mode "$(mode)") --budget "$(or $(budget),12000)" --max-files "$(or $(files),12)" --max-lines "$(or $(lines),8)" "$(q)"
 
 repository-map:
-	@ruby scripts/repository-map.rb $(if $(q),--query "$(q)" --max-output "$(or $(budget),20000)",--check)
+	@if [ -n "$(q)" ]; then ruby scripts/context-search.rb --mode symbol --budget "$(or $(budget),20000)" "$(q)"; else bin/dora repository-map .dora/project.yaml --config .dora/repository-map.yaml; fi
+
+source-slice:
+	@if [ -z "$(language)" ] || [ -z "$(source_root)" ] || [ -z "$(seed)" ]; then echo 'usage: make source-slice language=<java|typescript-vue> source_root=<path> seed=<path> [package_root=<path> parser_module=<module>]'; exit 1; fi
+	@bin/dora source-slice "$(language)" --project-root . --source-root "$(source_root)" --seed "$(seed)" $(if $(package_root),--package-root "$(package_root)") $(if $(parser_module),--parser-module "$(parser_module)") --format yaml
 
 change-validation:
 	ruby scripts/change-validation.rb $(paths)

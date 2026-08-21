@@ -13,12 +13,11 @@ required_files = %w[
   scripts/verify-work.rb
   scripts/audits/audit-atomic-task-hardening.rb
   scripts/context-search.rb
-  scripts/repository-map.rb
   scripts/tool-self-test.rb
   scripts/audits/audit-tool-catalog.rb
   scripts/audits/audit-runtime-tools.rb
-  scripts/RepositoryJavaAstIndex.java
-  apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  .dora/repository-map.yaml
+  bin/dora
   apps/themuffinman/frontend/package.json
 ]
 

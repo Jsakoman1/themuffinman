@@ -3,48 +3,17 @@
 
 require "yaml"
 require "time"
+require_relative "../work_artifact_retention"
 
 ROOT = File.expand_path("../..", __dir__)
 POLICY_PATH = File.join(ROOT, "docs/work-artifact-retention-policy.yaml")
 
-def executable_kind?(kind)
-  %w[work master execution-inventory execution_inventory].include?(kind)
-end
-
-def classification(artifact, externally_referenced)
-  kind = artifact["kind"]
-  status = artifact["status"]
-  return "historical_contract" unless executable_kind?(kind)
-  return "active_or_draft" if %w[active draft].include?(status)
-  return "externally_referenced_verified" if status == "verified" && externally_referenced
-  return "unreferenced_verified" if status == "verified"
-
-  "other_status"
-end
-
-def reference_sources
-  paths = [File.join(ROOT, "AGENTS.md"), File.join(ROOT, "Makefile")]
-  paths.concat(Dir[File.join(ROOT, "scripts/**/*")])
-  paths.concat(Dir[File.join(ROOT, "docs/**/*")].reject do |path|
-    path.start_with?(File.join(ROOT, "docs/work/"), File.join(ROOT, "docs/audit-output/"), File.join(ROOT, "docs/runtime-evidence/"))
-  end)
-  paths.select { |path| File.file?(path) }
-end
-
-def referenced_paths
-  corpus = reference_sources.map { |path| File.read(path, mode: "rb").force_encoding("UTF-8") }.join("\n")
-  Dir[File.join(ROOT, "docs/work/*.yaml")].each_with_object({}) do |path, result|
-    relative = path.delete_prefix("#{ROOT}/")
-    result[relative] = corpus.include?(relative)
-  end
-end
-
 def report
-  references = referenced_paths
+  references = WorkArtifactRetention.referenced_paths(ROOT)
   entries = Dir[File.join(ROOT, "docs/work/*.yaml")].sort.map do |path|
     artifact = YAML.load_file(path)
     relative = path.delete_prefix("#{ROOT}/")
-    category = classification(artifact, references.fetch(relative))
+    category = WorkArtifactRetention.classification(artifact, references.fetch(relative))
     {
       "path" => relative,
       "id" => artifact["id"],
@@ -88,7 +57,7 @@ def verify_report(path)
   failures << "report entries are not sorted" unless entries.map { |entry| entry["path"] } == entries.map { |entry| entry["path"] }.sort
   failures << "report summary disagrees" unless document["summary"] == entries.group_by { |entry| entry.fetch("classification") }.transform_values(&:length).sort.to_h
   entries.each do |entry|
-    expected = classification({ "kind" => entry["kind"], "status" => entry["status"] }, entry["externally_referenced"])
+    expected = WorkArtifactRetention.classification({ "kind" => entry["kind"], "status" => entry["status"] }, entry["externally_referenced"])
     failures << "invalid classification for #{entry["path"]}" unless entry["classification"] == expected
     expected_action = expected == "unreferenced_verified" ? "review_candidate" : "retain"
     failures << "invalid action for #{entry["path"]}" unless entry["action"] == expected_action
@@ -99,10 +68,10 @@ def verify_report(path)
 end
 
 if ARGV == ["--check-fixtures"]
-  abort "active fixture failed" unless classification({ "kind" => "work", "status" => "active" }, false) == "active_or_draft"
-  abort "historical fixture failed" unless classification({ "kind" => "runtime_scenario_catalog", "status" => "reviewed" }, false) == "historical_contract"
-  abort "referenced fixture failed" unless classification({ "kind" => "work", "status" => "verified" }, true) == "externally_referenced_verified"
-  abort "candidate fixture failed" unless classification({ "kind" => "work", "status" => "verified" }, false) == "unreferenced_verified"
+  abort "active fixture failed" unless WorkArtifactRetention.classification({ "kind" => "work", "status" => "active" }, false) == "active_or_draft"
+  abort "historical fixture failed" unless WorkArtifactRetention.classification({ "kind" => "runtime_scenario_catalog", "status" => "reviewed" }, false) == "historical_contract"
+  abort "referenced fixture failed" unless WorkArtifactRetention.classification({ "kind" => "work", "status" => "verified" }, true) == "externally_referenced_verified"
+  abort "candidate fixture failed" unless WorkArtifactRetention.classification({ "kind" => "work", "status" => "verified" }, false) == "unreferenced_verified"
   puts "Work-artifact retention fixtures passed (active, historical, referenced, and candidate classes)."
   exit 0
 end

@@ -47,12 +47,11 @@ rules:
       - script:scripts/change-validation.rb
       - script:scripts/clean-generated-artifacts.rb
       - script:scripts/context-search.rb
-      - script:scripts/repository-map.rb
+      - config:.dora/repository-map.yaml
       - script:scripts/todo-audit.rb
       - script:scripts/tool-help.rb
       - script:scripts/tool-self-test.rb
       - script:scripts/validate-control-sources.rb
-      - script:scripts/RepositoryJavaAstIndex.java
       - script:scripts/audits/audit-canonical-source-integrity.rb
       - script:scripts/audits/audit-dora-control-ownership.rb
       - script:scripts/audits/audit-dora-muffinman-compatibility.rb

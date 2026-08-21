@@ -1,0 +1,82 @@
+kind: work
+version: 1
+id: locked-dora-audit-support-repair
+title: Restore documentation audits after locked Dora migration
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/vision-direct-message-runtime-verified-closeout.yaml
+  baseline_only_surfaces:
+  - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+  - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+  residual_scope:
+  - Remove the obsolete vendored-Dora ReportWriter dependency from repository-owned
+    audit output writing.
+  retest_triggers:
+  - Changes to AuditSupport report-path containment or serialization.
+  non_duplication_rule: The product runtime proof remains verified baseline; this
+    repair owns only repository-local audit output writing.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: restore-locked-cli-audits
+  title: Make repository audits independent of removed vendored Dora source
+  type: implementation
+  status: done
+  observable_outcome: AuditSupport writes bounded JSON and text reports atomically
+    without requiring an unsupported Dora package library path, and the documentation
+    audit passes.
+  dependencies: []
+  evidence_boundary:
+  - Focused local writer contract and repository documentation audit only; no Dora
+    lock rotation or product behavior claim.
+  paths: &1
+  - scripts/audit_support.rb
+  - test/audit_support_test.rb
+  - docs/work/locked-dora-audit-support-repair.yaml
+  required_paths: *1
+  validation: ruby test/audit_support_test.rb && make audit-docs
+evidence:
+- task: restore-locked-cli-audits
+  command: ruby test/audit_support_test.rb && make audit-docs
+  ranAt: '2026-08-21T09:49:47Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - scripts/audit_support.rb
+  - docs/work/locked-dora-audit-support-repair.yaml
+  - test/audit_support_test.rb
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    scripts/audit_support.rb: 05c525f94c3c0bf8aefc32b1d7c5f80030290019ed9d7fe942280eb68546152d
+    test/audit_support_test.rb: 5e82ca775071d5891783fd5caef112423ce6d3dd10d057512ed6531055f36d81
+    docs/work/locked-dora-audit-support-repair.yaml: c55319a0383209c38a6c08b0847d4069442a72abf9e3cdc047f99ce4a1322181
+  output: |-
+    Audit support test passed (local atomic reports preserve serialization and path containment without vendored Dora source).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 385
+      review needed: 0
+      high priority: 0
+  requiredPaths:
+  - scripts/audit_support.rb
+  - test/audit_support_test.rb
+  - docs/work/locked-dora-audit-support-repair.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: []
