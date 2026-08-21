@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: business-resource-contract-v1
+title: Complete typed Business resource configuration contract
+status: superseded
+baseline: 551c045acccd1b4abf7e6e1b6ba9a7ed6bdcfde7
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-resource-contract-v1-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-human-first-service-setup.yaml
+  baseline_only_surfaces:
+  - Existing resource allocation and booking-conflict behavior.
+  - Existing Business service setup and schema editor runtime evidence.
+  residual_scope:
+  - Replace raw resource configuration maps with typed owner contracts and complete
+    the existing backend and client mutation surface.
+  retest_triggers:
+  - Changes to resource pool, resource, offering requirement, or booking assignment
+    contracts.
+  non_duplication_rule: Prior Business UX and booking evidence remains baseline-only;
+    this slice proves the typed owner resource contract, not a new browser workflow.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: complete-business-resource-contract
+  inventory_item: typed-business-resource-contract
+  title: Complete typed Business resource configuration contract
+  type: implementation
+  status: superseded
+  observable_outcome: Business owners can read, create, update, and delete typed resource
+    pools, resources, and offering requirements through owner-scoped backend operations,
+    and the Web client no longer uses raw request or response maps.
+  dependencies: []
+  evidence_boundary:
+  - Local backend unit tests, frontend type-check/build, and documentation audits
+    only.
+  - No browser usability, provider, deployment, production data, or booking-runtime
+    claim.
+  paths: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessResourceController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceConfigurationDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourcePoolResponseDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceResponseDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequirementResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourcePoolRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequirementRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessResourceServiceTest.java
+    - apps/themuffinman/frontend/src/contracts/index.ts - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/business-resource-contract-v1.yaml
+  - docs/work/business-resource-contract-v1-inventory.yaml
+  required_paths: *1
+  verifier_footprint_paths: *1
+  validation: make backend-test && make frontend-type-check && make frontend-build
+    && make audit-docs && git diff --check
+  started_at: '2026-08-21T17:28:22Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessResourceController.java: 6a46dc43481eeb7e6eaff14d513b80b5344c81ac11ba081c6218d3e7fbb52921
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceService.java: 54854f9a0d41f2b1ab34d66dde850862b756f9cd3297796e24a40aae59e11a29
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceConfigurationDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourcePoolRequestDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequestDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequirementRequestDTO.java: __missing__
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessResourceServiceTest.java: __missing__
+    apps/themuffinman/frontend/src/contracts/index.ts: e892c826a2f79efdc8bd977650a701bf08b7d44d89a7177ea733a9b290dedef1
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 8145deca00bc4eb9b829ad078b7ef6b763d7850970f6af47c1db65259a090efa
+    docs/business-logic.md: 7ef179ae05c0f53d3fabf88e4f71973cb4afef545b88e0c827fb0d72ba3d1ddc
+    docs/domain-technical.md: 942f1587964c82f534127e2254068eec28a4f58922a44e67a566c95bbfeba410
+    docs/implementation-backlog.md: a46809fc1b29e00766d592f944f7a3e3a6c8b5a20b9f6c6e6299f86c434c98c3
+    docs/work/business-resource-contract-v1.yaml: 47718f6958e9df3630c9960758c800f2e153b27d8155ebc23d7591e7f3d8dc88
+    docs/work/business-resource-contract-v1-inventory.yaml: 73e160428980e808c5e1b41483855cc6bf37bd7aa1ff20505f7045ef1f62f2de
+  start_verifier_footprint_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessResourceController.java: 6a46dc43481eeb7e6eaff14d513b80b5344c81ac11ba081c6218d3e7fbb52921
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceService.java: 54854f9a0d41f2b1ab34d66dde850862b756f9cd3297796e24a40aae59e11a29
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceConfigurationDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourcePoolRequestDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequestDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessResourceRequirementRequestDTO.java: __missing__
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessResourceServiceTest.java: __missing__
+    apps/themuffinman/frontend/src/contracts/index.ts: e892c826a2f79efdc8bd977650a701bf08b7d44d89a7177ea733a9b290dedef1
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 8145deca00bc4eb9b829ad078b7ef6b763d7850970f6af47c1db65259a090efa
+    docs/business-logic.md: 7ef179ae05c0f53d3fabf88e4f71973cb4afef545b88e0c827fb0d72ba3d1ddc
+    docs/domain-technical.md: 942f1587964c82f534127e2254068eec28a4f58922a44e67a566c95bbfeba410
+    docs/implementation-backlog.md: a46809fc1b29e00766d592f944f7a3e3a6c8b5a20b9f6c6e6299f86c434c98c3
+    docs/work/business-resource-contract-v1.yaml: 47718f6958e9df3630c9960758c800f2e153b27d8155ebc23d7591e7f3d8dc88
+    docs/work/business-resource-contract-v1-inventory.yaml: 73e160428980e808c5e1b41483855cc6bf37bd7aa1ff20505f7045ef1f62f2de
+  start_workspace_paths:
+  - docs/work/business-resource-contract-v1-inventory.yaml
+  - docs/work/business-resource-contract-v1.yaml
+  start_workspace_fingerprints:
+    docs/work/business-resource-contract-v1-inventory.yaml: 73e160428980e808c5e1b41483855cc6bf37bd7aa1ff20505f7045ef1f62f2de
+    docs/work/business-resource-contract-v1.yaml: 47718f6958e9df3630c9960758c800f2e153b27d8155ebc23d7591e7f3d8dc88
+  blocked_at: '2026-08-21T17:36:50Z'
+  superseded_at: '2026-08-21T17:38:48Z'
+evidence:
+- task: complete-business-resource-contract
+  result: failed
+  failure_category: verification_rejected_before_leaf
+  recorded_at: '2026-08-21T17:36:50Z'
+  raw_output_retained: false
+superseded_by: docs/work/business-resource-contract-v1-verification.yaml
+superseded_at: '2026-08-21T17:38:48Z'

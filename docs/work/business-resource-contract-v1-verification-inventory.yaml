@@ -1,0 +1,17 @@
+kind: execution_inventory
+version: 1
+id: business-resource-contract-v1-verification-execution
+master_plan: docs/work/business-resource-contract-v1-verification.yaml
+items:
+- id: typed-business-resource-contract-verification
+  order: 1
+  plan: docs/work/business-resource-contract-v1-verification.yaml
+  task: verify-business-resource-contract
+  status: verified
+  started_at: '2026-08-21T17:39:50Z'
+  verified_at: '2026-08-21T17:40:42Z'
+  evidence:
+    plan: docs/work/business-resource-contract-v1-verification.yaml
+    task: verify-business-resource-contract
+    revision: 551c045acccd1b4abf7e6e1b6ba9a7ed6bdcfde7
+state: verified

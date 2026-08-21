@@ -70,6 +70,9 @@ import type {
   BusinessOfferingSchemaDTO,
   BusinessOfferingSetupDTO,
   BusinessResourceConfigurationDTO,
+  BusinessResourcePoolRequestDTO,
+  BusinessResourceRequestDTO,
+  BusinessResourceRequirementRequestDTO,
   BusinessPublicQuoteDTO,
   BusinessAvailabilityWindowDTO,
   BusinessPublicAvailabilityCalendarDTO,
@@ -506,14 +509,33 @@ export const userShellApi = {
   async getBusinessResources(profileId: number): Promise<BusinessResourceConfigurationDTO> {
     return (await api.get<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/me`, withAuth())).data
   },
-  async createBusinessResourcePool(profileId: number, request: Record<string, unknown>): Promise<BusinessResourceConfigurationDTO> {
+  async createBusinessResourcePool(profileId: number, request: BusinessResourcePoolRequestDTO): Promise<BusinessResourceConfigurationDTO> {
     return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/pools/me`, request, withAuth())).data
   },
-  async createBusinessResource(profileId: number, request: Record<string, unknown>): Promise<BusinessResourceConfigurationDTO> {
+  async updateBusinessResourcePool(profileId: number, poolId: number, request: BusinessResourcePoolRequestDTO): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.put<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/pools/${poolId}/me`, request, withAuth())).data
+  },
+  async deleteBusinessResourcePool(profileId: number, poolId: number): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.delete<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/pools/${poolId}/me`, withAuth())).data
+  },
+  async createBusinessResource(profileId: number, request: BusinessResourceRequestDTO): Promise<BusinessResourceConfigurationDTO> {
     return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/resources/me`, request, withAuth())).data
   },
-  async createBusinessResourceRequirement(profileId: number, request: Record<string, unknown>): Promise<BusinessResourceConfigurationDTO> {
+  async updateBusinessResource(profileId: number, resourceId: number, request: BusinessResourceRequestDTO): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.put<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/resources/${resourceId}/me`, request, withAuth())).data
+  },
+  async deleteBusinessResource(profileId: number, resourceId: number): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.delete<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/resources/${resourceId}/me`, withAuth())).data
+  },
+  async createBusinessResourceRequirement(profileId: number, request: Omit<BusinessResourceRequirementRequestDTO, "businessOfferingId"> & {businessOfferingId: number | null}): Promise<BusinessResourceConfigurationDTO> {
+    if (request.businessOfferingId == null) throw new Error("Choose a service before adding a resource requirement")
     return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/requirements/me`, request, withAuth())).data
+  },
+  async updateBusinessResourceRequirement(profileId: number, requirementId: number, request: BusinessResourceRequirementRequestDTO): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.put<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/requirements/${requirementId}/me`, request, withAuth())).data
+  },
+  async deleteBusinessResourceRequirement(profileId: number, requirementId: number): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.delete<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/requirements/${requirementId}/me`, withAuth())).data
   },
 
   async getBusinessAvailabilityRules(businessProfileId?: number): Promise<BusinessAvailabilityRuleListResponseDTO> {

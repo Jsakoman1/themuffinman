@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: business-resource-contract-yaml-correction
+title: Correct Business resource contract YAML route syntax
+status: verified
+baseline: 551c045acccd1b4abf7e6e1b6ba9a7ed6bdcfde7
+strict_verification: false
+serial_task_execution: false
+control_class: fast_change
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-resource-contract-v1-verification.yaml
+  baseline_only_surfaces:
+  - Verified Business resource implementation and validation evidence.
+  residual_scope:
+  - Quote route templates so the machine-readable contract parses under repository
+    YAML validation.
+  retest_triggers:
+  - Changes to the Business resource contract route declarations.
+  non_duplication_rule: This correction proves YAML/control validity only and does
+    not repeat product validation.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: quote-business-resource-routes
+  title: Quote templated API paths in the YAML contract
+  type: docs-only
+  status: done
+  observable_outcome: The Business resource contract parses as YAML and the compact
+    repository control check passes.
+  dependencies: []
+  evidence_boundary:
+  - YAML parsing, repository controls, and diff hygiene only; no new product or runtime
+    claim.
+  paths:
+  - docs/business-resource-contract.yaml
+  - docs/work/business-resource-contract-yaml-correction.yaml
+  required_paths:
+  - docs/business-resource-contract.yaml
+  validation: ruby -ryaml -e 'YAML.load_file("docs/business-resource-contract.yaml")'
+    && make control-check && git diff --check
+evidence:
+- task: quote-business-resource-routes
+  command: ruby -ryaml -e 'YAML.load_file("docs/business-resource-contract.yaml")'
+    && make control-check && git diff --check
+  ranAt: '2026-08-21T17:41:58Z'
+  revision: 551c045acccd1b4abf7e6e1b6ba9a7ed6bdcfde7
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/business-resource-contract.yaml
+  - docs/work/business-resource-contract-yaml-correction.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/business-resource-contract.yaml: b6589f559c480aaacdeaf8051f8f643e85f2191cf951b9e5b3abcf0923e94af4
+  output: |2-
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    /Library/Developer/CommandLineTools/usr/bin/make audit-canonical-source-integrity
+    {"kind"=>"architecture-integrity-report", "path"=>"docs/audit-output/dora/canonical-source-integrity.json"}
+    /Library/Developer/CommandLineTools/usr/bin/make audit-capability-evidence
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 71
+      pending runtime scenarios: 14
+      passed evidence paths checked: 71
+    /Library/Developer/CommandLineTools/usr/bin/make audit-runtime-acceptance
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (71 passed, 14 pending runtime scenarios).
+    /Library/Developer/CommandLineTools/usr/bin/make clean-generated
+    ruby scripts/clean-generated-artifacts.rb
+    Removed 4 generated/transient artifacts.
+    - docs/audit-output/docs-as-tests-summary.md
+    - docs/audit-output/docs-as-tests.json
+    - docs/audit-output/dora/canonical-source-integrity.json
+    - apps/themuffinman/frontend/dist/

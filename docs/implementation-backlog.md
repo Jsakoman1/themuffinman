@@ -7,6 +7,7 @@ listed in `docs/implementation-control.md`.
 ## Recently completed
 
 - `AUTH-FOUNDATION-V0-3-CONSUMER-ADOPTION` Verified local slice: registration and password reset use the shared Auth Foundation v0.3 single-factor policy while JWT, token revocation, recovery-token lifecycle, persistence, and login compatibility remain TheMuffinMan-owned. Remote package resolution remains a GitHub Actions secret boundary.
+- `ENTITY-SURFACE-RESOURCE-CONTRACT-001` Typed local slice: Business resource pools, resources, and offering requirements use owner-scoped read/create/update/delete backend contracts and typed Web-client requests. A separate presentation slice is still required before the owner surface offers complete editing controls.
 
 ## Open follow-ups
 
@@ -19,8 +20,6 @@ listed in `docs/implementation-control.md`.
   booking rules, hours, and customer booking journeys so ordinary businesses can
   publish and accept appointments without understanding internal booking-engine terms.
 - SIDEJOBS-HUMAN-FIRST-001: execute the prepared `docs/work/sidejobs-human-first-master.yaml` to replace Work/Quest-facing language with SideJobs, publish backend-prepared human summaries, and simplify discovery, posting, requests, and owner decisions without renaming persisted Quest storage in the first migration.
-- ENTITY-SURFACE-RESOURCE-CONTRACT-001: define a typed Business resource configuration contract
-  before exposing a complete Web edit surface.
 - RUNTIME-PENDING-TRIAGE-001: keep the 14 explicitly pending runtime boundaries classified in
   `docs/runtime-acceptance-matrix.yaml` and its runtime closeout registry.
 - VISION-PROMPT-010: retain the remaining real-provider and production-provider evidence boundary.

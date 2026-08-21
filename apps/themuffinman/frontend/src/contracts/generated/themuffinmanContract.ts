@@ -989,6 +989,71 @@ export interface BusinessRatingSummaryDTO {
   reviewCount: number
 }
 
+export interface BusinessResourceConfigurationDTO {
+  businessProfileId: number
+  pools: BusinessResourcePoolResponseDTO[]
+  resources: BusinessResourceResponseDTO[]
+  requirements: BusinessResourceRequirementResponseDTO[]
+}
+
+export interface BusinessResourcePoolRequestDTO {
+  poolKey: string
+  label: string
+  resourceType: string
+  capacity: number
+  publicLabel: string
+  active: boolean
+}
+
+export interface BusinessResourcePoolResponseDTO {
+  id: number
+  poolKey: string
+  label: string
+  resourceType: string
+  capacity: number
+  publicLabel: string
+  active: boolean
+}
+
+export interface BusinessResourceRequestDTO {
+  resourcePoolId: number
+  resourceKey: string
+  label: string
+  resourceType: string
+  publicLabel: string
+  active: boolean
+  metadata: Record<string, unknown>
+}
+
+export interface BusinessResourceRequirementRequestDTO {
+  businessOfferingId: number
+  resourcePoolId: number
+  resourceType: string
+  requiredCount: number
+  assignmentMode: string
+}
+
+export interface BusinessResourceRequirementResponseDTO {
+  id: number
+  businessOfferingId: number
+  offeringTitle: string
+  resourcePoolId: number
+  resourceType: string
+  requiredCount: number
+  assignmentMode: string
+}
+
+export interface BusinessResourceResponseDTO {
+  id: number
+  resourcePoolId: number
+  resourceKey: string
+  label: string
+  resourceType: string
+  publicLabel: string
+  active: boolean
+  metadata: Record<string, unknown>
+}
+
 export interface BusinessReviewListResponseDTO {
   items: BusinessReviewResponseDTO[]
   page: number

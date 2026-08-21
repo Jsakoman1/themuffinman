@@ -60,7 +60,13 @@ export type VisionSearchComparisonItem = {entityFamily: string; targetId: number
 export type VisionSearchComparison = {capabilityId: string; query: string; selectionLimit: number; omittedSelectionCount: number; fallbackMessage: string | null; comparableFields: string[]; items: VisionSearchComparisonItem[]}
 
 export type BusinessOfferingSchemaDTO = {offeringId: number; schemaVersion?: number; demandFields: Record<string, unknown>[]; options: Record<string, unknown>[]; pricingRules: Record<string, unknown>[]}
-export type BusinessResourceConfigurationDTO = {businessProfileId: number; pools: Record<string, unknown>[]; resources: Record<string, unknown>[]; requirements: Record<string, unknown>[]}
+export type BusinessResourcePoolDTO = {id: number; poolKey: string; label: string; resourceType: string; capacity: number; publicLabel: string | null; active: boolean}
+export type BusinessResourceDTO = {id: number; resourcePoolId: number | null; resourceKey: string; label: string; resourceType: string; publicLabel: string | null; active: boolean; metadata: Record<string, unknown>}
+export type BusinessResourceRequirementDTO = {id: number; businessOfferingId: number; offeringTitle: string; resourcePoolId: number | null; resourceType: string; requiredCount: number; assignmentMode: string}
+export type BusinessResourcePoolRequestDTO = {poolKey: string; label: string; resourceType: string; capacity: number; publicLabel?: string | null; active?: boolean}
+export type BusinessResourceRequestDTO = {resourcePoolId?: number | null; resourceKey: string; label: string; resourceType: string; publicLabel?: string | null; active?: boolean; metadata?: Record<string, unknown>}
+export type BusinessResourceRequirementRequestDTO = {businessOfferingId: number; resourcePoolId?: number | null; resourceType: string; requiredCount: number; assignmentMode: string}
+export type BusinessResourceConfigurationDTO = {businessProfileId: number; pools: BusinessResourcePoolDTO[]; resources: BusinessResourceDTO[]; requirements: BusinessResourceRequirementDTO[]}
 export type BusinessScheduleItemDTO = {bookingId: number; role: "OWNER" | "CUSTOMER"; businessProfileId: number; businessName: string; businessSlug: string; businessOfferingTitle: string; startsAt: string; endsAt: string; timezone: string; status: string; statusLabel: string; allowedActions: {action: string; label?: string}[]}
 export type BusinessWorkspaceContextDTO = {businesses: import("./generated/themuffinmanContract.ts").BusinessProfileResponseDTO[]; activeBusinessProfileId: number | null; contextMode: "ALL_BUSINESSES" | "BUSINESS" | string; from: string; to: string; timezone: string; schedule: BusinessScheduleItemDTO[]}
 export type BusinessPublicQuoteDTO = {businessOfferingId: number; pricingState: string; totalAmount: number | null; currency: string | null; quantity: number; durationMinutes: number | null; schemaVersion?: number; explanations: string[]}

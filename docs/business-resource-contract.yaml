@@ -1,0 +1,39 @@
+kind: business_resource_contract
+version: 1
+status: current
+owner: BusinessResourceController and BusinessResourceService
+scope: Authenticated owner configuration of resource pools, individual resources,
+  and per-offering resource requirements.
+response:
+  type: BusinessResourceConfigurationDTO
+  fields:
+    businessProfileId: long
+    pools: BusinessResourcePoolResponseDTO[]
+    resources: BusinessResourceResponseDTO[]
+    requirements: BusinessResourceRequirementResponseDTO[]
+operations:
+- {method: GET, path: "/business/resources/profile/{profileId}/me", result: refreshed_configuration}
+- {method: POST, path: "/business/resources/profile/{profileId}/pools/me", request: BusinessResourcePoolRequestDTO, result: refreshed_configuration}
+- {method: PUT, path: "/business/resources/profile/{profileId}/pools/{poolId}/me", request: BusinessResourcePoolRequestDTO, result: refreshed_configuration}
+- {method: DELETE, path: "/business/resources/profile/{profileId}/pools/{poolId}/me", result: refreshed_configuration}
+- {method: POST, path: "/business/resources/profile/{profileId}/resources/me", request: BusinessResourceRequestDTO, result: refreshed_configuration}
+- {method: PUT, path: "/business/resources/profile/{profileId}/resources/{resourceId}/me", request: BusinessResourceRequestDTO, result: refreshed_configuration}
+- {method: DELETE, path: "/business/resources/profile/{profileId}/resources/{resourceId}/me", result: refreshed_configuration}
+- {method: POST, path: "/business/resources/profile/{profileId}/requirements/me", request: BusinessResourceRequirementRequestDTO, result: refreshed_configuration}
+- {method: PUT, path: "/business/resources/profile/{profileId}/requirements/{requirementId}/me", request: BusinessResourceRequirementRequestDTO, result: refreshed_configuration}
+- {method: DELETE, path: "/business/resources/profile/{profileId}/requirements/{requirementId}/me", result: refreshed_configuration}
+invariants:
+- Every operation requires ownership of the selected business profile.
+- A referenced pool and offering must belong to the selected business profile.
+- Pool capacity and required resource count must be at least one.
+- Deleting a pool detaches its resources and removes requirements that target the pool,
+  following the V84 foreign-key contract.
+- A resource retained by a V88 booking assignment cannot be deleted; the API returns
+  conflict and the owner may deactivate the resource instead.
+- Each successful mutation returns the complete refreshed owner configuration.
+client_boundary:
+  source: apps/themuffinman/frontend/src/contracts/index.ts
+  generated_contract: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  current_surface: The API client is typed; complete Web edit controls remain a separate presentation slice.
+evidence_boundary: Source tests, type checks, generated-contract freshness, build,
+  and documentation validation do not constitute browser or production-runtime evidence.

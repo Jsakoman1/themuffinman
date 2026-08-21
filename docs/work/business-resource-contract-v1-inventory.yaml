@@ -1,0 +1,18 @@
+kind: execution_inventory
+version: 1
+id: business-resource-contract-v1-execution
+master_plan: docs/work/business-resource-contract-v1.yaml
+items:
+- id: typed-business-resource-contract
+  order: 1
+  plan: docs/work/business-resource-contract-v1.yaml
+  task: complete-business-resource-contract
+  status: superseded
+  started_at: '2026-08-21T17:28:22Z'
+  blocked_at: '2026-08-21T17:36:50Z'
+  blocked:
+    version: 1
+    disposition: verification_rejected_before_leaf
+  superseded_by: docs/work/business-resource-contract-v1-verification.yaml
+  superseded_at: '2026-08-21T17:38:48Z'
+state: superseded
