@@ -6,9 +6,9 @@ require "digest"
 
 ROOT = File.expand_path("../..", __dir__)
 CACHE_ROOT = File.join(Dir.home, "Library/Application Support/AISystem/tools")
-RELEASE_VERSION = "v1.16.4"
-SOURCE_COMMIT = "ef8c36f6bb9457f85627d17bac5fc2607c1033e2"
-PACKAGE_CHECKSUM = "fdf1f089a14f826231e42cd2704ca960e97774182ff14e754b1a4eabaf8cedac"
+RELEASE_VERSION = "v1.16.15"
+SOURCE_COMMIT = "634b2315353caf1f8832e9b546aae76f45e86140"
+PACKAGE_CHECKSUM = "88f7c04eeacdcfcbb494bf61674fa71341884b0c19662c1871c1d1d5407134df"
 
 def package_checksum(root)
   entries = Dir.glob(File.join(root, "**", "*"), File::FNM_DOTMATCH).select do |path|

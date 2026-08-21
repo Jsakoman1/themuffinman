@@ -1,7 +1,7 @@
 kind: dora_locked_cli_lock
 version: 1
-release_version: v1.16.4
-source_commit: ef8c36f6bb9457f85627d17bac5fc2607c1033e2
-package_checksum: fdf1f089a14f826231e42cd2704ca960e97774182ff14e754b1a4eabaf8cedac
+release_version: v1.16.15
+source_commit: 634b2315353caf1f8832e9b546aae76f45e86140
+package_checksum: 88f7c04eeacdcfcbb494bf61674fa71341884b0c19662c1871c1d1d5407134df
 adapter_contract_version: 1
 cache_layout: user_application_support_v1
