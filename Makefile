@@ -171,7 +171,6 @@ control-check:
 	$(MAKE) audit-canonical-source-integrity
 	$(MAKE) audit-capability-evidence
 	$(MAKE) audit-runtime-acceptance
-	$(MAKE) audit-main-surfaces-plan
 	$(MAKE) clean-generated
 
 audit-all: audit-backend audit-frontend audit-docs tool-self-test clean-generated

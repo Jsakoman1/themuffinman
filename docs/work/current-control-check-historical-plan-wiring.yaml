@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: current-control-check-historical-plan-wiring
+title: Keep historical main-surface plan validation out of current control health
+status: verified
+baseline: 951c8856f7ad1e3392109c0f757b128302003e6d
+strict_verification: false
+serial_task_execution: false
+control_class: controlled_change
+tasks:
+- id: remove-terminal-plan-from-current-control-check
+  title: Stop requiring removed terminal children during current control validation
+  type: implementation
+  status: done
+  observable_outcome: The current control check validates current repository truth
+    without requiring removed children of a verified historical master, while the
+    explicit main-surfaces audit remains available for historical inspection.
+  dependencies: []
+  paths:
+  - Makefile
+  - docs/work/current-control-check-historical-plan-wiring.yaml
+  required_paths:
+  - Makefile
+  - docs/work/current-control-check-historical-plan-wiring.yaml
+  validation: make control-check && ruby scripts/audits/audit-work-artifact-retention.rb
+    --check-fixtures && git diff --check
+  evidence_boundary:
+  - Current local tooling composition and retention classification only; no historical
+    artifact rewrite, product behavior, release, deployment, provider or external
+    effect.
+evidence:
+- task: remove-terminal-plan-from-current-control-check
+  command: make control-check && ruby scripts/audits/audit-work-artifact-retention.rb
+    --check-fixtures && git diff --check
+  ranAt: '2026-08-21T13:52:07Z'
+  revision: 951c8856f7ad1e3392109c0f757b128302003e6d
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - Makefile
+  - docs/work/current-control-check-historical-plan-wiring.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    Makefile: 3099c20a2edfc5624bfa22b00d75288895d504f924bc4c941fcddebe17cdb8e1
+    docs/work/current-control-check-historical-plan-wiring.yaml: d3075fb6e6dc9f46db49f743dde6a076acce7c5f8377019506314e93ad53c14e
+  output: |2-
+      reviewed round: 20
+    /Library/Developer/CommandLineTools/usr/bin/make audit-canonical-source-integrity
+    {"kind"=>"architecture-integrity-report", "path"=>"docs/audit-output/dora/canonical-source-integrity.json"}
+    /Library/Developer/CommandLineTools/usr/bin/make audit-capability-evidence
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 71
+      pending runtime scenarios: 14
+      passed evidence paths checked: 71
+    /Library/Developer/CommandLineTools/usr/bin/make audit-runtime-acceptance
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (71 passed, 14 pending runtime scenarios).
+    /Library/Developer/CommandLineTools/usr/bin/make clean-generated
+    ruby scripts/clean-generated-artifacts.rb
+    Removed 4 generated/transient artifacts.
+    - docs/audit-output/docs-as-tests-summary.md
+    - docs/audit-output/docs-as-tests.json
+    - docs/audit-output/dora/canonical-source-integrity.json
+    - apps/themuffinman/frontend/dist/
+    Work-artifact retention fixtures passed (active, historical, referenced, and candidate classes).
