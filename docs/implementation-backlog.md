@@ -7,7 +7,8 @@ listed in `docs/implementation-control.md`.
 ## Recently completed
 
 - `AUTH-FOUNDATION-V0-3-CONSUMER-ADOPTION` Verified local slice: registration and password reset use the shared Auth Foundation v0.3 single-factor policy while JWT, token revocation, recovery-token lifecycle, persistence, and login compatibility remain TheMuffinMan-owned. Remote package resolution remains a GitHub Actions secret boundary.
-- `ENTITY-SURFACE-RESOURCE-CONTRACT-001` Typed local slice: Business resource pools, resources, and offering requirements use owner-scoped read/create/update/delete backend contracts and typed Web-client requests. A separate presentation slice is still required before the owner surface offers complete editing controls.
+- `ENTITY-SURFACE-RESOURCE-CONTRACT-001` Typed local slice: Business resource pools, resources, and offering requirements use owner-scoped read/create/update/delete backend contracts and typed Web-client requests.
+- `ENTITY-SURFACE-RESOURCE-OWNER-UI-002` Owner presentation slice: the Service setup Resources step uses the typed contract for pool, resource, and selected-offering requirement viewing, creation, editing, activation/deactivation, and confirmed removal, with responsive local browser evidence.
 
 ## Open follow-ups
 

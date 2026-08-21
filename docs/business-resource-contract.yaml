@@ -34,6 +34,9 @@ invariants:
 client_boundary:
   source: apps/themuffinman/frontend/src/contracts/index.ts
   generated_contract: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
-  current_surface: The API client is typed; complete Web edit controls remain a separate presentation slice.
+  current_surface: The typed Service setup Resources step supports owner viewing, creation,
+    editing, activation/deactivation, and confirmed deletion for pools and resources,
+    plus creation, editing, and removal of the selected offering's requirements.
 evidence_boundary: Source tests, type checks, generated-contract freshness, build,
   and documentation validation do not constitute browser or production-runtime evidence.
+  Fresh local desktop and mobile browser traces are recorded separately for this surface.

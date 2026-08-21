@@ -1,0 +1,203 @@
+kind: work
+version: 1
+id: business-resource-owner-ui
+title: Complete the Business resource owner setup surface
+status: verified
+baseline: 97e8b1a28e1f942db94fee12f1e6439024ef023b
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-resource-owner-ui-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-resource-contract-v1-verification.yaml
+  - docs/work/business-resource-contract-yaml-correction.yaml
+  baseline_only_surfaces:
+  - Owner-scoped typed Business resource API and frontend client contract.
+  - Booking resource allocation and retained-booking deletion conflict behavior.
+  residual_scope:
+  - Connect the existing service-setup Resources step to a complete owner create,
+    edit, activate/deactivate, and delete experience.
+  - Capture fresh desktop and mobile browser evidence through the shared runtime harness.
+  retest_triggers:
+  - Business resource owner UI, typed client usage, responsive layout, or allocation
+    guidance changes.
+  non_duplication_rule: Prior typed-contract evidence remains baseline-only; this
+    task proves only the owner presentation and local browser interaction slice.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-impact.yaml
+  disposition: reviewed
+tasks:
+- id: deliver-business-resource-owner-ui
+  inventory_item: business-resource-owner-ui-delivery
+  title: Deliver and prove the Business resource owner setup experience
+  type: implementation
+  status: done
+  observable_outcome: An authenticated business owner can view, create, edit, activate
+    or deactivate, and delete resource pools and resources, and can create, edit,
+    and remove the selected service's resource requirements on desktop and mobile.
+  dependencies: []
+  evidence_boundary:
+  - Frontend type-check and production build.
+  - Shared runtime-harness self-test and scenario syntax check.
+  - Fresh authenticated desktop and mobile mutation traces, screenshots, browser-error
+    collection, and overflow assertions.
+  - Local evidence does not prove deployment, production behavior, or fixed-resource
+    assignment semantics.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/business-resource-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence/business-resource-owner-desktop-runtime.json
+  - docs/runtime-evidence/business-resource-owner-desktop.png
+  - docs/runtime-evidence/business-resource-owner-mobile-runtime.json
+  - docs/runtime-evidence/business-resource-owner-mobile.png
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/business-resource-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence/business-resource-owner-desktop-runtime.json
+  - docs/runtime-evidence/business-resource-owner-desktop.png
+  - docs/runtime-evidence/business-resource-owner-mobile-runtime.json
+  - docs/runtime-evidence/business-resource-owner-mobile.png
+  requires_visual_evidence: true
+  visual_evidence_paths: &1
+  - docs/runtime-evidence/business-resource-owner-desktop.png
+  - docs/runtime-evidence/business-resource-owner-mobile.png
+  manual_runtime_command: BUSINESS_RESOURCE_RUNTIME_MODE=desktop node apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+    && BUSINESS_RESOURCE_RUNTIME_MODE=mobile node apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  runtime_evidence_paths: &2
+  - docs/runtime-evidence/business-resource-owner-desktop-runtime.json
+  - docs/runtime-evidence/business-resource-owner-mobile-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+    && node --check apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  started_at: '2026-08-21T17:58:39Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue: 0f0c896e0b6a5ad30046748532d38cd7161ae74451e42fb214afa3e9ee14cf60
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: ec5558747e44912dfd4efbe47f27e0551d87e6a36d27a8629dd747c3cecb3335
+    apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs: __missing__
+    docs/business-logic.md: 566879e259b1112f7050c95939ade5e26d580ccd24795a739375c7f8e133ffe8
+    docs/domain-technical.md: c4aab7b57c1cd61448477b12e7490417e24324e5851e807eb0e861c17e4c0423
+    docs/business-resource-contract.yaml: b6589f559c480aaacdeaf8051f8f643e85f2191cf951b9e5b3abcf0923e94af4
+    docs/implementation-backlog.md: c33c4ffcdc241c1c4aaa351e4f706b1f015a6614fa4b6b3197de00188d706e12
+    docs/runtime-evidence/business-resource-owner-desktop-runtime.json: __missing__
+    docs/runtime-evidence/business-resource-owner-desktop.png: __missing__
+    docs/runtime-evidence/business-resource-owner-mobile-runtime.json: __missing__
+    docs/runtime-evidence/business-resource-owner-mobile.png: __missing__
+  start_verifier_footprint_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue: 0f0c896e0b6a5ad30046748532d38cd7161ae74451e42fb214afa3e9ee14cf60
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: ec5558747e44912dfd4efbe47f27e0551d87e6a36d27a8629dd747c3cecb3335
+    apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs: __missing__
+    docs/business-logic.md: 566879e259b1112f7050c95939ade5e26d580ccd24795a739375c7f8e133ffe8
+    docs/domain-technical.md: c4aab7b57c1cd61448477b12e7490417e24324e5851e807eb0e861c17e4c0423
+    docs/business-resource-contract.yaml: b6589f559c480aaacdeaf8051f8f643e85f2191cf951b9e5b3abcf0923e94af4
+    docs/implementation-backlog.md: c33c4ffcdc241c1c4aaa351e4f706b1f015a6614fa4b6b3197de00188d706e12
+    docs/runtime-evidence/business-resource-owner-desktop-runtime.json: __missing__
+    docs/runtime-evidence/business-resource-owner-desktop.png: __missing__
+    docs/runtime-evidence/business-resource-owner-mobile-runtime.json: __missing__
+    docs/runtime-evidence/business-resource-owner-mobile.png: __missing__
+  start_workspace_paths:
+  - docs/work/business-resource-owner-ui-inventory.yaml
+  - docs/work/business-resource-owner-ui.yaml
+  start_workspace_fingerprints:
+    docs/work/business-resource-owner-ui-inventory.yaml: d9232b92b67d7e2daa9c82e94bb424ae6d682fbc44d9cd581fd81c5352f239e3
+    docs/work/business-resource-owner-ui.yaml: ea430b326afbd8e33d07c606d57e7b442f4895420554bf842f6efc69fc26229c
+evidence:
+- task: deliver-business-resource-owner-ui
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+    && node --check apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  ranAt: '2026-08-21T18:12:09Z'
+  revision: 97e8b1a28e1f942db94fee12f1e6439024ef023b
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - docs/business-logic.md
+  - docs/business-resource-contract.yaml
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  - docs/runtime-evidence/business-resource-owner-desktop-runtime.json
+  - docs/runtime-evidence/business-resource-owner-desktop.png
+  - docs/runtime-evidence/business-resource-owner-mobile-runtime.json
+  - docs/runtime-evidence/business-resource-owner-mobile.png
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue: ae1ceb4960519bedf7dc8a9944efffff9dafa79eb0bbe6685d2ca2a49a362d60
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: e9e6711fefd4ad2197a16a3bee6e2e6cc78cb303661eb747254f4aa36ca6645b
+    apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs: 9b68d068c05421a1ffb1eb22c51f8ed4c873c4e7eb46bd283ec03cf760cb01f3
+    docs/business-logic.md: f83290f4f2e566b7752196640b7b57b240d89357a7713afd0abf6d2d1e716e4a
+    docs/domain-technical.md: e01fa640fcab3c720bef3af10e50f1600ff9bcc0c7854612e76cf243eef4138e
+    docs/business-resource-contract.yaml: 5e32abe653e9a0f34b15edcac71f8d099aed73f406eb8d3ef7b098c65e51a0da
+    docs/implementation-backlog.md: 908a314a79a49128ca260402a89b87715351921dbca8f26559758bb18d093e03
+    docs/runtime-evidence/business-resource-owner-desktop-runtime.json: 39fe02f55a6aa0d31ecb868e6c0f02702a42d1c7903bb3785e96b9bbc95e415d
+    docs/runtime-evidence/business-resource-owner-desktop.png: a6636f1cf7ad27ae434f7af2300c9baa57846fb111e93e346e99538df761f603
+    docs/runtime-evidence/business-resource-owner-mobile-runtime.json: f6aff782ec7740122e1ecdc827a34eeac2de95371da5cafae8a4453a75f7c60f
+    docs/runtime-evidence/business-resource-owner-mobile.png: 653436e5a04c09edf66f1320682428e09be4a0c0898b025498027d61050a8f4a
+  output: |-
+    dist/assets/WorkPage-BApV4dnk.js                              12.95 kB │ gzip:   4.99 kB
+    dist/assets/RidesView-Dm2uX-lQ.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/CirclesView-wrPQyyVO.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-DbWlz3_3.js                          16.13 kB │ gzip:   5.45 kB
+    dist/assets/WorkQuestDetailView-CgCtG-q8.js                   17.52 kB │ gzip:   5.19 kB
+    dist/assets/HomeHubView-BBqSkNTg.js                           20.44 kB │ gzip:   6.39 kB
+    dist/assets/BusinessPublicView-DuY07p0T.js                    23.69 kB │ gzip:   7.68 kB
+    dist/assets/vue-core-BxPhexAf.js                              24.75 kB │ gzip:   9.56 kB
+    dist/assets/ChatSurfaceView-CsDeYMkO.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-oQThQg5y.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/BusinessServiceSchemaView-BmVx1SEI.js             32.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-tCg_DslJ.js                35.38 kB │ gzip:  11.85 kB
+    dist/assets/vendor-By6c4oFj.js                                50.88 kB │ gzip:  19.85 kB
+    dist/assets/BusinessOwnerPage-WkUvdoNp.js                     53.52 kB │ gzip:  13.24 kB
+    dist/assets/index-BRs8z7Gz.js                                 64.52 kB │ gzip:  15.94 kB
+    dist/assets/editor-2bf2ej4v.js                               464.39 kB │ gzip: 149.77 kB
+
+    ✓ built in 639ms
+    Runtime harness self-test passed (URLs, viewports, browser errors, relative evidence writing, and cleanup).
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/business-resource-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence/business-resource-owner-desktop-runtime.json
+  - docs/runtime-evidence/business-resource-owner-desktop.png
+  - docs/runtime-evidence/business-resource-owner-mobile-runtime.json
+  - docs/runtime-evidence/business-resource-owner-mobile.png
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: *1
+  runtimeEvidencePaths: *2
+  verifierFootprintPaths: []
+  startedAt: '2026-08-21T17:58:39Z'
+  changedAfterStart:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/scripts/business-resource-owner-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/business-resource-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence/business-resource-owner-desktop-runtime.json
+  - docs/runtime-evidence/business-resource-owner-desktop.png
+  - docs/runtime-evidence/business-resource-owner-mobile-runtime.json
+  - docs/runtime-evidence/business-resource-owner-mobile.png

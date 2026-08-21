@@ -1,0 +1,42 @@
+{
+  "evidenceVersion": "business-resource-owner-runtime-v1",
+  "capturedAt": "2026-08-21T18:11:27.905Z",
+  "mode": "mobile",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "scenarios": {
+    "ownerResourceLifecycle": {
+      "status": "passed",
+      "route": "/business/service-setup",
+      "businessId": 228,
+      "offeringId": 112,
+      "operations": [
+        "create",
+        "edit",
+        "deactivate",
+        "activate",
+        "delete"
+      ],
+      "entities": [
+        "pool",
+        "resource",
+        "offering requirement"
+      ],
+      "configuredDimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "finalDimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "cleanupVerified": true
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}
