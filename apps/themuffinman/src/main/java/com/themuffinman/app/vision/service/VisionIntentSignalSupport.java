@@ -608,6 +608,12 @@ final class VisionIntentSignalSupport {
         return isLikelyFollowUpPrompt(lower);
     }
 
+    boolean shouldPreserveSendMessageSlot(VisionIntent existingIntent, String requestedSlot, VisionIntent detectedIntent) {
+        return existingIntent == VisionIntent.SEND_MESSAGE
+                && detectedIntent == VisionIntent.OPEN_CHAT
+                && ("target_user".equals(requestedSlot) || "message_body".equals(requestedSlot));
+    }
+
     boolean sameIntentWorkspaceFamily(VisionIntent left, VisionIntent right) {
         String leftFamily = workspaceFamily(left);
         return leftFamily != null && leftFamily.equals(workspaceFamily(right));

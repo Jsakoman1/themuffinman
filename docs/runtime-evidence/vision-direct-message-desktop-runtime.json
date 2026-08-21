@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-08-21T07:54:49.137Z",
+  "environment": "workspace-owned local dev stack",
+  "browser": "Playwright Chromium headless",
+  "viewport": "desktop",
+  "browserErrors": [],
+  "scenarios": {
+    "directMessage": {
+      "status": "passed",
+      "recipientRequested": true,
+      "recipientCollected": true,
+      "reviewReady": true,
+      "executionSucceeded": true,
+      "authoritativeReadback": true,
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      },
+      "visionConversationId": 671,
+      "chatConversationId": 384,
+      "sentMessageId": 242,
+      "executionMessage": "Message sent to admin.",
+      "stepMessages": [
+        "Who should I message?",
+        "What should I say to admin?",
+        "I prepared a message to admin. Confirm to send it.",
+        "Message sent to admin."
+      ],
+      "messageBody": "Disposable Vision runtime proof desktop 1787298889137"
+    }
+  },
+  "cleanup": {
+    "status": "passed",
+    "deleteStatuses": [
+      200,
+      200
+    ],
+    "deletedCount": 2,
+    "readbackStatus": 200
+  },
+  "result": "passed"
+}

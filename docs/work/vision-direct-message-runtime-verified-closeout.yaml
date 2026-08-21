@@ -1,0 +1,119 @@
+kind: work
+version: 1
+id: vision-direct-message-runtime-verified-closeout
+title: Verify bounded Vision direct-message runtime outputs
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/vision-direct-message-continuity-repair.yaml
+  - docs/work/vision-direct-message-runtime-truth-reconciliation.yaml
+  baseline_only_surfaces:
+  - docs/work/vision-direct-message-runtime-proof.yaml
+  - docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+  - docs/work/vision-direct-message-runtime-proof-closeout.yaml
+  residual_scope:
+  - Verify only the runtime harness, scenario syntax, canonical runtime reconciliation,
+    and repository diff integrity owned by this workload.
+  retest_triggers:
+  - Changes to the runtime script, direct-message flow, or runtime status mappings.
+  non_duplication_rule: Failed verifier receipts remain immutable evidence; this closeout
+    does not claim the unrelated broken documentation-audit dependency.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: verify-bounded-direct-message-runtime
+  title: Verify bounded runtime outputs
+  type: validation
+  status: done
+  observable_outcome: The shared harness, direct-message script, runtime acceptance
+    projection, and changed-file integrity all pass while desktop/mobile evidence
+    remains present.
+  dependencies: []
+  evidence_boundary:
+  - Local runtime and repository checks only; the unrelated documentation audit remains
+    unclaimed.
+  paths: &1
+  - apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+  - docs/runtime-evidence/vision-direct-message-desktop.png
+  - docs/runtime-evidence/vision-direct-message-mobile.png
+  - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+  - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/vision-status-ledger.md
+  - docs/implementation-backlog.md
+  - docs/work/vision-direct-message-runtime-proof.yaml
+  - docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+  - docs/work/vision-direct-message-runtime-proof-closeout.yaml
+  - docs/work/vision-direct-message-runtime-verified-closeout.yaml
+  required_paths: *1
+  validation: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+    && node --check apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+    && make audit-runtime-acceptance && git diff --check
+evidence:
+- task: verify-bounded-direct-message-runtime
+  command: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs &&
+    node --check apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+    && make audit-runtime-acceptance && git diff --check
+  ranAt: '2026-08-21T07:58:17Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/vision-status-ledger.md
+  - apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+  - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+  - docs/runtime-evidence/vision-direct-message-desktop.png
+  - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+  - docs/runtime-evidence/vision-direct-message-mobile.png
+  - docs/work/vision-direct-message-runtime-proof-closeout.yaml
+  - docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+  - docs/work/vision-direct-message-runtime-proof.yaml
+  - docs/work/vision-direct-message-runtime-verified-closeout.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs: b55d51a4648f9f07909fb6184034c22686a5a9211dac52d51fa52ce608f6f145
+    docs/runtime-evidence/vision-direct-message-desktop.png: 7ff46b68e6def1c11537a2f39851cbc9e0b5096343212711597e25bcdb0a9b72
+    docs/runtime-evidence/vision-direct-message-mobile.png: 94fbcb0188b40a5ca1236749246c1ca3f6e98b088e67c0612b8727453d80053c
+    docs/runtime-evidence/vision-direct-message-desktop-runtime.json: 3a38a2cdba5a541a1da8f5a5cf61711831f93cf4fa796d94228553d7de625d7b
+    docs/runtime-evidence/vision-direct-message-mobile-runtime.json: e466ecba3c98972069cb4626d2afda0f19ff110c454bdc475cbf6c8290920363
+    docs/runtime-acceptance-matrix.yaml: 4f77963c4ce3059067e7518d87cb13d16fc1ef6360521a87986cffe9f55b7404
+    docs/vision-status-ledger.md: 1e402b0e36020383436a91e8733f4e95fb18aebbad8147d5a6187fa22a2064db
+    docs/implementation-backlog.md: a46809fc1b29e00766d592f944f7a3e3a6c8b5a20b9f6c6e6299f86c434c98c3
+    docs/work/vision-direct-message-runtime-proof.yaml: af2d17d38207d8b9a222c6d43136f8fbbb9ffe4b26d10192bd443d0fa89cf86b
+    docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml: 676b8818a5056f825a57da1998614c9e6eacfe10e62b26925922614cfb0c8f0f
+    docs/work/vision-direct-message-runtime-proof-closeout.yaml: ee866e6134a494a8a01fe115f3749a78db7c1dce557529f96de83fd81338b5c8
+    docs/work/vision-direct-message-runtime-verified-closeout.yaml: 71f21a49a6e2fd61e1e003e2350e15192216114fc883f46e50e22213c533ab7e
+  output: |-
+    Runtime harness self-test passed (URLs, viewports, browser errors, relative evidence writing, and cleanup).
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (71 passed, 14 pending runtime scenarios).
+  requiredPaths:
+  - apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+  - docs/runtime-evidence/vision-direct-message-desktop.png
+  - docs/runtime-evidence/vision-direct-message-mobile.png
+  - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+  - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/vision-status-ledger.md
+  - docs/implementation-backlog.md
+  - docs/work/vision-direct-message-runtime-proof.yaml
+  - docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+  - docs/work/vision-direct-message-runtime-proof-closeout.yaml
+  - docs/work/vision-direct-message-runtime-verified-closeout.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: []

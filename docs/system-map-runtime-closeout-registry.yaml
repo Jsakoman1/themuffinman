@@ -35,7 +35,7 @@ sources: [docs/system-map-coverage-registry.yaml, docs/runtime-acceptance-matrix
 baseline:
   system_map_masters: verified
   arch_masters: [ARCH-001, ARCH-002, ARCH-003, ARCH-004, ARCH-005]
-  runtime_passed: 70
+  runtime_passed: 71
   runtime_pending: 14
   endpoint_review_required: 62
 workstreams:

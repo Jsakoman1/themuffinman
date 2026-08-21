@@ -1,0 +1,16 @@
+kind: execution-inventory
+version: 1
+id: vision-direct-message-runtime-proof-execution-inventory
+master_plan: docs/work/vision-direct-message-runtime-proof.yaml
+serial: true
+items:
+- id: prove-vision-direct-message-runtime
+  sequence: 1
+  plan: docs/work/vision-direct-message-runtime-proof.yaml
+  task: prove-vision-direct-message-runtime
+  status: blocked
+  started_at: '2026-08-21T07:43:14Z'
+  blocked_at: '2026-08-21T07:56:36Z'
+  blocked:
+    version: 1
+    disposition: verification_rejected_before_leaf

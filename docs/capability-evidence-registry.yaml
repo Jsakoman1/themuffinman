@@ -5,7 +5,7 @@ optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 canonical_cross_reference: docs/endpoint-client-evidence-registry.yaml
 runtime_matrix:
   canonical_source: docs/runtime-acceptance-matrix.yaml
-  passed_scenarios: 70
+  passed_scenarios: 71
   pending_runtime_scenarios: 14
   rule: pending_runtime_is_not_runtime_proof
 endpoint_consumer_review:

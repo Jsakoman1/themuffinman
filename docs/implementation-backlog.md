@@ -23,8 +23,6 @@ listed in `docs/implementation-control.md`.
   before exposing a complete Web edit surface.
 - RUNTIME-PENDING-TRIAGE-001: keep the 14 explicitly pending runtime boundaries classified in
   `docs/runtime-acceptance-matrix.yaml` and its runtime closeout registry.
-- VISION-PROMPT-007: capture complete browser evidence for direct-message collection, confirmation,
-  send, and authoritative Chat readback.
 - VISION-PROMPT-010: retain the remaining real-provider and production-provider evidence boundary.
 - OPT-BASELINE-002: continue endpoint-to-capability-to-client-to-test evidence reconciliation.
 - OPT-BASELINE-003: maintain machine-checkable dependency direction rules and accepted exceptions.

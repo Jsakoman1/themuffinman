@@ -1674,6 +1674,10 @@ public class VisionConversationService {
             if (action == VisionConversationAction.SUBMIT_PROMPT
                     && detectedIntent != VisionIntent.UNSUPPORTED
                     && detectedIntent != existingConversation.getIntent()) {
+                if (visionIntentSignalSupport.shouldPreserveSendMessageSlot(
+                        existingConversation.getIntent(), existingConversation.getRequestedSlot(), detectedIntent)) {
+                    return existingConversation;
+                }
                 if (visionIntentSignalSupport.sameIntentWorkspaceFamily(existingConversation.getIntent(), detectedIntent)) {
                     existingConversation.setIntent(detectedIntent);
                     existingConversation.setStatus(detectedIntent == VisionIntent.UNSUPPORTED

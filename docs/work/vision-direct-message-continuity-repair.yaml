@@ -1,0 +1,94 @@
+kind: work
+version: 1
+id: vision-direct-message-continuity-repair
+title: Preserve Vision direct-message slot continuity
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Existing SEND_MESSAGE review, execution, idempotency, and Chat authorization behavior.
+  residual_scope:
+  - Preserve SEND_MESSAGE only while its target-user or message-body slot is being
+    answered and a semantic follow-up is misclassified as OPEN_CHAT.
+  retest_triggers:
+  - Changes to Vision conversation task switching or chat-intent routing.
+  non_duplication_rule: This repair does not alter Chat sending; it closes only the
+    browser-observed slot-continuity defect.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: preserve-send-message-follow-up
+  title: Keep direct-message slot answers in the active mutation
+  type: implementation
+  status: done
+  observable_outcome: A high-confidence OPEN_CHAT interpretation of an answer to SEND_MESSAGE
+    target_user or message_body cannot replace the active confirmed-message workflow.
+  dependencies: []
+  evidence_boundary:
+  - Focused service/support tests and backend test suite only; browser proof remains
+    owned by the parent runtime task.
+  paths: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentSignalSupportTest.java
+  - docs/domain-technical.md
+  - docs/work/vision-direct-message-continuity-repair.yaml
+  required_paths: *1
+  validation: make backend-test
+evidence:
+- task: preserve-send-message-follow-up
+  command: make backend-test
+  ranAt: '2026-08-21T07:53:11Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentSignalSupportTest.java
+  - docs/domain-technical.md
+  - docs/work/vision-direct-message-continuity-repair.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: 44384f6f42f8c215a0e0ffcef82856a2520f3c80de1da7cb8977cd80b84bf794
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java: 8755af6eb8aff00ae4231cc9236c8ac9827a3b4b5eb2c28daf197aeba7ed26b4
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentSignalSupportTest.java: 3f3442dec1cd2b8cda94ef87b7d385cc796c5e19999bfc49eac481804a31c047
+    docs/domain-technical.md: 942f1587964c82f534127e2254068eec28a4f58922a44e67a566c95bbfeba410
+    docs/work/vision-direct-message-continuity-repair.yaml: 593a203565eb0ceec46c2aa92781adf75d9a3bbdfa8850574ac60f4b53ebd85d
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketApplicationNewsOutboxClaimServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketApplicationNewsOutboxClaimServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketQuestPresentationAssemblerTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestPresentationAssemblerTest\n[INFO]
+    Running com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 854, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  19.490 s\n[INFO] Finished at: 2026-08-21T09:53:31+02:00\n[INFO] ------------------------------------------------------------------------"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentSignalSupportTest.java
+  - docs/domain-technical.md
+  - docs/work/vision-direct-message-continuity-repair.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: []

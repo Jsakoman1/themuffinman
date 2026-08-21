@@ -38,6 +38,14 @@ class VisionIntentSignalSupportTest {
     }
 
     @Test
+    void preservesDirectMessageSlotAnswersFromOpenChatReclassification() {
+        assertTrue(support.shouldPreserveSendMessageSlot(VisionIntent.SEND_MESSAGE, "target_user", VisionIntent.OPEN_CHAT));
+        assertTrue(support.shouldPreserveSendMessageSlot(VisionIntent.SEND_MESSAGE, "message_body", VisionIntent.OPEN_CHAT));
+        assertFalse(support.shouldPreserveSendMessageSlot(VisionIntent.SEND_MESSAGE, null, VisionIntent.OPEN_CHAT));
+        assertFalse(support.shouldPreserveSendMessageSlot(VisionIntent.OPEN_CHAT, "target_user", VisionIntent.SEND_MESSAGE));
+    }
+
+    @Test
     void groupsWorkspaceFamilies() {
         assertTrue(support.sameIntentWorkspaceFamily(VisionIntent.VIEW_PROFILE, VisionIntent.UPDATE_PROFILE));
         assertTrue(support.sameIntentWorkspaceFamily(VisionIntent.VIEW_APPLICATIONS, VisionIntent.CREATE_APPLICATION));

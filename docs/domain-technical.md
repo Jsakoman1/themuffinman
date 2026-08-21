@@ -157,6 +157,10 @@ Frontend vision surface note:
 - `/vision` exposes `MARK_NOTIFICATION_READ` for one numeric notification id. `VisionMarkNotificationReadExecutionAdapter` delegates to `WorkmarketQuestNewsService.markMyNewsItemAsRead`, which scopes access to the current recipient.
 - Vision intent resolution gives explicit notification mutation signals precedence over semantic `VIEW_NOTIFICATIONS`, while confirmation continues through the typed notification execution adapters; enabled browser smoke covers mark-all-read and in-app chat preference updates.
 - `/vision` exposes `SYNC_CHAT` as a read-only route for the currently opened chat context. `VisionIdentityPreviewRenderer` delegates to `ChatService.getConversationSync`, preserving conversation access and message visibility rules.
+- While `SEND_MESSAGE` is explicitly collecting `target_user` or `message_body`, an
+  answer semantically classified as `OPEN_CHAT` remains in the active send workflow.
+  This narrow continuity rule prevents a slot answer from silently replacing the
+  review-gated mutation; it does not suppress an explicit task switch after collection.
 - `/vision` exposes `REOPEN_QUEST` through `WorkmarketQuestUpdateService.reopenQuestForVision`, which delegates status validation and owner authorization to `WorkmarketQuestStateTransitionService`.
 - `/vision` exposes `CREATE_THING` through `ThingSharingService.saveMyListing`; the adapter supplies the reviewed listing DTO and does not duplicate listing validation or ownership logic.
 - `/vision` exposes `REQUEST_BORROW` through `ThingSharingService.requestBorrow`; the adapter supplies the reviewed listing id and delegates borrower authorization and pending-request invariants to the Things service.

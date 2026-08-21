@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: vision-direct-message-runtime-truth-reconciliation
+title: Reconcile runtime summaries with the direct-message proof
+status: verified
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces: []
+  residual_scope:
+  - Deterministically increment existing runtime summary counts for one newly passed
+    matrix row and two evidence artifacts.
+  retest_triggers:
+  - Any runtime acceptance status change.
+  non_duplication_rule: The runtime matrix owns scenario status; these files only
+    mirror its audited aggregate.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: reconcile-runtime-summary-counts
+  title: Align existing runtime summary projections
+  type: documentation
+  status: done
+  observable_outcome: Every existing machine summary reports 71 passed and 14 pending
+    runtime scenarios while the closeout evidence records 70 evidence-bearing rows
+    and 63 checked evidence paths.
+  dependencies: []
+  evidence_boundary:
+  - Deterministic aggregate reconciliation only; no scenario promotion beyond the
+    canonical matrix.
+  paths: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
+  - docs/system-map-runtime-closeout-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/work/vision-direct-message-runtime-truth-reconciliation.yaml
+  required_paths: *1
+  validation: make audit-runtime-acceptance
+evidence:
+- task: reconcile-runtime-summary-counts
+  command: make audit-runtime-acceptance
+  ranAt: '2026-08-21T07:56:29Z'
+  revision: 90af48f179ba9018f60227783d5dd58eb974196a
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
+  - docs/system-map-runtime-closeout-registry.yaml
+  - docs/work/vision-direct-message-runtime-truth-reconciliation.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/runtime-acceptance-matrix.yaml: 4f77963c4ce3059067e7518d87cb13d16fc1ef6360521a87986cffe9f55b7404
+    docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml: e29800a52a815dabbcb3ef108cbd83dee08e8ba39010c08392fbbc292fb3cb85
+    docs/system-map-runtime-closeout-registry.yaml: d1cc1f6eed149a6cce5c0da6480e8d7996a9802d014271e2651a5985a915b6e5
+    docs/capability-evidence-registry.yaml: 4bf20279d4e545187818453a64dc0104030f7211899502f671ab1d9ad731cc58
+    docs/work/vision-direct-message-runtime-truth-reconciliation.yaml: d50b535a380c9aff1853c87aed212d74b8cc6018483ab31c74cf385417de8164
+  output: |-
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (71 passed, 14 pending runtime scenarios).
+  requiredPaths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
+  - docs/system-map-runtime-closeout-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/work/vision-direct-message-runtime-truth-reconciliation.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: []

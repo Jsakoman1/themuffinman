@@ -150,10 +150,10 @@ It should stay short, factual, and updated when a vision batch materially change
 
 ## In Progress
 
-- VISION-PROMPT-STABILIZATION [IN PROGRESS 2026-07-23]: Source repairs and fresh Chromium closeout are complete for the local development contract; production-provider, 401 diagnosis, and full direct-message side-effect runtime proof remain bounded follow-up work. Current status is tracked in the Vision prompt contract and runtime acceptance registries.
+- VISION-PROMPT-STABILIZATION [IN PROGRESS 2026-08-21]: Source repairs, fresh Chromium closeout, and the direct-message side-effect/readback proof are complete for the local development contract; production-provider and historical 401 diagnosis remain bounded follow-up work. Current status is tracked in the Vision prompt contract and runtime acceptance registries.
 - VISION-PROMPT-001 through VISION-PROMPT-005 [RESOLVED 2026-07-23]: Direct-message precedence, work/circle aliases, visible read/no-match states, and typed runtime status are covered by backend tests and fresh authenticated Chromium evidence.
 - VISION-PROMPT-006 [PARTIAL 2026-07-23]: Browser proof now exercises the local fallback chain; real OpenAI production-provider evidence remains open.
-- VISION-PROMPT-007 [OPEN 2026-07-23]: Direct-message browser evidence covers recipient collection but not a disposable body/confirm/send side-effect trace.
+- VISION-PROMPT-007 [RESOLVED 2026-08-21]: Fresh desktop/mobile Home Vision evidence covers recipient and body collection, explicit confirmation, one send, participant-authorized Chat readback, and deletion/readback of every disposable proof message. The runtime exercise also repaired an observed SEND_MESSAGE-to-OPEN_CHAT slot-continuity defect.
 - VISION-PROMPT-008 through VISION-PROMPT-009 [RESOLVED 2026-07-23]: Typed provider fallback and generated prompt contract/continuity coverage are recorded.
 - VISION-PROMPT-010 [PARTIAL 2026-07-23]: Provider failure/retry and preference uniqueness protection are covered; the earlier 401 root cause and production-provider proof remain open.
 

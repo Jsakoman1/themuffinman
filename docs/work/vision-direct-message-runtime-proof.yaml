@@ -1,0 +1,150 @@
+kind: work
+version: 1
+id: vision-direct-message-runtime-proof
+title: Prove Vision direct-message execution and Chat readback
+status: active
+baseline: 90af48f179ba9018f60227783d5dd58eb974196a
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/vision-direct-message-continuity-repair.yaml
+  - docs/work/vision-direct-message-runtime-truth-reconciliation.yaml
+  baseline_only_surfaces:
+  - Existing Vision recipient-collection evidence and source-level message tests.
+  residual_scope:
+  - One disposable local Vision message body, explicit confirmation, execution, and
+    authoritative Chat readback at desktop and mobile widths.
+  retest_triggers:
+  - Changes to Vision send-message collection, confirmation, execution, or Chat readback.
+  non_duplication_rule: Existing recipient collection is baseline only; this work
+    proves the unobserved side-effect and readback boundary.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: prove-vision-direct-message-runtime
+  title: Capture disposable Vision direct-message execution evidence
+  type: validation
+  status: blocked
+  inventory_item: prove-vision-direct-message-runtime
+  observable_outcome: Fresh authenticated Chromium evidence proves recipient and body
+    collection, explicit confirmation, one successful send, and authoritative Chat
+    readback without browser errors or horizontal overflow.
+  dependencies: []
+  implementation_contract:
+    read_paths:
+    - docs/product-brief.yaml
+    - docs/domain-library.yaml
+    write_paths:
+    - apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+    - docs/runtime-evidence/vision-direct-message-desktop.png
+    - docs/runtime-evidence/vision-direct-message-mobile.png
+    - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+    - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+    - docs/runtime-acceptance-matrix.yaml
+    - docs/vision-status-ledger.md
+    - docs/implementation-backlog.md
+    schema_paths: []
+    api_paths: []
+    ui_paths: []
+    test_paths: []
+    documentation_paths: []
+    permission_owner: TheMuffinMan repository policy and backend authorization
+    runtime_evidence:
+      required: true
+      paths:
+      - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+      - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+    context_requirements:
+      version: 1
+      product_fields:
+      - product
+      - user_problem
+      vocabulary_ids:
+      - modular-monolith
+      invariant_ids:
+      - backend-owned-rules
+      permission_rule_ids:
+      - backend-action-authority
+      workflow_ids:
+      - implementation-change
+      decision_ids: []
+      convention_fields: []
+      authority_limit_ids:
+      - external-changes
+      program_position_paths: []
+      invocation_effect_scope: declared_task_scope
+      stop_conditions:
+      - id: non-local-recipient
+        condition: Stop before sending unless the recipient and runtime are proven
+          workspace-owned local fixtures.
+      - id: missing-authoritative-readback
+        condition: Keep the finding open when the sent message cannot be read back
+          through the authoritative Chat surface.
+  evidence_boundary:
+  - Workspace-owned local seeded data and local browser/runtime evidence only.
+  - No production provider, deployment, external recipient, or durable non-disposable
+    message claim.
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/vision-direct-message-desktop.png
+  - docs/runtime-evidence/vision-direct-message-mobile.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+  - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+  paths: &1
+  - apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+  - docs/runtime-evidence/vision-direct-message-desktop.png
+  - docs/runtime-evidence/vision-direct-message-mobile.png
+  - docs/runtime-evidence/vision-direct-message-desktop-runtime.json
+  - docs/runtime-evidence/vision-direct-message-mobile-runtime.json
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/vision-status-ledger.md
+  - docs/implementation-backlog.md
+  - docs/work/vision-direct-message-runtime-proof.yaml
+  - docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+  required_paths: *1
+  validation: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+    && node --check apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs
+    && make audit-runtime-acceptance && make audit-docs
+  started_at: '2026-08-21T07:43:14Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs: __missing__
+    docs/runtime-evidence/vision-direct-message-desktop.png: __missing__
+    docs/runtime-evidence/vision-direct-message-mobile.png: __missing__
+    docs/runtime-evidence/vision-direct-message-desktop-runtime.json: __missing__
+    docs/runtime-evidence/vision-direct-message-mobile-runtime.json: __missing__
+    docs/runtime-acceptance-matrix.yaml: 902b50b61570ec793a047dda0bd1ba7f252eb323d50dfe4115d644909143412e
+    docs/vision-status-ledger.md: 0b78716a58b24d4519e5ce01369af3a05774349a152128a50558900ebb395f49
+    docs/implementation-backlog.md: 992a40b23c2d61d11ef52665d3a7c93f5f5e3bd082d3d9f85944e7cf88a368aa
+    docs/work/vision-direct-message-runtime-proof.yaml: 25c1708a1b6fef7b0f9aac737a230ba79d8123bccb6dd54c259e4b8829794602
+    docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml: f52e509c4ef90700a5bf4ad075e76a3e85af23ef544844f7acc335ba46ea1fc2
+  start_verifier_footprint_fingerprints:
+    apps/themuffinman/frontend/scripts/vision-direct-message-runtime.mjs: __missing__
+    docs/runtime-evidence/vision-direct-message-desktop.png: __missing__
+    docs/runtime-evidence/vision-direct-message-mobile.png: __missing__
+    docs/runtime-evidence/vision-direct-message-desktop-runtime.json: __missing__
+    docs/runtime-evidence/vision-direct-message-mobile-runtime.json: __missing__
+    docs/runtime-acceptance-matrix.yaml: 902b50b61570ec793a047dda0bd1ba7f252eb323d50dfe4115d644909143412e
+    docs/vision-status-ledger.md: 0b78716a58b24d4519e5ce01369af3a05774349a152128a50558900ebb395f49
+    docs/implementation-backlog.md: 992a40b23c2d61d11ef52665d3a7c93f5f5e3bd082d3d9f85944e7cf88a368aa
+    docs/work/vision-direct-message-runtime-proof.yaml: 25c1708a1b6fef7b0f9aac737a230ba79d8123bccb6dd54c259e4b8829794602
+    docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml: f52e509c4ef90700a5bf4ad075e76a3e85af23ef544844f7acc335ba46ea1fc2
+  start_workspace_paths:
+  - docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml
+  - docs/work/vision-direct-message-runtime-proof.yaml
+  start_workspace_fingerprints:
+    docs/work/vision-direct-message-runtime-proof-execution-inventory.yaml: f52e509c4ef90700a5bf4ad075e76a3e85af23ef544844f7acc335ba46ea1fc2
+    docs/work/vision-direct-message-runtime-proof.yaml: 25c1708a1b6fef7b0f9aac737a230ba79d8123bccb6dd54c259e4b8829794602
+  blocked_at: '2026-08-21T07:56:36Z'
+evidence:
+- task: prove-vision-direct-message-runtime
+  result: failed
+  failure_category: verification_rejected_before_leaf
+  recorded_at: '2026-08-21T07:56:36Z'
+  raw_output_retained: false
