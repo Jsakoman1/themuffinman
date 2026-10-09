@@ -1293,3 +1293,9 @@ The portable contract surface is shared by Web and future native clients: calend
 Detail surfaces explain that action availability, visibility, pricing, expiry, resource allocation, confirmation effects, and undoability are backend-authoritative. Disabled or unavailable controls must not imply a frontend-only decision; the user should refresh when another participant may have changed the object.
 Trust and recovery checkpoint: 2026-07-24. User-facing surfaces must explain scope, ownership, visibility, unavailable actions, stale targets, and retry/recovery without exposing unauthorized data.
 Home orientation checkpoint: 2026-07-24. Home is a calm action-first overview ordered Today, Next, Information, Recent contexts, and Favorite businesses; it does not depend on visiting My applications first.
+
+## AIS app-less chat status
+
+`GET /ais/chat-status` returns the existing viewer-authorized chat workspace's unread-conversation and online-contact counts, its bounded conversation limit, timestamp and source marker. It exposes no message bodies, contact identities or conversation details. The unread count retains the existing workspace limit; it is not a global unread total. Reading this projection does not send messages or change read receipts.
+
+The optional shared-issuer adapter requires an explicitly linked existing user and the `ais.chat-status.read` scope. A login never bypasses chat relationships or visibility rules. It remains disabled by default. Existing application JWT authentication is retained; a provider login, automatic account linking and installed AIS conversation access are not delivered by this facade.

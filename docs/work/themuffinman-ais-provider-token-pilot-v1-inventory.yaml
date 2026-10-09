@@ -1,0 +1,15 @@
+kind: execution_inventory
+version: 1
+id: themuffinman-ais-provider-token-pilot-v1-inventory
+master_plan: docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+items:
+- id: provider-domain-read
+  order: 1
+  plan: docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  task: provider-domain-read
+  status: superseded
+  started_at: '2026-10-08T07:37:42Z'
+  superseded_by: docs/work/themuffinman-ais-provider-token-pilot-v1-recovery.yaml
+  superseded_at: '2026-10-08T07:45:11Z'
+evidence_boundary: synthetic_provider_tokens_not_real_owner_or_production_chat
+state: superseded

@@ -1,0 +1,241 @@
+kind: work
+version: 1
+id: themuffinman-ais-oidc-chat-read-v1-recovery
+title: Recover final shared-issuer chat read validation after YAML audit compatibility
+  failure
+status: verified
+baseline: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+  baseline_only_surfaces:
+  - Existing Vision orchestration and chat mutation workflows
+  residual_scope:
+  - Current exact signed-token read source and full backend plus compatible documentation
+    audit proof; original failure remains.
+  retest_triggers:
+  - New resource-server dependency and namespace authentication boundary
+  non_duplication_rule: Existing evidence is baseline only, not new delivery.
+tasks:
+- id: oidc-chat-read
+  title: Resolve signed issuer identity to existing AppUser and return private counts
+    only
+  type: implementation
+  status: done
+  observable_outcome: Opt-in AIS chat-status route verifies signed issuer tokens,
+    service audience, expiry, scope and explicit existing AppUser binding. The unchanged
+    chat service owns visible counts; no messages, contact identities or mutation
+    methods are exposed. Final source is restored only after the serial start snapshot;
+    full backend regressions and canonical documentation audits are required. Fresh
+    recovery start restores the exact quarantined source; prior failed audit evidence
+    is preserved.
+  dependencies: []
+  paths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/agent-operating-model.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  required_paths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/agent-operating-model.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  validation: JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+    make backend-test && /usr/bin/ruby scripts/audits/audit-truth-registry-integrity.rb
+    && /usr/bin/ruby scripts/audits/audit-work-plan-recursion.rb && /usr/bin/ruby
+    scripts/audits/audit-docs-as-tests.rb
+  evidence_boundary:
+  - Synthetic signed-token MVC security with mocked repository/service and existing
+    real service unit tests; not real database, browser login, owner binding or cross-service
+    SSO.
+  - No messages sent, existing app JWT unchanged, no global permission claim.
+  inventory_item: ais-oidc-chat-read
+  verifier_footprint_paths: &1
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/agent-operating-model.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  started_at: '2026-10-08T07:05:23Z'
+  start_fingerprints:
+    apps/themuffinman/pom.xml: 3b1065e46f67bfecbced81183e94cde4d11e84d3f761dcc5097f9bb366e147ee
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java: __missing__
+    apps/themuffinman/src/main/resources/application.properties: 50ee26bc9eda662cebed0507565064ba71d5351f550146dbd3e8a720c352251d
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java: __missing__
+    docs/business-logic.md: f83290f4f2e566b7752196640b7b57b240d89357a7713afd0abf6d2d1e716e4a
+    docs/domain-technical.md: e01fa640fcab3c720bef3af10e50f1600ff9bcc0c7854612e76cf243eef4138e
+    docs/agent-operating-model.yaml: e5ffbe90dcea3ec972c9059dfa6f5d12fb77f25a975404a25120885b208402f6
+    docs/capability-inventory.yaml: ba02bba7eeffb955ec6c8957abd613b18cbe2198a8587ae1375532ebfcabb714
+    docs/agent-operating-model/sections/api.yaml: d4f5133579e7a2bb80411ecb1e3e709db8dcb4e9b4dd9b772fa8a18825fba9f6
+    docs/endpoint-capability-traceability-registry.yaml: 2d8dc2aa9e7eb6d27b163c6950c26e8444ae06040c29e22a9930944c22638716
+    docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml: fd720a96578da076a1a9e70fc3c4dccebda0e322ae388f3b54632800d7e80277
+    docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml: 62d2eb4a53e78fbbb3df8251c8103699fe5efa75d4917bdc24eeee8029df507e
+    docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml: aceb309723eaf1b2ff35e400cc37b6d41f1d6e043fd8ffd6819744b725575bd6
+  start_verifier_footprint_fingerprints:
+    apps/themuffinman/pom.xml: 3b1065e46f67bfecbced81183e94cde4d11e84d3f761dcc5097f9bb366e147ee
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java: __missing__
+    apps/themuffinman/src/main/resources/application.properties: 50ee26bc9eda662cebed0507565064ba71d5351f550146dbd3e8a720c352251d
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java: __missing__
+    docs/business-logic.md: f83290f4f2e566b7752196640b7b57b240d89357a7713afd0abf6d2d1e716e4a
+    docs/domain-technical.md: e01fa640fcab3c720bef3af10e50f1600ff9bcc0c7854612e76cf243eef4138e
+    docs/agent-operating-model.yaml: e5ffbe90dcea3ec972c9059dfa6f5d12fb77f25a975404a25120885b208402f6
+    docs/capability-inventory.yaml: ba02bba7eeffb955ec6c8957abd613b18cbe2198a8587ae1375532ebfcabb714
+    docs/agent-operating-model/sections/api.yaml: d4f5133579e7a2bb80411ecb1e3e709db8dcb4e9b4dd9b772fa8a18825fba9f6
+    docs/endpoint-capability-traceability-registry.yaml: 2d8dc2aa9e7eb6d27b163c6950c26e8444ae06040c29e22a9930944c22638716
+    docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml: fd720a96578da076a1a9e70fc3c4dccebda0e322ae388f3b54632800d7e80277
+    docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml: 62d2eb4a53e78fbbb3df8251c8103699fe5efa75d4917bdc24eeee8029df507e
+    docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml: aceb309723eaf1b2ff35e400cc37b6d41f1d6e043fd8ffd6819744b725575bd6
+  start_workspace_paths:
+  - docs/capability-inventory.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-master.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery-inventory.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+  start_workspace_fingerprints:
+    docs/capability-inventory.yaml: ba02bba7eeffb955ec6c8957abd613b18cbe2198a8587ae1375532ebfcabb714
+    docs/endpoint-capability-traceability-registry.yaml: 2d8dc2aa9e7eb6d27b163c6950c26e8444ae06040c29e22a9930944c22638716
+    docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml: aceb309723eaf1b2ff35e400cc37b6d41f1d6e043fd8ffd6819744b725575bd6
+    docs/work/themuffinman-ais-oidc-chat-read-v1-master.yaml: 6b387482b3bfe4981f4d33c7f223b1aaf5b96f160912d3d5dbe0f37887989d37
+    docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml: fd720a96578da076a1a9e70fc3c4dccebda0e322ae388f3b54632800d7e80277
+    docs/work/themuffinman-ais-oidc-chat-read-v1-recovery-inventory.yaml: bfbbd142f3ab640e03f74a7ba791d18f207d3fc3db80a84d75bcd861e4445131
+    docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml: 62d2eb4a53e78fbbb3df8251c8103699fe5efa75d4917bdc24eeee8029df507e
+    docs/work/themuffinman-ais-oidc-chat-read-v1.yaml: 293af6b2072b436ead13a53627744ed4f04d6e3071e719bf22f33278e958f1a8
+evidence:
+- task: oidc-chat-read
+  command: JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+    make backend-test && /usr/bin/ruby scripts/audits/audit-truth-registry-integrity.rb
+    && /usr/bin/ruby scripts/audits/audit-work-plan-recursion.rb && /usr/bin/ruby
+    scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-10-08T07:08:31Z'
+  revision: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/resources/application.properties
+  - docs/agent-operating-model.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/endpoint-capability-traceability-registry.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    apps/themuffinman/pom.xml: a5a167c3b3731334a17fef0a715b747c26b364e67b05d4d92753cef9c25a2413
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java: 74faa01996f074776882cb804f6315436e61002710a7aa5040123d267b4d1beb
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java: 2657b08a1b61b743143b3e89974029b4b76fac4bd1e423c7ef6d6ced3de30061
+    apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java: e25899d0fd4e9221ff3e9b3ec4c614b5120381d0ddb0065ab59742c2b8d081f2
+    apps/themuffinman/src/main/resources/application.properties: 733d5e2d7923a02ad70dee6db6f95eca731428913fdf1f752917e44298ad56e8
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java: 52c421f867f7c1cf177aa14f0213b45c39c5fcd22191d117fea670d3c17ece42
+    docs/business-logic.md: c4f855068744b8f409d3a8b311ca28143d0c9c6fde64e177f839dc029cfcb945
+    docs/domain-technical.md: ab50b481615906ab5109f24f373fd67633e19de66e58103a90a569164d0e9eec
+    docs/agent-operating-model.yaml: 11f00ccdcdd55569fd7bd7e0cc2b1ecc02fd1fe7b09c2d0a4be2fcb02235ba87
+    docs/capability-inventory.yaml: 50afd509c64c4a56d1fe0fc218e1979e1f27f1cd4d04de90654871c044345407
+    docs/agent-operating-model/sections/api.yaml: 7cef3f11f4d064d43d46e77af512d56022d4e56bd0bcea2e5129dc3624556bab
+    docs/endpoint-capability-traceability-registry.yaml: 11cf6212f331b4eccbb4292f0689494eb072bfbf82d8ae9094641e36e50927db
+    docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml: f300bffae492f4eced4d5c4252d1dfa2930da697c2fa341016cdd2d0b74f670f
+    docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml: 0f42484d3786127ad0006172b44e7a0c7bb609d34404b5ef849b5fc190c5447c
+    docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml: d7618212bd4454c2cd5d443c1fef8417067305e8d73f92d1609d389b5324eb83
+  output: "[INFO] Results:\n[INFO] \n[INFO] Tests run: 862, Failures: 0, Errors: 0,
+    Skipped: 0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  21.258 s\n[INFO] Finished at: 2026-10-08T09:08:53+02:00\n[INFO] ------------------------------------------------------------------------\nTruth
+    registry integrity audit passed\n  fact classes: 12\n  canonical and derived paths
+    checked: 23\n  reviewed round: 20\nWork-plan recursion audit passed (no recursive
+    validation commands).\nDocs as tests\n  statements scanned: 393\n  review needed:
+    0\n  high priority: 0"
+  requiredPaths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/agent-operating-model.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: *1
+  startedAt: '2026-10-08T07:05:23Z'
+  changedAfterStart:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/agent-operating-model.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+serial_task_execution: true
+execution_inventory: docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+master_plan: docs/work/themuffinman-ais-oidc-chat-read-v1-master.yaml
+recovery_of: docs/work/themuffinman-ais-oidc-chat-read-v1.yaml

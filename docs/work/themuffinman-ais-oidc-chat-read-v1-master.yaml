@@ -1,0 +1,26 @@
+kind: master
+version: 1
+id: themuffinman-ais-oidc-chat-read-v1-master
+title: Shared issuer private chat read boundary
+status: verified
+baseline: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+strict_verification: true
+execution_inventory: docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+children:
+- docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Existing Vision orchestration and chat mutation workflows
+  residual_scope:
+  - Shared-issuer read-only AIS principal and chat aggregate projection
+  retest_triggers:
+  - New resource-server dependency and namespace authentication boundary
+  non_duplication_rule: Existing evidence is baseline only, not new delivery.
+serial_task_execution: true
+evidence:
+- verifiedAt: '2026-10-08T07:09:45Z'
+  revision: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+  children:
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml

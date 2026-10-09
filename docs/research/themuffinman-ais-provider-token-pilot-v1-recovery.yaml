@@ -1,0 +1,12 @@
+kind: themuffinman_shared_provider_token_recovery
+version: 1
+status: component_fixture_contract
+verification_source: docs/work/themuffinman-ais-provider-token-pilot-v1-recovery.yaml
+original_failed_source: docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+required_evidence: Four unskipped real-provider cases with explicit test-JVM truststore and token-file permission checks.
+learning:
+  observation_disposition: sanitized_observation
+  candidate:
+    status: evidence_gated
+    pattern: A valid local certificate is insufficient if the test harness drops its trust configuration. Assert trust settings in the actual test JVM, retain certificate verification, and preserve failed attempts through explicit governed recovery rather than weakening TLS.
+evidence_boundary: Actual synthetic Keycloak token and production Spring decoder; local AppUser repository and chat service remain mocked. No real owner linking or production chat read.

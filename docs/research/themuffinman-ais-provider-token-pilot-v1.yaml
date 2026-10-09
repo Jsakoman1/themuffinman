@@ -1,0 +1,11 @@
+kind: themuffinman_shared_provider_token_pilot
+version: 1
+status: component_fixture_contract
+verification_source: docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+required_evidence: Four unskipped opt-in cases through the unchanged production decoder, plus passing Dora attribution.
+learning:
+  observation_disposition: sanitized_observation
+  candidate:
+    status: evidence_gated
+    pattern: Provider session reuse is insufficient until externally issued tokens resolve an explicitly linked local principal through each service's actual decoder. Preserve role and visibility boundaries, and disclose mocked domain dependencies separately from live cryptographic integration.
+evidence_boundary: Live synthetic Keycloak TLS token, unchanged production Spring adapter, mocked AppUser repository and ChatService; not production chat or real owner binding.

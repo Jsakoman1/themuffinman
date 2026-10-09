@@ -1,0 +1,42 @@
+---
+kind: ais_oidc_atomic_preflight
+version: 1
+status: reviewed
+production_enabled: false
+real_account_binding: false
+source_draft_preceded_review: true
+outcome: One signed shared issuer principal resolves existing local AppUser before
+  source-owned count read.
+scope:
+- docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+- apps/themuffinman/pom.xml
+- apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+- apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+- apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+- apps/themuffinman/src/main/resources/application.properties
+- apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+- docs/business-logic.md
+- docs/domain-technical.md
+- docs/agent-operating-model.yaml
+- docs/capability-inventory.yaml
+- docs/agent-operating-model/sections/api.yaml
+- docs/endpoint-capability-traceability-registry.yaml
+- docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+tests: real_RSA_JWKS_MVC_with_mocked_local_dependencies_and_existing_service_tests
+remaining:
+- provider_login
+- real_account_linking
+- revocation_logout
+- multi_service_SSO
+- AIS_conversation_binding
+no_external_effect: true
+owned_source_draft_quarantined_before_attribution: true
+delivery_order:
+- verified_atomic_hardening
+- serial_work_start
+- restore_exact_owned_draft
+- full_backend_test
+- separate_Dora_evidence
+source_restored_after_serial_start: true
+recovery_source_restored_after_serial_start: true
+original_failed_audit_preserved: true

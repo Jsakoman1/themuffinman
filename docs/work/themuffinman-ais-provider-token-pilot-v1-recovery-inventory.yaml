@@ -1,0 +1,18 @@
+kind: execution_inventory
+version: 1
+id: themuffinman-ais-provider-token-pilot-v1-recovery-inventory
+master_plan: docs/work/themuffinman-ais-provider-token-pilot-v1-recovery.yaml
+items:
+- id: provider-domain-read
+  order: 1
+  plan: docs/work/themuffinman-ais-provider-token-pilot-v1-recovery.yaml
+  task: provider-domain-read
+  status: verified
+  started_at: '2026-10-08T07:45:17Z'
+  verified_at: '2026-10-08T07:47:07Z'
+  evidence:
+    plan: docs/work/themuffinman-ais-provider-token-pilot-v1-recovery.yaml
+    task: provider-domain-read
+    revision: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+evidence_boundary: actual_provider_TLS_decoder_with_mocked_private_domain_data
+state: verified

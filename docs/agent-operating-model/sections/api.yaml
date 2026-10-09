@@ -831,3 +831,8 @@ api:
     path: "/chat/presence/heartbeat"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: heartbeat
+  - id: ais_chat_status
+    method: GET
+    path: "/ais/chat-status"
+    controller_class: com.themuffinman.app.chat.controller.AisChatStatusController
+    handler_method: status

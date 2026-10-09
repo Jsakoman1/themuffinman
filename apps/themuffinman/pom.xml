@@ -38,6 +38,10 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.jsakoman.auth</groupId>
             <artifactId>auth-foundation</artifactId>
             <version>0.3.0</version>
