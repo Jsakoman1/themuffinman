@@ -6,6 +6,8 @@ metadata:
 purpose: Product agent safety only. Implementation planning and completion live in docs/work/*.yaml.
 
 product_contracts:
+  ais_shared_identity_read:
+    rule: Shared issuer subjects require an operator-verified existing AppUser binding; token email or role claims never grant domain access. AIS chat status exposes counts only and never sends or marks messages read. Provider login and real cross-service SSO remain separately unverified.
   services_public_booking:
     rule: Public availability exposes only business-local bookable slots; review writes require the completed booking customer.
 

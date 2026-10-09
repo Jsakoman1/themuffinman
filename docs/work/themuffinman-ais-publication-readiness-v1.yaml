@@ -1,0 +1,73 @@
+kind: work
+version: 1
+id: themuffinman-ais-publication-readiness-v1
+title: Bounded publication tooling and local deployment readiness
+status: verified
+baseline: 71f3cc17dcd0ed7af7a0b6b70c056d0d4e3f1cf5
+strict_verification: false
+serial_task_execution: false
+control_class: controlled_change
+tasks:
+- id: publication-tooling
+  title: Validate path portability and non-executable preflight classification
+  status: done
+  dependencies: []
+  observable_outcome: Current local tool gate validates generated contract and retained
+    historical preflight without URI path errors; no source authorization behavior
+    or secret scope is changed. Hosted package credential failure remains explicit.
+  paths:
+  - docs/work/themuffinman-ais-publication-readiness-v1.yaml
+  - docs/research/themuffinman-ais-publication-readiness-2026-10-09.yaml
+  - apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs
+  - docs/work-artifact-schema.yaml
+  - ".github/workflows/repository-validation.yml"
+  required_paths:
+  - docs/research/themuffinman-ais-publication-readiness-2026-10-09.yaml
+  - apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs
+  validation: PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:$PATH" make SHELL=/bin/bash
+    tool-self-test
+  evidence_boundary:
+  - Local actual gate result only; no hosted CI success is inferred.
+  observation_disposition: sanitized_observation
+evidence:
+- task: publication-tooling
+  command: PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:$PATH" make SHELL=/bin/bash
+    tool-self-test
+  ranAt: '2026-10-09T08:57:58Z'
+  revision: 71f3cc17dcd0ed7af7a0b6b70c056d0d4e3f1cf5
+  exitCode: 0
+  result: passed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs
+  - docs/work-artifact-schema.yaml
+  - docs/research/themuffinman-ais-publication-readiness-2026-10-09.yaml
+  - docs/work/themuffinman-ais-publication-readiness-v1.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/research/themuffinman-ais-publication-readiness-2026-10-09.yaml: da446213c4a951f7f627c704452620ae15f3d35c5619137c78fa0732bb4110d9
+    apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs: f782b023b05b16a292798b0114e11877fd0e102e0eb728b5113704f85a5bbc77
+  output: |-
+    ruby scripts/tool-self-test.rb
+    STAGE class=tool_mechanics id=ruby_syntax files=60
+    STAGE class=tool_mechanics id=frontend_script_syntax files=25
+    STAGE class=tool_mechanics id=yaml_parse files=521
+    STAGE class=product_contract id=generated_contracts files=1
+    STAGE class=product_contract id=web_surface_contract files=1
+    STAGE class=product_contract id=admin_agent_scenarios files=1
+    STAGE class=product_contract id=modern_surface_contract files=1
+    STAGE class=tool_mechanics id=repository_map files=1
+    STAGE class=tool_mechanics id=repository_map_query files=1
+    STAGE class=tool_mechanics id=source_slice files=1
+    STAGE class=tool_mechanics id=tool_catalog files=1
+    STAGE class=tool_mechanics id=runtime_tools files=1
+    STAGE class=tool_mechanics id=context_search files=1
+    STAGE class=tool_mechanics id=change_validation files=1
+    STAGE class=tool_mechanics id=template_freshness files=1
+    STAGE class=tool_mechanics id=work_artifact_schema files=1
+    STAGE class=tool_mechanics id=tool_help files=1
+    Tool self-test passed (all stages; Ruby/Node syntax, YAML, locked source tooling, contracts, lifecycle-aware work artifacts, catalog, and bounded search).

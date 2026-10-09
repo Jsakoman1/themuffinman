@@ -1,0 +1,36 @@
+kind: execution_inventory
+version: 1
+id: themuffinman-ais-oidc-chat-read-v1-execution-inventory
+master_plan: docs/work/themuffinman-ais-oidc-chat-read-v1-master.yaml
+status: draft
+items:
+- id: ais-oidc-hardening
+  plan: docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+  task: atomic-hardening
+  status: verified
+  order: 1
+  started_at: '2026-10-08T06:59:41Z'
+  verified_at: '2026-10-08T06:59:57Z'
+  evidence:
+    plan: docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+    task: atomic-hardening
+    revision: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+- id: ais-oidc-chat-read
+  plan: docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  task: oidc-chat-read
+  status: verified
+  order: 2
+  recovered_from:
+    plan: docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+    task: oidc-chat-read
+    status: blocked
+    evidence_result: failed
+    recovered_at: '2026-10-08T07:05:19Z'
+  started_at: '2026-10-08T07:05:23Z'
+  verified_at: '2026-10-08T07:08:59Z'
+  evidence:
+    plan: docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+    task: oidc-chat-read
+    revision: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+evidence_boundary: exact_current_source_and_synthetic_test_proof_not_provider_login_or_owner_SSO
+state: verified

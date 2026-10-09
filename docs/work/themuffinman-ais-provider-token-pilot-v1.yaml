@@ -1,0 +1,182 @@
+kind: work
+version: 1
+id: themuffinman-ais-provider-token-pilot-v1
+title: Verify real shared-provider tokens through the production domain security adapter
+status: superseded
+baseline: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+strict_verification: true
+serial_task_execution: true
+owner_authorization: explicit_shared_auth_all_application_adaptation_and_synthetic_dogfood
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - Existing domain implementation, local account model, scoped adapter and browser
+    JWT/session login
+  residual_scope:
+  - Real Keycloak-issued token acceptance and other-service rejection through unchanged
+    production decoder
+  retest_triggers:
+  - New opt-in external-provider integration fixture only
+  non_duplication_rule: Prior model, UI and full-suite evidence is baseline only;
+    this proves real provider token integration in synthetic fixtures.
+tasks:
+- id: provider-domain-read
+  title: Resolve one shared provider subject under existing domain authorization
+  type: implementation
+  status: superseded
+  dependencies: []
+  observable_outcome: An actual TLS Keycloak-issued token reaches the unchanged production
+    decoder and read facade under explicit synthetic local binding. Other service
+    token, unlinked/removed local principal, anonymous read and mutation methods deny.
+    JWTs are read only from the explicit local mode-0600 fixture, and ordinary suite
+    runs skip this opt-in case.
+  paths:
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java
+  - docs/research/themuffinman-ais-provider-token-pilot-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+  required_paths:
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java
+  - docs/research/themuffinman-ais-provider-token-pilot-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+  validation: JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+    ./apps/themuffinman/mvnw -o -q -f apps/themuffinman/pom.xml -Dtest=AisSharedProviderReadTest
+    -Dais.provider.tokens=/private/tmp/ais-shared-provider-tokens.json -DargLine="-Djavax.net.ssl.trustStore=/private/tmp/ais-keycloak-provider-pilot/java-trust.p12
+    -Djavax.net.ssl.trustStorePassword=synthetic-pilot-trust -Djavax.net.ssl.trustStoreType=PKCS12"
+    test
+  evidence_boundary:
+  - Dedicated test JVM truststore; no SSL bypass or real owner account.
+  - Doomsday uses isolated H2; MuffinMan local repository/service are mocked, so no
+    production database or installed AIS connection claim.
+  inventory_item: provider-domain-read
+  verifier_footprint_paths: &1
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java
+  - docs/research/themuffinman-ais-provider-token-pilot-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+  started_at: '2026-10-08T07:37:42Z'
+  start_fingerprints:
+    docs/work/themuffinman-ais-provider-token-pilot-v1.yaml: 97cb37e5d3bfbdb1a070cf601d9cc4b17ce0d51703d38b815d6fef8086652ab7
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java: __missing__
+    docs/research/themuffinman-ais-provider-token-pilot-v1.yaml: __missing__
+    docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml: 5cc9919ac54c611bedd67cc719934cd6be5267e47538a9e2c616b3f09d3ef163
+  start_verifier_footprint_fingerprints:
+    docs/work/themuffinman-ais-provider-token-pilot-v1.yaml: 97cb37e5d3bfbdb1a070cf601d9cc4b17ce0d51703d38b815d6fef8086652ab7
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java: __missing__
+    docs/research/themuffinman-ais-provider-token-pilot-v1.yaml: __missing__
+    docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml: 5cc9919ac54c611bedd67cc719934cd6be5267e47538a9e2c616b3f09d3ef163
+  start_workspace_paths:
+  - apps/themuffinman/pom.xml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java
+  - docs/agent-operating-model.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-master.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml
+  - docs/work/themuffinman-ais-oidc-chat-read-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  start_workspace_fingerprints:
+    apps/themuffinman/pom.xml: a5a167c3b3731334a17fef0a715b747c26b364e67b05d4d92753cef9c25a2413
+    apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/AisChatStatusController.java: e25899d0fd4e9221ff3e9b3ec4c614b5120381d0ddb0065ab59742c2b8d081f2
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcProperties.java: 74faa01996f074776882cb804f6315436e61002710a7aa5040123d267b4d1beb
+    apps/themuffinman/src/main/java/com/themuffinman/app/config/AisOidcSecurityConfig.java: 2657b08a1b61b743143b3e89974029b4b76fac4bd1e423c7ef6d6ced3de30061
+    apps/themuffinman/src/main/resources/application.properties: 733d5e2d7923a02ad70dee6db6f95eca731428913fdf1f752917e44298ad56e8
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisOidcChatReadTest.java: 52c421f867f7c1cf177aa14f0213b45c39c5fcd22191d117fea670d3c17ece42
+    docs/agent-operating-model.yaml: 11f00ccdcdd55569fd7bd7e0cc2b1ecc02fd1fe7b09c2d0a4be2fcb02235ba87
+    docs/agent-operating-model/sections/api.yaml: 7cef3f11f4d064d43d46e77af512d56022d4e56bd0bcea2e5129dc3624556bab
+    docs/business-logic.md: c4f855068744b8f409d3a8b311ca28143d0c9c6fde64e177f839dc029cfcb945
+    docs/capability-inventory.yaml: 50afd509c64c4a56d1fe0fc218e1979e1f27f1cd4d04de90654871c044345407
+    docs/domain-technical.md: ab50b481615906ab5109f24f373fd67633e19de66e58103a90a569164d0e9eec
+    docs/endpoint-capability-traceability-registry.yaml: 11cf6212f331b4eccbb4292f0689494eb072bfbf82d8ae9094641e36e50927db
+    docs/work/themuffinman-ais-oidc-chat-read-v1-execution-inventory.yaml: 5c8af465a58f6f2fb4e8c14a971811c0b148308100256e43a9b6399509c990f9
+    docs/work/themuffinman-ais-oidc-chat-read-v1-master.yaml: 6ce84822ee72ad74cd838490297788b21cb371202919633dffd27444e77e80d8
+    docs/work/themuffinman-ais-oidc-chat-read-v1-preflight.yaml: f300bffae492f4eced4d5c4252d1dfa2930da697c2fa341016cdd2d0b74f670f
+    docs/work/themuffinman-ais-oidc-chat-read-v1-recovery.yaml: 0dbcd55f6146849c97874cae08624ff77edd9436699d6447efaad1d18e6e7c4b
+    docs/work/themuffinman-ais-oidc-chat-read-v1.yaml: 293af6b2072b436ead13a53627744ed4f04d6e3071e719bf22f33278e958f1a8
+    docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml: 5cc9919ac54c611bedd67cc719934cd6be5267e47538a9e2c616b3f09d3ef163
+    docs/work/themuffinman-ais-provider-token-pilot-v1.yaml: 97cb37e5d3bfbdb1a070cf601d9cc4b17ce0d51703d38b815d6fef8086652ab7
+  superseded_at: '2026-10-08T07:45:11Z'
+execution_inventory: docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+evidence:
+- task: provider-domain-read
+  command: JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+    ./apps/themuffinman/mvnw -o -q -f apps/themuffinman/pom.xml -Dtest=AisSharedProviderReadTest
+    -Dais.provider.tokens=/private/tmp/ais-shared-provider-tokens.json -DargLine="-Djavax.net.ssl.trustStore=/private/tmp/ais-keycloak-provider-pilot/java-trust.p12
+    -Djavax.net.ssl.trustStorePassword=synthetic-pilot-trust -Djavax.net.ssl.trustStoreType=PKCS12"
+    test
+  ranAt: '2026-10-08T07:41:14Z'
+  revision: 31cf8e5f7846fee3a3c188add0ab1f477b96d926
+  exitCode: 1
+  result: failed
+  timedOut: false
+  timeoutSeconds: 300
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java
+  - docs/research/themuffinman-ais-provider-token-pilot-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  executionEnvironment:
+    shell: "/bin/zsh"
+    rubyVersion: 2.6.10
+    environmentExported: false
+  requiredPathDigests:
+    docs/work/themuffinman-ais-provider-token-pilot-v1.yaml: 628b95007bd7f4b099d5386a6eb550f9fdd8b3d333bd6118b0ecdd87d73390ea
+    apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java: daa328f80b550b88fbfd9f3ca28bc70ab145a3e16c59385290378a0a4cac9296
+    docs/research/themuffinman-ais-provider-token-pilot-v1.yaml: 035c2b90644e5183ca6daa3682bbe3e5fd48e47710fbac15ceec96651c0de2c9
+    docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml: 31dc02a5f1c5c18525a47e2755dbe98d53213c4bef73dd65e4e9ce12c486b56d
+  output: "\t... 72 more\n\n[ERROR] Errors: \n[ERROR]   AisSharedProviderReadTest.deletedLocalAccountDoesNotFallBackToEmail:82
+    » AuthenticationService An error occurred while attempting to decode the Jwt:
+    I/O error on GET request for \"https://127.0.0.1:4447/realms/ais-synthetic-sso/protocol/openid-connect/certs\":
+    (certificate_unknown) PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
+    unable to find valid certification path to requested target\n[ERROR]   AisSharedProviderReadTest.otherServiceTokenAnonymousAndMutationsNeverReachChat:70
+    » AuthenticationService An error occurred while attempting to decode the Jwt:
+    I/O error on GET request for \"https://127.0.0.1:4447/realms/ais-synthetic-sso/protocol/openid-connect/certs\":
+    (certificate_unknown) PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
+    unable to find valid certification path to requested target\n[ERROR]   AisSharedProviderReadTest.realProviderTokenResolvesExistingAppUserAndReturnsPrivateCountsOnly:62
+    » AuthenticationService An error occurred while attempting to decode the Jwt:
+    I/O error on GET request for \"https://127.0.0.1:4447/realms/ais-synthetic-sso/protocol/openid-connect/certs\":
+    (certificate_unknown) PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
+    unable to find valid certification path to requested target\n[ERROR]   AisSharedProviderReadTest.unlinkedSubjectDoesNotGrantLocalAccount:77
+    » AuthenticationService An error occurred while attempting to decode the Jwt:
+    I/O error on GET request for \"https://127.0.0.1:4447/realms/ais-synthetic-sso/protocol/openid-connect/certs\":
+    (certificate_unknown) PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
+    unable to find valid certification path to requested target\n[ERROR] Tests run:
+    4, Failures: 0, Errors: 4, Skipped: 0\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.5:test
+    (default-test) on project themuffinman: \n[ERROR] \n[ERROR] See /Users/jsakoman/Desktop/AI
+    OS/themuffinman/apps/themuffinman/target/surefire-reports for the individual test
+    results.\n[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump
+    and [date].dumpstream.\n[ERROR] -> [Help 1]\n[ERROR] \n[ERROR] To see the full
+    stack trace of the errors, re-run Maven with the -e switch.\n[ERROR] Re-run Maven
+    using the -X switch to enable full debug logging.\n[ERROR] \n[ERROR] For more
+    information about the errors and possible solutions, please read the following
+    articles:\n[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException"
+  requiredPaths:
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java
+  - docs/research/themuffinman-ais-provider-token-pilot-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+  requiredRemovedDirectories: []
+  removedDirectoryEvidence: []
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  verifierFootprintPaths: *1
+  startedAt: '2026-10-08T07:37:42Z'
+  changedAfterStart:
+  - docs/work/themuffinman-ais-provider-token-pilot-v1.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/config/AisSharedProviderReadTest.java
+  - docs/research/themuffinman-ais-provider-token-pilot-v1.yaml
+  - docs/work/themuffinman-ais-provider-token-pilot-v1-inventory.yaml
+superseded_by: docs/work/themuffinman-ais-provider-token-pilot-v1-recovery.yaml
+superseded_at: '2026-10-08T07:45:11Z'
