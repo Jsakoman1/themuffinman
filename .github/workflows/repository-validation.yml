@@ -40,15 +40,15 @@ jobs:
         run: npm --prefix apps/themuffinman/frontend ci
 
       - name: Run backend tests
-        run: make backend-test
+        run: make SHELL=/bin/bash backend-test
         env:
           AUTH_FOUNDATION_PACKAGES_TOKEN: ${{ secrets.AUTH_FOUNDATION_PACKAGES_TOKEN }}
 
       - name: Type-check frontend
-        run: make frontend-type-check
+        run: make SHELL=/bin/bash frontend-type-check
 
       - name: Build frontend and verify generated contracts
-        run: make frontend-build
+        run: make SHELL=/bin/bash frontend-build
 
       - name: Verify local tooling
-        run: make tool-self-test
+        run: make SHELL=/bin/bash tool-self-test
