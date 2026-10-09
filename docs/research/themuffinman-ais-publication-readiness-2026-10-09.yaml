@@ -1,0 +1,40 @@
+---
+kind: themuffinman_ais_publication_readiness
+version: 1
+status: local_gates_passed_CI_package_secret_unavailable
+owner_authorization: publish_merge_and_existing_local_stack_deployment
+validation:
+  backend_tests: 866
+  backend_failures: 0
+  backend_errors: 0
+  existing_skips: 4
+  frontend_typecheck: passed
+  frontend_build: passed
+  control_check: passed_supported_system_Ruby
+  tool_self_test: passed_supported_system_Ruby
+bounded_publication_fixes:
+- Regenerate existing frontend contract from current backend declarations.
+- Use Bash for portable Ubuntu make invocation; local dev scripts remain unchanged.
+- Decode file URLs before reading source paths containing spaces.
+- Declare the existing non-executable AIS preflight kind in historical artifact classification
+  without changing its retained content or granting authority.
+CI:
+  status: blocked
+  cause: AUTH_FOUNDATION_PACKAGES_TOKEN_not_configured
+  owner_unavailable_to_add_secret: true
+  required_branch_protection_bypassed: false
+  broad_login_token_copied: false
+deployment:
+  target: existing_owner_local_stack
+  frontend: http://localhost:5173
+  backend: http://localhost:8080
+  new_cloud_infrastructure: false
+  OIDC_enabled_by_publication: false
+  account_bindings_created: false
+learning:
+  observation_disposition: sanitized_observation
+  candidate:
+    status: evaluation_required
+    pattern: Separate application regression success from hosted-runner credential
+      or shell availability. Preserve failed CI evidence and use the repository-supported
+      local gate without copying broad credentials or claiming a hosted check passed.

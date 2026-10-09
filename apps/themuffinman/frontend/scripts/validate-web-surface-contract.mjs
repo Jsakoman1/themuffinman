@@ -1,7 +1,8 @@
 import fs from "node:fs"
 import path from "node:path"
+import { fileURLToPath } from "node:url"
 
-const frontendRoot = path.resolve(new URL(".", import.meta.url).pathname, "..")
+const frontendRoot = path.resolve(fileURLToPath(new URL(".", import.meta.url)), "..")
 const read = (relativePath) => fs.readFileSync(path.join(frontendRoot, relativePath), "utf8")
 const router = read("src/router.ts")
 const shellDefinitions = read("src/modules/app-shell/shellDefinitions.ts")

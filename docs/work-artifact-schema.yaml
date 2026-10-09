@@ -26,6 +26,7 @@ categories:
       - runtime_scenario_catalog
       - dora_atomic_hardening_review
       - dora_atomic_task_hardening_review
+      - ais_oidc_atomic_preflight
       - dora_scope_plan
       - scope
     required_fields: [kind, version]
